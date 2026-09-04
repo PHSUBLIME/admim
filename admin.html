@@ -149,7 +149,7 @@
                             <!-- COLUNA 1: APARÊNCIA -->
                             <div class="space-y-2">
                                 <span class="font-black text-slate-400 text-[10px] uppercase tracking-wider block border-b pb-1">Personalização</span>
-                                <button onclick="abrirModalPersonalizacaoCMS()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-paintbrush text-amber-500"></i> Aparência da Loja</button>
+                                <button onclick="abrirModalPersonalizacaoCMS()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-paintbrush text-amber-500"></i> Aparência da Loja</button>
                                 <button onclick="abrirModalPersonalizacaoCMS()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-icons text-blue-500"></i> Logo & Favicon</button>
                                 <button onclick="abrirModalGerenciadorBanners()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-regular fa-image text-emerald-500"></i> Banners Home</button>
                                 <button onclick="abrirModalCodigosHTML()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-brands fa-html5 text-orange-500"></i> Códigos HTML</button>
@@ -652,7 +652,7 @@
         </div>
     </div>
 
-    <!-- MODAL DEDICADO DE BALCÕES DE RETIRADA PRESENCIAL (ESTILO SISTOGRAF / PHSUBLIME) -->
+    <!-- MODAL DEDICADO DE BALCÕES DE RETIRADA PRESENCIAL -->
     <div id="modal-balcoes-retirada" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalBalcoesRetirada()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -919,62 +919,253 @@
         </div>
     </div>
 
-    <!-- MODAL PERSONALIZAÇÃO CMS -->
-    <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+    <!-- MODAL APARÊNCIA E PERSONALIZAÇÃO DA LOJA (ESTILO SISTOGRAF FOTO 2) -->
+    <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-6xl w-full p-4 sm:p-6 shadow-2xl relative border border-blue-200 my-4">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
-            <div class="border-b border-slate-100 pb-2">
+            <!-- BREADCRUMB -->
+            <div class="border-b border-slate-100 pb-2 mb-4">
+                <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
+                    <span>Painel Administrador</span>
+                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                    <span>Personalização</span>
+                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                    <span class="text-blue-900">Personalização da Loja</span>
+                </div>
                 <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-paint-brush text-amber-500"></i> Estúdio de Aparência do Tema, Cores & Logos
+                    <i class="fa-solid fa-paintbrush text-amber-500"></i> Personalize sua loja
                 </h3>
             </div>
 
-            <form onsubmit="salvarCMSLojaSubmit(event)" class="space-y-5 text-xs">
-                <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 space-y-3">
-                    <h4 class="font-black text-blue-950 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-palette text-amber-500"></i> Paleta de Cores do Tema da Loja</h4>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Cor do Fundo</label>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs">
+                
+                <!-- COLUNA DA ESQUERDA: OPÇÕES DE LAYOUT, CORES E SANFONAS -->
+                <div class="lg:col-span-5 space-y-3 max-h-[75vh] overflow-y-auto pr-2">
+                    
+                    <!-- BLOCO SANFONA: LOJA (ABERTO) -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                        <button type="button" class="w-full bg-slate-100 p-3 text-left font-black text-slate-800 flex items-center justify-between uppercase">
+                            <span><i class="fa-solid fa-house text-blue-900 mr-1.5"></i> LOJA</span>
+                            <i class="fa-solid fa-chevron-up text-slate-400"></i>
+                        </button>
+
+                        <form onsubmit="salvarCMSLojaSubmit(event)" class="p-3.5 space-y-4">
+                            
+                            <!-- SELEÇÃO DE LAYOUT -->
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1.5">Layout:</label>
+                                <div class="grid grid-cols-3 gap-2 text-center">
+                                    <div onclick="selecionarLayout('sem-sidebar')" id="layout-box-sem" class="border-2 border-slate-200 p-2 rounded-lg cursor-pointer hover:border-blue-500 transition-all bg-slate-50">
+                                        <div class="w-full h-8 bg-slate-300 rounded mb-1 flex items-center justify-center text-[9px] font-bold text-slate-600">Cheio</div>
+                                        <span class="text-[10px] font-bold block text-slate-700">Sem Sidebar</span>
+                                    </div>
+                                    <div onclick="selecionarLayout('sidebar-1')" id="layout-box-s1" class="border-2 border-blue-600 bg-blue-50 p-2 rounded-lg cursor-pointer transition-all">
+                                        <div class="flex gap-1 h-8">
+                                            <div class="w-1/3 h-full bg-blue-300 rounded"></div>
+                                            <div class="w-2/3 h-full bg-slate-300 rounded"></div>
+                                        </div>
+                                        <span class="text-[10px] font-bold block text-blue-900 mt-1">Sidebar 1</span>
+                                    </div>
+                                    <div onclick="selecionarLayout('sidebar-2')" id="layout-box-s2" class="border-2 border-slate-200 p-2 rounded-lg cursor-pointer hover:border-blue-500 transition-all bg-slate-50">
+                                        <div class="flex gap-1 h-8">
+                                            <div class="w-2/3 h-full bg-slate-300 rounded"></div>
+                                            <div class="w-1/3 h-full bg-blue-300 rounded"></div>
+                                        </div>
+                                        <span class="text-[10px] font-bold block text-slate-700 mt-1">Sidebar 2</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- LARGURA CONTAINER -->
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">Container (em porcentagem):</label>
+                                <input type="number" id="cms-container-pct" value="90" min="50" max="100" oninput="atualizarPreviewCMS()" class="w-full px-3 py-1.5 border rounded-lg font-bold text-slate-800">
+                            </div>
+
+                            <!-- PALETA DE CORES SISTOGRAF -->
+                            <div class="space-y-2 border-t border-slate-100 pt-3">
+                                <div>
+                                    <label class="font-bold text-slate-700 block mb-1">Cor cabeçalho:</label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="color" id="color-cabecalho" value="#075669" onchange="sincronizarCor('color-cabecalho', 'hex-cabecalho')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
+                                        <input type="text" id="hex-cabecalho" value="#075669" oninput="sincronizarHex('hex-cabecalho', 'color-cabecalho')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="font-bold text-slate-700 block mb-1">Cor rodapé:</label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="color" id="color-rodape" value="#075669" onchange="sincronizarCor('color-rodape', 'hex-rodape')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
+                                        <input type="text" id="hex-rodape" value="#075669" oninput="sincronizarHex('hex-rodape', 'color-rodape')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="font-bold text-slate-700 block mb-1">Cor barra de rodapé:</label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="color" id="color-barra-rodape" value="#48B156" onchange="sincronizarCor('color-barra-rodape', 'hex-barra-rodape')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
+                                        <input type="text" id="hex-barra-rodape" value="#48B156" oninput="sincronizarHex('hex-barra-rodape', 'color-barra-rodape')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="font-bold text-slate-700 block mb-1">Cor dos botões:</label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="color" id="color-botao" value="#003859" onchange="sincronizarCor('color-botao', 'hex-botao')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
+                                        <input type="text" id="hex-botao" value="#003859" oninput="sincronizarHex('hex-botao', 'color-botao')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="font-bold text-slate-700 block mb-1">Cor de fundo:</label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="color" id="color-fundo" value="#F4F6F9" onchange="sincronizarCor('color-fundo', 'hex-fundo')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
+                                        <input type="text" id="hex-fundo" value="#F4F6F9" oninput="sincronizarHex('hex-fundo', 'color-fundo')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- OPÇÕES DE TARJAS -->
+                            <div class="space-y-2 border-t border-slate-100 pt-3">
+                                <div>
+                                    <label class="font-bold text-slate-700 block mb-1">Posição do banner:</label>
+                                    <select id="cms-pos-banner" class="w-full px-2 py-1.5 border rounded font-medium">
+                                        <option value="sem">Sem Banner</option>
+                                        <option value="topo">Topo do Site</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="font-bold text-slate-700 block mb-1">Posição da primeira tarja:</label>
+                                    <select id="cms-pos-tarja1" class="w-full px-2 py-1.5 border rounded font-medium">
+                                        <option value="sem">Sem tarja</option>
+                                        <option value="topo">Acima do Menu</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-2.5 rounded-lg shadow uppercase transition-all flex items-center justify-center gap-1.5 mt-4">
+                                <i class="fa-solid fa-floppy-disk"></i> Salvar Personalizações da Loja
+                            </button>
+
+                        </form>
+                    </div>
+
+                    <!-- ACCORDIONS ADICIONAIS ESTILO SISTOGRAF -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
+                            <span><i class="fa-solid fa-bars text-slate-500 mr-1.5"></i> MENUS</span>
+                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
+                        </button>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
+                            <span><i class="fa-solid fa-square-poll-vertical text-slate-500 mr-1.5"></i> CARD PRODUTO</span>
+                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
+                        </button>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
+                            <span><i class="fa-solid fa-cart-shopping text-slate-500 mr-1.5"></i> CARRINHO</span>
+                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
+                        </button>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
+                            <span><i class="fa-solid fa-credit-card text-slate-500 mr-1.5"></i> PAGAMENTO</span>
+                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
+                        </button>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
+                            <span><i class="fa-solid fa-boxes-stacked text-slate-500 mr-1.5"></i> PRODUTOS</span>
+                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- COLUNA DA DIREITA: PRÉVIA VIVA DA LOJA (ESTILO SISTOGRAF FOTO 2) -->
+                <div class="lg:col-span-7 bg-slate-200/70 p-4 rounded-xl border border-slate-300 flex flex-col justify-start space-y-3">
+                    <span class="font-black text-slate-500 text-[11px] uppercase tracking-wider block border-b border-slate-300 pb-1">
+                        <i class="fa-solid fa-eye text-blue-600 mr-1"></i> Prévia em Tempo Real da Sua Loja
+                    </span>
+
+                    <!-- CONTAINER MOCKUP LOJA -->
+                    <div id="preview-loja-box" class="w-full bg-[#F4F6F9] rounded-lg border border-slate-300 overflow-hidden shadow-inner font-sans text-white text-[10px]">
+                        
+                        <!-- MOCKUP CABEÇALHO -->
+                        <div id="prev-cabecalho" class="bg-[#075669] p-3 flex items-center justify-between transition-colors">
+                            <strong class="text-xs font-black tracking-wider uppercase text-white">SUA LOGO AQUI</strong>
                             <div class="flex items-center gap-2">
-                                <input type="color" id="color-fundo" value="#EAEAEA" onchange="document.getElementById('hex-fundo').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
-                                <input type="text" id="hex-fundo" value="#EAEAEA" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
+                                <span class="bg-white/20 px-2 py-0.5 rounded text-[9px] font-bold">TEXTO</span>
+                                <i class="fa-solid fa-cart-shopping"></i>
                             </div>
                         </div>
 
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Cor do Cabeçalho</label>
-                            <div class="flex items-center gap-2">
-                                <input type="color" id="color-cabecalho" value="#316AC7" onchange="document.getElementById('hex-cabecalho').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
-                                <input type="text" id="hex-cabecalho" value="#316AC7" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
+                        <!-- MOCKUP BARRA DE MENU -->
+                        <div id="prev-barra-menu" class="bg-[#48B156] px-3 py-1.5 flex items-center gap-3 font-bold transition-colors">
+                            <span>Menu</span>
+                            <span>Menu</span>
+                            <span>Menu</span>
+                            <span>Menu</span>
+                        </div>
+
+                        <!-- MOCKUP CORPO SLIDER E BANNER -->
+                        <div class="p-3 space-y-3">
+                            <div class="w-full h-16 bg-white border border-slate-300 rounded flex items-center justify-center font-bold text-slate-400 uppercase tracking-widest">
+                                SLIDER BANNER HOME
+                            </div>
+
+                            <!-- CONTENT GRID (SIDEBAR + CARDS) -->
+                            <div class="grid grid-cols-12 gap-2">
+                                
+                                <!-- SIDEBAR -->
+                                <div id="prev-sidebar-box" class="col-span-4 bg-white border border-slate-300 rounded p-2 text-[9px] text-slate-700 space-y-1">
+                                    <strong id="prev-sidebar-title" class="block font-black text-blue-900 border-b pb-0.5">Categorias</strong>
+                                    <p class="text-slate-500">Categoria A</p>
+                                    <p class="text-slate-500">Categoria B</p>
+                                    <p class="text-slate-500">Categoria C</p>
+                                </div>
+
+                                <!-- PRODUTOS GRID -->
+                                <div id="prev-products-box" class="col-span-8 space-y-1.5">
+                                    <span class="font-bold text-emerald-700 text-[9px] block">Mais vendidos</span>
+                                    <div class="grid grid-cols-3 gap-1.5">
+                                        <div class="bg-white border rounded p-1 text-center text-slate-700 shadow-sm space-y-1">
+                                            <div class="w-full h-8 bg-slate-100 rounded flex items-center justify-center text-[8px] text-slate-400">Foto</div>
+                                            <button id="prev-btn-1" class="w-full bg-[#003859] text-white py-0.5 rounded font-bold text-[8px] transition-colors">R$ 100,00</button>
+                                        </div>
+                                        <div class="bg-white border rounded p-1 text-center text-slate-700 shadow-sm space-y-1">
+                                            <div class="w-full h-8 bg-slate-100 rounded flex items-center justify-center text-[8px] text-slate-400">Foto</div>
+                                            <button id="prev-btn-2" class="w-full bg-[#003859] text-white py-0.5 rounded font-bold text-[8px] transition-colors">R$ 100,00</button>
+                                        </div>
+                                        <div class="bg-white border rounded p-1 text-center text-slate-700 shadow-sm space-y-1">
+                                            <div class="w-full h-8 bg-slate-100 rounded flex items-center justify-center text-[8px] text-slate-400">Foto</div>
+                                            <button id="prev-btn-3" class="w-full bg-[#003859] text-white py-0.5 rounded font-bold text-[8px] transition-colors">R$ 100,00</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Cor dos Botões</label>
-                            <div class="flex items-center gap-2">
-                                <input type="color" id="color-botao" value="#08009C" onchange="document.getElementById('hex-botao').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
-                                <input type="text" id="hex-botao" value="#08009C" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
-                            </div>
+                        <!-- MOCKUP RODAPÉ E BARRA -->
+                        <div id="prev-rodape-corpo" class="bg-[#075669] p-3 text-center text-[9px] font-medium text-slate-200 border-t border-slate-400/30 transition-colors">
+                            <p>© 2026 PHSUBLIME GRÁFICA DIGITAL</p>
+                        </div>
+                        <div id="prev-rodape-barra" class="bg-[#48B156] py-1 text-center text-[8px] font-bold text-white transition-colors">
+                            Desenvolvido por PHSUBLIME
                         </div>
 
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Cor do Rodapé</label>
-                            <div class="flex items-center gap-2">
-                                <input type="color" id="color-rodape" value="#316AC7" onchange="document.getElementById('hex-rodape').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
-                                <input type="text" id="hex-rodape" value="#316AC7" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-300 transition-all">Cancelar</button>
-                    <button type="submit" class="bg-[#003859] hover:bg-blue-900 text-white font-black px-6 py-2.5 rounded-xl shadow-md transition-all uppercase flex items-center gap-2">
-                        <i class="fa-solid fa-floppy-disk"></i> SALVAR APARÊNCIA E TEMA
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -1349,7 +1540,7 @@
     </div>
 
     <script>
-        // DECLARAÇÃO SEGURA DO SUPABASE (EVITA UNCAUGHT SYNTAXERROR)
+        // DECLARAÇÃO SEGURA DO SUPABASE
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
         }
@@ -1884,24 +2075,155 @@
             mostrarToast("Banner removido!");
         }
 
-        // CMS E LOGOS
-        function abrirModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden'); }
-        function fecharModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.add('hidden'); }
-        
-        function salvarCMSLojaSubmit(e) {
-            e.preventDefault();
-            const configLogos = {
-                corCabecalho: document.getElementById('hex-cabecalho')?.value,
-                corBotao: document.getElementById('hex-botao')?.value,
-                corBotaoGabarito: document.getElementById('hex-btn-gabarito')?.value,
-                textoBotaoCard: document.getElementById('card-texto-botao')?.value
-            };
-            localStorage.setItem('phsublime_admin_logos', JSON.stringify(configLogos));
-            fecharModalPersonalizacaoCMS();
-            mostrarToast("Aparência salva com sucesso!");
+        // PERSONALIZAÇÃO DA LOJA CMS (ESTILO SISTOGRAF FOTO 2)
+        let layoutSelecionadoCMS = 'sidebar-1';
+
+        function selecionarLayout(tipo) {
+            layoutSelecionadoCMS = tipo;
+            ['sem', 's1', 's2'].forEach(id => {
+                const box = document.getElementById(`layout-box-${id}`);
+                if (box) {
+                    box.classList.remove('border-blue-600', 'bg-blue-50', 'border-2');
+                    box.classList.add('border-2', 'border-slate-200', 'bg-slate-50');
+                }
+            });
+
+            const idsMap = { 'sem-sidebar': 'sem', 'sidebar-1': 's1', 'sidebar-2': 's2' };
+            const ativo = document.getElementById(`layout-box-${idsMap[tipo]}`);
+            if (ativo) {
+                ativo.classList.remove('border-slate-200', 'bg-slate-50');
+                ativo.classList.add('border-blue-600', 'bg-blue-50');
+            }
+
+            atualizarPreviewCMS();
         }
 
-        // DEMAIS FUNÇÕES AUXILIARES
+        function sincronizarCor(idPicker, idHex) {
+            const picker = document.getElementById(idPicker);
+            const hex = document.getElementById(idHex);
+            if (picker && hex) {
+                hex.value = picker.value.toUpperCase();
+            }
+            atualizarPreviewCMS();
+        }
+
+        function sincronizarHex(idHex, idPicker) {
+            const hex = document.getElementById(idHex);
+            const picker = document.getElementById(idPicker);
+            if (hex && picker && /^#[0-9A-F]{6}$/i.test(hex.value)) {
+                picker.value = hex.value;
+            }
+            atualizarPreviewCMS();
+        }
+
+        function atualizarPreviewCMS() {
+            const corCabecalho = document.getElementById('hex-cabecalho')?.value || '#075669';
+            const corRodape = document.getElementById('hex-rodape')?.value || '#075669';
+            const corBarraRodape = document.getElementById('hex-barra-rodape')?.value || '#48B156';
+            const corBotao = document.getElementById('hex-botao')?.value || '#003859';
+            const corFundo = document.getElementById('hex-fundo')?.value || '#F4F6F9';
+
+            // Atualiza preview visual
+            const prevBox = document.getElementById('preview-loja-box');
+            if (prevBox) prevBox.style.backgroundColor = corFundo;
+
+            const prevCab = document.getElementById('prev-cabecalho');
+            if (prevCab) prevCab.style.backgroundColor = corCabecalho;
+
+            const prevBarraMenu = document.getElementById('prev-barra-menu');
+            if (prevBarraMenu) prevBarraMenu.style.backgroundColor = corBarraRodape;
+
+            const prevRodCorpo = document.getElementById('prev-rodape-corpo');
+            if (prevRodCorpo) prevRodCorpo.style.backgroundColor = corRodape;
+
+            const prevRodBarra = document.getElementById('prev-rodape-barra');
+            if (prevRodBarra) prevRodBarra.style.backgroundColor = corBarraRodape;
+
+            ['prev-btn-1', 'prev-btn-2', 'prev-btn-3'].forEach(btnId => {
+                const b = document.getElementById(btnId);
+                if (b) b.style.backgroundColor = corBotao;
+            });
+
+            // Ajusta Sidebar na Prévia
+            const prevSidebar = document.getElementById('prev-sidebar-box');
+            const prevProducts = document.getElementById('prev-products-box');
+            if (layoutSelecionadoCMS === 'sem-sidebar') {
+                if (prevSidebar) prevSidebar.style.display = 'none';
+                if (prevProducts) {
+                    prevProducts.classList.remove('col-span-8');
+                    prevProducts.classList.add('col-span-12');
+                }
+            } else {
+                if (prevSidebar) prevSidebar.style.display = 'block';
+                if (prevProducts) {
+                    prevProducts.classList.remove('col-span-12');
+                    prevProducts.classList.add('col-span-8');
+                }
+            }
+        }
+
+        function carregarCMSLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_cms');
+            if (!salvos) return;
+
+            try {
+                const cfg = JSON.parse(salvos);
+                if (cfg.layout) selecionarLayout(cfg.layout);
+                if (cfg.containerPct && document.getElementById('cms-container-pct')) document.getElementById('cms-container-pct').value = cfg.containerPct;
+
+                if (cfg.corCabecalho) {
+                    document.getElementById('hex-cabecalho').value = cfg.corCabecalho;
+                    document.getElementById('color-cabecalho').value = cfg.corCabecalho;
+                }
+                if (cfg.corRodape) {
+                    document.getElementById('hex-rodape').value = cfg.corRodape;
+                    document.getElementById('color-rodape').value = cfg.corRodape;
+                }
+                if (cfg.corBarraRodape) {
+                    document.getElementById('hex-barra-rodape').value = cfg.corBarraRodape;
+                    document.getElementById('color-barra-rodape').value = cfg.corBarraRodape;
+                }
+                if (cfg.corBotao) {
+                    document.getElementById('hex-botao').value = cfg.corBotao;
+                    document.getElementById('color-botao').value = cfg.corBotao;
+                }
+                if (cfg.corFundo) {
+                    document.getElementById('hex-fundo').value = cfg.corFundo;
+                    document.getElementById('color-fundo').value = cfg.corFundo;
+                }
+                atualizarPreviewCMS();
+            } catch(e) {}
+        }
+
+        function abrirModalPersonalizacaoCMS() {
+            carregarCMSLocal();
+            document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden');
+        }
+
+        function fecharModalPersonalizacaoCMS() {
+            document.getElementById('modal-personalizacao-cms')?.classList.add('hidden');
+        }
+
+        function salvarCMSLojaSubmit(e) {
+            e.preventDefault();
+            const config = {
+                layout: layoutSelecionadoCMS,
+                containerPct: document.getElementById('cms-container-pct')?.value || '90',
+                corCabecalho: document.getElementById('hex-cabecalho')?.value,
+                corRodape: document.getElementById('hex-rodape')?.value,
+                corBarraRodape: document.getElementById('hex-barra-rodape')?.value,
+                corBotao: document.getElementById('hex-botao')?.value,
+                corFundo: document.getElementById('hex-fundo')?.value,
+                posBanner: document.getElementById('cms-pos-banner')?.value,
+                posTarja1: document.getElementById('cms-pos-tarja1')?.value
+            };
+
+            localStorage.setItem('phsublime_admin_cms', JSON.stringify(config));
+            fecharModalPersonalizacaoCMS();
+            mostrarToast("Personalizações da loja salvas com sucesso!");
+        }
+
+        // AUXILIARES E INTEGRAÇÕES
         function fecharModalNotificacaoCustom() { document.getElementById('modal-notificacao-custom')?.classList.add('hidden'); }
         function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
         
@@ -1915,7 +2237,6 @@
 
         function abrirModalMessenger() { mostrarToast("Abre Messenger Chat"); }
 
-        // LÓGICA DO MODAL DE INTEGRAÇÕES (SISTOGRAF)
         function atualizarBadgeStatus(inputId, labelId) {
             const input = document.getElementById(inputId);
             const lbl = document.getElementById(labelId);
@@ -1999,6 +2320,7 @@
             carregarFormasPagamentoLocal();
             carregarMaisVendidosAdmin();
             carregarIntegracoesLocal();
+            carregarCMSLocal();
             await carregarProdutosAdmin();
         }
 
