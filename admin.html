@@ -129,18 +129,23 @@
                         <i class="fa-solid fa-chart-line"></i> RELATÓRIOS
                     </button>
 
-                    <!-- NOVO MÓDULO: CÓDIGOS HTML E PIXELS -->
-                    <button onclick="abrirModalCodigosHTML()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Pixels, Tag Manager e Scripts Extras">
-                        <i class="fa-brands fa-html5"></i> Códigos HTML
+                    <!-- NOVO MÓDULO: BANNERS DA LOJA -->
+                    <button onclick="abrirModalGerenciadorBanners()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Banners e Carrossel da Home">
+                        <i class="fa-regular fa-image"></i> Banners
+                    </button>
+
+                    <!-- CÓDIGOS HTML E PIXELS -->
+                    <button onclick="abrirModalCodigosHTML()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Pixels e Scripts Extras">
+                        <i class="fa-brands fa-html5"></i> Scripts HTML
                     </button>
 
                     <!-- PÁGINAS EXTRAS INSTITUCIONAIS -->
                     <button onclick="abrirModalPaginasExtras()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Páginas Extras da Loja">
-                        <i class="fa-solid fa-file-lines"></i> Páginas Extras
+                        <i class="fa-solid fa-file-lines"></i> Páginas
                     </button>
 
                     <!-- PERSONALIZAÇÃO CMS -->
-                    <button onclick="abrirModalPersonalizacaoCMS()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Aparência, Logo, Banners e HTML">
+                    <button onclick="abrirModalPersonalizacaoCMS()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Aparência e Logo">
                         <i class="fa-solid fa-paint-brush"></i> CMS
                     </button>
 
@@ -183,14 +188,14 @@
                         <h2 class="text-xl font-black font-heading tracking-wide flex items-center gap-2">
                             👋 Painel Administrador PHSUBLIME GRÁFICA
                         </h2>
-                        <p class="text-xs text-blue-100">Controle completo de pedidos, estoque Supabase, acabamentos, mensagens de WhatsApp e clientes.</p>
+                        <p class="text-xs text-blue-100">Controle completo de pedidos, estoque Supabase, banners, mensagens de WhatsApp e clientes.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="abrirModalCodigosHTML()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
-                            <i class="fa-brands fa-html5"></i> Scripts & Pixels
+                        <button onclick="abrirModalGerenciadorBanners()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
+                            <i class="fa-regular fa-image"></i> Banners da Loja
                         </button>
-                        <button onclick="abrirModalPaginasExtras()" class="bg-blue-900 hover:bg-blue-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-amber-400">
-                            <i class="fa-solid fa-file-lines"></i> Páginas Extras
+                        <button onclick="abrirModalCodigosHTML()" class="bg-blue-900 hover:bg-blue-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-amber-400">
+                            <i class="fa-brands fa-html5"></i> Scripts & Pixels
                         </button>
                         <button onclick="abrirModalAcabamentos()" class="bg-purple-900 hover:bg-purple-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-purple-400">
                             <i class="fa-solid fa-cut"></i> Acabamentos
@@ -521,7 +526,87 @@
 
     <!-- ================= CAIXA DE MODAIS COMPLETOS ================= -->
 
-    <!-- MODAL NOVO: GERENCIADOR DE CÓDIGOS HTML E PIXELS (MIGRADO DO CÓDIGO ANTIGO) -->
+    <!-- MODAL NOVO: GERENCIADOR DE BANNERS DA LOJA (MIGRADO DO CÓDIGO ANTIGO) -->
+    <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-regular fa-image text-amber-500"></i> Gerenciador de Banners e Anúncios Visuais
+                </h3>
+            </div>
+
+            <!-- FORMULÁRIO NOVO BANNER -->
+            <form onsubmit="salvarNovoBannerSubmit(event)" class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 space-y-3 text-xs">
+                <h4 class="font-bold text-blue-950 uppercase text-[11px]"><i class="fa-solid fa-circle-plus text-emerald-600"></i> Cadastrar Novo Banner</h4>
+                <input type="hidden" id="banner-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Tipo / Posição do Banner *</label>
+                        <select id="banner-tipo" required class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold text-slate-800">
+                            <option value="animacao">Animação / Carrossel Home</option>
+                            <option value="mini_banner">Mini Banner Promocional</option>
+                            <option value="tarja">Banner Tarja Topo</option>
+                            <option value="banner_menu">Banner Abaixo do Menu</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="font-bold text-slate-700 block mb-1">URL da Imagem do Banner *</label>
+                        <input type="text" id="banner-imagem-url" required placeholder="https://phsublime.sistograf.net/storage/banners/..." class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Link de Destino / Redirecionamento ao Clicar</label>
+                    <input type="text" id="banner-link-destino" placeholder="Ex: https://phsublime.com.br/admin/produtos ou /promocao" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black px-5 py-2 rounded-xl text-xs uppercase shadow">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar e Ativar Banner
+                    </button>
+                </div>
+            </form>
+
+            <!-- FILTRO DE TIPO E TABELA DE BANNERS -->
+            <div class="space-y-2">
+                <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
+                    <span class="font-bold text-slate-700">Banners Cadastrados no Sistema:</span>
+                    <select id="filtro-modal-tipo-banner" onchange="renderizarTabelaBannersModal()" class="px-3 py-1 border rounded-lg text-xs font-bold focus:outline-none">
+                        <option value="TODOS">Filtrar Todos os Tipos</option>
+                        <option value="animacao">Somente Carrossel / Animação</option>
+                        <option value="mini_banner">Somente Mini Banners</option>
+                        <option value="tarja">Somente Banners Tarja</option>
+                    </select>
+                </div>
+
+                <div class="border border-slate-200 rounded-xl overflow-hidden max-h-56 overflow-y-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 font-bold text-slate-600 uppercase text-[10px]">
+                                <th class="p-2.5 w-16">PRÉVIA</th>
+                                <th class="p-2.5">TIPO</th>
+                                <th class="p-2.5">LINK DESTINO</th>
+                                <th class="p-2.5">CRIADO EM</th>
+                                <th class="p-2.5 text-center">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-banners-modal-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex justify-end">
+                <button type="button" onclick="fecharModalGerenciadorBanners()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CÓDIGOS HTML E PIXELS -->
     <div id="modal-codigos-html" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalCodigosHTML()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -1316,7 +1401,15 @@
         let idItemExclusaoPendente = null;
         let tipoItemExclusao = 'produto';
 
-        // BASE DE CÓDIGOS HTML E TAGS DE MARKETING (MIGRADO DO CÓDIGO ANTIGO)
+        // BASE DE BANNERS (MIGRADO DO CÓDIGO ANTIGO)
+        let adminBannersDefault = [
+            { id: 1, tipo: "animacao", tipoNome: "Animação / Carrossel Home", imagem: "https://phsublime.sistograf.net/storage/banners/banner_promocao.jpg", link: "https://phsublime.com.br/promocao", criadoEm: "01/09/2026" },
+            { id: 2, tipo: "mini_banner", tipoNome: "Mini Banner Promocional", imagem: "https://phsublime.sistograf.net/storage/banners/mini_canecas.jpg", link: "https://phsublime.com.br/canecas", criadoEm: "02/09/2026" },
+            { id: 3, tipo: "tarja", tipoNome: "Banner Tarja Topo", imagem: "https://phsublime.sistograf.net/storage/banners/tarja_frete.jpg", link: "", criadoEm: "03/09/2026" }
+        ];
+        let adminBanners = [];
+
+        // BASE DE CÓDIGOS HTML E TAGS DE MARKETING
         let adminCodigosHtmlDefault = [
             { id: 1, desc: "Google Tag Manager (GTM)", local: "Head (<head>)", paginas: "Todas as Páginas", codigo: "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PHSUBLIME');</script>" },
             { id: 2, desc: "Pixel do Meta / Facebook", local: "Head (<head>)", paginas: "Somente no Checkout", codigo: "<!-- Meta Pixel Code -->\n<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '1234567890');fbq('track', 'PageView');</script>" }
@@ -1449,7 +1542,6 @@
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
-        // SALVA LOG DE ACESSO (PHSUBLIME ORIGINAL)
         function salvaLogAcesso() {
             try {
                 const logData = {
@@ -1468,7 +1560,111 @@
             }, 800);
         }
 
-        // MÓDULO CÓDIGOS HTML E PIXELS
+        // MÓDULO BANNERS DA LOJA (MIGRADO DO CÓDIGO NOVO)
+        function carregarBannersSalvosLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_banners');
+            adminBanners = salvos ? JSON.parse(salvos) : adminBannersDefault;
+        }
+
+        function salvarBannersLocal() {
+            localStorage.setItem('phsublime_admin_banners', JSON.stringify(adminBanners));
+        }
+
+        function renderizarTabelaBannersModal() {
+            const tbody = document.getElementById('tabela-banners-modal-body');
+            const filtroTipo = document.getElementById('filtro-modal-tipo-banner')?.value || 'TODOS';
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const filtrados = adminBanners.filter(b => filtroTipo === 'TODOS' || b.tipo === filtroTipo);
+
+            filtrados.forEach(b => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+
+                const htmlThumb = b.imagem 
+                    ? `<img src="${escapeHtml(b.imagem)}" class="w-12 h-8 object-cover rounded border bg-white" onerror="this.outerHTML='<i class=\'fa-regular fa-image text-slate-300 text-lg\'></i>'">`
+                    : `<i class="fa-regular fa-image text-slate-300 text-lg"></i>`;
+
+                tr.innerHTML = `
+                    <td class="p-2">${htmlThumb}</td>
+                    <td class="p-2 font-bold text-blue-900">${escapeHtml(b.tipoNome || b.tipo)}</td>
+                    <td class="p-2 text-slate-500 font-mono truncate max-w-xs">${escapeHtml(b.link || 'Sem link')}</td>
+                    <td class="p-2 text-slate-400 font-mono">${escapeHtml(b.criadoEm || '04/09/2026')}</td>
+                    <td class="p-2 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="editarBannerModal('${b.id}')" class="text-blue-600 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="excluirBanner('${b.id}')" class="text-red-600 font-bold"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalGerenciadorBanners() {
+            carregarBannersSalvosLocal();
+            renderizarTabelaBannersModal();
+            document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden');
+        }
+
+        function fecharModalGerenciadorBanners() {
+            document.getElementById('modal-gerenciador-banners')?.classList.add('hidden');
+        }
+
+        function salvarNovoBannerSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('banner-id').value;
+            const tipo = document.getElementById('banner-tipo').value;
+            const imgUrl = document.getElementById('banner-imagem-url').value.trim();
+            const linkDestino = document.getElementById('banner-link-destino').value.trim();
+
+            const mapaNomes = {
+                'animacao': 'Animação / Carrossel Home',
+                'mini_banner': 'Mini Banner Promocional',
+                'tarja': 'Banner Tarja Topo',
+                'banner_menu': 'Banner Abaixo do Menu'
+            };
+
+            if (id) {
+                const b = adminBanners.find(item => String(item.id) === String(id));
+                if (b) {
+                    b.tipo = tipo;
+                    b.tipoNome = mapaNomes[tipo] || tipo;
+                    b.imagem = imgUrl;
+                    b.link = linkDestino;
+                }
+            } else {
+                const novoId = adminBanners.length > 0 ? Math.max(...adminBanners.map(b => b.id || 0)) + 1 : 1;
+                const dataHoje = new Date().toLocaleDateString('pt-BR');
+                adminBanners.push({ id: novoId, tipo, tipoNome: mapaNomes[tipo] || tipo, imagem: imgUrl, link: linkDestino, criadoEm: dataHoje });
+            }
+
+            salvarBannersLocal();
+            renderizarTabelaBannersModal();
+            document.getElementById('banner-id').value = '';
+            document.getElementById('banner-imagem-url').value = '';
+            document.getElementById('banner-link-destino').value = '';
+            mostrarToast("Banner salvo com sucesso!");
+        }
+
+        function editarBannerModal(id) {
+            const b = adminBanners.find(item => String(item.id) === String(id));
+            if (!b) return;
+            document.getElementById('banner-id').value = b.id;
+            document.getElementById('banner-tipo').value = b.tipo;
+            document.getElementById('banner-imagem-url').value = b.imagem;
+            document.getElementById('banner-link-destino').value = b.link || '';
+        }
+
+        function excluirBanner(id) {
+            adminBanners = adminBanners.filter(b => String(b.id) !== String(id));
+            salvarBannersLocal();
+            renderizarTabelaBannersModal();
+            mostrarToast("Banner removido!");
+        }
+
+        // CÓDIGOS HTML E PIXELS
         function carregarCodigosHTMLSalvosLocal() {
             const salvos = localStorage.getItem('phsublime_admin_codigos_html');
             adminCodigosHtml = salvos ? JSON.parse(salvos) : adminCodigosHtmlDefault;
@@ -2118,6 +2314,7 @@
 
         async function inicializarAdmin() {
             salvaLogAcesso();
+            carregarBannersSalvosLocal();
             carregarCodigosHTMLSalvosLocal();
             carregarPaginasExtrasSalvasLocal();
             carregarCuponsSalvosLocal();
