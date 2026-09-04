@@ -139,12 +139,12 @@
 
             <!-- ================= ABA 1: GERENCIADOR DE PEDIDOS ================= -->
             <section id="secao-admin-pedidos" class="space-y-6">
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
                     <div>
                         <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Central de Pedidos da Gráfica</h3>
                         <p class="text-xs text-slate-500">Gerencie o status de produção, pagamentos, arquivos de impressão e entregas.</p>
                     </div>
-                    <button onclick="carregarPedidosAdmin()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all flex items-center gap-1.5">
+                    <button onclick="carregarPedidosAdmin(true)" id="btn-atualizar-pedidos" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 shadow">
                         <i class="fa-solid fa-rotate-right"></i> Atualizar Pedidos
                     </button>
                 </div>
@@ -491,7 +491,7 @@
                         nome: "700un. Adesivo Brilho 0,08 M² + Corte Contorno (DOCERIA VIVI)",
                         especificacao: "Vinil Brilho 0,08 | Cores: 4x0 | L: 0.04m - A: 0.04m",
                         subtotal: 91.07,
-                        arquivoUrl: "https://drive.google.com", // Link seguro de exemplo
+                        arquivoUrl: "https://drive.google.com",
                         arquivoNome: "PD75Y19RYI_IT94frente.pdf"
                     }
                 ]
@@ -500,11 +500,22 @@
 
         let pedidoEmEdicaoModal = null;
 
+        // VERIFICA LOGIN SALVO (SESSÃO PERSISTENTE NO NAVEGADOR)
+        function verificarSessaoAdmin() {
+            const logado = localStorage.getItem('phsublime_admin_logado');
+            if (logado === 'true') {
+                document.getElementById('modal-login-admin').classList.add('hidden');
+                document.getElementById('conteudo-painel').classList.remove('hidden');
+                inicializarAdmin();
+            }
+        }
+
         function autenticarAdmin(e) {
             e.preventDefault();
             const senha = document.getElementById('input-senha-admin').value;
 
             if (senha === SENHA_ADMIN) {
+                localStorage.setItem('phsublime_admin_logado', 'true');
                 document.getElementById('modal-login-admin').classList.add('hidden');
                 document.getElementById('conteudo-painel').classList.remove('hidden');
                 inicializarAdmin();
@@ -514,6 +525,7 @@
         }
 
         function sairAdmin() {
+            localStorage.removeItem('phsublime_admin_logado');
             document.getElementById('modal-login-admin').classList.remove('hidden');
             document.getElementById('conteudo-painel').classList.add('hidden');
             document.getElementById('input-senha-admin').value = '';
@@ -530,7 +542,12 @@
         }
 
         // ============ LÓGICA DE PEDIDOS ============
-        function carregarPedidosAdmin() {
+        function carregarPedidosAdmin(feedbackComToast = false) {
+            const btnAtualizar = document.getElementById('btn-atualizar-pedidos');
+            if (btnAtualizar && feedbackComToast) {
+                btnAtualizar.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Atualizando...`;
+            }
+
             const tbody = document.getElementById('tabela-admin-pedidos-body');
             const statTotal = document.getElementById('stat-total-pedidos');
             const badgeTotal = document.getElementById('badge-total-pedidos');
@@ -548,44 +565,50 @@
                         </td>
                     </tr>
                 `;
-                return;
+            } else {
+                adminPedidos.forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
+
+                    let corBadge = "bg-amber-100 text-amber-800";
+                    if (p.situacao === 'Confirmado' || p.situacao === 'Em Produção') corBadge = "bg-blue-100 text-blue-900";
+                    if (p.situacao === 'Concluído') corBadge = "bg-emerald-100 text-emerald-800";
+                    if (p.situacao === 'Cancelado') corBadge = "bg-red-100 text-red-800";
+
+                    tr.innerHTML = `
+                        <td class="py-3 px-4">
+                            <strong class="text-blue-900 font-black block">${p.codigo}</strong>
+                            <span class="text-[10px] text-slate-400">${p.data}</span>
+                        </td>
+                        <td class="py-3 px-4">
+                            <strong class="text-slate-800 block leading-tight font-bold">${p.cliente.nome}</strong>
+                            <span class="text-[10px] text-slate-400 font-bold text-emerald-700">${p.cliente.wpp}</span>
+                        </td>
+                        <td class="py-3 px-4 font-semibold text-slate-600">
+                            ${p.transporte.tipo}
+                        </td>
+                        <td class="py-3 px-4 text-center font-black text-red-600">
+                            R$ ${p.financeiro.totalVal.toFixed(2)}
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="${corBadge} font-black text-[10px] px-2.5 py-1 rounded uppercase">${p.situacao}</span>
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            <button onclick="abrirModalDetalhesPedido(${p.id})" class="bg-[#316AC7] hover:bg-blue-800 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg shadow transition-all flex items-center gap-1 mx-auto">
+                                <i class="fa-solid fa-eye"></i> Detalhes
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
             }
 
-            adminPedidos.forEach(p => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
-
-                let corBadge = "bg-amber-100 text-amber-800";
-                if (p.situacao === 'Confirmado' || p.situacao === 'Em Produção') corBadge = "bg-blue-100 text-blue-900";
-                if (p.situacao === 'Concluído') corBadge = "bg-emerald-100 text-emerald-800";
-                if (p.situacao === 'Cancelado') corBadge = "bg-red-100 text-red-800";
-
-                tr.innerHTML = `
-                    <td class="py-3 px-4">
-                        <strong class="text-blue-900 font-black block">${p.codigo}</strong>
-                        <span class="text-[10px] text-slate-400">${p.data}</span>
-                    </td>
-                    <td class="py-3 px-4">
-                        <strong class="text-slate-800 block leading-tight font-bold">${p.cliente.nome}</strong>
-                        <span class="text-[10px] text-slate-400 font-bold text-emerald-700">${p.cliente.wpp}</span>
-                    </td>
-                    <td class="py-3 px-4 font-semibold text-slate-600">
-                        ${p.transporte.tipo}
-                    </td>
-                    <td class="py-3 px-4 text-center font-black text-red-600">
-                        R$ ${p.financeiro.totalVal.toFixed(2)}
-                    </td>
-                    <td class="py-3 px-4 text-center">
-                        <span class="${corBadge} font-black text-[10px] px-2.5 py-1 rounded uppercase">${p.situacao}</span>
-                    </td>
-                    <td class="py-3 px-4 text-center">
-                        <button onclick="abrirModalDetalhesPedido(${p.id})" class="bg-[#316AC7] hover:bg-blue-800 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg shadow transition-all flex items-center gap-1 mx-auto">
-                            <i class="fa-solid fa-eye"></i> Detalhes
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+            if (feedbackComToast) {
+                setTimeout(() => {
+                    if (btnAtualizar) btnAtualizar.innerHTML = `<i class="fa-solid fa-rotate-right"></i> Atualizar Pedidos`;
+                    mostrarToast("Lista de pedidos atualizada!");
+                }, 300);
+            }
         }
 
         function abrirModalDetalhesPedido(id) {
@@ -958,6 +981,10 @@
             carregarPedidosAdmin();
             await carregarProdutosAdmin();
         }
+
+        window.onload = function() {
+            verificarSessaoAdmin();
+        };
     </script>
 </body>
 </html>
