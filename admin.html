@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrador - PHSUBLIME</title>
 
+    <!-- FAVICON -->
     <link rel="icon" type="image/x-icon" href="https://phsublime.sistograf.net/storage/logos/favicon.ico">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -17,15 +23,17 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #003859; border-radius: 4px; }
+        
         @media print {
             header, footer, button, .no-print { display: none !important; }
             main { margin: 0 !important; padding: 0 !important; }
+            .print-only { display: block !important; }
         }
     </style>
 </head>
 <body class="bg-[#f4f6f9] min-h-screen flex flex-col justify-between selection:bg-blue-200">
 
-    <!-- MODAL NOTIFICAÇÃO ALERTA -->
+    <!-- CAIXA DE MENSAGEM CUSTOMIZADA (AVISOS E ERROS) -->
     <div id="modal-notificacao-custom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10000] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-slate-200 relative">
             <div id="notif-custom-icon-box" class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
@@ -41,7 +49,7 @@
         </div>
     </div>
 
-    <!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
+    <!-- CAIXA DE CONFIRMAÇÃO DE EXCLUSÃO -->
     <div id="modal-confirm-exclusao" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-red-200 relative">
             <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
@@ -49,7 +57,7 @@
             </div>
             <div>
                 <h3 class="text-base font-black text-slate-800 font-heading uppercase">Confirmar Exclusão</h3>
-                <p id="txt-confirm-exclusao-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este item?</p>
+                <p id="txt-confirm-exclusao-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este item do sistema?</p>
             </div>
             <div class="grid grid-cols-2 gap-3 pt-2">
                 <button onclick="fecharModalConfirmExclusao()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl text-xs uppercase transition-all">
@@ -62,20 +70,20 @@
         </div>
     </div>
 
-    <!-- MODAL LOGIN ADMIN -->
+    <!-- MODAL DE LOGIN / SENHA DE SEGURANÇA -->
     <div id="modal-login-admin" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-5">
             <div class="w-16 h-16 bg-[#003859] text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-lg">
                 <i class="fa-solid fa-user-shield"></i>
             </div>
             <div>
-                <h2 class="text-xl font-black text-slate-900 uppercase font-heading">Painel Administrador</h2>
+                <h2 class="text-xl font-black text-slate-900 uppercase font-heading">Painel de Administração</h2>
                 <p class="text-xs text-slate-500 font-semibold mt-1">PHSUBLIME GRÁFICA DIGITAL</p>
             </div>
             <form onsubmit="autenticarAdmin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 text-left mb-1">Senha de Acesso *</label>
-                    <input type="password" id="input-senha-admin" placeholder="Senha (Padrão: 1234)" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-700 text-center font-bold tracking-widest">
+                    <label class="block text-xs font-bold text-slate-700 text-left mb-1">Senha do Administrador *</label>
+                    <input type="password" id="input-senha-admin" placeholder="Digite a senha (Padrão: 1234)" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-700 text-center font-bold tracking-widest">
                 </div>
                 <button type="submit" class="w-full bg-[#003859] hover:bg-[#002847] text-white font-black py-3 rounded-xl shadow-lg transition-all text-sm uppercase flex items-center justify-center gap-2">
                     <i class="fa-solid fa-key"></i> ACESSAR PAINEL
@@ -177,7 +185,7 @@
             </div>
         </header>
 
-        <!-- CORPO DO PAINEL -->
+        <!-- CORPO PRINCIPAL -->
         <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 space-y-6">
 
             <!-- SEÇÃO INÍCIO (INSPIRADO NO SISTOGRAF) -->
@@ -210,7 +218,7 @@
                     <div onclick="mudarAbaAdmin('pedidos')" class="bg-[#e2f0d9] border border-[#c5e0b4] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
                             <span class="text-xs font-bold text-[#385723] block">Pedidos</span>
-                            <strong id="card-home-pedidos-qtd" class="text-2xl font-black text-[#274015]">0</strong>
+                            <strong id="card-home-pedidos-qtd" class="text-2xl font-black text-[#274015]">1</strong>
                             <span class="text-[11px] font-bold text-[#385723] group-hover:underline block">Detalhes &gt;</span>
                         </div>
                         <div class="text-4xl text-[#548235]">
@@ -234,7 +242,7 @@
                     <div onclick="mudarAbaAdmin('relatorios')" class="bg-[#fff2cc] border border-[#ffe699] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
                             <span class="text-xs font-bold text-[#7f6000] block">Faturamento Geral</span>
-                            <strong id="card-home-faturamento-total" class="text-xl font-black text-[#543f00]">R$ 0,00</strong>
+                            <strong id="card-home-faturamento-total" class="text-xl font-black text-[#543f00]">R$ 107,02</strong>
                             <span class="text-[11px] font-bold text-[#7f6000] group-hover:underline block">Detalhes &gt;</span>
                         </div>
                         <div class="text-4xl text-[#bf9000]">
@@ -490,17 +498,44 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-emerald-500 border border-slate-200 space-y-1">
                         <span class="text-xs text-slate-500 font-bold block uppercase">Faturamento Total</span>
-                        <strong id="relat-faturamento-total" class="text-2xl font-black text-emerald-600">R$ 0,00</strong>
+                        <strong id="relat-faturamento-total" class="text-2xl font-black text-emerald-600">R$ 107,02</strong>
                     </div>
 
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-600 border border-slate-200 space-y-1">
                         <span class="text-xs text-slate-500 font-bold block uppercase">Ticket Médio</span>
-                        <strong id="relat-ticket-medio" class="text-2xl font-black text-blue-900">R$ 0,00</strong>
+                        <strong id="relat-ticket-medio" class="text-2xl font-black text-blue-900">R$ 107,02</strong>
                     </div>
 
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-purple-600 border border-slate-200 space-y-1">
                         <span class="text-xs text-slate-500 font-bold block uppercase">Pedidos Concluídos</span>
-                        <strong id="relat-concluidos-count" class="text-2xl font-black text-purple-900">0 de 0</strong>
+                        <strong id="relat-concluidos-count" class="text-2xl font-black text-purple-900">1 de 1</strong>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
+                                    <th class="py-3 px-4">DATA</th>
+                                    <th class="py-3 px-4">PEDIDO</th>
+                                    <th class="py-3 px-4">CLIENTE</th>
+                                    <th class="py-3 px-4">FORMA DE PAGAMENTO</th>
+                                    <th class="py-3 px-4">FORMA DE ENTREGA</th>
+                                    <th class="py-3 px-4 text-right">VALOR TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-relatorio-financeiro-body" class="divide-y divide-slate-100">
+                                <tr class="border-b border-slate-100 hover:bg-slate-50">
+                                    <td class="py-3 px-4 text-slate-500">14/06/2026 15:35:58</td>
+                                    <td class="py-3 px-4 font-black text-blue-900">#75Y19RYI</td>
+                                    <td class="py-3 px-4 font-bold text-slate-800">GABRIEL SALES DA SILVA</td>
+                                    <td class="py-3 px-4">Mercado Pago / PIX</td>
+                                    <td class="py-3 px-4">Transportadora - PH ENTREGA</td>
+                                    <td class="py-3 px-4 text-right font-black text-emerald-700">R$ 107,02</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
