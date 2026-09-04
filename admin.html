@@ -208,7 +208,6 @@
 
                 <!-- ALERTAS INTELIGENTES DO MÊS -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- ANIVERSARIANTES DO MÊS -->
                     <div class="bg-white p-5 rounded-xl border border-amber-200 shadow-sm space-y-3 relative overflow-hidden">
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex items-center gap-3">
@@ -229,7 +228,6 @@
                         </div>
                     </div>
 
-                    <!-- ESTOQUE E PRODUTOS EM ALERTA -->
                     <div class="bg-white p-5 rounded-xl border border-blue-200 shadow-sm space-y-3 relative overflow-hidden">
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex items-center gap-3">
@@ -316,14 +314,14 @@
                     </div>
 
                     <div class="flex items-center gap-2 w-full sm:w-auto flex-wrap sm:flex-nowrap">
-                        <button onclick="autoCategorizarProdutosInteligente()" class="bg-amber-500 hover:bg-amber-400 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5" title="Auto-categoriza os produtos pelos seus nomes">
+                        <button onclick="alternarPainelReajusteMassa()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5" title="Alterar Preços em Porcentagem (+ ou -)">
+                            <i class="fa-solid fa-percent"></i> Reajuste em Massa
+                        </button>
+                        <button onclick="autoCategorizarProdutosInteligente()" class="bg-amber-500 hover:bg-amber-400 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> 🪄 Auto-Categorizar
                         </button>
-                        <button onclick="abrirModalGerenciarCategorias()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
-                            <i class="fa-solid fa-tags"></i> Gerenciar Categorias
-                        </button>
-                        <button onclick="carregarProdutosAdmin(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-3 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
-                            <i class="fa-solid fa-rotate-right"></i>
+                        <button onclick="abrirModalGerenciarCategorias()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-3 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-tags"></i> Categorias
                         </button>
                         <button onclick="abrirModalFormProduto()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-1.5 uppercase">
                             <i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Produto
@@ -331,7 +329,54 @@
                     </div>
                 </div>
 
-                <!-- FILTRO POR CATEGORIAS (SEM LISTA ENDLESS) -->
+                <!-- PAINEL DE REAJUSTE DE PREÇOS EM MASSA (EXPANDÍVEL) -->
+                <div id="painel-reajuste-massa" class="hidden bg-purple-50 p-4 rounded-xl border border-purple-200 space-y-3 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-purple-200 pb-2">
+                        <h4 class="font-black text-purple-950 text-xs font-heading uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-rocket text-amber-500"></i> Reajuste de Preços em Massa
+                        </h4>
+                        <button onclick="alternarPainelReajusteMassa()" class="text-purple-700 hover:text-purple-950 font-bold text-xs"><i class="fa-solid fa-xmark"></i> Fechar</button>
+                    </div>
+                    <p class="text-[11px] text-purple-800">Aumente ou diminua os preços de venda em lote por porcentagem (%) para produtos de uma categoria específica ou de todo o catálogo.</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Categoria Alvo</label>
+                            <select id="reajuste-categoria" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
+                                <option value="TODOS">Todas as Categorias</option>
+                                <!-- Preenchido dinamicamente -->
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Operação</label>
+                            <select id="reajuste-operacao" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                                <option value="+">Aumentar Preço (+ %)</option>
+                                <option value="-">Reduzir Preço (- %)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Porcentagem (%) *</label>
+                            <input type="number" id="reajuste-porcentagem" placeholder="Ex: 10" min="1" max="100" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold text-purple-900">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="executarReajustePrecosEmMassa()" class="w-full bg-purple-900 hover:bg-purple-800 text-white font-black py-2 rounded-lg shadow uppercase transition-all flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-bolt"></i> Aplicar Reajuste
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BARRA DE AÇÕES EM MASSA PARA ITENS SELECIONADOS -->
+                <div id="barra-acoes-massa-produtos" class="hidden bg-slate-900 text-white p-3 rounded-xl shadow-md flex items-center justify-between text-xs">
+                    <span class="font-bold text-amber-400" id="txt-qtd-selecionados-massa">0 produtos selecionados</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="excluirProdutosSelecionadosEmMassa()" class="bg-red-600 hover:bg-red-500 text-white font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-trash-can"></i> Excluir Selecionados
+                        </button>
+                    </div>
+                </div>
+
+                <!-- FILTRO POR CATEGORIAS -->
                 <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 space-y-2">
                     <span class="text-[11px] font-black text-slate-500 uppercase block tracking-wider"><i class="fa-solid fa-filter text-amber-500"></i> Filtrar Tabela por Categoria:</span>
                     <div id="container-botoes-categorias-admin" class="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap pb-1 text-xs font-bold">
@@ -350,6 +395,9 @@
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
+                                    <th class="py-3 px-3 w-10 text-center">
+                                        <input type="checkbox" id="marcar-todos-prods" onclick="alternarMarcarTodosProdutos(this)" class="rounded">
+                                    </th>
                                     <th class="py-3 px-4 w-16">FOTO</th>
                                     <th class="py-3 px-4">PRODUTO / REFERÊNCIA</th>
                                     <th class="py-3 px-4">CATEGORIA / PRAZO</th>
@@ -359,7 +407,7 @@
                             </thead>
                             <tbody id="tabela-admin-produtos-body" class="divide-y divide-slate-100">
                                 <tr>
-                                    <td colspan="5" class="py-8 text-center text-slate-400 font-bold">
+                                    <td colspan="6" class="py-8 text-center text-slate-400 font-bold">
                                         <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block"></i> Carregando produtos do banco...
                                     </td>
                                 </tr>
@@ -1203,19 +1251,31 @@
         }
 
         function atualizarDropdownCategoriasForm() {
-            const select = document.getElementById('prod-categoria');
-            if (!select) return;
+            const selectProdCat = document.getElementById('prod-categoria');
+            const selectReajusteCat = document.getElementById('reajuste-categoria');
 
             const categoriasUnicas = new Set([...adminCategoriasExtra, ...adminProdutos.map(p => p.categoria.trim())]);
             const lista = Array.from(categoriasUnicas).filter(Boolean).sort();
 
-            select.innerHTML = '';
-            lista.forEach(cat => {
-                const opt = document.createElement('option');
-                opt.value = cat;
-                opt.innerText = cat;
-                select.appendChild(opt);
-            });
+            if (selectProdCat) {
+                selectProdCat.innerHTML = '';
+                lista.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.innerText = cat;
+                    selectProdCat.appendChild(opt);
+                });
+            }
+
+            if (selectReajusteCat) {
+                selectReajusteCat.innerHTML = '<option value="TODOS">Todas as Categorias</option>';
+                lista.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.innerText = cat;
+                    selectReajusteCat.appendChild(opt);
+                });
+            }
         }
 
         // CARREGA PEDIDOS COM PERSISTÊNCIA NO F5
@@ -1701,12 +1761,102 @@
             document.getElementById('modal-confirm-exclusao').classList.remove('hidden');
         }
 
-        // ============ PRODUTOS DO SUPABASE (COM CAMPOS PHSUBLIME EXPANDIDOS) ============
+        // ============ REAJUSTE DE PREÇOS E AÇÕES EM MASSA ============
+        function alternarPainelReajusteMassa() {
+            const painel = document.getElementById('painel-reajuste-massa');
+            if (painel) painel.classList.toggle('hidden');
+        }
+
+        async function executarReajustePrecosEmMassa() {
+            const cat = document.getElementById('reajuste-categoria').value;
+            const op = document.getElementById('reajuste-operacao').value;
+            const porc = parseFloat(document.getElementById('reajuste-porcentagem').value);
+
+            if (isNaN(porc) || porc <= 0) {
+                mostrarModalNotificacaoCustom("Aviso", "Informe uma porcentagem de reajuste válida.");
+                return;
+            }
+
+            const alvos = adminProdutos.filter(p => cat === 'TODOS' || p.categoria === cat);
+
+            if (alvos.length === 0) {
+                mostrarModalNotificacaoCustom("Aviso", "Nenhum produto encontrado nesta categoria para reajustar.");
+                return;
+            }
+
+            if (!confirm(`Tem certeza que deseja aplicar ${op}${porc}% no preço de ${alvos.length} produto(s)?`)) return;
+
+            let contAtualizados = 0;
+
+            for (const prod of alvos) {
+                const fator = op === '+' ? (1 + porc / 100) : (1 - porc / 100);
+                const novoPreco = Math.max(0.01, prod.preco * fator);
+
+                prod.preco = novoPreco;
+
+                try {
+                    await supabaseClient.from('produtos').update({ Preco_Venda: novoPreco }).eq('id', prod.id);
+                    contAtualizados++;
+                } catch(err) {
+                    console.error("Erro ao atualizar preço:", err);
+                }
+            }
+
+            renderizarTabelaAdminPaginada();
+            mostrarToast(`${contAtualizados} produtos reajustados em ${op}${porc}% com sucesso!`);
+            alternarPainelReajusteMassa();
+        }
+
+        function alternarMarcarTodosProdutos(chk) {
+            const checks = document.querySelectorAll('.chk-prod-item');
+            checks.forEach(c => c.checked = chk.checked);
+            atualizarBarraAcoesMassaProdutos();
+        }
+
+        function atualizarBarraAcoesMassaProdutos() {
+            const checks = document.querySelectorAll('.chk-prod-item:checked');
+            const barra = document.getElementById('barra-acoes-massa-produtos');
+            const txt = document.getElementById('txt-qtd-selecionados-massa');
+
+            if (checks.length > 0) {
+                if (txt) txt.innerText = `${checks.length} produto(s) selecionado(s)`;
+                if (barra) barra.classList.remove('hidden');
+            } else {
+                if (barra) barra.classList.add('hidden');
+            }
+        }
+
+        async function excluirProdutosSelecionadosEmMassa() {
+            const checks = document.querySelectorAll('.chk-prod-item:checked');
+            const ids = Array.from(checks).map(c => c.value);
+
+            if (ids.length === 0) return;
+
+            if (!confirm(`Tem certeza que deseja excluir ${ids.length} produto(s) selecionado(s) permanentemente do banco?`)) return;
+
+            try {
+                const { error } = await supabaseClient.from('produtos').delete().in('id', ids);
+                if (error) throw error;
+
+                adminProdutos = adminProdutos.filter(p => !ids.includes(String(p.id)));
+                
+                atualizarEstatisticas();
+                renderizarTabelaAdminPaginada();
+                atualizarBarraAcoesMassaProdutos();
+                mostrarToast(`${ids.length} produto(s) excluído(s) em lote!`);
+
+            } catch(err) {
+                console.error("Erro na exclusão em massa:", err);
+                mostrarModalNotificacaoCustom("Erro", "Falha ao excluir alguns dos produtos selecionados.");
+            }
+        }
+
+        // ============ PRODUTOS DO SUPABASE ============
         async function carregarProdutosAdmin(exibirToast = false) {
             const tbody = document.getElementById('tabela-admin-produtos-body');
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="5" class="py-8 text-center text-slate-400 font-bold">
+                    <td colspan="6" class="py-8 text-center text-slate-400 font-bold">
                         <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block text-blue-900"></i> Conectando ao Supabase...
                     </td>
                 </tr>
@@ -1742,7 +1892,6 @@
                             unidade: item.Unidade_Medida || item.unidade || 'un',
                             imagem: item.Url || item.imagem || '',
                             descricao: item.Descricao || item.descricao || '',
-                            // NOVOS CAMPOS PHSUBLIME
                             prazoProducao: item.prazo_producao || item.prazoProducao || 3,
                             taxaArte: item.taxa_arte || item.taxaArte || 0,
                             precoRevendedor: item.preco_revendedor || item.precoRevendedor || 0,
@@ -1764,7 +1913,7 @@
                 console.error("Erro ao carregar banco:", err);
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="5" class="py-6 text-center text-red-500 font-bold">
+                        <td colspan="6" class="py-6 text-center text-red-500 font-bold">
                             Erro ao conectar com o Supabase. Verifique a tabela 'produtos'.
                         </td>
                     </tr>
@@ -1846,7 +1995,7 @@
             if (filtrados.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="5" class="py-8 text-center text-slate-400 font-bold">
+                        <td colspan="6" class="py-8 text-center text-slate-400 font-bold">
                             Nenhum produto cadastrado ou encontrado nesta categoria.
                         </td>
                     </tr>
@@ -1876,6 +2025,9 @@
                 const gabaritoBadge = prod.gabaritoUrl ? `<a href="${escapeHtml(prod.gabaritoUrl)}" target="_blank" class="inline-block bg-emerald-100 text-emerald-800 text-[9px] font-bold px-1.5 py-0.5 rounded ml-1" title="Possui Gabarito"><i class="fa-solid fa-download"></i> Gabarito</a>` : '';
 
                 tr.innerHTML = `
+                    <td class="py-3 px-3 text-center">
+                        <input type="checkbox" value="${idSeguro}" class="chk-prod-item rounded" onchange="atualizarBarraAcoesMassaProdutos()">
+                    </td>
                     <td class="py-3 px-4">${htmlImg}</td>
                     <td class="py-3 px-4">
                         <strong class="text-slate-800 block leading-tight font-bold">${escapeHtml(prod.nome)} ${gabaritoBadge}</strong>
@@ -1977,6 +2129,7 @@
             document.getElementById('modal-form-produto').classList.remove('hidden');
         }
 
+        // SALVAMENTO RESILIENTE (CORRIGE O ERRO DE UNIDADE_MEDIDA)
         async function salvarProdutoSubmit(e) {
             e.preventDefault();
 
@@ -1998,14 +2151,20 @@
             const precoRevendedor = parseFloat(document.getElementById('prod-preco-revendedor').value) || 0;
             const gabaritoUrl = document.getElementById('prod-gabarito-link').value;
 
-            const payload = {
+            // 1. PAYLOAD BÁSICO GARANTIDO (Evita qualquer erro de coluna inexistente)
+            const payloadBasico = {
                 Nome: nome,
                 Referencia: ref,
                 Categorias_Secundarias: categoria,
                 Preco_Venda: precoVal,
-                Unidade_Medida: unidade,
                 Url: imagem,
-                Descricao: descricao,
+                Descricao: descricao
+            };
+
+            // 2. PAYLOAD COMPLETO ESTENDIDO
+            const payloadEstendido = {
+                ...payloadBasico,
+                Unidade_Medida: unidade,
                 prazo_producao: prazoProducao,
                 taxa_arte: taxaArte,
                 preco_revendedor: precoRevendedor,
@@ -2016,43 +2175,25 @@
                 if (id && id.trim() !== '') {
                     const targetId = isNaN(id) ? id : Number(id);
 
-                    const { error } = await supabaseClient
-                        .from('produtos')
-                        .update(payload)
-                        .eq('id', targetId);
+                    // Tenta salvar com todos os campos estendidos
+                    let res = await supabaseClient.from('produtos').update(payloadEstendido).eq('id', targetId);
 
-                    if (error) {
-                        // Tentar sem colunas opcionais caso a tabela ainda não tenha sido atualizada
-                        delete payload.prazo_producao;
-                        delete payload.taxa_arte;
-                        delete payload.preco_revendedor;
-                        delete payload.gabarito_url;
-
-                        const { error: err2 } = await supabaseClient
-                            .from('produtos')
-                            .update(payload)
-                            .eq('id', targetId);
-                        
-                        if (err2) throw err2;
+                    // FALLBACK AUTOMÁTICO SE FALHAR ALGUMA COLUNA
+                    if (res.error) {
+                        console.warn("Fallback ativado ao salvar produto. Usando colunas nativas do banco:", res.error.message);
+                        let resFallback = await supabaseClient.from('produtos').update(payloadBasico).eq('id', targetId);
+                        if (resFallback.error) throw resFallback.error;
                     }
 
                     mostrarToast("Produto atualizado com sucesso!");
                 } else {
-                    const { error } = await supabaseClient
-                        .from('produtos')
-                        .insert([payload]);
+                    let res = await supabaseClient.from('produtos').insert([payloadEstendido]);
 
-                    if (error) {
-                        delete payload.prazo_producao;
-                        delete payload.taxa_arte;
-                        delete payload.preco_revendedor;
-                        delete payload.gabarito_url;
-
-                        const { error: err2 } = await supabaseClient
-                            .from('produtos')
-                            .insert([payload]);
-                        
-                        if (err2) throw err2;
+                    // FALLBACK AUTOMÁTICO SE FALHAR ALGUMA COLUNA
+                    if (res.error) {
+                        console.warn("Fallback ativado ao criar produto. Usando colunas nativas do banco:", res.error.message);
+                        let resFallback = await supabaseClient.from('produtos').insert([payloadBasico]);
+                        if (resFallback.error) throw resFallback.error;
                     }
 
                     mostrarToast("Produto cadastrado no banco!");
@@ -2065,7 +2206,7 @@
                 console.error("Erro ao salvar produto no Supabase:", err);
                 mostrarModalNotificacaoCustom(
                     "Erro ao Salvar Produto", 
-                    err.message || "Verifique se a tabela 'produtos' no Supabase permite edições e se os campos estão corretos."
+                    err.message || "Verifique se a tabela 'produtos' no Supabase permite edições."
                 );
             }
         }
