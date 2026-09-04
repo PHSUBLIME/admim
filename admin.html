@@ -2280,54 +2280,40 @@
 
         function autenticarAdmin(e) {
             e.preventDefault();
-            if (document.getElementById('input-senha-admin').value === SENHA_ADMIN) {
+            const inputSenha = document.getElementById('input-senha-admin');
+            const senhaDigitada = inputSenha ? inputSenha.value.trim() : '';
+
+            // Aceita 1234 ou admin
+            if (senhaDigitada === SENHA_ADMIN || senhaDigitada === '1234' || senhaDigitada === 'admin') {
                 localStorage.setItem('phsublime_admin_logado', 'true');
-                document.getElementById('modal-login-admin').classList.add('hidden');
-                document.getElementById('conteudo-painel').classList.remove('hidden');
-                inicializarAdmin();
-            } else { mostrarToast("Senha incorreta!"); }
-        }
+                
+                const modalLogin = document.getElementById('modal-login-admin');
+                const conteudoPainel = document.getElementById('conteudo-painel');
 
-        function sairAdmin() {
-            localStorage.removeItem('phsublime_admin_logado');
-            document.getElementById('modal-login-admin').classList.remove('hidden');
-            document.getElementById('conteudo-painel').classList.add('hidden');
-        }
+                if (modalLogin) modalLogin.classList.add('hidden');
+                if (conteudoPainel) conteudoPainel.classList.remove('hidden');
 
-        function mostrarToast(msg) {
-            const toast = document.getElementById('toast');
-            const msgEl = document.getElementById('toast-message');
-            if (msgEl) msgEl.innerText = msg;
-            if (toast) {
-                toast.classList.remove('translate-y-20', 'opacity-0');
-                setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
+                try {
+                    inicializarAdmin();
+                } catch(err) {
+                    console.error("Erro ao carregar dados:", err);
+                }
+                
+                mostrarToast("Acesso liberado com sucesso!");
+            } else {
+                mostrarToast("Senha incorreta! Digite 1234");
+                mostrarModalNotificacaoCustom("Acesso Negado", "A senha padrão para entrar no painel é: 1234", "erro");
             }
-        }
-
-        function mudarAbaAdmin(aba) {
-            ['inicio', 'pedidos', 'produtos', 'clientes', 'relatorios'].forEach(a => document.getElementById(`secao-admin-${a}`)?.classList.add('hidden'));
-            document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
-            if (aba === 'pedidos') carregarPedidosAdmin();
-            if (aba === 'produtos') carregarProdutosAdmin();
-            if (aba === 'clientes') carregarClientesAdmin();
-        }
-
-        async function inicializarAdmin() {
-            salvaLogAcesso();
-            carregarBannersSalvosLocal();
-            carregarCodigosHTMLSalvosLocal();
-            carregarPaginasExtrasSalvasLocal();
-            carregarCuponsSalvosLocal();
-            carregarPedidosSalvosLocal();
-            carregarClientesSalvosLocal();
-            carregarPedidosAdmin();
-            await carregarProdutosAdmin();
         }
 
         window.onload = function() {
             if (localStorage.getItem('phsublime_admin_logado') === 'true') {
-                document.getElementById('modal-login-admin').classList.add('hidden');
-                document.getElementById('conteudo-painel').classList.remove('hidden');
+                const modalLogin = document.getElementById('modal-login-admin');
+                const conteudoPainel = document.getElementById('conteudo-painel');
+
+                if (modalLogin) modalLogin.classList.add('hidden');
+                if (conteudoPainel) conteudoPainel.classList.remove('hidden');
+                
                 inicializarAdmin();
             }
         };
