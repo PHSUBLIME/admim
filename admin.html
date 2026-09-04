@@ -103,7 +103,7 @@
                 
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-white rounded-xl p-1 shadow flex items-center justify-center">
-                        <img src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.outerHTML='<i class=\'fa-solid fa-crown text-blue-900 text-xl\'></i>'">
+                        <img src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
                     </div>
                     <div>
                         <h1 class="text-base font-black tracking-wider text-white font-heading">PHSUBLIME ADMIN</h1>
@@ -129,27 +129,22 @@
                         <i class="fa-solid fa-chart-line"></i> RELATÓRIOS
                     </button>
 
-                    <!-- NOVO MÓDULO: BANNERS DA LOJA -->
                     <button onclick="abrirModalGerenciadorBanners()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Banners e Carrossel da Home">
                         <i class="fa-regular fa-image"></i> Banners
                     </button>
 
-                    <!-- CÓDIGOS HTML E PIXELS -->
                     <button onclick="abrirModalCodigosHTML()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Pixels e Scripts Extras">
                         <i class="fa-brands fa-html5"></i> Scripts HTML
                     </button>
 
-                    <!-- PÁGINAS EXTRAS INSTITUCIONAIS -->
                     <button onclick="abrirModalPaginasExtras()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Páginas Extras da Loja">
                         <i class="fa-solid fa-file-lines"></i> Páginas
                     </button>
 
-                    <!-- PERSONALIZAÇÃO CMS -->
                     <button onclick="abrirModalPersonalizacaoCMS()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Aparência e Logo">
                         <i class="fa-solid fa-paint-brush"></i> CMS
                     </button>
 
-                    <!-- MENSAGENS E WHATSAPP -->
                     <button onclick="abrirModalControleMensagens()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Controle de Mensagens e WhatsApp">
                         <i class="fa-solid fa-message"></i> Mensagens
                     </button>
@@ -526,7 +521,7 @@
 
     <!-- ================= CAIXA DE MODAIS COMPLETOS ================= -->
 
-    <!-- MODAL NOVO: GERENCIADOR DE BANNERS DA LOJA (MIGRADO DO CÓDIGO ANTIGO) -->
+    <!-- MODAL NOVO: GERENCIADOR DE BANNERS DA LOJA -->
     <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -1388,7 +1383,7 @@
     </div>
 
     <!-- Zendesk Widget script (PHSUBLIME ORIGINAL) -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=c0af88ff-cbd4-4974-866d-aa124db2da78"> </script>
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=c0af88ff-cbd4-4974-866d-aa124db2da78" async onerror="console.log('Zendesk offline')"></script>
 
     <!-- SCRIPT DO PAINEL ADMIN PHSUBLIME -->
     <script>
@@ -1400,6 +1395,25 @@
         let adminProdutos = [];
         let idItemExclusaoPendente = null;
         let tipoItemExclusao = 'produto';
+
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // FUNÇÃO SEGURA PARA RENDERIZAR IMAGENS SEM ERRO DE ASPAS
+        function renderImagemHtml(url, classeCss = "w-10 h-10 object-contain rounded border bg-white p-0.5") {
+            if (!url || typeof url !== 'string' || !url.trim()) {
+                return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
+            }
+            const urlLimpa = escapeHtml(url.trim());
+            return '<img src="' + urlLimpa + '" class="' + classeCss + '" onerror="this.onerror=null; this.style.display=\'none\';">';
+        }
 
         // BASE DE BANNERS (MIGRADO DO CÓDIGO ANTIGO)
         let adminBannersDefault = [
@@ -1537,11 +1551,6 @@
         let adminPedidos = [];
         let pedidoEmEdicaoModal = null;
 
-        function escapeHtml(str) {
-            if (str === null || str === undefined) return '';
-            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-        }
-
         function salvaLogAcesso() {
             try {
                 const logData = {
@@ -1560,7 +1569,7 @@
             }, 800);
         }
 
-        // MÓDULO BANNERS DA LOJA (MIGRADO DO CÓDIGO NOVO)
+        // MÓDULO BANNERS DA LOJA
         function carregarBannersSalvosLocal() {
             const salvos = localStorage.getItem('phsublime_admin_banners');
             adminBanners = salvos ? JSON.parse(salvos) : adminBannersDefault;
@@ -1582,9 +1591,7 @@
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50";
 
-                const htmlThumb = b.imagem 
-                    ? `<img src="${escapeHtml(b.imagem)}" class="w-12 h-8 object-cover rounded border bg-white" onerror="this.outerHTML='<i class=\'fa-regular fa-image text-slate-300 text-lg\'></i>'">`
-                    : `<i class="fa-regular fa-image text-slate-300 text-lg"></i>`;
+                const htmlThumb = renderImagemHtml(b.imagem, "w-12 h-8 object-cover rounded border bg-white");
 
                 tr.innerHTML = `
                     <td class="p-2">${htmlThumb}</td>
@@ -2056,7 +2063,7 @@
             itensPagina.forEach(prod => {
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-100 hover:bg-slate-50";
-                const htmlImg = prod.imagem ? `<img src="${escapeHtml(prod.imagem)}" class="w-10 h-10 object-contain rounded border bg-white">` : `<i class="fa-solid fa-box text-slate-300 text-lg"></i>`;
+                const htmlImg = renderImagemHtml(prod.imagem, "w-10 h-10 object-contain rounded border bg-white p-0.5");
 
                 tr.innerHTML = `
                     <td class="py-3 px-3 text-center"><input type="checkbox" value="${prod.id}" class="chk-prod-item rounded"></td>
@@ -2304,6 +2311,42 @@
                 mostrarToast("Senha incorreta! Digite 1234");
                 mostrarModalNotificacaoCustom("Acesso Negado", "A senha padrão para entrar no painel é: 1234", "erro");
             }
+        }
+
+        function sairAdmin() {
+            localStorage.removeItem('phsublime_admin_logado');
+            document.getElementById('modal-login-admin').classList.remove('hidden');
+            document.getElementById('conteudo-painel').classList.add('hidden');
+        }
+
+        function mostrarToast(msg) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            if (msgEl) msgEl.innerText = msg;
+            if (toast) {
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
+            }
+        }
+
+        function mudarAbaAdmin(aba) {
+            ['inicio', 'pedidos', 'produtos', 'clientes', 'relatorios'].forEach(a => document.getElementById(`secao-admin-${a}`)?.classList.add('hidden'));
+            document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
+            if (aba === 'pedidos') carregarPedidosAdmin();
+            if (aba === 'produtos') carregarProdutosAdmin();
+            if (aba === 'clientes') carregarClientesAdmin();
+        }
+
+        async function inicializarAdmin() {
+            salvaLogAcesso();
+            carregarBannersSalvosLocal();
+            carregarCodigosHTMLSalvosLocal();
+            carregarPaginasExtrasSalvasLocal();
+            carregarCuponsSalvosLocal();
+            carregarPedidosSalvosLocal();
+            carregarClientesSalvosLocal();
+            carregarPedidosAdmin();
+            await carregarProdutosAdmin();
         }
 
         window.onload = function() {
