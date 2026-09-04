@@ -308,7 +308,7 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        const SENHA_ADMIN = '1234'; // Altere sua senha de acesso se desejar
+        const SENHA_ADMIN = '1234';
         let adminProdutos = [];
 
         function autenticarAdmin(e) {
@@ -517,7 +517,6 @@
 
             try {
                 if (id) {
-                    // Atualizar
                     const { error } = await supabaseClient
                         .from('produtos')
                         .update(payload)
@@ -526,7 +525,6 @@
                     if (error) throw error;
                     mostrarToast("Produto atualizado com sucesso!");
                 } else {
-                    // Inserir
                     const { error } = await supabaseClient
                         .from('produtos')
                         .insert([payload]);
@@ -540,7 +538,7 @@
 
             } catch (err) {
                 console.error("Erro ao salvar produto:", err);
-                alert("Erro ao salvar produto no Supabase. Verifique o console.");
+                alert("Erro ao salvar produto no Supabase.");
             }
         }
 
@@ -573,14 +571,6 @@
                     <td class="py-3 px-4 font-mono">098.090.717-95</td>
                     <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> (91) 99138-5409</td>
                     <td class="py-3 px-4">Rua Maria Flaviana de Lima, 8 - Bento Ribeiro / RJ</td>
-                    <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
-                </tr>
-                <tr class="border-b border-slate-100">
-                    <td class="py-3 px-4 font-bold text-slate-800">Gráfica Sublime Express LTDA</td>
-                    <td class="py-3 px-4"><span class="bg-blue-100 text-blue-900 px-2 py-0.5 rounded font-bold text-[10px]">PJ</span></td>
-                    <td class="py-3 px-4 font-mono">12.345.678/0001-90</td>
-                    <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> (21) 98614-7221</td>
-                    <td class="py-3 px-4">Av. Brasil, 1500 - Rio de Janeiro / RJ</td>
                     <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
                 </tr>
             `;
