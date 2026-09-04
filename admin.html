@@ -1,18 +1,3 @@
-Para resolver esses erros do console de forma definitiva, precisamos fazer 2
-ajustes simples nos seus arquivos:
-
-1.  Remover o script do Zendesk (que não existe mais e está gerando os erros de
-    Tracking Prevention e 404).
-2.  Atualizar a função formatarUrlImagem() para tratar os nomes/slugs dos
-    produtos vindos do Supabase. Como alguns produtos no banco têm textos
-    simples no campo de imagem em vez de um link com .jpg ou .png, o navegador
-    tentava acessar esses caminhos como se fossem páginas no seu GitHub
-    (phsublime.github.io/admim/nome-do-produto), gerando os erros 404.
-
-Aqui estão os códigos completos dos 2 arquivos com todas as correções aplicadas:
-
-📄 1. loja.html (Corrigido)
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
