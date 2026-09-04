@@ -71,7 +71,7 @@
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <h1 class="text-xl sm:text-2xl font-black tracking-wider text-white font-heading">PHSUBLIME</h1>
+                        <h1 id="txt-nome-loja-topo" class="text-xl sm:text-2xl font-black tracking-wider text-white font-heading">PHSUBLIME</h1>
                         <span class="text-[10px] bg-amber-400 text-blue-950 font-black px-2 py-0.5 rounded uppercase tracking-wider">
                             GRÁFICA
                         </span>
@@ -246,13 +246,13 @@
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-blue-100">
                 <div>
-                    <h4 class="font-black text-amber-400 uppercase mb-2">PHSUBLIME GRÁFICA</h4>
+                    <h4 id="footer-nome-grafica" class="font-black text-amber-400 uppercase mb-2">PHSUBLIME GRÁFICA</h4>
                     <p class="text-[11px] leading-relaxed">Sua gráfica digital online no Rio de Janeiro. Impressão de alta qualidade em Banners, Cartões de Visita, Panfletos, Camisetas e Adesivos.</p>
                 </div>
                 <div>
                     <h4 class="font-black text-amber-400 uppercase mb-2">SUPORTE AO CLIENTE</h4>
                     <p class="text-[11px]">Atendimento: Seg. a Sex. das 8:00 às 18:00</p>
-                    <p class="text-[11px]">E-mail: phsublime5149@gmail.com</p>
+                    <p id="footer-email-txt" class="text-[11px]">E-mail: phsublime5149@gmail.com</p>
                     <p id="footer-wpp-txt" class="text-[11px]">WhatsApp: (21) 98614-7221</p>
                 </div>
                 <div>
@@ -261,7 +261,7 @@
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center text-[11px] text-blue-200 border-t border-blue-800 pt-4">
-                <p>© Copyright 2026 PHSUBLIME - Todos os direitos reservados</p>
+                <p id="footer-copyright-txt">© Copyright 2026 PHSUBLIME - Todos os direitos reservados</p>
                 <a id="footer-wpp-link" href="https://wa.me/5521986147221" target="_blank" class="inline-flex items-center gap-1.5 text-emerald-400 font-bold hover:underline">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Fale Conosco pelo WhatsApp
                 </a>
@@ -450,24 +450,89 @@
             return '';
         }
 
+        // SINCRONIZAÇÃO COMPLETA DOS DADOS DO PAINEL ADMIN COM A LOJA
         function carregarConfiguracoesAdminLocal() {
-            const cmsData = localStorage.getItem('phsublime_admin_logos');
-            if (!cmsData) return;
+            // 1. CARREGA DADOS DA LOJA (TÍTULO, TELEFONES, EMAIL, ENDEREÇO, SEO)
+            const dadosLojaStr = localStorage.getItem('phsublime_dados_loja');
+            if (dadosLojaStr) {
+                try {
+                    const dados = JSON.parse(dadosLojaStr);
+                    
+                    // Título do Site e H1
+                    if (dados.titulo) {
+                        document.title = dados.titulo;
+                        const h1El = document.getElementById('txt-nome-loja-topo');
+                        if (h1El) h1El.innerText = dados.titulo.split(' - ')[0] || 'PHSUBLIME';
+                    }
 
-            try {
-                const config = JSON.parse(cmsData);
-                if (config.favicon) {
-                    const favEl = document.getElementById('site-favicon');
-                    if (favEl) favEl.href = config.favicon;
-                }
-                if (config.logoSistema) {
-                    const logoImg = document.getElementById('logo-loja-img');
-                    if (logoImg) logoImg.src = config.logoSistema;
-                }
-                if (config.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', config.corCabecalho);
-                if (config.corBotao) document.documentElement.style.setProperty('--cor-menu', config.corBotao);
-                if (config.corBotaoGabarito) document.documentElement.style.setProperty('--cor-botao-gabarito', config.corBotaoGabarito);
-            } catch(e) {}
+                    // WhatsApp de Atendimento
+                    if (dados.tel1) {
+                        const numApenasDigitos = dados.tel1.replace(/\D/g, '');
+                        if (numApenasDigitos) {
+                            whatsappAtendimentoLoja = numApenasDigitos.startsWith('55') ? numApenasDigitos : `55${numApenasDigitos}`;
+                            
+                            const btnWppTopo = document.getElementById('btn-wpp-topo');
+                            if (btnWppTopo) btnWppTopo.href = `https://wa.me/${whatsappAtendimentoLoja}`;
+                            
+                            const txtWppTopo = document.getElementById('txt-wpp-topo');
+                            if (txtWppTopo) txtWppTopo.innerText = dados.tel1;
+
+                            const txtWppFooter = document.getElementById('footer-wpp-txt');
+                            if (txtWppFooter) txtWppFooter.innerText = `WhatsApp: ${dados.tel1}`;
+
+                            const linkWppFooter = document.getElementById('footer-wpp-link');
+                            if (linkWppFooter) linkWppFooter.href = `https://wa.me/${whatsappAtendimentoLoja}`;
+                        }
+                    }
+
+                    // Email no Rodapé
+                    if (dados.email) {
+                        const emailFooter = document.getElementById('footer-email-txt');
+                        if (emailFooter) emailFooter.innerText = `E-mail: ${dados.email}`;
+                    }
+
+                    // SEO & Meta Tags Dinâmicas
+                    if (dados.seoDesc) {
+                        let metaDesc = document.querySelector('meta[name="description"]');
+                        if (!metaDesc) {
+                            metaDesc = document.createElement('meta');
+                            metaDesc.name = "description";
+                            document.head.appendChild(metaDesc);
+                        }
+                        metaDesc.content = dados.seoDesc;
+                    }
+
+                    if (dados.seoKeywords) {
+                        let metaKw = document.querySelector('meta[name="keywords"]');
+                        if (!metaKw) {
+                            metaKw = document.createElement('meta');
+                            metaKw.name = "keywords";
+                            document.head.appendChild(metaKw);
+                        }
+                        metaKw.content = dados.seoKeywords;
+                    }
+
+                } catch(e) { console.error("Erro ao sincronizar dados da loja:", e); }
+            }
+
+            // 2. CARREGA APARÊNCIA, LOGOS E CORES DO TEMA
+            const cmsData = localStorage.getItem('phsublime_admin_logos');
+            if (cmsData) {
+                try {
+                    const config = JSON.parse(cmsData);
+                    if (config.favicon) {
+                        const favEl = document.getElementById('site-favicon');
+                        if (favEl) favEl.href = config.favicon;
+                    }
+                    if (config.logoSistema) {
+                        const logoImg = document.getElementById('logo-loja-img');
+                        if (logoImg) logoImg.src = config.logoSistema;
+                    }
+                    if (config.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', config.corCabecalho);
+                    if (config.corBotao) document.documentElement.style.setProperty('--cor-menu', config.corBotao);
+                    if (config.corBotaoGabarito) document.documentElement.style.setProperty('--cor-botao-gabarito', config.corBotaoGabarito);
+                } catch(e) {}
+            }
         }
 
         let bannersCarrossel = [
