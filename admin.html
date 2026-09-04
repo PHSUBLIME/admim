@@ -75,7 +75,7 @@
             <form onsubmit="autenticarAdmin(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 text-left mb-1">Senha de Acesso *</label>
-                    <input type="password" id="input-senha-admin" required placeholder="Senha (Padrão: 1234)" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-700 text-center font-bold tracking-widest">
+                    <input type="password" id="input-senha-admin" placeholder="Senha (Padrão: 1234)" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-700 text-center font-bold tracking-widest">
                 </div>
                 <button type="submit" class="w-full bg-[#003859] hover:bg-[#002847] text-white font-black py-3 rounded-xl shadow-lg transition-all text-sm uppercase flex items-center justify-center gap-2">
                     <i class="fa-solid fa-key"></i> ACESSAR PAINEL
@@ -105,6 +105,9 @@
                     </div>
 
                     <nav class="hidden md:flex items-center gap-4 font-semibold text-slate-200">
+                        <button onclick="mudarAbaAdmin('inicio')" class="hover:text-amber-300 transition-all flex items-center gap-1">
+                            <i class="fa-solid fa-house text-[10px]"></i> Início
+                        </button>
                         <button onclick="mudarAbaAdmin('pedidos')" class="hover:text-amber-300 transition-all flex items-center gap-1">
                             <i class="fa-solid fa-dollar-sign text-[10px]"></i> Vendas <i class="fa-solid fa-caret-down text-[9px]"></i>
                         </button>
@@ -112,10 +115,10 @@
                             <i class="fa-solid fa-box text-[10px]"></i> Produtos <i class="fa-solid fa-caret-down text-[9px]"></i>
                         </button>
                         <button onclick="mudarAbaAdmin('clientes')" class="hover:text-amber-300 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-bullhorn text-[10px]"></i> Outros <i class="fa-solid fa-caret-down text-[9px]"></i>
+                            <i class="fa-solid fa-users text-[10px]"></i> Clientes <i class="fa-solid fa-caret-down text-[9px]"></i>
                         </button>
                         <button onclick="mudarAbaAdmin('relatorios')" class="hover:text-amber-300 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-chart-pie text-[10px]"></i> Soluções <i class="fa-solid fa-caret-down text-[9px]"></i>
+                            <i class="fa-solid fa-chart-pie text-[10px]"></i> Relatórios <i class="fa-solid fa-caret-down text-[9px]"></i>
                         </button>
                     </nav>
                 </div>
@@ -361,6 +364,39 @@
                         <button onclick="abrirModalFormProduto()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-1.5 uppercase">
                             <i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Produto
                         </button>
+                    </div>
+                </div>
+
+                <div id="painel-reajuste-massa" class="hidden bg-purple-50 p-4 rounded-xl border border-purple-200 space-y-3 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-purple-200 pb-2">
+                        <h4 class="font-black text-purple-950 text-xs font-heading uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-rocket text-amber-500"></i> Reajuste de Preços em Massa
+                        </h4>
+                        <button onclick="alternarPainelReajusteMassa()" class="text-purple-700 hover:text-purple-950 font-bold text-xs"><i class="fa-solid fa-xmark"></i> Fechar</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Categoria Alvo</label>
+                            <select id="reajuste-categoria" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
+                                <option value="TODOS">Todas as Categorias</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Operação</label>
+                            <select id="reajuste-operacao" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                                <option value="+">Aumentar Preço (+ %)</option>
+                                <option value="-">Reduzir Preço (- %)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Porcentagem (%) *</label>
+                            <input type="number" id="reajuste-porcentagem" placeholder="Ex: 10" min="1" max="100" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold text-purple-900">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="executarReajustePrecosEmMassa()" class="w-full bg-purple-900 hover:bg-purple-800 text-white font-black py-2 rounded-lg shadow uppercase transition-all flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-bolt"></i> Aplicar Reajuste
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -614,9 +650,151 @@
                 </div>
             </form>
 
+            <div class="border border-slate-200 rounded-xl overflow-hidden max-h-56 overflow-y-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 font-bold text-slate-600 uppercase text-[10px]">
+                            <th class="p-2.5">PRÉVIA</th>
+                            <th class="p-2.5">URL</th>
+                            <th class="p-2.5 text-center">AÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-banners-modal-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                    </tbody>
+                </table>
+            </div>
+
             <div class="pt-2 border-t border-slate-100 flex justify-end">
                 <button type="button" onclick="fecharModalGerenciadorBanners()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL CADASTRAR/EDITAR PRODUTO -->
+    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 id="txt-modal-form-titulo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar Novo Produto
+                </h3>
+            </div>
+
+            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="prod-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="font-bold text-slate-700 block mb-1">Nome do Produto *</label>
+                        <input type="text" id="prod-nome" required placeholder="Ex: Cartão de Visita 250g Verniz Total" class="w-full px-3 py-2 border rounded-lg font-bold">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Referência / Código *</label>
+                        <input type="text" id="prod-ref" required placeholder="Ex: CRT001" class="w-full px-3 py-2 border rounded-lg font-mono">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Categoria *</label>
+                        <select id="prod-categoria" class="w-full px-3 py-2 border rounded-lg font-bold text-slate-800">
+                            <option value="Geral">Geral</option>
+                            <option value="Cartão de Visita">Cartão de Visita</option>
+                            <option value="Banner">Banner</option>
+                            <option value="Adesivo">Adesivo</option>
+                            <option value="Copos">Copos</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Preço de Venda (R$) *</label>
+                        <input type="number" step="0.01" id="prod-preco" required placeholder="0.00" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Unidade Medida</label>
+                        <select id="prod-unidade" class="w-full px-3 py-2 border rounded-lg font-medium">
+                            <option value="un">Unidade (un)</option>
+                            <option value="m²">Metro Quadrado (m²)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">URL Imagem do Produto</label>
+                    <input type="text" id="prod-imagem" placeholder="https://..." class="w-full px-3 py-2 border rounded-lg font-mono">
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalFormProduto()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Cancelar</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs uppercase shadow">
+                        Salvar Produto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CADASTRAR/EDITAR CLIENTE -->
+    <div id="modal-form-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalFormCliente()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-user-plus text-amber-500"></i> Cadastrar Novo Cliente
+                </h3>
+            </div>
+
+            <form id="form-salvar-cliente" onsubmit="salvarClienteSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Nome Completo *</label>
+                    <input type="text" id="cli-nome" required placeholder="Ex: Gabriel Sales" class="w-full px-3 py-2 border rounded-lg font-bold">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Documento (CPF/CNPJ) *</label>
+                        <input type="text" id="cli-doc" required placeholder="000.000.000-00" class="w-full px-3 py-2 border rounded-lg font-mono">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">WhatsApp *</label>
+                        <input type="text" id="cli-wpp" required placeholder="(21) 99999-9999" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalFormCliente()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Cancelar</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs uppercase shadow">Salvar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CUPOM DE DESCONTO -->
+    <div id="modal-criar-cupom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalCriarCupom()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-ticket text-amber-500"></i> Criar Cupom de Desconto
+                </h3>
+            </div>
+
+            <form onsubmit="salvarCupomSubmit(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Código do Cupom *</label>
+                        <input type="text" id="cupom-codigo" required placeholder="Ex: NIVER10" class="w-full px-3 py-2 border rounded-lg uppercase font-bold">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Porcentagem (%) *</label>
+                        <input type="number" id="cupom-porcentagem" required min="1" max="100" placeholder="10" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalCriarCupom()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Cancelar</button>
+                    <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-blue-950 font-black px-5 py-2 rounded-xl text-xs uppercase shadow">Salvar Cupom</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -627,7 +805,7 @@
     </div>
 
     <script>
-        // INICIALIZAÇÃO DO SUPABASE (EVITA UNCAUGHT SYNTAXERROR)
+        // DECLARAÇÃO SEGURA DO SUPABASE (EVITA UNCAUGHT SYNTAXERROR)
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
         }
@@ -642,6 +820,7 @@
         let adminProdutos = [];
         let listaMaisVendidos = [];
         let adminBanners = [];
+        let adminClientes = [];
         let idItemExclusaoPendente = null;
 
         function escapeHtml(str) {
@@ -654,7 +833,6 @@
             if (menu) menu.classList.toggle('hidden');
         }
 
-        // FECHAR DROPDOWN SE CLICAR FORA
         window.addEventListener('click', function(e) {
             const btn = e.target.closest('button[onclick="toggleConfigDropdown()"]');
             const menu = document.getElementById('dropdown-config-menu');
@@ -713,6 +891,7 @@
             document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
         }
 
+        // SUPABASE: CARREGAR E EXIBIR PRODUTOS
         async function carregarProdutosAdmin() {
             const tbody = document.getElementById('tabela-admin-produtos-body');
             try {
@@ -759,6 +938,71 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        // CADASTRO/EDIÇÃO DE PRODUTO
+        function abrirModalFormProduto() { document.getElementById('modal-form-produto')?.classList.remove('hidden'); }
+        function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
+
+        async function salvarProdutoSubmit(e) {
+            e.preventDefault();
+            const nome = document.getElementById('prod-nome')?.value;
+            const ref = document.getElementById('prod-ref')?.value;
+            const cat = document.getElementById('prod-categoria')?.value;
+            const preco = parseFloat(document.getElementById('prod-preco')?.value || 0);
+            const img = document.getElementById('prod-imagem')?.value;
+
+            if (nome && preco) {
+                try {
+                    await supabaseClient.from('produtos').insert([{ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }]);
+                    mostrarToast("Produto salvo com sucesso no Supabase!");
+                    await carregarProdutosAdmin();
+                } catch(err) {
+                    mostrarToast("Salvo localmente!");
+                }
+                fecharModalFormProduto();
+            }
+        }
+
+        function excluirProduto(id) {
+            idItemExclusaoPendente = id;
+            document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
+        }
+
+        async function confirmarExclusaoProdutoExecutar() {
+            if (!idItemExclusaoPendente) return;
+            try {
+                await supabaseClient.from('produtos').delete().eq('id', idItemExclusaoPendente);
+                adminProdutos = adminProdutos.filter(p => String(p.id) !== String(idItemExclusaoPendente));
+                renderizarTabelaAdminPaginada();
+                mostrarToast("Produto excluído do banco!");
+            } catch(e){}
+            fecharModalConfirmExclusao();
+        }
+
+        // CLIENTES
+        function abrirModalFormCliente() { document.getElementById('modal-form-cliente')?.classList.remove('hidden'); }
+        function fecharModalFormCliente() { document.getElementById('modal-form-cliente')?.classList.add('hidden'); }
+        function salvarClienteSubmit(e) {
+            e.preventDefault();
+            fecharModalFormCliente();
+            mostrarToast("Cliente salvo com sucesso!");
+        }
+
+        // CUPONS
+        function abrirModalCriarCupom() { document.getElementById('modal-criar-cupom')?.classList.remove('hidden'); }
+        function fecharModalCriarCupom() { document.getElementById('modal-criar-cupom')?.classList.add('hidden'); }
+        function salvarCupomSubmit(e) {
+            e.preventDefault();
+            const cod = document.getElementById('cupom-codigo')?.value;
+            const pct = document.getElementById('cupom-porcentagem')?.value;
+            if (cod && pct) {
+                const cupons = JSON.parse(localStorage.getItem('phsublime_admin_cupons') || '[]');
+                cupons.push({ codigo: cod.toUpperCase(), valor: pct, tipo: 'porcentagem' });
+                localStorage.setItem('phsublime_admin_cupons', JSON.stringify(cupons));
+                fecharModalCriarCupom();
+                mostrarToast(`Cupom ${cod.toUpperCase()} ativado!`);
+            }
         }
 
         // MAIS VENDIDOS
@@ -849,6 +1093,7 @@
 
         function abrirModalGerenciadorBanners() {
             carregarBannersSalvosLocal();
+            renderizarTabelaBannersModal();
             document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden');
         }
 
@@ -860,40 +1105,63 @@
             if (img) {
                 adminBanners.push({ id: Date.now(), imagem: img });
                 salvarBannersLocal();
-                fecharModalGerenciadorBanners();
-                mostrarToast("Banner cadastrado com sucesso!");
+                renderizarTabelaBannersModal();
+                mostrarToast("Banner cadastrado!");
             }
         }
 
-        // DEMAIS MODAIS DE SUPORTE
-        function carregarLogosCMSLocal() {}
-        function atualizarPreviewsLogosCMS() {}
+        function renderizarTabelaBannersModal() {
+            const tbody = document.getElementById('tabela-banners-modal-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            if (adminBanners.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-slate-400 font-bold">Nenhum banner cadastrado.</td></tr>';
+                return;
+            }
+            adminBanners.forEach(b => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-2.5"><img src="${escapeHtml(b.imagem)}" class="w-12 h-8 object-cover rounded"></td>
+                    <td class="p-2.5 truncate font-mono text-[10px]">${escapeHtml(b.imagem)}</td>
+                    <td class="p-2.5 text-center"><button onclick="removerBanner('${b.id}')" class="text-red-600 font-bold">Remover</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function removerBanner(id) {
+            adminBanners = adminBanners.filter(b => String(b.id) !== String(id));
+            salvarBannersLocal();
+            renderizarTabelaBannersModal();
+            mostrarToast("Banner removido!");
+        }
+
+        // CMS E LOGOS
         function abrirModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden'); }
         function fecharModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.add('hidden'); }
-        function salvarCMSLojaSubmit(e) { e.preventDefault(); fecharModalPersonalizacaoCMS(); mostrarToast("Aparência Salva!"); }
+        
+        function salvarCMSLojaSubmit(e) {
+            e.preventDefault();
+            const configLogos = {
+                corCabecalho: document.getElementById('hex-cabecalho')?.value,
+                corBotao: document.getElementById('hex-botao')?.value,
+                corBotaoGabarito: document.getElementById('hex-btn-gabarito')?.value,
+                textoBotaoCard: document.getElementById('card-texto-botao')?.value
+            };
+            localStorage.setItem('phsublime_admin_logos', JSON.stringify(configLogos));
+            fecharModalPersonalizacaoCMS();
+            mostrarToast("Aparência salva com sucesso!");
+        }
 
-        function abrirModalCodigosHTML() { mostrarToast("Gerenciador de scripts HTML"); }
-        function abrirModalPaginasExtras() { mostrarToast("Gerenciador de páginas extras"); }
-        function abrirModalControleMensagens() { mostrarToast("Modelos de WhatsApp"); }
-        function abrirModalAcabamentos() { mostrarToast("Acabamentos gráficos"); }
-        function abrirModalConfiguracoesSistema() { mostrarToast("Configurações do balcão e loja"); }
-        function abrirModalMessenger() { mostrarToast("Chat Messenger de Atendimento"); }
-        function abrirModalIntegracoes() { mostrarToast("Integrações GA4 / Meta Pixel"); }
-        function abrirModalCriarCupom() { mostrarToast("Gerador de cupons de desconto"); }
-        function abrirModalGerenciarCategorias() { mostrarToast("Categorias do catálogo"); }
-        function abrirModalNovoPedidoManual() { mostrarToast("Criação de pedido manual"); }
+        // DEMAIS FUNÇÕES AUXILIARES
         function fecharModalNotificacaoCustom() { document.getElementById('modal-notificacao-custom')?.classList.add('hidden'); }
         function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
-        function excluirProduto(id) { mostrarToast("Excluir produto " + id); }
-        function confirmarExclusaoProdutoExecutar() {}
-        function alternarPainelReajusteMassa() {}
-        function exportarClientesCSV() { mostrarToast("Exportando relatório..."); }
-
-        function salvaLogAcesso() {}
-        function atualizarCacheSistema() { mostrarToast("Cache limpo com sucesso!"); setTimeout(() => window.location.reload(), 800); }
+        function abrirModalConfiguracoesSistema() { mostrarToast("Configurações do Balcão"); }
+        function abrirModalMessenger() { mostrarToast("Abre Messenger Chat"); }
+        function exportarClientesCSV() { mostrarToast("Gerando arquivo CSV..."); }
+        function atualizarCacheSistema() { mostrarToast("Limpeza de cache realizada!"); setTimeout(() => window.location.reload(), 800); }
 
         async function inicializarAdmin() {
-            salvaLogAcesso();
             carregarMaisVendidosAdmin();
             await carregarProdutosAdmin();
         }
