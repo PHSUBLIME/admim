@@ -41,7 +41,7 @@
             </div>
             <div>
                 <h3 id="notif-custom-titulo" class="text-base font-black text-slate-800 font-heading">Aviso do Sistema</h3>
-                <p id="notif-custom-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Detalhes da mensagem...</p>
+                <p id="notif-custom-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium whitespace-pre-line">Detalhes da mensagem...</p>
             </div>
             <button onclick="fecharModalNotificacaoCustom()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-xs uppercase shadow transition-all">
                 ENTENDIDO
@@ -533,7 +533,7 @@
 
         <!-- RODAPÉ -->
         <footer class="bg-[#08009C] text-white py-4 border-t-2 border-amber-400 text-xs text-center">
-            <p>© 2026 PHSUBLIME - Painel do Administrador </p>
+            <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
         </footer>
 
     </div>
@@ -1795,7 +1795,7 @@
                 prod.preco = novoPreco;
 
                 try {
-                    await supabaseClient.from('produtos').update({ Preco_Venda: novoPreco }).eq('id', prod.id);
+                    await supabaseClient.from('produtos').update({ Preco_Venda: novoPreco, preco_venda: novoPreco }).eq('id', prod.id);
                     contAtualizados++;
                 } catch(err) {
                     console.error("Erro ao atualizar preço:", err);
@@ -1873,7 +1873,7 @@
                 const mapaUnicos = new Map();
 
                 (data || []).forEach(item => {
-                    let preco = item.Preco_Venda ?? item.precoVenda ?? item.Preco ?? 0;
+                    let preco = item.Preco_Venda ?? item.preco_venda ?? item.precoVenda ?? item.Preco ?? 0;
                     if (typeof preco === 'string') preco = parseFloat(preco.replace(',', '.'));
 
                     const idVal = item.id;
@@ -1887,10 +1887,10 @@
                             id: String(idVal),
                             nome: item.Nome || item.nome || 'Produto sem nome',
                             categoria: catCalculada,
-                            ref: item.Referencia || item.ref || '---',
+                            ref: item.Referencia || item.referencia || item.ref || '---',
                             preco: isNaN(preco) ? 0 : preco,
-                            unidade: item.Unidade_Medida || item.unidade || 'un',
-                            imagem: item.Url || item.imagem || '',
+                            unidade: item.Unidade_Medida || item.unidade_medida || item.unidade || 'un',
+                            imagem: item.Url || item.url || item.imagem || '',
                             descricao: item.Descricao || item.descricao || '',
                             prazoProducao: item.prazo_producao || item.prazoProducao || 3,
                             taxaArte: item.taxa_arte || item.taxaArte || 0,
@@ -2129,9 +2129,13 @@
             document.getElementById('modal-form-produto').classList.remove('hidden');
         }
 
-        // SALVAMENTO RESILIENTE (CORRIGE O ERRO DE UNIDADE_MEDIDA)
+        // SALVAMENTO DE PRODUTO RESILIENTE E VERIFICADO
         async function salvarProdutoSubmit(e) {
             e.preventDefault();
+
+            const btnSalvar = e.target.querySelector('button[type="submit"]');
+            const textoOriginal = btnSalvar ? btnSalvar.innerHTML : '';
+            if (btnSalvar) btnSalvar.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> SALVANDO...`;
 
             const id = document.getElementById('prod-id').value;
             const nome = document.getElementById('prod-nome').value;
@@ -2151,20 +2155,22 @@
             const precoRevendedor = parseFloat(document.getElementById('prod-preco-revendedor').value) || 0;
             const gabaritoUrl = document.getElementById('prod-gabarito-link').value;
 
-            // 1. PAYLOAD BÁSICO GARANTIDO (Evita qualquer erro de coluna inexistente)
-            const payloadBasico = {
+            // Mapeamento compatível tanto para colunas Maiúsculas quanto Minúsculas
+            const payload = {
                 Nome: nome,
+                nome: nome,
                 Referencia: ref,
+                referencia: ref,
                 Categorias_Secundarias: categoria,
+                categoria: categoria,
                 Preco_Venda: precoVal,
-                Url: imagem,
-                Descricao: descricao
-            };
-
-            // 2. PAYLOAD COMPLETO ESTENDIDO
-            const payloadEstendido = {
-                ...payloadBasico,
+                preco_venda: precoVal,
                 Unidade_Medida: unidade,
+                unidade_medida: unidade,
+                Url: imagem,
+                url: imagem,
+                Descricao: descricao,
+                descricao: descricao,
                 prazo_producao: prazoProducao,
                 taxa_arte: taxaArte,
                 preco_revendedor: precoRevendedor,
@@ -2175,26 +2181,22 @@
                 if (id && id.trim() !== '') {
                     const targetId = isNaN(id) ? id : Number(id);
 
-                    // Tenta salvar com todos os campos estendidos
-                    let res = await supabaseClient.from('produtos').update(payloadEstendido).eq('id', targetId);
+                    const { data, error } = await supabaseClient
+                        .from('produtos')
+                        .update(payload)
+                        .eq('id', targetId)
+                        .select();
 
-                    // FALLBACK AUTOMÁTICO SE FALHAR ALGUMA COLUNA
-                    if (res.error) {
-                        console.warn("Fallback ativado ao salvar produto. Usando colunas nativas do banco:", res.error.message);
-                        let resFallback = await supabaseClient.from('produtos').update(payloadBasico).eq('id', targetId);
-                        if (resFallback.error) throw resFallback.error;
-                    }
+                    if (error) throw new Error(error.message || "Não foi possível atualizar o produto no Supabase.");
 
                     mostrarToast("Produto atualizado com sucesso!");
                 } else {
-                    let res = await supabaseClient.from('produtos').insert([payloadEstendido]);
+                    const { data, error } = await supabaseClient
+                        .from('produtos')
+                        .insert([payload])
+                        .select();
 
-                    // FALLBACK AUTOMÁTICO SE FALHAR ALGUMA COLUNA
-                    if (res.error) {
-                        console.warn("Fallback ativado ao criar produto. Usando colunas nativas do banco:", res.error.message);
-                        let resFallback = await supabaseClient.from('produtos').insert([payloadBasico]);
-                        if (resFallback.error) throw resFallback.error;
-                    }
+                    if (error) throw new Error(error.message || "Não foi possível cadastrar o produto no Supabase.");
 
                     mostrarToast("Produto cadastrado no banco!");
                 }
@@ -2203,11 +2205,13 @@
                 await carregarProdutosAdmin();
 
             } catch (err) {
-                console.error("Erro ao salvar produto no Supabase:", err);
+                console.error("Erro ao salvar no Supabase:", err);
                 mostrarModalNotificacaoCustom(
-                    "Erro ao Salvar Produto", 
-                    err.message || "Verifique se a tabela 'produtos' no Supabase permite edições."
+                    "Atenção ao Salvar no Supabase", 
+                    `O Supabase recusou a gravação pelo motivo:\n"${err.message}"\n\nCertifique-se de ter executado no SQL Editor:\nALTER TABLE produtos DISABLE ROW LEVEL SECURITY;`
                 );
+            } finally {
+                if (btnSalvar) btnSalvar.innerHTML = textoOriginal;
             }
         }
 
