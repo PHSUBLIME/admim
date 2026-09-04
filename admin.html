@@ -134,9 +134,9 @@
                         <i class="fa-solid fa-chart-line"></i> RELATÓRIOS
                     </button>
 
-                    <!-- PERSONALIZAÇÃO DE LOGOS E IDENTIDADE VISUAL -->
-                    <button onclick="abrirModalPersonalizacaoCMS()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Personalizar Logos, Favicon e Banners">
-                        <i class="fa-solid fa-trademark"></i> Logos & CMS
+                    <!-- PERSONALIZAÇÃO DE TEMA, CORES E LOGOS -->
+                    <button onclick="abrirModalPersonalizacaoCMS()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Aparência, Cores e Logos do Tema">
+                        <i class="fa-solid fa-paint-brush"></i> Aparência & CMS
                     </button>
 
                     <button onclick="abrirModalGerenciadorBanners()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Banners da Home">
@@ -189,11 +189,11 @@
                         <h2 class="text-xl font-black font-heading tracking-wide flex items-center gap-2">
                             👋 Painel Administrador PHSUBLIME GRÁFICA
                         </h2>
-                        <p class="text-xs text-blue-100">Controle completo de pedidos, estoque Supabase, logos, banners, mensagens de WhatsApp e clientes.</p>
+                        <p class="text-xs text-blue-100">Controle completo de pedidos, estoque Supabase, cores da loja, banners, mensagens de WhatsApp e clientes.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
                         <button onclick="abrirModalPersonalizacaoCMS()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
-                            <i class="fa-solid fa-trademark"></i> Logos & Marcas
+                            <i class="fa-solid fa-paint-brush"></i> Cores e Tema
                         </button>
                         <button onclick="abrirModalGerenciadorBanners()" class="bg-blue-900 hover:bg-blue-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-amber-400">
                             <i class="fa-regular fa-image"></i> Banners
@@ -527,78 +527,127 @@
 
     <!-- ================= CAIXA DE MODAIS COMPLETOS ================= -->
 
-    <!-- MODAL PERSONALIZAÇÃO CMS & LOGOS DA MARCA (MIGRADO DO CÓDIGO NOVO) -->
+    <!-- MODAL ESTÚDIO VISUAL DE APARÊNCIA, TEMA & LOGOS (MIGRADO DO CÓDIGO NOVO) -->
     <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <div class="border-b border-slate-100 pb-2">
                 <h3 class="text-base font-black text-blue-950 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-trademark text-amber-500"></i> Personalização de Logos & Identidade Visual
+                    <i class="fa-solid fa-paint-brush text-amber-500"></i> Estúdio de Aparência do Tema, Cores & Logos
                 </h3>
             </div>
 
-            <form onsubmit="salvarCMSLojaSubmit(event)" class="space-y-4 text-xs">
-                <!-- CARDS DAS 4 LOGOS DA PHSUBLIME -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- LOGO SISTEMA -->
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <label class="font-black text-blue-900 block">Logo do Sistema (.png)</label>
-                            <span class="text-[10px] text-slate-400 font-bold">Cabeçalho e Menu</span>
+            <form onsubmit="salvarCMSLojaSubmit(event)" class="space-y-5 text-xs">
+                
+                <!-- SEÇÃO 1: PALETA DE CORES DO TEMA COM COLOR PICKER -->
+                <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 space-y-3">
+                    <h4 class="font-black text-blue-950 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-palette text-amber-500"></i> Paleta de Cores do Tema da Loja</h4>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cor do Fundo</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="color-fundo" value="#EAEAEA" onchange="document.getElementById('hex-fundo').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
+                                <input type="text" id="hex-fundo" value="#EAEAEA" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
+                            </div>
                         </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cor do Cabeçalho</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="color-cabecalho" value="#316AC7" onchange="document.getElementById('hex-cabecalho').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
+                                <input type="text" id="hex-cabecalho" value="#316AC7" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cor dos Botões</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="color-botao" value="#08009C" onchange="document.getElementById('hex-botao').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
+                                <input type="text" id="hex-botao" value="#08009C" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cor do Rodapé</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="color-rodape" value="#316AC7" onchange="document.getElementById('hex-rodape').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
+                                <input type="text" id="hex-rodape" value="#316AC7" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 2: CUSTOMIZAÇÃO DO CARD DE PRODUTO E BOTÃO COMPRAR -->
+                <div class="bg-purple-50/60 p-4 rounded-xl border border-purple-200 space-y-3">
+                    <h4 class="font-black text-purple-950 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-file-invoice text-purple-700"></i> Personalização do Card de Produto</h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Texto do Botão *</label>
+                            <input type="text" id="card-texto-botao" value="COMPRAR 🚀" class="w-full px-3 py-2 border rounded-lg font-black text-blue-900">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Exibir Gabarito nos Cards?</label>
+                            <select id="card-exibir-gabarito" class="w-full px-3 py-2 border rounded-lg font-bold">
+                                <option value="com-gabarito">Sim - Exibir Gabarito</option>
+                                <option value="sem-gabarito">Não Exibir</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cor do Botão Gabarito</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="color-btn-gabarito" value="#2966FF" onchange="document.getElementById('hex-btn-gabarito').value = this.value" class="w-8 h-8 rounded border cursor-pointer">
+                                <input type="text" id="hex-btn-gabarito" value="#2966FF" class="w-full px-2 py-1 border rounded font-mono font-bold text-slate-800">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 3: CRONÔMETRO E BARRA DE EXPIRAÇÃO DE OFERTA -->
+                <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 space-y-3">
+                    <h4 class="font-black text-amber-950 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-clock text-amber-600"></i> Timer de Expiração de Oferta / Promoção</h4>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cor de Fundo Oferta</label>
+                            <input type="color" id="color-oferta-bg" value="#D60000" class="w-full h-8 rounded border cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cor do Título Oferta</label>
+                            <input type="color" id="color-oferta-titulo" value="#FFD706" class="w-full h-8 rounded border cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cor de Fundo Timer</label>
+                            <input type="color" id="color-oferta-timer-bg" value="#FFFFFF" class="w-full h-8 rounded border cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 4: LOGOS E MARCA DA PHSUBLIME -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+                        <label class="font-black text-blue-900 block">Logo do Sistema (.png)</label>
                         <input type="text" id="cms-logo-url" value="https://phsublime.sistograf.net/storage/logos/logosistema.png" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
-                        <div class="w-full h-12 bg-white rounded-lg border p-1 flex items-center justify-center">
+                        <div class="w-full h-10 bg-white rounded border p-1 flex items-center justify-center">
                             <img id="preview-logo-sistema" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
                         </div>
                     </div>
 
-                    <!-- FAVICON -->
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <label class="font-black text-blue-900 block">Favicon (.ico - 48x48 max)</label>
-                            <span class="text-[10px] text-slate-400 font-bold">Aba do Navegador</span>
-                        </div>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+                        <label class="font-black text-blue-900 block">Favicon (.ico - 48x48 max)</label>
                         <input type="text" id="cms-favicon-url" value="https://phsublime.sistograf.net/storage/logos/favicon.ico" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
-                        <div class="w-full h-12 bg-white rounded-lg border p-1 flex items-center justify-center">
-                            <img id="preview-favicon" src="https://phsublime.sistograf.net/storage/logos/favicon.ico" class="w-8 h-8 object-contain" onerror="this.onerror=null; this.style.display='none';">
-                        </div>
-                    </div>
-
-                    <!-- LOGO ORDEM DE SERVIÇO -->
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <label class="font-black text-blue-900 block">Logo Ordem de Serviço (.png)</label>
-                            <span class="text-[10px] text-slate-400 font-bold">PDF / Recibos de Balcão</span>
-                        </div>
-                        <input type="text" id="cms-logo-os-url" value="https://phsublime.sistograf.net/storage/logos/logo_ordemservico.png" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
-                        <div class="w-full h-12 bg-white rounded-lg border p-1 flex items-center justify-center">
-                            <img id="preview-logo-os" src="https://phsublime.sistograf.net/storage/logos/logo_ordemservico.png" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
-                        </div>
-                    </div>
-
-                    <!-- IMAGEM DE COMPARTILHAMENTO -->
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex items-start justify-between">
-                            <label class="font-black text-blue-900 block">Imagem para WhatsApp / Redes (.jpg)</label>
-                            <span class="text-[10px] text-slate-400 font-bold">Open Graph</span>
-                        </div>
-                        <input type="text" id="cms-img-share-url" value="https://phsublime.sistograf.net/storage/logos/imagem_compartilhamento.jpg" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
-                        <div class="w-full h-12 bg-white rounded-lg border p-1 flex items-center justify-center">
-                            <img id="preview-img-share" src="https://phsublime.sistograf.net/storage/logos/imagem_compartilhamento.jpg" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
+                        <div class="w-full h-10 bg-white rounded border p-1 flex items-center justify-center">
+                            <img id="preview-favicon" src="https://phsublime.sistograf.net/storage/logos/favicon.ico" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.style.display='none';">
                         </div>
                     </div>
                 </div>
 
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Banners Principais da Home (URLs separadas por vírgula)</label>
-                    <textarea id="cms-banners" rows="2" class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]" placeholder="https://banner1.jpg, https://banner2.jpg"></textarea>
-                </div>
-
-                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-300">Cancelar</button>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-5 py-2 rounded-xl shadow uppercase">
-                        <i class="fa-solid fa-floppy-disk"></i> Salvar Logos e CMS
+                <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl shadow-md transition-all uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> SALVAR APARÊNCIA E TEMA
                     </button>
                 </div>
             </form>
@@ -1459,6 +1508,7 @@
                 .replace(/'/g, '&#39;');
         }
 
+        // FUNÇÃO SEGURA PARA RENDERIZAR IMAGENS SEM ERRO DE ASPAS
         function renderImagemHtml(url, classeCss) {
             classeCss = classeCss || "w-10 h-10 object-contain rounded border bg-white p-0.5";
             if (!url || typeof url !== 'string' || !url.trim()) {
@@ -1482,13 +1532,9 @@
 
             const elLogoSistema = document.getElementById('cms-logo-url');
             const elFavicon = document.getElementById('cms-favicon-url');
-            const elLogoOs = document.getElementById('cms-logo-os-url');
-            const elImgShare = document.getElementById('cms-img-share-url');
 
             if (elLogoSistema) elLogoSistema.value = config.logoSistema || adminLogosDefault.logoSistema;
             if (elFavicon) elFavicon.value = config.favicon || adminLogosDefault.favicon;
-            if (elLogoOs) elLogoOs.value = config.logoOrdemServico || adminLogosDefault.logoOrdemServico;
-            if (elImgShare) elImgShare.value = config.imagemCompartilhamento || adminLogosDefault.imagemCompartilhamento;
 
             atualizarPreviewsLogosCMS();
         }
@@ -1496,20 +1542,13 @@
         function atualizarPreviewsLogosCMS() {
             const logoSys = document.getElementById('cms-logo-url')?.value;
             const favicon = document.getElementById('cms-favicon-url')?.value;
-            const logoOs = document.getElementById('cms-logo-os-url')?.value;
-            const imgShare = document.getElementById('cms-img-share-url')?.value;
 
             const pLogoSys = document.getElementById('preview-logo-sistema');
             const pFavicon = document.getElementById('preview-favicon');
-            const pLogoOs = document.getElementById('preview-logo-os');
-            const pImgShare = document.getElementById('preview-img-share');
 
             if (pLogoSys && logoSys) pLogoSys.src = logoSys;
             if (pFavicon && favicon) pFavicon.src = favicon;
-            if (pLogoOs && logoOs) pLogoOs.src = logoOs;
-            if (pImgShare && imgShare) pImgShare.src = imgShare;
 
-            // Atualiza no header em tempo real
             const headerLogo = document.getElementById('header-logo-img');
             if (headerLogo && logoSys) headerLogo.src = logoSys;
         }
@@ -1945,7 +1984,7 @@
             mostrarToast("Página extra removida!");
         }
 
-        // CMS E PERSONALIZAÇÃO DE LOGOS
+        // CMS E PERSONALIZAÇÃO DE LOGOS E TEMA
         function abrirModalPersonalizacaoCMS() {
             carregarLogosCMSLocal();
             document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden');
@@ -1957,14 +1996,28 @@
             const configLogos = {
                 logoSistema: document.getElementById('cms-logo-url')?.value || adminLogosDefault.logoSistema,
                 favicon: document.getElementById('cms-favicon-url')?.value || adminLogosDefault.favicon,
-                logoOrdemServico: document.getElementById('cms-logo-os-url')?.value || adminLogosDefault.logoOrdemServico,
-                imagemCompartilhamento: document.getElementById('cms-img-share-url')?.value || adminLogosDefault.imagemCompartilhamento
+                logoOrdemServico: adminLogosDefault.logoOrdemServico,
+                imagemCompartilhamento: adminLogosDefault.imagemCompartilhamento,
+                
+                // Tema e Cores
+                corFundo: document.getElementById('hex-fundo')?.value || "#EAEAEA",
+                corCabecalho: document.getElementById('hex-cabecalho')?.value || "#316AC7",
+                corBotao: document.getElementById('hex-botao')?.value || "#08009C",
+                corRodape: document.getElementById('hex-rodape')?.value || "#316AC7",
+                textoBotaoCard: document.getElementById('card-texto-botao')?.value || "COMPRAR 🚀",
+                exibirGabaritoCard: document.getElementById('card-exibir-gabarito')?.value || "com-gabarito",
+                corBotaoGabarito: document.getElementById('hex-btn-gabarito')?.value || "#2966FF",
+                
+                // Offer Timer
+                corOfertaBg: document.getElementById('color-oferta-bg')?.value || "#D60000",
+                corOfertaTitulo: document.getElementById('color-oferta-titulo')?.value || "#FFD706",
+                corOfertaTimerBg: document.getElementById('color-oferta-timer-bg')?.value || "#FFFFFF"
             };
 
             localStorage.setItem('phsublime_admin_logos', JSON.stringify(configLogos));
             atualizarPreviewsLogosCMS();
             fecharModalPersonalizacaoCMS();
-            mostrarToast("Logos e Identidade Visual salvas!");
+            mostrarToast("Aparência, Cores e Logos salvas!");
         }
 
         function abrirModalControleMensagens() { document.getElementById('modal-controle-mensagens')?.classList.remove('hidden'); }
@@ -2401,7 +2454,6 @@
         function fecharModalNotificacaoCustom() { document.getElementById('modal-notificacao-custom')?.classList.add('hidden'); }
         function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
 
-        // ENTRAMOS DIRETO CASO NÃO DIGITE
         function entrarDireto() {
             localStorage.setItem('phsublime_admin_logado', 'true');
             const modalLogin = document.getElementById('modal-login-admin');
