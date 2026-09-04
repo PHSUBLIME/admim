@@ -149,9 +149,9 @@
                             <!-- COLUNA 1: APARÊNCIA -->
                             <div class="space-y-2">
                                 <span class="font-black text-slate-400 text-[10px] uppercase tracking-wider block border-b pb-1">Personalização</span>
-                                <button onclick="abrirModalPersonalizacaoCMS()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-paintbrush text-amber-500"></i> Aparência da Loja</button>
-                                <button onclick="abrirModalPersonalizacaoCMS()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-icons text-blue-500"></i> Logo & Favicon</button>
-                                <button onclick="abrirModalGerenciadorBanners()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-regular fa-image text-emerald-500"></i> Banners Home</button>
+                                <button onclick="abrirModalPersonalizacaoCMS()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-paintbrush text-amber-500"></i> Aparência da Loja</button>
+                                <button onclick="abrirModalLogoFavicon()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-icons text-blue-500"></i> Logo & Favicon</button>
+                                <button onclick="abrirModalGerenciadorBanners()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-emerald-700"><i class="fa-regular fa-image text-emerald-500"></i> Banners Home</button>
                                 <button onclick="abrirModalCodigosHTML()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-brands fa-html5 text-orange-500"></i> Códigos HTML</button>
                                 <button onclick="abrirModalPaginasExtras()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-file-lines text-purple-500"></i> Páginas Extras</button>
                                 <button onclick="abrirModalMaisVendidos()" class="w-full text-left hover:text-red-600 flex items-center gap-2 py-1 font-bold text-red-600"><i class="fa-solid fa-fire text-amber-500"></i> Mais Vendidos</button>
@@ -541,381 +541,263 @@
 
     </div>
 
-    <!-- MODAL DADOS DA LOJA (Geral) -->
-    <div id="modal-configuracoes-sistema" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalConfiguracoesSistema()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+    <!-- MODAL DEDICADO: PERSONALIZAR LOGO & FAVICON (ESTILO SISTOGRAF FOTO 1) -->
+    <div id="modal-logo-favicon" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-xl max-w-6xl w-full p-6 shadow-2xl relative border border-slate-200 my-8 space-y-4">
+            <button onclick="fecharModalLogoFavicon()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
-            <!-- BREADCRUMB -->
-            <div class="border-b border-slate-100 pb-3">
+            <!-- BREADCRUMB SISTOGRAF -->
+            <div class="border-b border-slate-100 pb-2">
                 <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
                     <span>Painel Administrador</span>
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Configurações</span>
+                    <span>Personalização</span>
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span class="text-blue-900">Dados da Loja</span>
+                    <span class="text-blue-900">TM Personalizar Logo</span>
                 </div>
-                <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-store text-amber-500"></i> Dados da Loja e Frete
+                <h3 class="text-base font-black text-slate-800 font-heading flex items-center gap-2">
+                    TM Personalizar Logo
                 </h3>
             </div>
 
-            <form onsubmit="salvarDadosLojaSubmit(event)" class="space-y-4 text-xs">
-                
-                <!-- BLOCO 1: IDENTIFICAÇÃO E CONTATO -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <h4 class="font-black text-blue-950 uppercase text-[11px] flex items-center gap-1.5 border-b border-slate-200 pb-1">
-                        <i class="fa-solid fa-id-card text-blue-600"></i> Identificação e Contato
-                    </h4>
+            <form onsubmit="salvarLogoFaviconSubmit(event)" class="space-y-6">
+                <!-- GRID DOS 4 QUADROS DE UPLOAD ESTILO SISTOGRAF -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center text-xs">
                     
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Título da Loja *</label>
-                            <input type="text" id="cfg-titulo-loja" required placeholder="Ex: PHSUBLIME - Gráfica Digital Online" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-700 font-bold">
+                    <!-- 1. LOGO DO SISTEMA -->
+                    <div class="space-y-2 flex flex-col items-center">
+                        <label class="font-bold text-slate-800 block">Logo do Sistema:</label>
+                        <div class="w-full h-32 border-2 border-emerald-500 rounded-lg p-2 bg-white flex flex-col items-center justify-center relative shadow-sm group">
+                            <img id="img-preview-logo-sistema" src="" class="max-h-full max-w-full object-contain hidden">
+                            <i id="icon-preview-logo-sistema" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">E-mail para Contato *</label>
-                            <input type="email" id="cfg-email-contato" required placeholder="phsublime5149@gmail.com" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
-                        </div>
+                        <input type="text" id="url-logo-sistema" oninput="atualizarPreviaLogo('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema')" placeholder="URL da imagem (.png)" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.png</strong></span>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Telefone Principal (WhatsApp) *</label>
-                            <input type="text" id="cfg-tel-1" required placeholder="(21) 98614-7221" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold text-emerald-700">
+                    <!-- 2. FAVICON -->
+                    <div class="space-y-2 flex flex-col items-center">
+                        <label class="font-bold text-slate-800 block">Favicon:</label>
+                        <div class="w-full h-32 border-2 border-dashed border-slate-300 rounded-lg p-2 bg-white flex flex-col items-center justify-center relative shadow-sm">
+                            <img id="img-preview-favicon" src="" class="max-h-full max-w-full object-contain hidden">
+                            <i id="icon-preview-favicon" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Telefone 2</label>
-                            <input type="text" id="cfg-tel-2" placeholder="(00) 0000-0000" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Telefone 3</label>
-                            <input type="text" id="cfg-tel-3" placeholder="(00) 0000-0000" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
-                        </div>
+                        <input type="text" id="url-favicon" oninput="atualizarPreviaLogo('url-favicon', 'img-preview-favicon', 'icon-preview-favicon')" placeholder="URL da imagem (.ico)" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <span class="text-[10px] text-slate-500 block">Formato <strong>.ico</strong> max 48x48.</span>
                     </div>
+
+                    <!-- 3. LOGO DA ORDEM DE SERVIÇO -->
+                    <div class="space-y-2 flex flex-col items-center">
+                        <label class="font-bold text-slate-800 block">Logo da Ordem de Serviço:</label>
+                        <div class="w-full h-32 border-2 border-emerald-500 rounded-lg p-2 bg-white flex flex-col items-center justify-center relative shadow-sm">
+                            <img id="img-preview-logo-os" src="" class="max-h-full max-w-full object-contain hidden">
+                            <i id="icon-preview-logo-os" class="fa-regular fa-image text-4xl text-slate-300"></i>
+                        </div>
+                        <input type="text" id="url-logo-os" oninput="atualizarPreviaLogo('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os')" placeholder="URL da imagem (.png)" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.png</strong></span>
+                    </div>
+
+                    <!-- 4. IMAGEM DE COMPARTILHAMENTO -->
+                    <div class="space-y-2 flex flex-col items-center">
+                        <label class="font-bold text-slate-800 block">Imagem de compartilhamento:</label>
+                        <div class="w-full h-32 border-2 border-emerald-500 rounded-lg p-2 bg-white flex flex-col items-center justify-center relative shadow-sm">
+                            <img id="img-preview-compartilhar" src="" class="max-h-full max-w-full object-contain hidden">
+                            <i id="icon-preview-compartilhar" class="fa-regular fa-image text-4xl text-slate-300"></i>
+                        </div>
+                        <input type="text" id="url-compartilhar" oninput="atualizarPreviaLogo('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar')" placeholder="URL da imagem (.jpg)" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.jpg</strong></span>
+                    </div>
+
                 </div>
 
-                <!-- BLOCO 2: LOGÍSTICA DE FRETE & CORREIOS / JADLOG -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-1">
-                        <h4 class="font-black text-blue-950 uppercase text-[11px] flex items-center gap-1.5">
-                            <i class="fa-solid fa-truck text-emerald-600"></i> Frete e Calculadora de Envio (Correios / Jadlog / Jamef)
-                        </h4>
-                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
-                            <input type="checkbox" id="cfg-ativar-correios" checked class="rounded text-blue-900 accent-blue-900"> Ativar Entrega
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">CEP de Origem *</label>
-                            <input type="text" id="cfg-cep-origem" required placeholder="21230-362" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono font-bold">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Usuário (Meu Correios)</label>
-                            <input type="text" id="cfg-correios-user" placeholder="Usuário" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Código de Acesso API (CWS)</label>
-                            <input type="password" id="cfg-correios-cws" placeholder="Chave CWS" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Cartão de Postagem</label>
-                            <input type="text" id="cfg-correios-cartao" placeholder="Nº Cartão" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Endereço da Sede / Balcão Principal *</label>
-                        <textarea id="cfg-endereco-completo" required rows="2" placeholder="Estrada da Água Grande, 221 - Irajá, Rio de Janeiro - RJ" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium"></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Horário Limite para Envio de Arquivos</label>
-                            <div class="flex items-center gap-2">
-                                <input type="time" id="cfg-horario-limite" value="23:59" class="px-3 py-2 border rounded-lg focus:outline-none font-bold text-slate-800">
-                                <span class="text-[11px] text-slate-500">Arquivos após este horário contam para o próximo dia útil.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalConfiguracoesSistema()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all uppercase">Cancelar</button>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl shadow-md transition-all uppercase flex items-center gap-2 text-xs">
-                        <i class="fa-solid fa-floppy-disk"></i> Salvar Dados da Loja
+                <!-- BOTAO SALVAR (VERDE SISTOGRAF) -->
+                <div class="pt-4 border-t border-slate-100 flex justify-end">
+                    <button type="submit" class="bg-[#48B156] hover:bg-emerald-600 text-white font-bold px-8 py-2 rounded text-xs shadow transition-all">
+                        Salvar
                     </button>
                 </div>
-
             </form>
         </div>
     </div>
 
-    <!-- MODAL DEDICADO DE BALCÕES DE RETIRADA PRESENCIAL -->
-    <div id="modal-balcoes-retirada" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalBalcoesRetirada()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+    <!-- MODAL DEDICADO: LISTAGEM DE BANNERS (ESTILO SISTOGRAF FOTO 2) -->
+    <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-xl max-w-6xl w-full p-6 shadow-2xl relative border border-slate-200 my-8 space-y-4">
+            <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <!-- BREADCRUMB -->
             <div class="border-b border-slate-100 pb-2">
                 <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
                     <span>Painel Administrador</span>
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Configurações</span>
+                    <span>Personalização</span>
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span class="text-blue-900">Balcões de Retirada</span>
+                    <span class="text-blue-900">Banners</span>
                 </div>
-                <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-truck text-emerald-600"></i> Cadastrar e Gerenciar Balcões de Retirada
+                <h3 class="text-base font-black text-slate-800 font-heading">
+                    Listagem de Banners
                 </h3>
             </div>
 
-            <!-- FORMULÁRIO DE NOVO BALCÃO -->
-            <form onsubmit="salvarBalcaoSubmit(event)" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 text-xs">
-                <h4 class="font-bold text-blue-950 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-circle-plus text-emerald-600"></i> Adicionar Ponto de Retirada Presencial</h4>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div class="sm:col-span-2">
-                        <label class="font-bold text-slate-700 block mb-1">Nome / Identificação do Balcão *</label>
-                        <input type="text" id="balcao-nome" required placeholder="Ex: Balcão Central - Irajá" class="w-full px-3 py-2 border rounded-lg font-bold focus:outline-none focus:border-blue-700">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Taxa de Retirada (R$)</label>
-                        <input type="number" step="0.01" id="balcao-taxa" value="0.00" placeholder="0.00 (Grátis)" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700 focus:outline-none">
-                    </div>
+            <!-- BARRA DE FILTRO E BOTÕES SUPERIORES -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-1.5 w-full sm:w-auto">
+                    <select id="filtro-tipo-banner" class="px-3 py-1.5 border rounded-md text-slate-700 font-medium focus:outline-none w-48">
+                        <option value="">Tipo de banner</option>
+                        <option value="Mini banner">Mini banner</option>
+                        <option value="Animação">Animação</option>
+                    </select>
+                    <button onclick="filtrarBannersModal()" class="bg-blue-600 text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-700">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div class="sm:col-span-2">
-                        <label class="font-bold text-slate-700 block mb-1">Endereço Completo de Coleta *</label>
-                        <input type="text" id="balcao-endereco" required placeholder="Estrada da Água Grande, 221 - Irajá / RJ" class="w-full px-3 py-2 border rounded-lg font-medium focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Telefone / WhatsApp Contato</label>
-                        <input type="text" id="balcao-telefone" placeholder="(21) 98614-7221" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700 focus:outline-none">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Horário de Funcionamento</label>
-                        <input type="text" id="balcao-horario" placeholder="Ex: Seg. a Sex. das 08h às 18h" class="w-full px-3 py-2 border rounded-lg font-medium focus:outline-none">
-                    </div>
-                    <div class="flex items-end justify-end">
-                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs uppercase shadow transition-all flex items-center gap-1.5">
-                            <i class="fa-solid fa-floppy-disk"></i> Salvar Balcão
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <!-- LISTA DE BALCÕES CADASTRADOS -->
-            <div>
-                <span class="font-bold text-slate-700 block mb-1.5 text-xs">Balcões de Retirada Ativos na Loja:</span>
-                <div class="border border-slate-200 rounded-xl overflow-hidden max-h-48 overflow-y-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-slate-100 font-bold text-slate-600 uppercase text-[10px]">
-                                <th class="p-2.5">BALCÃO</th>
-                                <th class="p-2.5">ENDEREÇO</th>
-                                <th class="p-2.5 text-center">TAXA</th>
-                                <th class="p-2.5 text-center">AÇÕES</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela-balcoes-modal-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
-                        </tbody>
-                    </table>
+                <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                    <button class="bg-[#C2185B] text-white font-bold px-4 py-1.5 rounded-md hover:bg-pink-800 text-xs">
+                        Ordenar
+                    </button>
+                    <button onclick="abrirModalEditarBanner()" class="bg-[#48B156] text-white font-bold px-4 py-1.5 rounded-md hover:bg-emerald-600 text-xs flex items-center gap-1">
+                        + Criar banner
+                    </button>
                 </div>
             </div>
 
-            <div class="pt-2 border-t border-slate-100 flex justify-end">
-                <button type="button" onclick="fecharModalBalcoesRetirada()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button>
+            <!-- TABELA DE BANNERS SISTOGRAF -->
+            <div class="border border-slate-200 rounded-lg overflow-hidden">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold">
+                            <th class="p-3 w-10 text-center"><input type="checkbox"></th>
+                            <th class="p-3">Tipo</th>
+                            <th class="p-3 text-center">Imagem</th>
+                            <th class="p-3">Criado em</th>
+                            <th class="p-3 text-center w-28">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-banners-listagem-body" class="divide-y divide-slate-200 text-slate-700 font-medium">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-slate-500 pt-2">
+                <span>Mostrando registros salvos</span>
+                <button type="button" onclick="fecharModalGerenciadorBanners()" class="px-4 py-1.5 bg-slate-200 text-slate-800 font-bold rounded">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL FORMAS DE PAGAMENTO DEDICADO -->
-    <div id="modal-formas-pagamento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalFormasPagamento()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+    <!-- MODAL DEDICADO: EDITAR BANNER (ESTILO SISTOGRAF FOTO 3) -->
+    <div id="modal-editar-banner" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1000] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-xl max-w-5xl w-full p-6 shadow-2xl relative border border-slate-200 my-8 space-y-4">
+            <button onclick="fecharModalEditarBanner()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <!-- BREADCRUMB -->
-            <div class="border-b border-slate-100 pb-3">
+            <div class="border-b border-slate-100 pb-2">
                 <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
                     <span>Painel Administrador</span>
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Configurações</span>
+                    <span>Personalização</span>
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span class="text-blue-900">Formas de Pagamento</span>
+                    <span>Banners</span>
+                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                    <span class="text-blue-900">Editar banner</span>
                 </div>
-                <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-credit-card text-amber-500"></i> Gerenciamento de Formas de Pagamento
+                <h3 class="text-base font-black text-slate-800 font-heading flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square"></i> Editar banner
                 </h3>
             </div>
 
-            <form onsubmit="salvarFormasPagamentoSubmit(event)" class="space-y-4 text-xs">
+            <form onsubmit="salvarBannerSubmit(event)" class="space-y-4 text-xs">
                 
-                <!-- PIX -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="bg-emerald-100 text-emerald-800 font-black text-[10px] px-2 py-0.5 rounded uppercase">PIX</span>
-                            <strong class="font-bold text-slate-800 text-xs">PIX (Aprovação Imediata / QR Code)</strong>
-                        </div>
-                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
-                            <input type="checkbox" id="pag-pix-ativo" checked class="rounded text-emerald-600 accent-emerald-600"> Ativar PIX
-                        </label>
-                    </div>
+                <!-- TIPO DE BANNER -->
+                <div>
+                    <label class="font-bold text-slate-800 block mb-1">Tipo de Banner:*</label>
+                    <select id="eb-tipo" class="w-full px-3 py-2 border rounded-md font-medium focus:outline-none">
+                        <option value="Mini Banner">Mini Banner</option>
+                        <option value="Animação">Animação / Carrossel Home</option>
+                    </select>
+                </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <!-- QUADROS DE IMAGENS DO BANNER SISTOGRAF -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-slate-100 pt-3">
+                    
+                    <!-- QUADRO 1 -->
+                    <div class="space-y-2">
+                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center shadow-sm">
+                            <img id="eb-img-prev-1" src="" class="max-h-full max-w-full object-contain hidden">
+                            <span id="eb-txt-prev-1" class="bg-slate-800 text-white font-mono px-2 py-1 rounded text-[10px] truncate max-w-full">Sem imagem</span>
+                        </div>
                         <div>
-                            <label class="font-bold text-slate-700 block mb-1">Tipo da Chave PIX</label>
-                            <select id="pag-pix-tipo" class="w-full px-3 py-2 border rounded-lg font-bold">
-                                <option value="telefone">Telefone</option>
-                                <option value="cpf_cnpj">CPF / CNPJ</option>
-                                <option value="email">E-mail</option>
-                                <option value="aleatoria">Chave Aleatória</option>
+                            <label class="font-bold text-slate-600 block mb-0.5">Url:</label>
+                            <input type="text" id="eb-url-1" oninput="atualizarPreviaBannerSlot(1)" placeholder="URL da Imagem 1" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-600 block mb-0.5">Ao clicar no link:</label>
+                            <select id="eb-link-1" class="w-full px-2 py-1.5 border rounded text-[11px]">
+                                <option value="">Mesma Janela</option>
+                                <option value="_blank">Nova Aba (_blank)</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Chave PIX *</label>
-                            <input type="text" id="pag-pix-chave" value="5521986147221" placeholder="Ex: (21) 98614-7221" class="w-full px-3 py-2 border rounded-lg font-mono font-bold text-emerald-700">
+                    </div>
+
+                    <!-- QUADRO 2 -->
+                    <div class="space-y-2">
+                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center shadow-sm">
+                            <img id="eb-img-prev-2" src="" class="max-h-full max-w-full object-contain hidden">
+                            <i id="eb-icon-prev-2" class="fa-solid fa-ban text-4xl text-slate-300"></i>
                         </div>
                         <div>
-                            <label class="font-bold text-slate-700 block mb-1">Nome do Titular/Beneficiário *</label>
-                            <input type="text" id="pag-pix-titular" value="PHSUBLIME GRAFICA DIGITAL" placeholder="Nome Completo ou Razão Social" class="w-full px-3 py-2 border rounded-lg font-bold">
+                            <label class="font-bold text-slate-600 block mb-0.5">Url:</label>
+                            <input type="text" id="eb-url-2" oninput="atualizarPreviaBannerSlot(2)" placeholder="URL da Imagem 2" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-600 block mb-0.5">Ao clicar no link:</label>
+                            <select id="eb-link-2" class="w-full px-2 py-1.5 border rounded text-[11px]">
+                                <option value="">Mesma Janela</option>
+                                <option value="_blank">Nova Aba (_blank)</option>
+                            </select>
                         </div>
                     </div>
+
+                    <!-- QUADRO 3 -->
+                    <div class="space-y-2">
+                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center shadow-sm">
+                            <img id="eb-img-prev-3" src="" class="max-h-full max-w-full object-contain hidden">
+                            <i id="eb-icon-prev-3" class="fa-solid fa-ban text-4xl text-slate-300"></i>
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-600 block mb-0.5">Url:</label>
+                            <input type="text" id="eb-url-3" oninput="atualizarPreviaBannerSlot(3)" placeholder="URL da Imagem 3" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-600 block mb-0.5">Ao clicar no link:</label>
+                            <select id="eb-link-3" class="w-full px-2 py-1.5 border rounded text-[11px]">
+                                <option value="">Mesma Janela</option>
+                                <option value="_blank">Nova Aba (_blank)</option>
+                            </select>
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- MERCADO PAGO -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="bg-blue-100 text-blue-800 font-black text-[10px] px-2 py-0.5 rounded uppercase">Mercado Pago</span>
-                            <strong class="font-bold text-slate-800 text-xs">Mercado Pago (Cartões de Crédito & PIX API)</strong>
-                        </div>
-                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
-                            <input type="checkbox" id="pag-mp-ativo" checked class="rounded text-blue-600 accent-blue-600"> Ativar Mercado Pago
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Public Key (Chave Pública)</label>
-                            <input type="text" id="pag-mp-public-key" placeholder="APP_USR-..." class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Access Token (Token de Acesso)</label>
-                            <input type="password" id="pag-mp-access-token" placeholder="APP_USR-..." class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]">
-                        </div>
-                    </div>
+                <!-- ATIVO CHECKBOX -->
+                <div class="pt-2">
+                    <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-800">
+                        <input type="checkbox" id="eb-ativo" checked class="rounded accent-emerald-600"> Ativo*
+                    </label>
                 </div>
 
-                <!-- DEPÓSITO / TRANSFERÊNCIA BANCÁRIA -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="bg-purple-100 text-purple-800 font-black text-[10px] px-2 py-0.5 rounded uppercase">Banco</span>
-                            <strong class="font-bold text-slate-800 text-xs">Depósito / Transferência Bancária</strong>
-                        </div>
-                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
-                            <input type="checkbox" id="pag-deposito-ativo" checked class="rounded text-purple-600 accent-purple-600"> Ativar Depósito
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Banco</label>
-                            <input type="text" id="pag-deposito-banco" value="Banco Itaú" placeholder="Ex: Itaú / Nubank" class="w-full px-3 py-2 border rounded-lg font-bold">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Agência</label>
-                            <input type="text" id="pag-deposito-agencia" placeholder="0001" class="w-full px-3 py-2 border rounded-lg font-mono">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Conta Corrente</label>
-                            <input type="text" id="pag-deposito-conta" placeholder="12345-6" class="w-full px-3 py-2 border rounded-lg font-mono">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Titular</label>
-                            <input type="text" id="pag-deposito-titular" placeholder="Nome / Razão Social" class="w-full px-3 py-2 border rounded-lg font-bold">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PAGAMENTO NA RETIRADA -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="bg-amber-100 text-amber-800 font-black text-[10px] px-2 py-0.5 rounded uppercase">Balcão</span>
-                            <strong class="font-bold text-slate-800 text-xs">Pagamento na Retirada / Entrega</strong>
-                        </div>
-                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
-                            <input type="checkbox" id="pag-retirada-ativo" checked class="rounded text-amber-600 accent-amber-600"> Ativar Pagamento na Retirada
-                        </label>
-                    </div>
-
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Instruções para o Cliente</label>
-                        <input type="text" id="pag-retirada-instrucao" value="Pagamento no ato da retirada presencial (Dinheiro, PIX ou Cartão na Maquininha)" class="w-full px-3 py-2 border rounded-lg font-medium">
-                    </div>
-                </div>
-
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalFormasPagamento()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all uppercase">Cancelar</button>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl shadow-md transition-all uppercase flex items-center gap-2 text-xs">
-                        <i class="fa-solid fa-floppy-disk"></i> Salvar Formas de Pagamento
+                <!-- BOTÕES DE AÇÃO SISTOGRAF -->
+                <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalEditarBanner()" class="bg-[#C2185B] hover:bg-pink-800 text-white font-bold px-6 py-2 rounded text-xs transition-all flex items-center gap-1">
+                        <i class="fa-solid fa-xmark"></i> Cancelar
+                    </button>
+                    <button type="submit" class="bg-[#48B156] hover:bg-emerald-600 text-white font-bold px-6 py-2 rounded text-xs shadow transition-all flex items-center gap-1">
+                        <i class="fa-solid fa-check"></i> Salvar
                     </button>
                 </div>
 
             </form>
-        </div>
-    </div>
-
-    <!-- MODAL GERENCIAR MAIS VENDIDOS -->
-    <div id="modal-gerenciar-mais-vendidos" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-red-200 my-8">
-            <button onclick="fecharModalMaisVendidos()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-2">
-                <h3 class="text-base font-black text-red-600 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-fire text-amber-400"></i> Gerenciar Produtos Mais Vendidos
-                </h3>
-                <p class="text-xs text-slate-500">Selecione quais produtos devem aparecer com destaque na barra lateral da loja.</p>
-            </div>
-
-            <div>
-                <label class="font-bold text-slate-700 block mb-1 text-xs">Adicionar Produto aos Destaques:</label>
-                <div class="flex gap-2">
-                    <select id="select-add-mais-vendido" class="w-full px-3 py-2 border rounded-lg text-xs font-bold focus:outline-none">
-                    </select>
-                    <button onclick="adicionarMaisVendidoManual()" class="bg-red-600 hover:bg-red-500 text-white font-black px-4 py-2 rounded-lg text-xs uppercase shrink-0">
-                        + Adicionar
-                    </button>
-                </div>
-            </div>
-
-            <div>
-                <span class="font-bold text-slate-700 block mb-1.5 text-xs">Produtos Atualmente em Destaque:</span>
-                <div class="border border-slate-200 rounded-xl overflow-hidden max-h-56 overflow-y-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-slate-100 font-bold text-slate-600 uppercase text-[10px]">
-                                <th class="p-2.5">PRODUTO</th>
-                                <th class="p-2.5 text-center">AÇÕES</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela-mais-vendidos-modal-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="pt-2 border-t border-slate-100 flex justify-end">
-                <button type="button" onclick="fecharModalMaisVendidos()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button>
-            </div>
         </div>
     </div>
 
@@ -1169,370 +1051,6 @@
         </div>
     </div>
 
-    <!-- MODAL BANNERS -->
-    <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-2">
-                <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-regular fa-image text-amber-500"></i> Gerenciador de Banners
-                </h3>
-            </div>
-
-            <form onsubmit="salvarNovoBannerSubmit(event)" class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 space-y-3 text-xs">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Tipo do Banner *</label>
-                        <select id="banner-tipo" required class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold text-slate-800">
-                            <option value="animacao">Carrossel Home</option>
-                        </select>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label class="font-bold text-slate-700 block mb-1">URL da Imagem *</label>
-                        <input type="text" id="banner-imagem-url" required placeholder="https://..." class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono">
-                    </div>
-                </div>
-
-                <div class="flex justify-end">
-                    <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black px-5 py-2 rounded-xl text-xs uppercase shadow">
-                        Salvar Banner
-                    </button>
-                </div>
-            </form>
-
-            <div class="border border-slate-200 rounded-xl overflow-hidden max-h-56 overflow-y-auto">
-                <table class="w-full text-left text-xs border-collapse">
-                    <thead>
-                        <tr class="bg-slate-100 font-bold text-slate-600 uppercase text-[10px]">
-                            <th class="p-2.5">PRÉVIA</th>
-                            <th class="p-2.5">URL</th>
-                            <th class="p-2.5 text-center">AÇÕES</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabela-banners-modal-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="pt-2 border-t border-slate-100 flex justify-end">
-                <button type="button" onclick="fecharModalGerenciadorBanners()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL CADASTRAR/EDITAR PRODUTO -->
-    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-2">
-                <h3 id="txt-modal-form-titulo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar Novo Produto
-                </h3>
-            </div>
-
-            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3 text-xs">
-                <input type="hidden" id="prod-id">
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div class="sm:col-span-2">
-                        <label class="font-bold text-slate-700 block mb-1">Nome do Produto *</label>
-                        <input type="text" id="prod-nome" required placeholder="Ex: Cartão de Visita 250g Verniz Total" class="w-full px-3 py-2 border rounded-lg font-bold">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Referência / Código *</label>
-                        <input type="text" id="prod-ref" required placeholder="Ex: CRT001" class="w-full px-3 py-2 border rounded-lg font-mono">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Categoria *</label>
-                        <select id="prod-categoria" class="w-full px-3 py-2 border rounded-lg font-bold text-slate-800">
-                            <option value="Geral">Geral</option>
-                            <option value="Cartão de Visita">Cartão de Visita</option>
-                            <option value="Banner">Banner</option>
-                            <option value="Adesivo">Adesivo</option>
-                            <option value="Copos">Copos</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Preço de Venda (R$) *</label>
-                        <input type="number" step="0.01" id="prod-preco" required placeholder="0.00" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Unidade Medida</label>
-                        <select id="prod-unidade" class="w-full px-3 py-2 border rounded-lg font-medium">
-                            <option value="un">Unidade (un)</option>
-                            <option value="m²">Metro Quadrado (m²)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">URL Imagem do Produto</label>
-                    <input type="text" id="prod-imagem" placeholder="https://..." class="w-full px-3 py-2 border rounded-lg font-mono">
-                </div>
-
-                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalFormProduto()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Cancelar</button>
-                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs uppercase shadow">
-                        Salvar Produto
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL CADASTRAR/EDITAR CLIENTE -->
-    <div id="modal-form-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalFormCliente()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-2">
-                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-user-plus text-amber-500"></i> Cadastrar Novo Cliente
-                </h3>
-            </div>
-
-            <form id="form-salvar-cliente" onsubmit="salvarClienteSubmit(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Nome Completo *</label>
-                    <input type="text" id="cli-nome" required placeholder="Ex: Gabriel Sales" class="w-full px-3 py-2 border rounded-lg font-bold">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Documento (CPF/CNPJ) *</label>
-                        <input type="text" id="cli-doc" required placeholder="000.000.000-00" class="w-full px-3 py-2 border rounded-lg font-mono">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">WhatsApp *</label>
-                        <input type="text" id="cli-wpp" required placeholder="(21) 99999-9999" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
-                    </div>
-                </div>
-                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalFormCliente()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Cancelar</button>
-                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs uppercase shadow">Salvar Cliente</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL CUPOM DE DESCONTO -->
-    <div id="modal-criar-cupom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalCriarCupom()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-2">
-                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-ticket text-amber-500"></i> Criar Cupom de Desconto
-                </h3>
-            </div>
-
-            <form onsubmit="salvarCupomSubmit(event)" class="space-y-3 text-xs">
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Código do Cupom *</label>
-                        <input type="text" id="cupom-codigo" required placeholder="Ex: NIVER10" class="w-full px-3 py-2 border rounded-lg uppercase font-bold">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Porcentagem (%) *</label>
-                        <input type="number" id="cupom-porcentagem" required min="1" max="100" placeholder="10" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
-                    </div>
-                </div>
-                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalCriarCupom()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Cancelar</button>
-                    <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-blue-950 font-black px-5 py-2 rounded-xl text-xs uppercase shadow">Salvar Cupom</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL DEDICADO DE INTEGRAÇÕES (ESTILO SISTOGRAF) -->
-    <div id="modal-integracoes" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalIntegracoes()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <!-- BREADCRUMB -->
-            <div class="border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
-                    <span>Painel Administrador</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Soluções</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span class="text-blue-900">Integrações</span>
-                </div>
-                <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-plug text-indigo-600"></i> Central de Integrações do Sistema
-                </h3>
-            </div>
-
-            <!-- LISTA DE FERRAMENTAS COM TOGGLES (ESTILO SISTOGRAF) -->
-            <form onsubmit="salvarIntegracoesSubmit(event)" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs">
-                
-                <!-- BENCHMARK -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-envelope-open-text fa-solid text-2xl text-pink-600 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">Benchmark</strong>
-                            <p class="text-[11px] text-slate-500">Use o Benchmark para criar e enviar campanhas de email marketing.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-benchmark-ativo" onchange="atualizarBadgeStatus('int-benchmark-ativo', 'lbl-benchmark')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-benchmark" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
-                    </label>
-                </div>
-
-                <!-- GOOGLE ADWORDS -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-brands fa-google text-2xl text-blue-500 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">Google Adwords</strong>
-                            <p class="text-[11px] text-slate-500">Permite a criação de anúncios no Google para exibir seu site nos resultados de busca.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-adwords-ativo" onchange="atualizarBadgeStatus('int-adwords-ativo', 'lbl-adwords')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-adwords" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
-                    </label>
-                </div>
-
-                <!-- GOOGLE ANALYTICS -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-chart-line fa-solid text-2xl text-amber-500 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">Google Analytics</strong>
-                            <p class="text-[11px] text-slate-500">Acompanhe as atividades em sua loja, tráfego de visitantes e taxas de conversão.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-ga-ativo" onchange="atualizarBadgeStatus('int-ga-ativo', 'lbl-ga')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-ga" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
-                    </label>
-                </div>
-
-                <!-- GOOGLE TAG MANAGER -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-code text-2xl text-indigo-500 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">Google Tag Manager</strong>
-                            <p class="text-[11px] text-slate-500">Gerenciador de tags do Google para criar e atualizar tags da loja com controle total.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-gtm-ativo" onchange="atualizarBadgeStatus('int-gtm-ativo', 'lbl-gtm')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-gtm" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
-                    </label>
-                </div>
-
-                <!-- JIVOCHAT -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-comments text-2xl text-emerald-500 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">Jivochat</strong>
-                            <p class="text-[11px] text-slate-500">Chat online para atender clientes em tempo real. Centralize contatos do Facebook e Telegram.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-jivo-ativo" onchange="atualizarBadgeStatus('int-jivo-ativo', 'lbl-jivo')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-jivo" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
-                    </label>
-                </div>
-
-                <!-- PIXEL DO FACEBOOK -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-brands fa-facebook text-2xl text-blue-600 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">Pixel do Facebook</strong>
-                            <p class="text-[11px] text-slate-500">Relate conversões, crie públicos e obtenha informações importantes sobre visitantes.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-fb-ativo" onchange="atualizarBadgeStatus('int-fb-ativo', 'lbl-fb')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-fb" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
-                    </label>
-                </div>
-
-                <!-- TAWK.TO -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-headset text-2xl text-emerald-600 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">tawk.to</strong>
-                            <p class="text-[11px] text-slate-500">Ferramenta gratuita de chat online e monitoramento de visitantes em tempo real.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-tawk-ativo" onchange="atualizarBadgeStatus('int-tawk-ativo', 'lbl-tawk')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-tawk" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
-                    </label>
-                </div>
-
-                <!-- WHATSAPP API -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-brands fa-whatsapp text-2xl text-emerald-500 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">WhatsApp Notificação</strong>
-                            <p class="text-[11px] text-slate-500">Com o WhatsApp, suas mensagens e chamadas são rápidas e enviadas automaticamente.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-wpp-ativo" checked onchange="atualizarBadgeStatus('int-wpp-ativo', 'lbl-wpp')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-wpp" class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Ativo</span>
-                    </label>
-                </div>
-
-                <!-- MERCADO PAGO -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-credit-card text-2xl text-blue-600 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">Mercado Pago (PIX & Cartões)</strong>
-                            <p class="text-[11px] text-slate-500">Processador de pagamentos para PIX com baixa automática e Checkout transparente.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-mp-ativo" checked onchange="atualizarBadgeStatus('int-mp-ativo', 'lbl-mp')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-mp" class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Ativo</span>
-                    </label>
-                </div>
-
-                <!-- RECAPTCHA -->
-                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-shield-halved text-2xl text-slate-600 w-8 text-center"></i>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">reCAPTCHA Google</strong>
-                            <p class="text-[11px] text-slate-500">Serviço gratuito que protege seu site contra spam e tentativas de acesso automatizado.</p>
-                        </div>
-                    </div>
-                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
-                        <input type="checkbox" id="int-recaptcha-ativo" onchange="atualizarBadgeStatus('int-recaptcha-ativo', 'lbl-recaptcha')" class="rounded text-blue-600 accent-blue-600">
-                        <span id="lbl-recaptcha" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
-                    </label>
-                </div>
-
-                <!-- BOTAO SALVAR -->
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalIntegracoes()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all uppercase">Cancelar</button>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl shadow-md transition-all uppercase flex items-center gap-2 text-xs">
-                        <i class="fa-solid fa-floppy-disk"></i> Salvar Alterações
-                    </button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
     <!-- TOAST FLUTUANTE -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-amber-400 px-5 py-3.5 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[1001]">
         <i id="toast-icon" class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
@@ -1555,7 +1073,7 @@
         let adminProdutos = [];
         let listaMaisVendidos = [];
         let adminBanners = [];
-        let adminClientes = [];
+        let idBannerEditando = null;
         let idItemExclusaoPendente = null;
 
         function escapeHtml(str) {
@@ -1582,10 +1100,6 @@
                 return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
             }
             const urlLimpa = escapeHtml(url.trim());
-            const temExtensaoImagem = /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(urlLimpa);
-            if (!temExtensaoImagem && !urlLimpa.startsWith('http://') && !urlLimpa.startsWith('https://')) {
-                return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
-            }
             return '<img src="' + urlLimpa + '" class="' + classeCss + '" onerror="this.onerror=null; this.style.display=\'none\';">';
         }
 
@@ -1626,456 +1140,209 @@
             document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
         }
 
-        // DADOS DA LOJA (SALVAR E CARREGAR LOCALSTORAGE)
-        function carregarDadosLojaLocal() {
-            const salvos = localStorage.getItem('phsublime_dados_loja');
+        // LÓGICA LOGO & FAVICON SISTOGRAF
+        function carregarLogoFaviconLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_logos');
             if (!salvos) return;
-
             try {
                 const cfg = JSON.parse(salvos);
-                if (document.getElementById('cfg-titulo-loja')) document.getElementById('cfg-titulo-loja').value = cfg.titulo || 'PHSUBLIME - Gráfica Digital Online';
-                if (document.getElementById('cfg-email-contato')) document.getElementById('cfg-email-contato').value = cfg.email || 'phsublime5149@gmail.com';
-                if (document.getElementById('cfg-tel-1')) document.getElementById('cfg-tel-1').value = cfg.tel1 || '(21) 98614-7221';
-                if (document.getElementById('cfg-tel-2')) document.getElementById('cfg-tel-2').value = cfg.tel2 || '';
-                if (document.getElementById('cfg-tel-3')) document.getElementById('cfg-tel-3').value = cfg.tel3 || '';
-                if (document.getElementById('cfg-ativar-correios')) document.getElementById('cfg-ativar-correios').checked = cfg.ativarCorreios !== false;
-                if (document.getElementById('cfg-cep-origem')) document.getElementById('cfg-cep-origem').value = cfg.cepOrigem || '21230-362';
-                if (document.getElementById('cfg-correios-user')) document.getElementById('cfg-correios-user').value = cfg.correiosUser || '';
-                if (document.getElementById('cfg-correios-cws')) document.getElementById('cfg-correios-cws').value = cfg.correiosCws || '';
-                if (document.getElementById('cfg-correios-cartao')) document.getElementById('cfg-correios-cartao').value = cfg.correiosCartao || '';
-                if (document.getElementById('cfg-endereco-completo')) document.getElementById('cfg-endereco-completo').value = cfg.endereco || 'Estrada da Água Grande, 221 - Irajá / RJ';
-                if (document.getElementById('cfg-horario-limite')) document.getElementById('cfg-horario-limite').value = cfg.horarioLimite || '23:59';
+                if (document.getElementById('url-logo-sistema')) document.getElementById('url-logo-sistema').value = cfg.logoSistema || '';
+                if (document.getElementById('url-favicon')) document.getElementById('url-favicon').value = cfg.favicon || '';
+                if (document.getElementById('url-logo-os')) document.getElementById('url-logo-os').value = cfg.logoOS || '';
+                if (document.getElementById('url-compartilhar')) document.getElementById('url-compartilhar').value = cfg.imagemCompartilhar || '';
+
+                atualizarPreviaLogo('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema');
+                atualizarPreviaLogo('url-favicon', 'img-preview-favicon', 'icon-preview-favicon');
+                atualizarPreviaLogo('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os');
+                atualizarPreviaLogo('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar');
             } catch(e) {}
         }
 
-        function salvarDadosLojaSubmit(e) {
-            e.preventDefault();
-            const config = {
-                titulo: document.getElementById('cfg-titulo-loja')?.value,
-                email: document.getElementById('cfg-email-contato')?.value,
-                tel1: document.getElementById('cfg-tel-1')?.value,
-                tel2: document.getElementById('cfg-tel-2')?.value,
-                tel3: document.getElementById('cfg-tel-3')?.value,
-                ativarCorreios: document.getElementById('cfg-ativar-correios')?.checked,
-                cepOrigem: document.getElementById('cfg-cep-origem')?.value,
-                correiosUser: document.getElementById('cfg-correios-user')?.value,
-                correiosCws: document.getElementById('cfg-correios-cws')?.value,
-                correiosCartao: document.getElementById('cfg-correios-cartao')?.value,
-                endereco: document.getElementById('cfg-endereco-completo')?.value,
-                horarioLimite: document.getElementById('cfg-horario-limite')?.value
-            };
+        function atualizarPreviaLogo(inputId, imgId, iconId) {
+            const input = document.getElementById(inputId);
+            const img = document.getElementById(imgId);
+            const icon = document.getElementById(iconId);
+            if (!input || !img) return;
 
-            localStorage.setItem('phsublime_dados_loja', JSON.stringify(config));
-            fecharModalConfiguracoesSistema();
-            mostrarToast("Dados da Loja salvos com sucesso!");
+            if (input.value && input.value.trim().length > 5) {
+                img.src = input.value.trim();
+                img.classList.remove('hidden');
+                if (icon) icon.classList.add('hidden');
+            } else {
+                img.classList.add('hidden');
+                if (icon) icon.classList.remove('hidden');
+            }
         }
 
-        // BALCÕES DE RETIRADA
-        let balcoesRetiradaDefault = [
-            { id: 1, nome: "Balcão Central - Irajá", endereco: "Estrada da Água Grande, 221 - Irajá / RJ", taxa: 0, telefone: "(21) 98614-7221", horario: "Seg. a Sex. das 08h às 18h" }
+        function abrirModalLogoFavicon() {
+            carregarLogoFaviconLocal();
+            document.getElementById('modal-logo-favicon')?.classList.remove('hidden');
+        }
+
+        function fecharModalLogoFavicon() {
+            document.getElementById('modal-logo-favicon')?.classList.add('hidden');
+        }
+
+        function salvarLogoFaviconSubmit(e) {
+            e.preventDefault();
+            const config = {
+                logoSistema: document.getElementById('url-logo-sistema')?.value,
+                favicon: document.getElementById('url-favicon')?.value,
+                logoOS: document.getElementById('url-logo-os')?.value,
+                imagemCompartilhar: document.getElementById('url-compartilhar')?.value
+            };
+            localStorage.setItem('phsublime_admin_logos', JSON.stringify(config));
+            fecharModalLogoFavicon();
+            mostrarToast("Logos e Favicon salvos com sucesso!");
+        }
+
+        // LÓGICA DE BANNERS SISTOGRAF
+        let bannersListaDefault = [
+            { id: 1, tipo: 'Mini banner', urls: ['https://phsublime.sistograf.net/storage/logos/logo.png'], data: '06/05/20 12:25:43', ativo: true },
+            { id: 2, tipo: 'Animação', urls: ['https://via.placeholder.com/800x200/003859/ffffff'], data: '06/05/20 12:25:51', ativo: true },
+            { id: 3, tipo: 'Animação', urls: ['https://via.placeholder.com/800x200/48B156/ffffff'], data: '10/09/20 18:31:34', ativo: true },
+            { id: 4, tipo: 'Animação', urls: ['https://via.placeholder.com/800x200/1e293b/ffffff'], data: '10/09/23 09:02:58', ativo: true }
         ];
-        let balcoesRetirada = [];
 
-        function carregarBalcoesLocal() {
-            const salvos = localStorage.getItem('phsublime_balcoes_retirada');
-            balcoesRetirada = salvos ? JSON.parse(salvos) : balcoesRetiradaDefault;
-        }
-
-        function salvarBalcoesLocal() {
-            localStorage.setItem('phsublime_balcoes_retirada', JSON.stringify(balcoesRetirada));
-        }
-
-        function abrirModalBalcoesRetirada() {
-            carregarBalcoesLocal();
-            renderizarTabelaBalcoesModal();
-            const modal = document.getElementById('modal-balcoes-retirada');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function fecharModalBalcoesRetirada() {
-            const modal = document.getElementById('modal-balcoes-retirada');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function salvarBalcaoSubmit(e) {
-            e.preventDefault();
-            const nome = document.getElementById('balcao-nome')?.value;
-            const endereco = document.getElementById('balcao-endereco')?.value;
-            const taxa = parseFloat(document.getElementById('balcao-taxa')?.value) || 0;
-            const tel = document.getElementById('balcao-telefone')?.value;
-            const horario = document.getElementById('balcao-horario')?.value;
-
-            if (nome && endereco) {
-                balcoesRetirada.push({
-                    id: Date.now(),
-                    nome,
-                    endereco,
-                    taxa,
-                    telefone: tel,
-                    horario
-                });
-                salvarBalcoesLocal();
-                renderizarTabelaBalcoesModal();
-                if (document.getElementById('balcao-nome')) document.getElementById('balcao-nome').value = '';
-                if (document.getElementById('balcao-endereco')) document.getElementById('balcao-endereco').value = '';
-                mostrarToast("Balcão de retirada cadastrado com sucesso!");
-            }
-        }
-
-        function removerBalcao(id) {
-            balcoesRetirada = balcoesRetirada.filter(b => String(b.id) !== String(id));
-            salvarBalcoesLocal();
-            renderizarTabelaBalcoesModal();
-            mostrarToast("Balcão removido!");
-        }
-
-        function renderizarTabelaBalcoesModal() {
-            const tbody = document.getElementById('tabela-balcoes-modal-body');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            if (balcoesRetirada.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400 font-bold">Nenhum balcão cadastrado.</td></tr>';
-                return;
-            }
-
-            balcoesRetirada.forEach(b => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
-                tr.innerHTML = `
-                    <td class="p-2.5 font-bold text-slate-800">${escapeHtml(b.nome)}</td>
-                    <td class="p-2.5 text-slate-600">${escapeHtml(b.endereco)}</td>
-                    <td class="p-2.5 text-center font-bold text-emerald-700">${b.taxa === 0 ? 'Grátis' : 'R$ ' + b.taxa.toFixed(2)}</td>
-                    <td class="p-2.5 text-center">
-                        <button onclick="removerBalcao('${b.id}')" class="text-red-600 font-bold hover:underline">
-                            <i class="fa-solid fa-trash-can"></i> Remover
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // FORMAS DE PAGAMENTO
-        let pagamentosConfigDefault = {
-            pix: { ativo: true, chave: '5521986147221', tipoChave: 'telefone', titular: 'PHSUBLIME GRAFICA DIGITAL' },
-            mercadoPago: { ativo: true, publicKey: '', accessToken: '' },
-            deposito: { ativo: true, banco: 'Banco Itaú', agencia: '0001', conta: '12345-6', titular: 'PHSUBLIME' },
-            retirada: { ativo: true, instrucao: 'Pagamento na entrega/retirada (Dinheiro, Cartão na maquininha)' }
-        };
-
-        function carregarFormasPagamentoLocal() {
-            const salvos = localStorage.getItem('phsublime_formas_pagamento');
-            const cfg = salvos ? JSON.parse(salvos) : pagamentosConfigDefault;
-
-            if (document.getElementById('pag-pix-ativo')) document.getElementById('pag-pix-ativo').checked = cfg.pix?.ativo !== false;
-            if (document.getElementById('pag-pix-chave')) document.getElementById('pag-pix-chave').value = cfg.pix?.chave || '5521986147221';
-            if (document.getElementById('pag-pix-tipo')) document.getElementById('pag-pix-tipo').value = cfg.pix?.tipoChave || 'telefone';
-            if (document.getElementById('pag-pix-titular')) document.getElementById('pag-pix-titular').value = cfg.pix?.titular || 'PHSUBLIME GRAFICA DIGITAL';
-
-            if (document.getElementById('pag-mp-ativo')) document.getElementById('pag-mp-ativo').checked = cfg.mercadoPago?.ativo !== false;
-            if (document.getElementById('pag-mp-public-key')) document.getElementById('pag-mp-public-key').value = cfg.mercadoPago?.publicKey || '';
-            if (document.getElementById('pag-mp-access-token')) document.getElementById('pag-mp-access-token').value = cfg.mercadoPago?.accessToken || '';
-
-            if (document.getElementById('pag-deposito-ativo')) document.getElementById('pag-deposito-ativo').checked = cfg.deposito?.ativo !== false;
-            if (document.getElementById('pag-deposito-banco')) document.getElementById('pag-deposito-banco').value = cfg.deposito?.banco || 'Banco Itaú';
-            if (document.getElementById('pag-deposito-agencia')) document.getElementById('pag-deposito-agencia').value = cfg.deposito?.agencia || '';
-            if (document.getElementById('pag-deposito-conta')) document.getElementById('pag-deposito-conta').value = cfg.deposito?.conta || '';
-            if (document.getElementById('pag-deposito-titular')) document.getElementById('pag-deposito-titular').value = cfg.deposito?.titular || '';
-
-            if (document.getElementById('pag-retirada-ativo')) document.getElementById('pag-retirada-ativo').checked = cfg.retirada?.ativo !== false;
-            if (document.getElementById('pag-retirada-instrucao')) document.getElementById('pag-retirada-instrucao').value = cfg.retirada?.instrucao || '';
-        }
-
-        function abrirModalFormasPagamento() {
-            carregarFormasPagamentoLocal();
-            const modal = document.getElementById('modal-formas-pagamento');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function fecharModalFormasPagamento() {
-            const modal = document.getElementById('modal-formas-pagamento');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function salvarFormasPagamentoSubmit(e) {
-            e.preventDefault();
-            const config = {
-                pix: {
-                    ativo: document.getElementById('pag-pix-ativo')?.checked,
-                    chave: document.getElementById('pag-pix-chave')?.value,
-                    tipoChave: document.getElementById('pag-pix-tipo')?.value,
-                    titular: document.getElementById('pag-pix-titular')?.value
-                },
-                mercadoPago: {
-                    ativo: document.getElementById('pag-mp-ativo')?.checked,
-                    publicKey: document.getElementById('pag-mp-public-key')?.value,
-                    accessToken: document.getElementById('pag-mp-access-token')?.value
-                },
-                deposito: {
-                    ativo: document.getElementById('pag-deposito-ativo')?.checked,
-                    banco: document.getElementById('pag-deposito-banco')?.value,
-                    agencia: document.getElementById('pag-deposito-agencia')?.value,
-                    conta: document.getElementById('pag-deposito-conta')?.value,
-                    titular: document.getElementById('pag-deposito-titular')?.value
-                },
-                retirada: {
-                    ativo: document.getElementById('pag-retirada-ativo')?.checked,
-                    instrucao: document.getElementById('pag-retirada-instrucao')?.value
-                }
-            };
-
-            localStorage.setItem('phsublime_formas_pagamento', JSON.stringify(config));
-            fecharModalFormasPagamento();
-            mostrarToast("Formas de Pagamento atualizadas com sucesso!");
-        }
-
-        // SUPABASE: CARREGAR E EXIBIR PRODUTOS
-        async function carregarProdutosAdmin() {
-            const tbody = document.getElementById('tabela-admin-produtos-body');
-            try {
-                if (!supabaseClient) return;
-                const { data, error } = await supabaseClient.from('produtos').select('*').order('id', { ascending: false });
-                if (!error && data) {
-                    adminProdutos = data.map(item => ({
-                        id: String(item.id),
-                        nome: item.Nome || item.nome || 'Produto Sem Nome',
-                        categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
-                        ref: item.Referencia || item.referencia || '---',
-                        preco: parseFloat(item.Preco_Venda ?? item.preco_venda ?? 0),
-                        imagem: item.Url || item.url || ''
-                    }));
-                    renderizarTabelaAdminPaginada();
-                    const stat = document.getElementById('stat-total-produtos');
-                    if (stat) stat.innerText = adminProdutos.length;
-                }
-            } catch(e){}
-        }
-
-        function renderizarTabelaAdminPaginada() {
-            const tbody = document.getElementById('tabela-admin-produtos-body');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-            
-            if (adminProdutos.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold">Nenhum produto encontrado.</td></tr>';
-                return;
-            }
-
-            adminProdutos.forEach(prod => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100 hover:bg-slate-50";
-                tr.innerHTML = `
-                    <td class="py-3 px-3 text-center"><input type="checkbox" value="${prod.id}"></td>
-                    <td class="py-3 px-4">${renderImagemHtml(prod.imagem)}</td>
-                    <td class="py-3 px-4"><strong class="text-slate-800 font-bold block">${escapeHtml(prod.nome)}</strong><span class="text-[10px] text-slate-400 font-mono">Ref: ${escapeHtml(prod.ref)}</span></td>
-                    <td class="py-3 px-4"><span class="bg-blue-100 text-blue-900 font-black text-[10px] px-2 py-0.5 rounded uppercase">${escapeHtml(prod.categoria)}</span></td>
-                    <td class="py-3 px-4 text-center"><strong class="font-black text-emerald-700">R$ ${prod.preco.toFixed(2)}</strong></td>
-                    <td class="py-3 px-4 text-center">
-                        <button onclick="excluirProduto('${prod.id}')" class="bg-red-600 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg hover:bg-red-500 transition-all"><i class="fa-solid fa-trash-can"></i> Excluir</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // CADASTRO/EDIÇÃO DE PRODUTO
-        function abrirModalFormProduto() { document.getElementById('modal-form-produto')?.classList.remove('hidden'); }
-        function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
-
-        async function salvarProdutoSubmit(e) {
-            e.preventDefault();
-            const nome = document.getElementById('prod-nome')?.value;
-            const ref = document.getElementById('prod-ref')?.value;
-            const cat = document.getElementById('prod-categoria')?.value;
-            const preco = parseFloat(document.getElementById('prod-preco')?.value || 0);
-            const img = document.getElementById('prod-imagem')?.value;
-
-            if (nome && preco) {
-                try {
-                    await supabaseClient.from('produtos').insert([{ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }]);
-                    mostrarToast("Produto salvo com sucesso no Supabase!");
-                    await carregarProdutosAdmin();
-                } catch(err) {
-                    mostrarToast("Salvo localmente!");
-                }
-                fecharModalFormProduto();
-            }
-        }
-
-        function excluirProduto(id) {
-            idItemExclusaoPendente = id;
-            document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
-        }
-
-        async function confirmarExclusaoProdutoExecutar() {
-            if (!idItemExclusaoPendente) return;
-            try {
-                await supabaseClient.from('produtos').delete().eq('id', idItemExclusaoPendente);
-                adminProdutos = adminProdutos.filter(p => String(p.id) !== String(idItemExclusaoPendente));
-                renderizarTabelaAdminPaginada();
-                mostrarToast("Produto excluído do banco!");
-            } catch(e){}
-            fecharModalConfirmExclusao();
-        }
-
-        // CLIENTES
-        function abrirModalFormCliente() { document.getElementById('modal-form-cliente')?.classList.remove('hidden'); }
-        function fecharModalFormCliente() { document.getElementById('modal-form-cliente')?.classList.add('hidden'); }
-        function salvarClienteSubmit(e) {
-            e.preventDefault();
-            fecharModalFormCliente();
-            mostrarToast("Cliente salvo com sucesso!");
-        }
-
-        // CUPONS
-        function abrirModalCriarCupom() { document.getElementById('modal-criar-cupom')?.classList.remove('hidden'); }
-        function fecharModalCriarCupom() { document.getElementById('modal-criar-cupom')?.classList.add('hidden'); }
-        function salvarCupomSubmit(e) {
-            e.preventDefault();
-            const cod = document.getElementById('cupom-codigo')?.value;
-            const pct = document.getElementById('cupom-porcentagem')?.value;
-            if (cod && pct) {
-                const cupons = JSON.parse(localStorage.getItem('phsublime_admin_cupons') || '[]');
-                cupons.push({ codigo: cod.toUpperCase(), valor: pct, tipo: 'porcentagem' });
-                localStorage.setItem('phsublime_admin_cupons', JSON.stringify(cupons));
-                fecharModalCriarCupom();
-                mostrarToast(`Cupom ${cod.toUpperCase()} ativado!`);
-            }
-        }
-
-        // MAIS VENDIDOS
-        function carregarMaisVendidosAdmin() {
-            const salvos = localStorage.getItem('phsublime_admin_mais_vendidos');
-            listaMaisVendidos = salvos ? JSON.parse(salvos) : [];
-        }
-
-        function salvarMaisVendidosAdmin() {
-            localStorage.setItem('phsublime_admin_mais_vendidos', JSON.stringify(listaMaisVendidos));
-        }
-
-        function abrirModalMaisVendidos() {
-            carregarMaisVendidosAdmin();
-            const select = document.getElementById('select-add-mais-vendido');
-            if (select) {
-                select.innerHTML = '<option value="">Selecione um produto...</option>';
-                adminProdutos.forEach(p => {
-                    select.innerHTML += `<option value="${p.id}">${escapeHtml(p.nome)}</option>`;
-                });
-            }
-            renderizarTabelaMaisVendidosModal();
-            document.getElementById('modal-gerenciar-mais-vendidos')?.classList.remove('hidden');
-        }
-
-        function fecharModalMaisVendidos() { document.getElementById('modal-gerenciar-mais-vendidos')?.classList.add('hidden'); }
-
-        function adicionarMaisVendidoManual() {
-            const select = document.getElementById('select-add-mais-vendido');
-            const prodId = select?.value;
-            if (!prodId) return;
-
-            const prod = adminProdutos.find(p => String(p.id) === String(prodId));
-            if (!prod) return;
-
-            if (listaMaisVendidos.some(m => String(m.id) === String(prodId))) {
-                mostrarToast("Este produto já está na lista!");
-                return;
-            }
-
-            listaMaisVendidos.push({ id: prod.id, nome: prod.nome });
-            salvarMaisVendidosAdmin();
-            renderizarTabelaMaisVendidosModal();
-            mostrarToast("Produto adicionado!");
-        }
-
-        function removerMaisVendidoManual(id) {
-            listaMaisVendidos = listaMaisVendidos.filter(m => String(m.id) !== String(id));
-            salvarMaisVendidosAdmin();
-            renderizarTabelaMaisVendidosModal();
-            mostrarToast("Produto removido!");
-        }
-
-        function renderizarTabelaMaisVendidosModal() {
-            const tbody = document.getElementById('tabela-mais-vendidos-modal-body');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            if (listaMaisVendidos.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="2" class="p-4 text-center text-slate-400 font-bold">Nenhum produto selecionado.</td></tr>';
-                return;
-            }
-
-            listaMaisVendidos.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
-                tr.innerHTML = `
-                    <td class="p-2.5 font-bold text-slate-800">${escapeHtml(item.nome)}</td>
-                    <td class="p-2.5 text-center">
-                        <button onclick="removerMaisVendidoManual('${item.id}')" class="text-red-600 font-bold hover:underline">
-                            <i class="fa-solid fa-trash-can"></i> Remover
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // BANNERS
-        function carregarBannersSalvosLocal() {
-            const salvos = localStorage.getItem('phsublime_admin_banners');
-            adminBanners = salvos ? JSON.parse(salvos) : [];
+        function carregarBannersLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_banners_v2');
+            adminBanners = salvos ? JSON.parse(salvos) : bannersListaDefault;
         }
 
         function salvarBannersLocal() {
-            localStorage.setItem('phsublime_admin_banners', JSON.stringify(adminBanners));
+            localStorage.setItem('phsublime_admin_banners_v2', JSON.stringify(adminBanners));
         }
 
         function abrirModalGerenciadorBanners() {
-            carregarBannersSalvosLocal();
-            renderizarTabelaBannersModal();
+            carregarBannersLocal();
+            renderizarTabelaBannersListagem();
             document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden');
         }
 
-        function fecharModalGerenciadorBanners() { document.getElementById('modal-gerenciador-banners')?.classList.add('hidden'); }
-
-        function salvarNovoBannerSubmit(e) {
-            e.preventDefault();
-            const img = document.getElementById('banner-imagem-url')?.value;
-            if (img) {
-                adminBanners.push({ id: Date.now(), imagem: img });
-                salvarBannersLocal();
-                renderizarTabelaBannersModal();
-                mostrarToast("Banner cadastrado!");
-            }
+        function fecharModalGerenciadorBanners() {
+            document.getElementById('modal-gerenciador-banners')?.classList.add('hidden');
         }
 
-        function renderizarTabelaBannersModal() {
-            const tbody = document.getElementById('tabela-banners-modal-body');
+        function renderizarTabelaBannersListagem() {
+            const tbody = document.getElementById('tabela-banners-listagem-body');
             if (!tbody) return;
             tbody.innerHTML = '';
-            if (adminBanners.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-slate-400 font-bold">Nenhum banner cadastrado.</td></tr>';
+
+            const filtro = document.getElementById('filtro-tipo-banner')?.value;
+            const filtrados = filtro ? adminBanners.filter(b => b.tipo === filtro) : adminBanners;
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400 font-bold">Nenhum banner cadastrado.</td></tr>';
                 return;
             }
-            adminBanners.forEach(b => {
+
+            filtrados.forEach(b => {
                 const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                const primeirImg = (b.urls && b.urls[0]) ? b.urls[0] : '';
+                
                 tr.innerHTML = `
-                    <td class="p-2.5"><img src="${escapeHtml(b.imagem)}" class="w-12 h-8 object-cover rounded"></td>
-                    <td class="p-2.5 truncate font-mono text-[10px]">${escapeHtml(b.imagem)}</td>
-                    <td class="p-2.5 text-center"><button onclick="removerBanner('${b.id}')" class="text-red-600 font-bold">Remover</button></td>
+                    <td class="p-3 text-center"><input type="checkbox"></td>
+                    <td class="p-3 font-bold text-slate-800">${escapeHtml(b.tipo)}</td>
+                    <td class="p-3 text-center flex justify-center">${renderImagemHtml(primeirImg, "h-8 max-w-[120px] object-cover rounded border")}</td>
+                    <td class="p-3 font-mono text-[11px] text-slate-500">${b.data || '01/01/2026'}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="abrirModalEditarBanner('${b.id}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1 rounded text-xs">
+                            Editar
+                        </button>
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function removerBanner(id) {
-            adminBanners = adminBanners.filter(b => String(b.id) !== String(id));
-            salvarBannersLocal();
-            renderizarTabelaBannersModal();
-            mostrarToast("Banner removido!");
+        function filtrarBannersModal() {
+            renderizarTabelaBannersListagem();
         }
 
-        // PERSONALIZAÇÃO DA LOJA CMS (ESTILO SISTOGRAF FOTO 2)
+        function abrirModalEditarBanner(id) {
+            idBannerEditando = id || null;
+            carregarBannersLocal();
+
+            if (id) {
+                const banner = adminBanners.find(b => String(b.id) === String(id));
+                if (banner) {
+                    if (document.getElementById('eb-tipo')) document.getElementById('eb-tipo').value = banner.tipo || 'Mini Banner';
+                    if (document.getElementById('eb-url-1')) document.getElementById('eb-url-1').value = banner.urls[0] || '';
+                    if (document.getElementById('eb-url-2')) document.getElementById('eb-url-2').value = banner.urls[1] || '';
+                    if (document.getElementById('eb-url-3')) document.getElementById('eb-url-3').value = banner.urls[2] || '';
+                    if (document.getElementById('eb-ativo')) document.getElementById('eb-ativo').checked = banner.ativo !== false;
+                }
+            } else {
+                if (document.getElementById('eb-tipo')) document.getElementById('eb-tipo').value = 'Mini Banner';
+                if (document.getElementById('eb-url-1')) document.getElementById('eb-url-1').value = '';
+                if (document.getElementById('eb-url-2')) document.getElementById('eb-url-2').value = '';
+                if (document.getElementById('eb-url-3')) document.getElementById('eb-url-3').value = '';
+                if (document.getElementById('eb-ativo')) document.getElementById('eb-ativo').checked = true;
+            }
+
+            [1, 2, 3].forEach(slot => atualizarPreviaBannerSlot(slot));
+            document.getElementById('modal-editar-banner')?.classList.remove('hidden');
+        }
+
+        function fecharModalEditarBanner() {
+            document.getElementById('modal-editar-banner')?.classList.add('hidden');
+        }
+
+        function atualizarPreviaBannerSlot(num) {
+            const input = document.getElementById(`eb-url-${num}`);
+            const img = document.getElementById(`eb-img-prev-${num}`);
+            const txt = document.getElementById(`eb-txt-prev-${num}`);
+            const icon = document.getElementById(`eb-icon-prev-${num}`);
+
+            if (!input || !img) return;
+
+            if (input.value && input.value.trim().length > 5) {
+                img.src = input.value.trim();
+                img.classList.remove('hidden');
+                if (txt) txt.classList.add('hidden');
+                if (icon) icon.classList.add('hidden');
+            } else {
+                img.classList.add('hidden');
+                if (txt) txt.classList.remove('hidden');
+                if (icon) icon.classList.remove('hidden');
+            }
+        }
+
+        function salvarBannerSubmit(e) {
+            e.preventDefault();
+            const tipo = document.getElementById('eb-tipo')?.value || 'Mini Banner';
+            const u1 = document.getElementById('eb-url-1')?.value || '';
+            const u2 = document.getElementById('eb-url-2')?.value || '';
+            const u3 = document.getElementById('eb-url-3')?.value || '';
+            const ativo = document.getElementById('eb-ativo')?.checked;
+
+            const urls = [u1, u2, u3].filter(u => u.trim() !== '');
+
+            if (idBannerEditando) {
+                const banner = adminBanners.find(b => String(b.id) === String(idBannerEditando));
+                if (banner) {
+                    banner.tipo = tipo;
+                    banner.urls = urls;
+                    banner.ativo = ativo;
+                }
+            } else {
+                adminBanners.push({
+                    id: Date.now(),
+                    tipo,
+                    urls,
+                    data: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR'),
+                    ativo
+                });
+            }
+
+            salvarBannersLocal();
+            renderizarTabelaBannersListagem();
+            fecharModalEditarBanner();
+            mostrarToast("Banner salvo com sucesso!");
+        }
+
+        // PERSONALIZAÇÃO DA LOJA CMS
         let layoutSelecionadoCMS = 'sidebar-1';
 
         function selecionarLayout(tipo) {
@@ -2123,7 +1390,6 @@
             const corBotao = document.getElementById('hex-botao')?.value || '#003859';
             const corFundo = document.getElementById('hex-fundo')?.value || '#F4F6F9';
 
-            // Atualiza preview visual
             const prevBox = document.getElementById('preview-loja-box');
             if (prevBox) prevBox.style.backgroundColor = corFundo;
 
@@ -2144,7 +1410,6 @@
                 if (b) b.style.backgroundColor = corBotao;
             });
 
-            // Ajusta Sidebar na Prévia
             const prevSidebar = document.getElementById('prev-sidebar-box');
             const prevProducts = document.getElementById('prev-products-box');
             if (layoutSelecionadoCMS === 'sem-sidebar') {
@@ -2213,9 +1478,7 @@
                 corRodape: document.getElementById('hex-rodape')?.value,
                 corBarraRodape: document.getElementById('hex-barra-rodape')?.value,
                 corBotao: document.getElementById('hex-botao')?.value,
-                corFundo: document.getElementById('hex-fundo')?.value,
-                posBanner: document.getElementById('cms-pos-banner')?.value,
-                posTarja1: document.getElementById('cms-pos-tarja1')?.value
+                corFundo: document.getElementById('hex-fundo')?.value
             };
 
             localStorage.setItem('phsublime_admin_cms', JSON.stringify(config));
@@ -2321,6 +1584,8 @@
             carregarMaisVendidosAdmin();
             carregarIntegracoesLocal();
             carregarCMSLocal();
+            carregarLogoFaviconLocal();
+            carregarBannersLocal();
             await carregarProdutosAdmin();
         }
 
