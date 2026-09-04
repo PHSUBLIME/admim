@@ -160,7 +160,7 @@
                             <i class="fa-solid fa-bullhorn text-amber-300"></i> Pop-ups & Newsletter
                         </button>
                         <button onclick="abrirModalCriarCupom()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
-                            <i class="fa-solid fa-ticket-simple text-sm"></i> Criar Cupom
+                            <i class="fa-solid fa-ticket-simple text-sm"></i> Gestão de Cupons
                         </button>
                     </div>
                 </div>
@@ -442,6 +442,9 @@
                         <p class="text-xs text-slate-500">Consulte, edite dados cadastrais, notas por estrelas e gerencie saldos em conta.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="abrirModalCriarCupom()" class="bg-amber-500 hover:bg-amber-400 text-blue-950 font-bold text-xs px-3.5 py-2 rounded-lg transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-ticket-simple"></i> Cupons de Desconto
+                        </button>
                         <button onclick="abrirModalNewsletterMarketing()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-all shadow flex items-center gap-1.5">
                             <i class="fa-solid fa-bullhorn"></i> Pop-ups & Newsletter
                         </button>
@@ -548,6 +551,88 @@
             <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
         </footer>
 
+    </div>
+
+    <!-- MODAL COMPLETO DE GERENCIAMENTO DE CUPONS DE DESCONTO -->
+    <div id="modal-criar-cupom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalCriarCupom()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-ticket-simple text-amber-500"></i> Central de Cupons de Desconto
+                </h3>
+            </div>
+
+            <!-- FORMULÁRIO DE CRIAR NOVO CUPOM -->
+            <form onsubmit="salvarCupomSubmit(event)" class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 space-y-3 text-xs">
+                <h4 class="font-bold text-blue-950 uppercase text-[11px]"><i class="fa-solid fa-circle-plus text-emerald-600"></i> Cadastrar Novo Cupom</h4>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Código do Cupom *</label>
+                        <input type="text" id="cupom-codigo" required placeholder="Ex: NIVER10 ou DESCONTO20" class="w-full px-3 py-2 border rounded-lg focus:outline-none uppercase font-bold tracking-wider">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Tipo de Desconto *</label>
+                        <select id="cupom-tipo" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                            <option value="porcentagem">Porcentagem (%)</option>
+                            <option value="fixo">Valor Fixo em Dinheiro (R$)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Valor do Desconto *</label>
+                        <input type="number" id="cupom-porcentagem" required min="1" step="0.01" placeholder="10" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold text-emerald-700">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Validade (Data)</label>
+                        <input type="date" id="cupom-validade" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Limite Total de Usos</label>
+                        <input type="number" id="cupom-limite-total" min="1" value="100" placeholder="Ex: 100" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Limite Por Cliente</label>
+                        <input type="number" id="cupom-limite-cliente" min="1" value="1" placeholder="Ex: 1" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end">
+                    <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar e Ativar Cupom
+                    </button>
+                </div>
+            </form>
+
+            <!-- TABELA DE CUPONS CADASTRADOS -->
+            <div>
+                <span class="font-bold text-slate-700 block mb-1.5 text-xs">Cupons Ativos no Sistema:</span>
+                <div class="border border-slate-200 rounded-xl overflow-hidden max-h-48 overflow-y-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 font-bold text-slate-600 uppercase text-[10px]">
+                                <th class="p-2.5">CÓDIGO</th>
+                                <th class="p-2.5">DESCONTO</th>
+                                <th class="p-2.5">VALIDADE</th>
+                                <th class="p-2.5 text-center">USOS</th>
+                                <th class="p-2.5 text-center">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-cupons-modal-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex justify-end">
+                <button type="button" onclick="fecharModalCriarCupom()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Fechar</button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL DE KITS E COMPRE JUNTO -->
@@ -828,349 +913,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE CRIAR CUPOM DE DESCONTO -->
-    <div id="modal-criar-cupom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-blue-200">
-            <button onclick="fecharModalCriarCupom()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-2">
-                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-ticket text-amber-500"></i> Criar Cupom de Desconto
-                </h3>
-            </div>
-
-            <form onsubmit="salvarCupomSubmit(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Código do Cupom *</label>
-                    <input type="text" id="cupom-codigo" required placeholder="Ex: NIVER10 ou DESCONTO15" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 uppercase font-bold tracking-wider">
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Desconto (%) *</label>
-                        <input type="number" id="cupom-porcentagem" required min="1" max="100" placeholder="10" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-emerald-700">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Validade (Dias)</label>
-                        <input type="number" id="cupom-validade" min="1" value="30" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
-                    </div>
-                </div>
-
-                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalCriarCupom()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
-                    <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
-                        <i class="fa-solid fa-paper-plane"></i> Gerar e Enviar no WhatsApp
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL DETALHES DO PEDIDO -->
-    <div id="modal-detalhes-pedido-admin" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalDetalhesPedido()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-3 flex items-center justify-between flex-wrap gap-2">
-                <div>
-                    <h3 id="txt-modal-pedido-codigo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                        <i class="fa-solid fa-bookmark text-amber-500"></i> Pedido #75Y19RYI
-                    </h3>
-                    <span id="txt-modal-pedido-data" class="text-xs text-slate-500 font-semibold block">Criado em 14/06/2026 15:35:58</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="enviarAtualizacaoWhatsappPedido()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow">
-                        <i class="fa-brands fa-whatsapp text-sm"></i> Notificar Cliente
-                    </button>
-                </div>
-            </div>
-
-            <!-- GRID COM CARDS DE INFORMAÇÕES -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                <!-- CLIENTE -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
-                    <h4 class="font-black text-blue-900 uppercase text-[11px] border-b border-slate-200 pb-1.5 flex items-center gap-1.5">
-                        <i class="fa-solid fa-user text-amber-500"></i> Dados do Cliente
-                    </h4>
-                    <p><strong class="text-slate-800" id="det-cli-nome">GABRIEL SALES DA SILVA</strong></p>
-                    <p><strong>Tipo:</strong> <span id="det-cli-tipo">Pessoa Física</span></p>
-                    <p><strong>CPF/CNPJ:</strong> <span id="det-cli-doc" class="font-mono">174.635.767-36</span></p>
-                    <p><strong>Email:</strong> <span id="det-cli-email">bielyt.cevd@gmail.com</span></p>
-                    <p><strong>WhatsApp:</strong> <span id="det-cli-wpp" class="font-bold text-emerald-700">(21) 99013-0003</span></p>
-                </div>
-
-                <!-- TRANSPORTE -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
-                    <h4 class="font-black text-blue-900 uppercase text-[11px] border-b border-slate-200 pb-1.5 flex items-center gap-1.5">
-                        <i class="fa-solid fa-truck text-blue-600"></i> Transporte / Entrega
-                    </h4>
-                    <p><strong>Tipo:</strong> <span id="det-transp-tipo">Transportadora - PH ENTREGA</span></p>
-                    <p><strong>Prazo:</strong> <span id="det-transp-prazo">2 dias úteis</span></p>
-                    <p><strong>Endereço:</strong> <span id="det-transp-end">Estrada da Água Grande, 221 - Bl. 2 Apt.404 - Irajá. Rio de Janeiro/RJ. CEP 21230-362</span></p>
-                </div>
-            </div>
-
-            <!-- RESUMO DE VALORES E SITUAÇÃO -->
-            <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-                <div>
-                    <span class="text-slate-500 font-bold block text-[11px]">SITUAÇÃO DO PEDIDO</span>
-                    <select id="select-modal-situacao-pedido" class="mt-1 bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-bold text-blue-900 focus:outline-none w-full">
-                        <option value="Aguardando Pagamento">Aguardando Pagamento</option>
-                        <option value="Confirmado">Confirmado</option>
-                        <option value="Em Produção">Em Produção</option>
-                        <option value="Saiu para Entrega">Saiu para Entrega</option>
-                        <option value="Concluído">Concluído</option>
-                        <option value="Cancelado">Cancelado</option>
-                    </select>
-                </div>
-                <div>
-                    <span class="text-slate-500 font-bold block text-[11px]">FORMA DE PAGAMENTO</span>
-                    <strong id="det-financeiro-forma" class="text-slate-800 text-sm block mt-1">Mercado Pago / PIX</strong>
-                </div>
-                <div>
-                    <span class="text-slate-500 font-bold block text-[11px]">VALOR TOTAL</span>
-                    <strong id="det-financeiro-total" class="text-red-600 text-lg font-black block mt-0.5">R$ 107,02</strong>
-                </div>
-            </div>
-
-            <!-- ITENS DO PEDIDO E ARQUIVOS -->
-            <div class="space-y-3">
-                <h4 class="font-black text-blue-900 uppercase text-xs flex items-center gap-2">
-                    <i class="fa-solid fa-boxes-packing text-amber-500"></i> Itens e Arquivos de Impressão do Cliente
-                </h4>
-                <div class="border border-slate-200 rounded-xl overflow-hidden bg-white">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
-                                <th class="py-2.5 px-3">ITEM</th>
-                                <th class="py-2.5 px-3">PRODUTO / ESPECIFICAÇÃO</th>
-                                <th class="py-2.5 px-3 text-center">ARQUIVO ENVIADO</th>
-                                <th class="py-2.5 px-3 text-right">SUBTOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela-detalhes-itens-pedido" class="divide-y divide-slate-100">
-                            <!-- Preenchido via JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- OBSERVAÇÕES INTERNAS -->
-            <div class="space-y-2">
-                <label class="font-black text-slate-700 text-xs block">Observações Internas da Gráfica</label>
-                <textarea id="txt-modal-obs-interna" rows="3" placeholder="Anotações para a produção, corte ou entrega..." class="w-full p-2.5 border border-slate-300 rounded-xl text-xs focus:outline-none focus:border-blue-600"></textarea>
-            </div>
-
-            <div class="pt-3 border-t border-slate-100 flex justify-end gap-3">
-                <button type="button" onclick="fecharModalDetalhesPedido()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Fechar</button>
-                <button type="button" onclick="salvarAlteracoesPedidoModal()" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2 uppercase">
-                    <i class="fa-solid fa-floppy-disk"></i> SALVAR ALTERAÇÕES
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE FORMULÁRIO COMPLETO PHSUBLIME (CADASTRAR / EDITAR PRODUTO) -->
-    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-3">
-                <h3 id="txt-modal-form-titulo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar / Editar Produto (PHSUBLIME)
-                </h3>
-            </div>
-
-            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-5 text-xs">
-                <input type="hidden" id="prod-id">
-
-                <!-- SEÇÃO 1: INFORMAÇÕES BÁSICAS -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <h4 class="font-black text-blue-900 uppercase text-[11px] flex items-center gap-1.5 border-b border-slate-200 pb-1">
-                        <i class="fa-solid fa-info-circle text-amber-500"></i> Informações Principais
-                    </h4>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div class="sm:col-span-2">
-                            <label class="font-bold text-slate-700 block mb-1">Nome do Produto *</label>
-                            <input type="text" id="prod-nome" required placeholder="Ex: Cartão de Visita 300g Lam. Fosca + Verniz Local" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Referência / SKU *</label>
-                            <input type="text" id="prod-ref" required placeholder="Ex: CRT300UV" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-mono">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                        <div class="sm:col-span-2">
-                            <label class="font-bold text-slate-700 block mb-1">Categoria *</label>
-                            <select id="prod-categoria" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-medium">
-                                <!-- Preenchido Dinamicamente -->
-                            </select>
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Preço Venda (R$) *</label>
-                            <input type="number" step="0.01" id="prod-preco" required placeholder="0.00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-black text-emerald-700 text-sm">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Vendido Por / Unidade *</label>
-                            <select id="prod-unidade" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
-                                <option value="un">Unidade (un)</option>
-                                <option value="m²">Metro² (m²)</option>
-                                <option value="m">Metro Linear (m)</option>
-                                <option value="cento">Cento (100un)</option>
-                                <option value="milher">Milheiro (1000un)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SEÇÃO 2: RECURSOS ESPECÍFICOS DE GRÁFICA (EXTRAÍDOS DA PHSUBLIME) -->
-                <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-200 space-y-3">
-                    <h4 class="font-black text-blue-900 uppercase text-[11px] flex items-center gap-1.5 border-b border-blue-200 pb-1">
-                        <i class="fa-solid fa-sliders text-blue-700"></i> Prazos, Gabaritos e Serviços de Arte
-                    </h4>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Prazo de Produção (Dias)</label>
-                            <input type="number" id="prod-prazo" placeholder="Ex: 3" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Taxa de Criação de Arte (R$)</label>
-                            <input type="number" step="0.01" id="prod-taxa-arte" placeholder="Ex: 25.00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-semibold text-blue-900">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Preço Especial Revendedor (R$)</label>
-                            <input type="number" step="0.01" id="prod-preco-revendedor" placeholder="Ex: 15.00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-purple-700">
-                        </div>
-                    </div>
-
-                    <!-- ARQUIVOS DE GABARITO (.CDR, .PSD, .AI, .PDF) -->
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1"><i class="fa-solid fa-file-arrow-down text-emerald-600"></i> Link do Gabarito para o Cliente Baixar (Google Drive / Cloud)</label>
-                        <input type="text" id="prod-gabarito-link" placeholder="https://drive.google.com/folder/gabarito-cartao-300g" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-mono text-[11px]">
-                    </div>
-
-                    <!-- SELEÇÃO DE ACABAMENTOS -->
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Acabamentos Disponíveis neste Produto</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-white p-2.5 rounded-lg border border-slate-200 text-[11px]">
-                            <label class="flex items-center gap-1.5"><input type="checkbox" id="acb-corte" value="Corte Especial" class="rounded"> Corte Contorno</label>
-                            <label class="flex items-center gap-1.5"><input type="checkbox" id="acb-vinco" value="Vinco / Dobra" class="rounded"> Vinco / Dobra</label>
-                            <label class="flex items-center gap-1.5"><input type="checkbox" id="acb-ilhos" value="Ilhós" class="rounded"> Aplicação de Ilhós</label>
-                            <label class="flex items-center gap-1.5"><input type="checkbox" id="acb-laminacao" value="Laminação Fosca" class="rounded"> Laminação Fosca</label>
-                            <label class="flex items-center gap-1.5"><input type="checkbox" id="acb-verniz" value="Verniz Local" class="rounded"> Verniz UV Local</label>
-                            <label class="flex items-center gap-1.5"><input type="checkbox" id="acb-canto" value="Canto Arredondado" class="rounded"> Cantos Arredondados</label>
-                            <label class="flex items-center gap-1.5"><input type="checkbox" id="acb-tubete" value="Tubete + Corda" class="rounded"> Tubete de Madeira</label>
-                            <label class="flex items-center gap-1.5"><input type="checkbox" id="acb-numeracao" value="Numeração" class="rounded"> Numeração Sequencial</label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SEÇÃO 3: IMAGEM E DESCRIÇÃO -->
-                <div class="space-y-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Link da Imagem Principal (URL) *</label>
-                        <input type="text" id="prod-imagem" required placeholder="https://phsublime.sistograf.net/storage/produtos/imagem.jpg" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
-                    </div>
-
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Descrição Técnica / Especificações da Impressão</label>
-                        <textarea id="prod-descricao" rows="3" placeholder="Ex: Papel Couchê 300g, Impressão Offset 4x4 cores, Tamanho Sangrado 9,1x5,1cm..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-mono text-[11px]"></textarea>
-                    </div>
-                </div>
-
-                <!-- BOTÕES -->
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-3">
-                    <button type="button" onclick="fecharModalFormProduto()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
-                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2 uppercase">
-                        <i class="fa-solid fa-floppy-disk"></i> SALVAR NO BANCO
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL DE FORMULÁRIO DE CLIENTE (CADASTRAR / EDITAR) -->
-    <div id="modal-form-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalFormCliente()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-3">
-                <h3 id="txt-modal-cliente-titulo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-user-gear text-amber-500"></i> Editar Cliente
-                </h3>
-            </div>
-
-            <form id="form-salvar-cliente" onsubmit="salvarClienteSubmit(event)" class="space-y-4 text-xs">
-                <input type="hidden" id="cli-id">
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div class="sm:col-span-2">
-                        <label class="font-bold text-slate-700 block mb-1">Nome Completo / Razão Social *</label>
-                        <input type="text" id="cli-nome" required placeholder="Ex: Gabriel Sales da Silva" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Tipo de Cliente *</label>
-                        <select id="cli-tipo" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
-                            <option value="PF">Pessoa Física (PF)</option>
-                            <option value="PJ">Pessoa Jurídica (PJ)</option>
-                            <option value="Revendedor">Revendedor Especial</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Documento (CPF / CNPJ) *</label>
-                        <input type="text" id="cli-doc" required placeholder="000.000.000-00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-mono">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">WhatsApp / Telefone *</label>
-                        <input type="text" id="cli-wpp" required placeholder="(21) 99999-9999" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-emerald-700">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Avaliação (1 a 5 ⭐)</label>
-                        <select id="cli-estrelas" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-amber-500 font-bold text-amber-500">
-                            <option value="5">⭐⭐⭐⭐⭐ (5 Estrelas)</option>
-                            <option value="4">⭐⭐⭐⭐ (4 Estrelas)</option>
-                            <option value="3">⭐⭐⭐ (3 Estrelas)</option>
-                            <option value="2">⭐⭐ (2 Estrelas)</option>
-                            <option value="1">⭐ (1 Estrela)</option>
-                            <option value="0">Sem nota (0)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">E-mail</label>
-                    <input type="email" id="cli-email" placeholder="cliente@email.com" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
-                </div>
-
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Endereço Completo</label>
-                    <input type="text" id="cli-endereco" placeholder="Ex: Estrada da Água Grande, 221 - Irajá / RJ" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
-                </div>
-
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Status do Cliente</label>
-                    <select id="cli-status" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
-                        <option value="ATIVO">ATIVO</option>
-                        <option value="INATIVO">INATIVO</option>
-                    </select>
-                </div>
-
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-3">
-                    <button type="button" onclick="fecharModalFormCliente()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2 uppercase">
-                        <i class="fa-solid fa-floppy-disk"></i> SALVAR CLIENTE
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- TOAST NOTIFICAÇÃO -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-amber-400 px-5 py-3.5 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[1001]">
         <i id="toast-icon" class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
@@ -1187,6 +929,13 @@
         let adminProdutos = [];
         let idItemExclusaoPendente = null;
         let tipoItemExclusao = 'produto';
+
+        // BASE DE CUPONS DE DESCONTO
+        let adminCuponsDefault = [
+            { id: 1, codigo: 'NIVER10', tipo: 'porcentagem', valor: 10, validade: '2026-12-31', limiteTotal: 100, limiteCliente: 1, usados: 12 },
+            { id: 2, codigo: 'BEMVINDO20', tipo: 'fixo', valor: 20.00, validade: '2026-10-15', limiteTotal: 50, limiteCliente: 1, usados: 5 }
+        ];
+        let adminCupons = [];
 
         // MAPA INTELIGENTE DE AUTO-CATEGORIZAÇÃO POR PALAVRAS-CHAVE
         const MAPA_AUTO_CATEGORIAS = [
@@ -1304,6 +1053,127 @@
         function escapeHtml(str) {
             if (str === null || str === undefined) return '';
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // PERSISTÊNCIA DE CUPONS DE DESCONTO
+        function carregarCuponsSalvosLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_cupons');
+            if (salvos) {
+                try {
+                    adminCupons = JSON.parse(salvos);
+                } catch(e) {
+                    adminCupons = adminCuponsDefault;
+                }
+            } else {
+                adminCupons = adminCuponsDefault;
+                salvarCuponsSalvosLocal();
+            }
+        }
+
+        function salvarCuponsSalvosLocal() {
+            localStorage.setItem('phsublime_admin_cupons', JSON.stringify(adminCupons));
+        }
+
+        function renderizarTabelaCuponsModal() {
+            const tbody = document.getElementById('tabela-cupons-modal-body');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            if (adminCupons.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400">Nenhum cupom ativo registrado.</td></tr>`;
+                return;
+            }
+
+            adminCupons.forEach(cupom => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+
+                const descTxt = cupom.tipo === 'porcentagem' ? `${cupom.valor}% OFF` : `R$ ${parseFloat(cupom.valor).toFixed(2)} OFF`;
+                const valTxt = cupom.validade ? cupom.validade : 'Sem limite';
+
+                tr.innerHTML = `
+                    <td class="p-2.5 font-black text-blue-900 font-mono uppercase">${escapeHtml(cupom.codigo)}</td>
+                    <td class="p-2.5 font-bold text-emerald-700">${descTxt}</td>
+                    <td class="p-2.5 text-slate-500">${valTxt}</td>
+                    <td class="p-2.5 text-center font-bold text-slate-700">${cupom.usados || 0} de ${cupom.limiteTotal || '∞'}</td>
+                    <td class="p-2.5 text-center">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="enviarCupomWhatsAppIndiv('${escapeHtml(cupom.codigo)}')" class="bg-emerald-600 hover:bg-emerald-500 text-white p-1.5 rounded-md shadow" title="Enviar no WhatsApp">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </button>
+                            <button onclick="excluirCupom('${cupom.id}')" class="bg-red-600 hover:bg-red-500 text-white p-1.5 rounded-md shadow" title="Excluir Cupom">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalCriarCupom() {
+            carregarCuponsSalvosLocal();
+            renderizarTabelaCuponsModal();
+            document.getElementById('modal-criar-cupom').classList.remove('hidden');
+        }
+
+        function fecharModalCriarCupom() {
+            document.getElementById('modal-criar-cupom').classList.add('hidden');
+        }
+
+        function salvarCupomSubmit(e) {
+            e.preventDefault();
+            const codigo = document.getElementById('cupom-codigo').value.toUpperCase().trim();
+            const tipo = document.getElementById('cupom-tipo').value;
+            const valor = parseFloat(document.getElementById('cupom-porcentagem').value) || 0;
+            const validade = document.getElementById('cupom-validade').value;
+            const limiteTotal = parseInt(document.getElementById('cupom-limite-total').value) || 100;
+            const limiteCliente = parseInt(document.getElementById('cupom-limite-cliente').value) || 1;
+
+            if (!codigo || valor <= 0) {
+                mostrarModalNotificacaoCustom("Aviso", "Informe um código e um valor de desconto válido.");
+                return;
+            }
+
+            const novoId = adminCupons.length > 0 ? Math.max(...adminCupons.map(c => c.id || 0)) + 1 : 1;
+
+            adminCupons.unshift({
+                id: novoId,
+                codigo: codigo,
+                tipo: tipo,
+                valor: valor,
+                validade: validade,
+                limiteTotal: limiteTotal,
+                limiteCliente: limiteCliente,
+                usados: 0
+            });
+
+            salvarCuponsSalvosLocal();
+            renderizarTabelaCuponsModal();
+            
+            document.getElementById('cupom-codigo').value = '';
+            document.getElementById('cupom-porcentagem').value = '';
+
+            mostrarToast(`Cupom ${codigo} salvo e ativado!`);
+        }
+
+        function excluirCupom(id) {
+            if (!confirm("Tem certeza que deseja excluir este cupom de desconto?")) return;
+            adminCupons = adminCupons.filter(c => String(c.id) !== String(id));
+            salvarCuponsSalvosLocal();
+            renderizarTabelaCuponsModal();
+            mostrarToast("Cupom removido!");
+        }
+
+        function enviarCupomWhatsAppIndiv(codigo) {
+            const cupom = adminCupons.find(c => c.codigo === codigo);
+            if (!cupom) return;
+
+            const descTxt = cupom.tipo === 'porcentagem' ? `${cupom.valor}% DE DESCONTO` : `R$ ${parseFloat(cupom.valor).toFixed(2)} DE DESCONTO`;
+            const msg = `Olá! 🎁 A *PHSUBLIME GRÁFICA* preparou um presente para você:\n\nCupom: *${cupom.codigo}*\nBenefício: *${descTxt}* em seus próximos pedidos!\n\nAproveite no site ou faça seu pedido por aqui.`;
+
+            window.open(`https://wa.me/5521986147221?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         // LÓGICA DE COMPRE JUNTO / KITS
@@ -1609,29 +1479,6 @@
         function fecharModalConfirmExclusao() {
             document.getElementById('modal-confirm-exclusao').classList.add('hidden');
             idItemExclusaoPendente = null;
-        }
-
-        // LÓGICA DE CUPOM DE DESCONTO
-        function abrirModalCriarCupom() {
-            document.getElementById('cupom-codigo').value = 'NIVER10';
-            document.getElementById('modal-criar-cupom').classList.remove('hidden');
-        }
-
-        function fecharModalCriarCupom() {
-            document.getElementById('modal-criar-cupom').classList.add('hidden');
-        }
-
-        function salvarCupomSubmit(e) {
-            e.preventDefault();
-            const codigo = document.getElementById('cupom-codigo').value.toUpperCase().trim();
-            const porc = document.getElementById('cupom-porcentagem').value;
-
-            fecharModalCriarCupom();
-
-            const msgWpp = `Olá! 🎂🎉 Parabéns pelo seu aniversário! A *PHSUBLIME GRÁFICA* preparou um presente especial para você:\n\nCupom de Desconto: *${codigo}*\nValor: *${porc}% DE DESCONTO* em seu próximo pedido!\n\nAproveite em nosso site ou faça seu pedido por aqui!`;
-            
-            window.open(`https://wa.me/5521986147221?text=${encodeURIComponent(msgWpp)}`, '_blank');
-            mostrarToast(`Cupom ${codigo} gerado com sucesso!`);
         }
 
         // VERIFICA LOGIN SALVO
@@ -2709,6 +2556,7 @@
         }
 
         async function inicializarAdmin() {
+            carregarCuponsSalvosLocal();
             carregarPedidosSalvosLocal();
             carregarClientesSalvosLocal();
             carregarPedidosAdmin();
