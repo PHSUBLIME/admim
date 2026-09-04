@@ -5,16 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrador - PHSUBLIME</title>
 
-    <!-- FAVICON -->
     <link rel="icon" type="image/x-icon" href="https://phsublime.sistograf.net/storage/logos/favicon.ico">
-
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -23,17 +17,15 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #003859; border-radius: 4px; }
-        
         @media print {
             header, footer, button, .no-print { display: none !important; }
             main { margin: 0 !important; padding: 0 !important; }
-            .print-only { display: block !important; }
         }
     </style>
 </head>
 <body class="bg-[#f4f6f9] min-h-screen flex flex-col justify-between selection:bg-blue-200">
 
-    <!-- CAIXA DE MENSAGEM CUSTOMIZADA (AVISOS E ERROS) -->
+    <!-- MODAL NOTIFICAÇÃO ALERTA -->
     <div id="modal-notificacao-custom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10000] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-slate-200 relative">
             <div id="notif-custom-icon-box" class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
@@ -49,7 +41,7 @@
         </div>
     </div>
 
-    <!-- CAIXA DE CONFIRMAÇÃO DE EXCLUSÃO -->
+    <!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
     <div id="modal-confirm-exclusao" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-red-200 relative">
             <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
@@ -57,7 +49,7 @@
             </div>
             <div>
                 <h3 class="text-base font-black text-slate-800 font-heading uppercase">Confirmar Exclusão</h3>
-                <p id="txt-confirm-exclusao-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este item do sistema?</p>
+                <p id="txt-confirm-exclusao-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este item?</p>
             </div>
             <div class="grid grid-cols-2 gap-3 pt-2">
                 <button onclick="fecharModalConfirmExclusao()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl text-xs uppercase transition-all">
@@ -70,20 +62,20 @@
         </div>
     </div>
 
-    <!-- MODAL DE LOGIN / SENHA DE SEGURANÇA -->
+    <!-- MODAL LOGIN ADMIN -->
     <div id="modal-login-admin" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-5">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-4">
             <div class="w-16 h-16 bg-[#003859] text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-lg">
                 <i class="fa-solid fa-user-shield"></i>
             </div>
             <div>
-                <h2 class="text-xl font-black text-slate-900 uppercase font-heading">Painel de Administração</h2>
+                <h2 class="text-xl font-black text-slate-900 uppercase font-heading">Painel Administrador</h2>
                 <p class="text-xs text-slate-500 font-semibold mt-1">PHSUBLIME GRÁFICA DIGITAL</p>
             </div>
             <form onsubmit="autenticarAdmin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 text-left mb-1">Senha do Administrador *</label>
-                    <input type="password" id="input-senha-admin" placeholder="Digite a senha (Padrão: 1234)" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-700 text-center font-bold tracking-widest">
+                    <label class="block text-xs font-bold text-slate-700 text-left mb-1">Senha de Acesso *</label>
+                    <input type="password" id="input-senha-admin" placeholder="Senha (Padrão: 1234)" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-700 text-center font-bold tracking-widest">
                 </div>
                 <button type="submit" class="w-full bg-[#003859] hover:bg-[#002847] text-white font-black py-3 rounded-xl shadow-lg transition-all text-sm uppercase flex items-center justify-center gap-2">
                     <i class="fa-solid fa-key"></i> ACESSAR PAINEL
@@ -170,7 +162,7 @@
                             <!-- COLUNA 2: CONFIGURAÇÕES -->
                             <div class="space-y-2">
                                 <span class="font-black text-slate-400 text-[10px] uppercase tracking-wider block border-b pb-1">Configurações</span>
-                                <button onclick="abrirModalConfiguracoesSistema()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-gear text-slate-500"></i> Dados da Loja</button>
+                                <button onclick="abrirModalConfiguracoesSistema()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-store text-amber-500"></i> Dados da Loja</button>
                                 <button onclick="abrirModalConfiguracoesSistema()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-credit-card text-blue-500"></i> Formas Pagamento</button>
                                 <button onclick="abrirModalConfiguracoesSistema()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-truck text-emerald-500"></i> Balcões de Retirada</button>
                                 <button onclick="abrirModalCriarCupom()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-ticket text-amber-500"></i> Cupons & Ofertas</button>
@@ -185,7 +177,7 @@
             </div>
         </header>
 
-        <!-- CORPO PRINCIPAL -->
+        <!-- CORPO DO PAINEL -->
         <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 space-y-6">
 
             <!-- SEÇÃO INÍCIO (INSPIRADO NO SISTOGRAF) -->
@@ -544,9 +536,143 @@
 
         <!-- RODAPÉ COMPACTO -->
         <footer class="bg-[#003859] text-slate-300 py-3 text-xs text-center border-t border-blue-900 font-medium">
-            <p>© 2026 PHSUBLIME GRÁFICA DIGITAL - Seropérdica / RJ</p>
+            <p>© 2026 PHSUBLIME GRÁFICA DIGITAL - Estrada da Água Grande, 221 - Irajá / RJ</p>
         </footer>
 
+    </div>
+
+    <!-- MODAL DADOS DA LOJA E CONFIGURAÇÕES (ESTILO SISTOGRAF / DESIGN PHSUBLIME) -->
+    <div id="modal-configuracoes-sistema" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalConfiguracoesSistema()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <!-- BREADCRUMB / HEADER DO MODAL -->
+            <div class="border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
+                    <span>Painel Administrador</span>
+                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                    <span>Configurações</span>
+                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                    <span class="text-blue-900">Dados da Loja</span>
+                </div>
+                <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-store text-amber-500"></i> Dados da Loja e Frete
+                </h3>
+            </div>
+
+            <form onsubmit="salvarDadosLojaSubmit(event)" class="space-y-4 text-xs">
+                
+                <!-- BLOCO 1: IDENTIFICAÇÃO E CONTATO -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                    <h4 class="font-black text-blue-950 uppercase text-[11px] flex items-center gap-1.5 border-b border-slate-200 pb-1">
+                        <i class="fa-solid fa-id-card text-blue-600"></i> Identificação e Contato
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Título da Loja *</label>
+                            <input type="text" id="cfg-titulo-loja" required placeholder="Ex: PHSUBLIME - Gráfica Digital Online" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-700 font-bold">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">E-mail para Contato *</label>
+                            <input type="email" id="cfg-email-contato" required placeholder="phsublime5149@gmail.com" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Telefone Principal (WhatsApp) *</label>
+                            <input type="text" id="cfg-tel-1" required placeholder="(21) 98614-7221" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold text-emerald-700">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Telefone 2</label>
+                            <input type="text" id="cfg-tel-2" placeholder="(00) 0000-0000" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Telefone 3</label>
+                            <input type="text" id="cfg-tel-3" placeholder="(00) 0000-0000" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOCO 2: LOGÍSTICA DE FRETE & CORREIOS / JADLOG -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-1">
+                        <h4 class="font-black text-blue-950 uppercase text-[11px] flex items-center gap-1.5">
+                            <i class="fa-solid fa-truck text-emerald-600"></i> Frete e Calculadora de Envio (Correios / Jadlog / Jamef)
+                        </h4>
+                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
+                            <input type="checkbox" id="cfg-ativar-correios" checked class="rounded text-blue-900 accent-blue-900"> Ativar Entrega
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">CEP de Origem *</label>
+                            <input type="text" id="cfg-cep-origem" required placeholder="21230-362" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono font-bold">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Usuário (Meu Correios)</label>
+                            <input type="text" id="cfg-correios-user" placeholder="Usuário" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Código de Acesso API (CWS)</label>
+                            <input type="password" id="cfg-correios-cws" placeholder="Chave CWS" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Cartão de Postagem</label>
+                            <input type="text" id="cfg-correios-cartao" placeholder="Nº Cartão" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-mono">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Endereço de Origem / Balcão Principal *</label>
+                        <textarea id="cfg-endereco-completo" required rows="2" placeholder="Estrada da Água Grande, 221 - Irajá, Rio de Janeiro - RJ" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Horário Limite para Envio de Arquivos</label>
+                            <div class="flex items-center gap-2">
+                                <input type="time" id="cfg-horario-limite" value="23:59" class="px-3 py-2 border rounded-lg focus:outline-none font-bold text-slate-800">
+                                <span class="text-[11px] text-slate-500">Arquivos após este horário contam para o próximo dia útil.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOCO 3: SEO E OTIMIZAÇÃO PARA BUSCADORES -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                    <h4 class="font-black text-blue-950 uppercase text-[11px] flex items-center gap-1.5 border-b border-slate-200 pb-1">
+                        <i class="fa-solid fa-magnifying-glass text-amber-500"></i> Otimização para Buscadores (SEO)
+                    </h4>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Título SEO da Página (Meta Title)</label>
+                            <input type="text" id="cfg-seo-title" placeholder="PHSUBLIME - Gráfica Digital no Rio de Janeiro" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Palavras-chave (Keywords)</label>
+                            <input type="text" id="cfg-seo-keywords" placeholder="gráfica, banners, cartões de visita, copos, vinil" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Descrição para o Google (Meta Description)</label>
+                        <textarea id="cfg-seo-desc" rows="2" placeholder="Gráfica digital online no Rio de Janeiro. Impressão de alta qualidade em banners, cartões, panfletos e adesivos..." class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalConfiguracoesSistema()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all uppercase">Cancelar</button>
+                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl shadow-md transition-all uppercase flex items-center gap-2 text-xs">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar Dados da Loja
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
 
     <!-- MODAL GERENCIAR MAIS VENDIDOS -->
@@ -926,6 +1052,56 @@
             document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
         }
 
+        // DADOS DA LOJA (SALVAR E CARREGAR LOCALSTORAGE)
+        function carregarDadosLojaLocal() {
+            const salvos = localStorage.getItem('phsublime_dados_loja');
+            if (!salvos) return;
+
+            try {
+                const cfg = JSON.parse(salvos);
+                if (document.getElementById('cfg-titulo-loja')) document.getElementById('cfg-titulo-loja').value = cfg.titulo || 'PHSUBLIME - Gráfica Digital Online';
+                if (document.getElementById('cfg-email-contato')) document.getElementById('cfg-email-contato').value = cfg.email || 'phsublime5149@gmail.com';
+                if (document.getElementById('cfg-tel-1')) document.getElementById('cfg-tel-1').value = cfg.tel1 || '(21) 98614-7221';
+                if (document.getElementById('cfg-tel-2')) document.getElementById('cfg-tel-2').value = cfg.tel2 || '';
+                if (document.getElementById('cfg-tel-3')) document.getElementById('cfg-tel-3').value = cfg.tel3 || '';
+                if (document.getElementById('cfg-ativar-correios')) document.getElementById('cfg-ativar-correios').checked = cfg.ativarCorreios !== false;
+                if (document.getElementById('cfg-cep-origem')) document.getElementById('cfg-cep-origem').value = cfg.cepOrigem || '21230-362';
+                if (document.getElementById('cfg-correios-user')) document.getElementById('cfg-correios-user').value = cfg.correiosUser || '';
+                if (document.getElementById('cfg-correios-cws')) document.getElementById('cfg-correios-cws').value = cfg.correiosCws || '';
+                if (document.getElementById('cfg-correios-cartao')) document.getElementById('cfg-correios-cartao').value = cfg.correiosCartao || '';
+                if (document.getElementById('cfg-endereco-completo')) document.getElementById('cfg-endereco-completo').value = cfg.endereco || 'Estrada da Água Grande, 221 - Irajá / RJ';
+                if (document.getElementById('cfg-horario-limite')) document.getElementById('cfg-horario-limite').value = cfg.horarioLimite || '23:59';
+                if (document.getElementById('cfg-seo-title')) document.getElementById('cfg-seo-title').value = cfg.seoTitle || '';
+                if (document.getElementById('cfg-seo-keywords')) document.getElementById('cfg-seo-keywords').value = cfg.seoKeywords || '';
+                if (document.getElementById('cfg-seo-desc')) document.getElementById('cfg-seo-desc').value = cfg.seoDesc || '';
+            } catch(e) {}
+        }
+
+        function salvarDadosLojaSubmit(e) {
+            e.preventDefault();
+            const config = {
+                titulo: document.getElementById('cfg-titulo-loja')?.value,
+                email: document.getElementById('cfg-email-contato')?.value,
+                tel1: document.getElementById('cfg-tel-1')?.value,
+                tel2: document.getElementById('cfg-tel-2')?.value,
+                tel3: document.getElementById('cfg-tel-3')?.value,
+                ativarCorreios: document.getElementById('cfg-ativar-correios')?.checked,
+                cepOrigem: document.getElementById('cfg-cep-origem')?.value,
+                correiosUser: document.getElementById('cfg-correios-user')?.value,
+                correiosCws: document.getElementById('cfg-correios-cws')?.value,
+                correiosCartao: document.getElementById('cfg-correios-cartao')?.value,
+                endereco: document.getElementById('cfg-endereco-completo')?.value,
+                horarioLimite: document.getElementById('cfg-horario-limite')?.value,
+                seoTitle: document.getElementById('cfg-seo-title')?.value,
+                seoKeywords: document.getElementById('cfg-seo-keywords')?.value,
+                seoDesc: document.getElementById('cfg-seo-desc')?.value
+            };
+
+            localStorage.setItem('phsublime_dados_loja', JSON.stringify(config));
+            fecharModalConfiguracoesSistema();
+            mostrarToast("Dados da Loja salvos com sucesso!");
+        }
+
         // SUPABASE: CARREGAR E EXIBIR PRODUTOS
         async function carregarProdutosAdmin() {
             const tbody = document.getElementById('tabela-admin-produtos-body');
@@ -1191,12 +1367,20 @@
         // DEMAIS FUNÇÕES AUXILIARES
         function fecharModalNotificacaoCustom() { document.getElementById('modal-notificacao-custom')?.classList.add('hidden'); }
         function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
-        function abrirModalConfiguracoesSistema() { mostrarToast("Configurações do Balcão"); }
+        function abrirModalConfiguracoesSistema() {
+            carregarDadosLojaLocal();
+            document.getElementById('modal-configuracoes-sistema')?.classList.remove('hidden');
+        }
+        function fecharModalConfiguracoesSistema() {
+            document.getElementById('modal-configuracoes-sistema')?.classList.add('hidden');
+        }
+
         function abrirModalMessenger() { mostrarToast("Abre Messenger Chat"); }
         function exportarClientesCSV() { mostrarToast("Gerando arquivo CSV..."); }
         function atualizarCacheSistema() { mostrarToast("Limpeza de cache realizada!"); setTimeout(() => window.location.reload(), 800); }
 
         async function inicializarAdmin() {
+            carregarDadosLojaLocal();
             carregarMaisVendidosAdmin();
             await carregarProdutosAdmin();
         }
