@@ -348,8 +348,8 @@
                 
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
                     <div>
-                        <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Base de Clientes</h3>
-                        <p class="text-xs text-slate-500">Consulte e edite os dados cadastrais dos clientes registrados no sistema.</p>
+                        <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Base de Clientes e Créditos</h3>
+                        <p class="text-xs text-slate-500">Consulte, edite dados cadastrais e gerencie saldos em conta dos clientes.</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="carregarClientesAdmin()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-all">
@@ -371,7 +371,7 @@
                                     <th class="py-3 px-4">TIPO</th>
                                     <th class="py-3 px-4">DOCUMENTO (CPF/CNPJ)</th>
                                     <th class="py-3 px-4">CONTATO / WHATSAPP</th>
-                                    <th class="py-3 px-4">ENDEREÇO</th>
+                                    <th class="py-3 px-4">SALDO DE CRÉDITO</th>
                                     <th class="py-3 px-4 text-center">STATUS</th>
                                     <th class="py-3 px-4 text-center">AÇÕES</th>
                                 </tr>
@@ -385,7 +385,7 @@
 
             </section>
 
-            <!-- ================= ABA 4: RELATÓRIOS FINANCEIROS (NOVA!) ================= -->
+            <!-- ================= ABA 4: RELATÓRIOS FINANCEIROS ================= -->
             <section id="secao-admin-relatorios" class="hidden space-y-6">
                 
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
@@ -454,6 +454,60 @@
             <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
         </footer>
 
+    </div>
+
+    <!-- MODAL DE GESTÃO DE CRÉDITO DO CLIENTE (NOVO!) -->
+    <div id="modal-credito-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-5 shadow-2xl relative border border-emerald-200 my-8">
+            <button onclick="fecharModalCreditoCliente()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-3">
+                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-credit-card text-emerald-600"></i> Gestão de Crédito em Conta
+                </h3>
+                <span id="txt-modal-credito-cliente-nome" class="text-xs text-slate-500 font-bold block mt-1">Cliente: ---</span>
+            </div>
+
+            <!-- SALDO ATUAL CARD -->
+            <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 flex items-center justify-between">
+                <div>
+                    <span class="text-xs text-emerald-800 font-bold block uppercase">Saldo Atual de Créditos</span>
+                    <strong id="txt-modal-saldo-atual" class="text-2xl font-black text-emerald-700">R$ 0,00</strong>
+                </div>
+                <div class="w-12 h-12 bg-emerald-200 text-emerald-800 rounded-xl flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+            </div>
+
+            <!-- FORMULÁRIO DE LANÇAMENTO -->
+            <form onsubmit="salvarCreditoClienteSubmit(event)" class="space-y-3 text-xs border-t border-slate-100 pt-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Ação / Operação *</label>
+                        <select id="credito-acao" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-emerald-600 font-bold">
+                            <option value="adicionar">Adicionar Crédito (Entrada)</option>
+                            <option value="reduzir">Reduzir Crédito (Uso/Saída)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Valor (R$) *</label>
+                        <input type="number" step="0.01" id="credito-valor" required placeholder="0.00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-emerald-600 font-bold text-emerald-700">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Descrição / Motivo do Lançamento *</label>
+                    <input type="text" id="credito-descricao" required placeholder="Ex: Reembolso de pedido cancelado ou Pacote Bônus" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-emerald-600">
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalCreditoCliente()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-check"></i> Confirmar Lançamento
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- MODAL DE CRIAR CUPOM DE DESCONTO -->
@@ -762,6 +816,7 @@
                 wpp: "(21) 99013-0003",
                 email: "bielyt.cevd@gmail.com",
                 endereco: "Estrada da Água Grande, 221 - Irajá / RJ",
+                saldoCredito: 0.00,
                 status: "ATIVO"
             },
             {
@@ -772,10 +827,12 @@
                 wpp: "(91) 99138-5409",
                 email: "robertojor11ge271828@gmail.com",
                 endereco: "Rua Maria Flaviana de Lima, 8 - Bento Ribeiro / RJ",
+                saldoCredito: 174.35,
                 status: "ATIVO"
             }
         ];
         let adminClientes = [];
+        let clienteEmEdicaoCredito = null;
 
         // BASE DE PEDIDOS
         let adminPedidosDefault = [
@@ -1008,7 +1065,6 @@
             const cardHomePed = document.getElementById('card-home-pedidos-qtd');
             const badgeTotal = document.getElementById('badge-total-pedidos');
 
-            // CONTA APENAS PEDIDOS PENDENTES/ATIVOS (NÃO CONCLUÍDOS E NÃO CANCELADOS)
             const pedidosPendentesCount = adminPedidos.filter(p => p.situacao !== 'Concluído' && p.situacao !== 'Cancelado').length;
 
             if (statTotal) statTotal.innerText = adminPedidos.length;
@@ -1446,7 +1502,7 @@
             }
         }
 
-        // CONFIRMAÇÃO DE EXCLUSÃO PERSONALIZADA (SEM O POPUP CINZA DO NAVEGADOR)
+        // CONFIRMAÇÃO DE EXCLUSÃO PERSONALIZADA
         function excluirProduto(id) {
             idProdutoExclusaoPendente = id;
             document.getElementById('modal-confirm-exclusao').classList.remove('hidden');
@@ -1475,7 +1531,7 @@
             }
         }
 
-        // ============ LÓGICA DE CLIENTES ============
+        // ============ LÓGICA DE CLIENTES E CRÉDITOS ============
         function carregarClientesAdmin() {
             carregarClientesSalvosLocal();
 
@@ -1501,22 +1557,77 @@
                 tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
 
                 const corStatus = cli.status === 'ATIVO' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800';
+                const saldoVal = cli.saldoCredito ? parseFloat(cli.saldoCredito) : 0.00;
 
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-bold text-slate-800">${escapeHtml(cli.nome)}</td>
                     <td class="py-3 px-4"><span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold text-[10px]">${cli.tipo}</span></td>
                     <td class="py-3 px-4 font-mono">${escapeHtml(cli.doc)}</td>
                     <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> ${escapeHtml(cli.wpp)}</td>
-                    <td class="py-3 px-4">${escapeHtml(cli.endereco)}</td>
+                    <td class="py-3 px-4 font-black text-emerald-600">R$ ${saldoVal.toFixed(2)}</td>
                     <td class="py-3 px-4 text-center"><span class="${corStatus} font-black px-2 py-0.5 rounded text-[10px]">${cli.status}</span></td>
                     <td class="py-3 px-4 text-center">
-                        <button onclick="editarClienteModal(${cli.id})" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all inline-flex items-center gap-1">
-                            <i class="fa-solid fa-user-pen"></i> Editar
-                        </button>
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="editarClienteModal(${cli.id})" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all inline-flex items-center gap-1">
+                                <i class="fa-solid fa-user-pen"></i> Editar
+                            </button>
+                            <button onclick="gerenciarCreditoClienteModal(${cli.id})" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all inline-flex items-center gap-1">
+                                <i class="fa-solid fa-credit-card"></i> Saldo
+                            </button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        function gerenciarCreditoClienteModal(id) {
+            const cli = adminClientes.find(c => c.id === id);
+            if (!cli) return;
+
+            clienteEmEdicaoCredito = cli;
+            const saldoVal = cli.saldoCredito ? parseFloat(cli.saldoCredito) : 0.00;
+
+            document.getElementById('txt-modal-credito-cliente-nome').innerText = `Cliente: ${cli.nome} (${cli.doc})`;
+            document.getElementById('txt-modal-saldo-atual').innerText = `R$ ${saldoVal.toFixed(2)}`;
+            document.getElementById('credito-valor').value = '';
+            document.getElementById('credito-descricao').value = '';
+
+            document.getElementById('modal-credito-cliente').classList.remove('hidden');
+        }
+
+        function fecharModalCreditoCliente() {
+            document.getElementById('modal-credito-cliente').classList.add('hidden');
+            clienteEmEdicaoCredito = null;
+        }
+
+        function salvarCreditoClienteSubmit(e) {
+            e.preventDefault();
+            if (!clienteEmEdicaoCredito) return;
+
+            const acao = document.getElementById('credito-acao').value;
+            const valInput = parseFloat(document.getElementById('credito-valor').value);
+            const desc = document.getElementById('credito-descricao').value;
+
+            if (isNaN(valInput) || valInput <= 0) {
+                mostrarModalNotificacaoCustom("Aviso", "Informe um valor de crédito válido.");
+                return;
+            }
+
+            let saldoAtual = clienteEmEdicaoCredito.saldoCredito ? parseFloat(clienteEmEdicaoCredito.saldoCredito) : 0.00;
+
+            if (acao === 'adicionar') {
+                saldoAtual += valInput;
+            } else {
+                saldoAtual = Math.max(0, saldoAtual - valInput);
+            }
+
+            clienteEmEdicaoCredito.saldoCredito = saldoAtual;
+
+            salvarClientesSalvosLocal();
+            carregarClientesAdmin();
+            fecharModalCreditoCliente();
+            mostrarToast(`Saldo de ${clienteEmEdicaoCredito.nome} atualizado para R$ ${saldoAtual.toFixed(2)}!`);
         }
 
         function abrirModalFormCliente() {
@@ -1580,6 +1691,7 @@
                     wpp: wpp,
                     email: email,
                     endereco: endereco,
+                    saldoCredito: 0.00,
                     status: status
                 });
             }
