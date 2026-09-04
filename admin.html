@@ -27,6 +27,22 @@
 </head>
 <body class="bg-slate-100 min-h-screen flex flex-col justify-between">
 
+    <!-- CAIXA DE MENSAGEM BONITINHA (MODAL CUSTOMIZADO) -->
+    <div id="modal-notificacao-custom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10000] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-slate-200 relative">
+            <div id="notif-custom-icon-box" class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
+                <i id="notif-custom-icon" class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h3 id="notif-custom-titulo" class="text-base font-black text-slate-800 font-heading">Aviso do Sistema</h3>
+                <p id="notif-custom-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Detalhes da mensagem...</p>
+            </div>
+            <button onclick="fecharModalNotificacaoCustom()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-xs uppercase shadow transition-all">
+                ENTENDIDO
+            </button>
+        </div>
+    </div>
+
     <!-- MODAL DE LOGIN / SENHA DE SEGURANÇA -->
     <div id="modal-login-admin" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-5">
@@ -428,8 +444,8 @@
                 </div>
 
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Link da Imagem (URL) *</label>
-                    <input type="url" id="prod-imagem" required placeholder="https://..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                    <label class="font-bold text-slate-700 block mb-1">Link da Imagem (URL ou Nome) *</label>
+                    <input type="text" id="prod-imagem" required placeholder="Ex: cropped-estampa-a4-ou-a3 ou https://..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
                 </div>
 
                 <div>
@@ -463,7 +479,7 @@
         let adminProdutos = [];
 
         // BASE DE PEDIDOS
-        let adminPedidos = [
+        let adminPedidosDefault = [
             {
                 id: 75,
                 codigo: "#75Y19RYI",
@@ -503,11 +519,57 @@
             }
         ];
 
+        let adminPedidos = [];
         let pedidoEmEdicaoModal = null;
 
         function escapeHtml(str) {
             if (str === null || str === undefined) return '';
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // CARREGA PEDIDOS COM PERSISTÊNCIA NO F5
+        function carregarPedidosSalvosLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_pedidos');
+            if (salvos) {
+                try {
+                    adminPedidos = JSON.parse(salvos);
+                } catch(e) {
+                    adminPedidos = adminPedidosDefault;
+                }
+            } else {
+                adminPedidos = adminPedidosDefault;
+                salvarPedidosSalvosLocal();
+            }
+        }
+
+        function salvarPedidosSalvosLocal() {
+            localStorage.setItem('phsublime_admin_pedidos', JSON.stringify(adminPedidos));
+        }
+
+        // MOSTRAR CAIXA DE MENSAGEM CUSTOMIZADA
+        function mostrarModalNotificacaoCustom(titulo, mensagem, tipo = 'erro') {
+            const modal = document.getElementById('modal-notificacao-custom');
+            const iconBox = document.getElementById('notif-custom-icon-box');
+            const icon = document.getElementById('notif-custom-icon');
+            const txtTitulo = document.getElementById('notif-custom-titulo');
+            const txtMsg = document.getElementById('notif-custom-msg');
+
+            txtTitulo.innerText = titulo;
+            txtMsg.innerText = mensagem;
+
+            if (tipo === 'sucesso') {
+                iconBox.className = "w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm";
+                icon.className = "fa-solid fa-circle-check";
+            } else {
+                iconBox.className = "w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm";
+                icon.className = "fa-solid fa-triangle-exclamation";
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function fecharModalNotificacaoCustom() {
+            document.getElementById('modal-notificacao-custom').classList.add('hidden');
         }
 
         // VERIFICA LOGIN SALVO
@@ -530,7 +592,7 @@
                 document.getElementById('conteudo-painel').classList.remove('hidden');
                 inicializarAdmin();
             } else {
-                alert('Senha incorreta! Tente novamente.');
+                mostrarModalNotificacaoCustom("Acesso Negado", "A senha digitada está incorreta. Tente novamente.");
             }
         }
 
@@ -553,6 +615,8 @@
 
         // ============ LÓGICA DE PEDIDOS ============
         function carregarPedidosAdmin(feedbackComToast = false) {
+            carregarPedidosSalvosLocal();
+
             const btnAtualizar = document.getElementById('btn-atualizar-pedidos');
             if (btnAtualizar && feedbackComToast) {
                 btnAtualizar.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Atualizando...`;
@@ -694,6 +758,7 @@
 
             if (novoLink && novoLink.trim() !== "") {
                 item.arquivoUrl = novoLink.trim();
+                salvarPedidosSalvosLocal();
                 renderizarItensPedidoModal(pedidoEmEdicaoModal);
                 mostrarToast("Link do arquivo atualizado com sucesso!");
             }
@@ -712,9 +777,12 @@
             pedidoEmEdicaoModal.situacao = novaSituacao;
             pedidoEmEdicaoModal.obsInterna = novaObs;
 
+            // SALVA NO LOCALSTORAGE PARA MANTER APÓS O F5
+            salvarPedidosSalvosLocal();
+
             carregarPedidosAdmin();
             fecharModalDetalhesPedido();
-            mostrarToast(`Pedido ${pedidoEmEdicaoModal.codigo} atualizado com sucesso!`);
+            mostrarToast(`Pedido ${pedidoEmEdicaoModal.codigo} atualizado e salvo!`);
         }
 
         function enviarAtualizacaoWhatsappPedido() {
@@ -745,7 +813,6 @@
 
                 if (error) throw error;
 
-                // DEDUPLICAÇÃO DE REGISTROS POR ID ÚNICO
                 const mapaUnicos = new Map();
 
                 (data || []).forEach(item => {
@@ -873,7 +940,7 @@
         function editarProdutoModal(id) {
             const prod = adminProdutos.find(p => String(p.id) === String(id));
             if (!prod) {
-                alert("Produto não encontrado na lista.");
+                mostrarModalNotificacaoCustom("Aviso", "Produto não encontrado na lista.");
                 return;
             }
 
@@ -881,8 +948,8 @@
             document.getElementById('prod-nome').value = prod.nome;
             document.getElementById('prod-ref').value = prod.ref;
             document.getElementById('prod-categoria').value = prod.categoria;
-            document.getElementById('prod-preco').value = prod.preco;
-            document.getElementById('prod-preco-de').value = prod.precoDe || '';
+            document.getElementById('prod-preco').value = parseFloat(prod.preco).toFixed(2);
+            document.getElementById('prod-preco-de').value = prod.precoDe ? parseFloat(prod.precoDe).toFixed(2) : '';
             document.getElementById('prod-imagem').value = prod.imagem;
             document.getElementById('prod-descricao').value = prod.descricao;
 
@@ -897,9 +964,13 @@
             const nome = document.getElementById('prod-nome').value;
             const ref = document.getElementById('prod-ref').value;
             const categoria = document.getElementById('prod-categoria').value;
-            const preco = parseFloat(document.getElementById('prod-preco').value);
-            const precoDeVal = document.getElementById('prod-preco-de').value;
-            const precoDe = precoDeVal ? parseFloat(precoDeVal) : null;
+            
+            let precoVal = parseFloat(String(document.getElementById('prod-preco').value).replace(',', '.'));
+            if (isNaN(precoVal)) precoVal = 0.00;
+
+            const precoDeInput = document.getElementById('prod-preco-de').value;
+            let precoDeVal = precoDeInput ? parseFloat(String(precoDeInput).replace(',', '.')) : null;
+
             const imagem = document.getElementById('prod-imagem').value;
             const descricao = document.getElementById('prod-descricao').value;
 
@@ -907,30 +978,58 @@
                 Nome: nome,
                 Referencia: ref,
                 Categorias_Secundarias: categoria,
-                Preco_Venda: preco,
-                precoDe: precoDe,
+                Preco_Venda: precoVal,
                 Url: imagem,
                 Descricao: descricao
             };
 
+            if (precoDeVal !== null && !isNaN(precoDeVal)) {
+                payload.precoDe = precoDeVal;
+            }
+
             try {
                 if (id && id.trim() !== '') {
-                    // ATUALIZAÇÃO POR ID
                     const targetId = isNaN(id) ? id : Number(id);
+
                     const { error } = await supabaseClient
                         .from('produtos')
                         .update(payload)
                         .eq('id', targetId);
 
-                    if (error) throw error;
+                    if (error) {
+                        // TENTA SEM O CAMPO precoDe CASO A COLUNA NÃO EXISTA NO SUPABASE
+                        if (error.code === '42703' || String(error.message).includes('precoDe')) {
+                            delete payload.precoDe;
+                            const { error: err2 } = await supabaseClient
+                                .from('produtos')
+                                .update(payload)
+                                .eq('id', targetId);
+                            
+                            if (err2) throw err2;
+                        } else {
+                            throw error;
+                        }
+                    }
+
                     mostrarToast("Produto atualizado com sucesso!");
                 } else {
-                    // NOVO CADASTRO
                     const { error } = await supabaseClient
                         .from('produtos')
                         .insert([payload]);
 
-                    if (error) throw error;
+                    if (error) {
+                        if (error.code === '42703' || String(error.message).includes('precoDe')) {
+                            delete payload.precoDe;
+                            const { error: err2 } = await supabaseClient
+                                .from('produtos')
+                                .insert([payload]);
+                            
+                            if (err2) throw err2;
+                        } else {
+                            throw error;
+                        }
+                    }
+
                     mostrarToast("Produto cadastrado no banco!");
                 }
 
@@ -938,8 +1037,11 @@
                 await carregarProdutosAdmin();
 
             } catch (err) {
-                console.error("Erro ao salvar produto:", err);
-                alert("Erro ao salvar produto no Supabase.");
+                console.error("Erro ao salvar produto no Supabase:", err);
+                mostrarModalNotificacaoCustom(
+                    "Erro ao Salvar Produto", 
+                    err.message || "Verifique se a tabela 'produtos' no Supabase permite edições e se os campos estão corretos."
+                );
             }
         }
 
@@ -960,7 +1062,7 @@
 
             } catch (err) {
                 console.error("Erro ao excluir:", err);
-                alert("Não foi possível excluir o produto.");
+                mostrarModalNotificacaoCustom("Erro ao Excluir", err.message || "Não foi possível excluir o produto selecionado.");
             }
         }
 
@@ -1007,6 +1109,7 @@
         }
 
         async function inicializarAdmin() {
+            carregarPedidosSalvosLocal();
             carregarPedidosAdmin();
             await carregarProdutosAdmin();
         }
