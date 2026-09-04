@@ -127,6 +127,9 @@
                     <button onclick="mudarAbaAdmin('relatorios')" id="btn-aba-relatorios" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-chart-line"></i> RELATÓRIOS
                     </button>
+                    <button onclick="abrirModalRedesSociais()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Configurar Redes Sociais">
+                        <i class="fa-solid fa-share-nodes"></i> <span class="hidden sm:inline">Redes</span>
+                    </button>
                     <button onclick="abrirModalSelosSeguranca()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Configurar Selos de Segurança">
                         <i class="fa-solid fa-shield-halved"></i> <span class="hidden sm:inline">Selos</span>
                     </button>
@@ -156,14 +159,14 @@
                         <p class="text-xs text-blue-100">Confira abaixo os alertas do sistema, aniversariantes do mês e atalhos rápidos para a sua gestão.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="abrirModalRedesSociais()" class="bg-blue-900 hover:bg-blue-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-amber-400">
+                            <i class="fa-solid fa-share-nodes"></i> Redes Sociais
+                        </button>
                         <button onclick="abrirModalSelosSeguranca()" class="bg-blue-900 hover:bg-blue-800 text-amber-300 font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-amber-400">
-                            <i class="fa-solid fa-shield-halved"></i> Selos de Segurança
+                            <i class="fa-solid fa-shield-halved"></i> Selos
                         </button>
                         <button onclick="abrirModalCompreJuntoKits()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
                             <i class="fa-solid fa-bag-shopping"></i> Kits Compre Junto
-                        </button>
-                        <button onclick="abrirModalNewsletterMarketing()" class="bg-purple-800 hover:bg-purple-700 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
-                            <i class="fa-solid fa-bullhorn text-amber-300"></i> Pop-ups & Newsletter
                         </button>
                         <button onclick="abrirModalCriarCupom()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
                             <i class="fa-solid fa-ticket-simple text-sm"></i> Cupons
@@ -214,49 +217,6 @@
                         </div>
                         <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
                             <i class="fa-solid fa-chart-line"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ALERTAS INTELIGENTES DO MÊS -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-white p-5 rounded-xl border border-amber-200 shadow-sm space-y-3 relative overflow-hidden">
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl shrink-0">
-                                    <i class="fa-solid fa-gift"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-black text-blue-900 uppercase text-xs font-heading">Aniversariantes do Mês</h4>
-                                    <p class="text-xs text-slate-600 mt-0.5"><strong class="text-amber-600 font-black">2 clientes</strong> fazem aniversário neste mês! Presenteie-os com um cupom de desconto no WhatsApp.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                            <span class="text-[11px] text-slate-400 font-medium">Campanha Promocional de Fidelidade</span>
-                            <button onclick="abrirModalCriarCupom()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-[11px] px-3 py-1.5 rounded-lg shadow transition-all">
-                                Criar Cupom NIVER
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-xl border border-blue-200 shadow-sm space-y-3 relative overflow-hidden">
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-xl flex items-center justify-center text-2xl shrink-0">
-                                    <i class="fa-solid fa-shield-halved text-blue-800"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-black text-blue-900 uppercase text-xs font-heading">Selos e Certificados de Segurança</h4>
-                                    <p class="text-xs text-slate-600 mt-0.5">Google Safe Browsing, Compre e Confie e Site Blindado para passar mais confiança aos clientes.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                            <span class="text-[11px] text-slate-400 font-medium">Segurança e Credibilidade</span>
-                            <button onclick="abrirModalSelosSeguranca()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg shadow transition-all">
-                                Configurar Selos
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -557,6 +517,51 @@
             <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
         </footer>
 
+    </div>
+
+    <!-- MODAL CONFIGURAÇÃO DE REDES SOCIAIS DA PHSUBLIME -->
+    <div id="modal-redes-sociais" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalRedesSociais()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-blue-950 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-share-nodes text-amber-500"></i> Redes Sociais da Empresa
+                </h3>
+            </div>
+
+            <form onsubmit="salvarRedesSociaisSubmit(event)" class="space-y-3 text-xs">
+                <div class="space-y-2">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1"><i class="fa-brands fa-facebook text-blue-600"></i> Facebook (Perfil ou Página)</label>
+                        <input type="text" id="redes-facebook" placeholder="facebook.com/phsublime.sublime" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1"><i class="fa-brands fa-instagram text-pink-600"></i> Instagram (@perfil)</label>
+                        <input type="text" id="redes-instagram" placeholder="instagram.com/phsublime5149" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1"><i class="fa-brands fa-youtube text-red-600"></i> YouTube (Canal)</label>
+                        <input type="text" id="redes-youtube" placeholder="youtube.com/channel/..." class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1"><i class="fa-brands fa-linkedin text-blue-700"></i> LinkedIn</label>
+                        <input type="text" id="redes-linkedin" placeholder="linkedin.com/company/..." class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1"><i class="fa-brands fa-blogger text-orange-600"></i> Blog / Blogspot</label>
+                        <input type="text" id="redes-blog" placeholder="phsublime.blogspot.com/" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalRedesSociais()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar Redes
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- MODAL CONFIGURAÇÃO DE SELOS DE SEGURANÇA E CONFIANÇA -->
@@ -1109,13 +1114,52 @@
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
+        // LÓGICA DE REDES SOCIAIS
+        function abrirModalRedesSociais() {
+            try {
+                const configStr = localStorage.getItem('phsublime_redes_config');
+                if (configStr) {
+                    const cfg = JSON.parse(configStr);
+                    if (document.getElementById('redes-facebook')) document.getElementById('redes-facebook').value = cfg.facebook || 'phsublime.sublime';
+                    if (document.getElementById('redes-instagram')) document.getElementById('redes-instagram').value = cfg.instagram || 'phsublime5149';
+                    if (document.getElementById('redes-youtube')) document.getElementById('redes-youtube').value = cfg.youtube || '';
+                    if (document.getElementById('redes-linkedin')) document.getElementById('redes-linkedin').value = cfg.linkedin || '';
+                    if (document.getElementById('redes-blog')) document.getElementById('redes-blog').value = cfg.blog || 'phsublime.blogspot.com/';
+                }
+                const modal = document.getElementById('modal-redes-sociais');
+                if (modal) modal.classList.remove('hidden');
+            } catch(e) { console.error(e); }
+        }
+
+        function fecharModalRedesSociais() {
+            const modal = document.getElementById('modal-redes-sociais');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function salvarRedesSociaisSubmit(e) {
+            e.preventDefault();
+            const config = {
+                facebook: document.getElementById('redes-facebook').value,
+                instagram: document.getElementById('redes-instagram').value,
+                youtube: document.getElementById('redes-youtube').value,
+                linkedin: document.getElementById('redes-linkedin').value,
+                blog: document.getElementById('redes-blog').value
+            };
+
+            localStorage.setItem('phsublime_redes_config', JSON.stringify(config));
+            fecharModalRedesSociais();
+            mostrarToast("Redes Sociais atualizadas!");
+        }
+
         // LÓGICA DE SELOS DE SEGURANÇA E CONFIANÇA
         function abrirModalSelosSeguranca() {
-            document.getElementById('modal-selos-seguranca').classList.remove('hidden');
+            const modal = document.getElementById('modal-selos-seguranca');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function fecharModalSelosSeguranca() {
-            document.getElementById('modal-selos-seguranca').classList.add('hidden');
+            const modal = document.getElementById('modal-selos-seguranca');
+            if (modal) modal.classList.add('hidden');
         }
 
         function salvarSelosSegurancaSubmit(e) {
@@ -1192,11 +1236,13 @@
         function abrirModalCriarCupom() {
             carregarCuponsSalvosLocal();
             renderizarTabelaCuponsModal();
-            document.getElementById('modal-criar-cupom').classList.remove('hidden');
+            const modal = document.getElementById('modal-criar-cupom');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function fecharModalCriarCupom() {
-            document.getElementById('modal-criar-cupom').classList.add('hidden');
+            const modal = document.getElementById('modal-criar-cupom');
+            if (modal) modal.classList.add('hidden');
         }
 
         function salvarCupomSubmit(e) {
@@ -1255,11 +1301,13 @@
 
         // LÓGICA DE COMPRE JUNTO / KITS
         function abrirModalCompreJuntoKits() {
-            document.getElementById('modal-compre-junto').classList.remove('hidden');
+            const modal = document.getElementById('modal-compre-junto');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function fecharModalCompreJuntoKits() {
-            document.getElementById('modal-compre-junto').classList.add('hidden');
+            const modal = document.getElementById('modal-compre-junto');
+            if (modal) modal.classList.add('hidden');
         }
 
         function salvarKitCompreJuntoSubmit(e) {
@@ -1271,11 +1319,13 @@
 
         // LÓGICA DE NEWSLETTER E POP-UPS DE MARKETING
         function abrirModalNewsletterMarketing() {
-            document.getElementById('modal-newsletter-marketing').classList.remove('hidden');
+            const modal = document.getElementById('modal-newsletter-marketing');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function fecharModalNewsletterMarketing() {
-            document.getElementById('modal-newsletter-marketing').classList.add('hidden');
+            const modal = document.getElementById('modal-newsletter-marketing');
+            if (modal) modal.classList.add('hidden');
         }
 
         function salvarConfiguracaoPopupSubmit(e) {
@@ -1311,11 +1361,13 @@
         function abrirModalGerenciarCategorias() {
             renderizarListaCategoriasModal();
             document.getElementById('nova-cat-nome').value = '';
-            document.getElementById('modal-gerenciar-categorias').classList.remove('hidden');
+            const modal = document.getElementById('modal-gerenciar-categorias');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function fecharModalGerenciarCategorias() {
-            document.getElementById('modal-gerenciar-categorias').classList.add('hidden');
+            const modal = document.getElementById('modal-gerenciar-categorias');
+            if (modal) modal.classList.add('hidden');
         }
 
         function renderizarListaCategoriasModal() {
@@ -1461,11 +1513,13 @@
             document.getElementById('nped-item-nome').value = '';
             document.getElementById('nped-total').value = '';
             document.getElementById('nped-endereco').value = '';
-            document.getElementById('modal-novo-pedido-admin').classList.remove('hidden');
+            const modal = document.getElementById('modal-novo-pedido-admin');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function fecharModalNovoPedidoManual() {
-            document.getElementById('modal-novo-pedido-admin').classList.add('hidden');
+            const modal = document.getElementById('modal-novo-pedido-admin');
+            if (modal) modal.classList.add('hidden');
         }
 
         function salvarNovoPedidoManualSubmit(e) {
@@ -1535,26 +1589,28 @@
             const txtTitulo = document.getElementById('notif-custom-titulo');
             const txtMsg = document.getElementById('notif-custom-msg');
 
-            txtTitulo.innerText = titulo;
-            txtMsg.innerText = mensagem;
+            if (txtTitulo) txtTitulo.innerText = titulo;
+            if (txtMsg) txtMsg.innerText = mensagem;
 
-            if (tipo === 'sucesso') {
-                iconBox.className = "w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm";
-                icon.className = "fa-solid fa-circle-check";
+            if (type => tipo === 'sucesso') {
+                if (iconBox) iconBox.className = "w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm";
+                if (icon) icon.className = "fa-solid fa-circle-check";
             } else {
-                iconBox.className = "w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm";
-                icon.className = "fa-solid fa-triangle-exclamation";
+                if (iconBox) iconBox.className = "w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm";
+                if (icon) icon.className = "fa-solid fa-triangle-exclamation";
             }
 
-            modal.classList.remove('hidden');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function fecharModalNotificacaoCustom() {
-            document.getElementById('modal-notificacao-custom').classList.add('hidden');
+            const modal = document.getElementById('modal-notificacao-custom');
+            if (modal) modal.classList.add('hidden');
         }
 
         function fecharModalConfirmExclusao() {
-            document.getElementById('modal-confirm-exclusao').classList.add('hidden');
+            const modal = document.getElementById('modal-confirm-exclusao');
+            if (modal) modal.classList.add('hidden');
             idItemExclusaoPendente = null;
         }
 
@@ -1737,10 +1793,10 @@
                         </td>
                         <td class="py-3 px-4 text-center">
                             <div class="flex items-center justify-center gap-1">
-                                <button onclick="abrirModalDetalhesPedido(${p.id})" class="bg-[#316AC7] hover:bg-blue-800 text-white font-bold text-[11px] px-2.5 py-1.5 rounded-lg shadow transition-all flex items-center gap-1" title="Ver Detalhes">
+                                <button onclick="abrirModalDetalhesPedido('${p.id}')" class="bg-[#316AC7] hover:bg-blue-800 text-white font-bold text-[11px] px-2.5 py-1.5 rounded-lg shadow transition-all flex items-center gap-1" title="Ver Detalhes">
                                     <i class="fa-solid fa-eye"></i> Detalhes
                                 </button>
-                                <button onclick="excluirPedidoConfirm(${p.id})" class="bg-red-600 hover:bg-red-500 text-white font-bold text-[11px] px-2.5 py-1.5 rounded-lg shadow transition-all flex items-center gap-1" title="Excluir Pedido">
+                                <button onclick="excluirPedidoConfirm('${p.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold text-[11px] px-2.5 py-1.5 rounded-lg shadow transition-all flex items-center gap-1" title="Excluir Pedido">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
@@ -1762,41 +1818,49 @@
         }
 
         function abrirModalDetalhesPedido(id) {
-            const p = adminPedidos.find(item => item.id === id);
-            if (!p) return;
+            try {
+                const p = adminPedidos.find(item => String(item.id) === String(id) || Number(item.id) === Number(id));
+                if (!p) {
+                    mostrarModalNotificacaoCustom("Aviso", "Pedido não encontrado.");
+                    return;
+                }
 
-            pedidoEmEdicaoModal = p;
+                pedidoEmEdicaoModal = p;
 
-            document.getElementById('txt-modal-pedido-codigo').innerHTML = `<i class="fa-solid fa-bookmark text-amber-500"></i> Pedido ${p.codigo}`;
-            document.getElementById('txt-modal-pedido-data').innerText = `Criado em ${p.data}`;
+                document.getElementById('txt-modal-pedido-codigo').innerHTML = `<i class="fa-solid fa-bookmark text-amber-500"></i> Pedido ${p.codigo}`;
+                document.getElementById('txt-modal-pedido-data').innerText = `Criado em ${p.data}`;
 
-            // Cliente
-            document.getElementById('det-cli-nome').innerText = p.cliente.nome;
-            document.getElementById('det-cli-tipo').innerText = p.cliente.tipo;
-            document.getElementById('det-cli-doc').innerText = p.cliente.doc;
-            document.getElementById('det-cli-email').innerText = p.cliente.email;
-            document.getElementById('det-cli-wpp').innerText = p.cliente.wpp;
+                // Cliente
+                document.getElementById('det-cli-nome').innerText = p.cliente.nome || '---';
+                document.getElementById('det-cli-tipo').innerText = p.cliente.tipo || 'Pessoa Física';
+                document.getElementById('det-cli-doc').innerText = p.cliente.doc || '---';
+                document.getElementById('det-cli-email').innerText = p.cliente.email || '---';
+                document.getElementById('det-cli-wpp').innerText = p.cliente.wpp || '---';
 
-            // Transporte
-            document.getElementById('det-transp-tipo').innerText = p.transporte.tipo;
-            document.getElementById('det-transp-prazo').innerText = p.transporte.prazo;
-            document.getElementById('det-transp-end').innerText = p.transporte.endereco;
+                // Transporte
+                document.getElementById('det-transp-tipo').innerText = p.transporte.tipo || '---';
+                document.getElementById('det-transp-prazo').innerText = p.transporte.prazo || '---';
+                document.getElementById('det-transp-end').innerText = p.transporte.endereco || '---';
 
-            // Financeiro
-            document.getElementById('select-modal-situacao-pedido').value = p.situacao;
-            document.getElementById('det-financeiro-forma').innerText = p.financeiro.forma;
-            document.getElementById('det-financeiro-total').innerText = `R$ ${p.financeiro.totalVal.toFixed(2)}`;
+                // Financeiro
+                document.getElementById('select-modal-situacao-pedido').value = p.situacao || 'Confirmado';
+                document.getElementById('det-financeiro-forma').innerText = p.financeiro.forma || '---';
+                document.getElementById('det-financeiro-total').innerText = `R$ ${(p.financeiro.totalVal || 0).toFixed(2)}`;
 
-            document.getElementById('txt-modal-obs-interna').value = p.obsInterna || '';
+                document.getElementById('txt-modal-obs-interna').value = p.obsInterna || '';
 
-            // Itens
-            renderizarItensPedidoModal(p);
+                renderizarItensPedidoModal(p);
 
-            document.getElementById('modal-detalhes-pedido-admin').classList.remove('hidden');
+                const modal = document.getElementById('modal-detalhes-pedido-admin');
+                if (modal) modal.classList.remove('hidden');
+            } catch (err) {
+                console.error("Erro ao abrir detalhes pedido:", err);
+            }
         }
 
         function renderizarItensPedidoModal(p) {
             const tbodyItens = document.getElementById('tabela-detalhes-itens-pedido');
+            if (!tbodyItens) return;
             tbodyItens.innerHTML = '';
 
             p.itens.forEach((it, idx) => {
@@ -1841,7 +1905,8 @@
         }
 
         function fecharModalDetalhesPedido() {
-            document.getElementById('modal-detalhes-pedido-admin').classList.add('hidden');
+            const modal = document.getElementById('modal-detalhes-pedido-admin');
+            if (modal) modal.classList.add('hidden');
         }
 
         function salvarAlteracoesPedidoModal() {
@@ -2217,41 +2282,49 @@
         }
 
         function abrirModalFormProduto() {
-            document.getElementById('form-salvar-produto').reset();
-            document.getElementById('prod-id').value = '';
-            document.getElementById('prod-unidade').value = 'un';
-            document.getElementById('txt-modal-form-titulo').innerText = 'Cadastrar Novo Produto (PHSUBLIME)';
-            document.getElementById('modal-form-produto').classList.remove('hidden');
+            try {
+                const form = document.getElementById('form-salvar-produto');
+                if (form) form.reset();
+                document.getElementById('prod-id').value = '';
+                document.getElementById('prod-unidade').value = 'un';
+                document.getElementById('txt-modal-form-titulo').innerText = 'Cadastrar Novo Produto (PHSUBLIME)';
+                const modal = document.getElementById('modal-form-produto');
+                if (modal) modal.classList.remove('hidden');
+            } catch(e) { console.error(e); }
         }
 
         function fecharModalFormProduto() {
-            document.getElementById('modal-form-produto').classList.add('hidden');
+            const modal = document.getElementById('modal-form-produto');
+            if (modal) modal.classList.add('hidden');
         }
 
         function editarProdutoModal(id) {
-            const prod = adminProdutos.find(p => String(p.id) === String(id));
-            if (!prod) {
-                mostrarModalNotificacaoCustom("Aviso", "Produto não encontrado na lista.");
-                return;
-            }
+            try {
+                const prod = adminProdutos.find(p => String(p.id) === String(id));
+                if (!prod) {
+                    mostrarModalNotificacaoCustom("Aviso", "Produto não encontrado na lista.");
+                    return;
+                }
 
-            document.getElementById('prod-id').value = prod.id;
-            document.getElementById('prod-nome').value = prod.nome;
-            document.getElementById('prod-ref').value = prod.ref;
-            document.getElementById('prod-categoria').value = prod.categoria;
-            document.getElementById('prod-preco').value = parseFloat(prod.preco).toFixed(2);
-            document.getElementById('prod-unidade').value = prod.unidade || 'un';
-            document.getElementById('prod-imagem').value = prod.imagem;
-            document.getElementById('prod-descricao').value = prod.descricao || '';
+                document.getElementById('prod-id').value = prod.id;
+                document.getElementById('prod-nome').value = prod.nome || '';
+                document.getElementById('prod-ref').value = prod.ref || '';
+                document.getElementById('prod-categoria').value = prod.categoria || 'Geral';
+                document.getElementById('prod-preco').value = parseFloat(prod.preco || 0).toFixed(2);
+                document.getElementById('prod-unidade').value = prod.unidade || 'un';
+                document.getElementById('prod-imagem').value = prod.imagem || '';
+                document.getElementById('prod-descricao').value = prod.descricao || '';
 
-            // CAMPOS EXPANDIDOS PHSUBLIME
-            document.getElementById('prod-prazo').value = prod.prazoProducao || 3;
-            document.getElementById('prod-taxa-arte').value = prod.taxaArte ? parseFloat(prod.taxaArte).toFixed(2) : '';
-            document.getElementById('prod-preco-revendedor').value = prod.precoRevendedor ? parseFloat(prod.precoRevendedor).toFixed(2) : '';
-            document.getElementById('prod-gabarito-link').value = prod.gabaritoUrl || '';
+                // CAMPOS EXPANDIDOS PHSUBLIME
+                document.getElementById('prod-prazo').value = prod.prazoProducao || 3;
+                document.getElementById('prod-taxa-arte').value = prod.taxaArte ? parseFloat(prod.taxaArte).toFixed(2) : '';
+                document.getElementById('prod-preco-revendedor').value = prod.precoRevendedor ? parseFloat(prod.precoRevendedor).toFixed(2) : '';
+                document.getElementById('prod-gabarito-link').value = prod.gabaritoUrl || '';
 
-            document.getElementById('txt-modal-form-titulo').innerText = 'Editar Produto';
-            document.getElementById('modal-form-produto').classList.remove('hidden');
+                document.getElementById('txt-modal-form-titulo').innerText = 'Editar Produto';
+                const modal = document.getElementById('modal-form-produto');
+                if (modal) modal.classList.remove('hidden');
+            } catch(e) { console.error(e); }
         }
 
         // SALVAMENTO DE PRODUTO QUE RESETAFILTRA PARA MOSTRAR NO TOPO
@@ -2434,10 +2507,10 @@
                     <td class="py-3 px-4 text-center"><span class="${corStatus} font-black px-2 py-0.5 rounded text-[10px]">${cli.status}</span></td>
                     <td class="py-3 px-4 text-center">
                         <div class="flex items-center justify-center gap-1.5">
-                            <button onclick="editarClienteModal(${cli.id})" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all inline-flex items-center gap-1">
+                            <button onclick="editarClienteModal('${cli.id}')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all inline-flex items-center gap-1">
                                 <i class="fa-solid fa-user-pen"></i> Editar
                             </button>
-                            <button onclick="gerenciarCreditoClienteModal(${cli.id})" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all inline-flex items-center gap-1">
+                            <button onclick="gerenciarCreditoClienteModal('${cli.id}')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all inline-flex items-center gap-1">
                                 <i class="fa-solid fa-credit-card"></i> Saldo
                             </button>
                         </div>
@@ -2483,7 +2556,7 @@
         }
 
         function gerenciarCreditoClienteModal(id) {
-            const cli = adminClientes.find(c => c.id === id);
+            const cli = adminClientes.find(c => String(c.id) === String(id));
             if (!cli) return;
 
             clienteEmEdicaoCredito = cli;
@@ -2494,11 +2567,13 @@
             document.getElementById('credito-valor').value = '';
             document.getElementById('credito-descricao').value = '';
 
-            document.getElementById('modal-credito-cliente').classList.remove('hidden');
+            const modal = document.getElementById('modal-credito-cliente');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function fecharModalCreditoCliente() {
-            document.getElementById('modal-credito-cliente').classList.add('hidden');
+            const modal = document.getElementById('modal-credito-cliente');
+            if (modal) modal.classList.add('hidden');
             clienteEmEdicaoCredito = null;
         }
 
@@ -2531,33 +2606,41 @@
         }
 
         function abrirModalFormCliente() {
-            document.getElementById('form-salvar-cliente').reset();
-            document.getElementById('cli-id').value = '';
-            document.getElementById('cli-estrelas').value = '5';
-            document.getElementById('txt-modal-cliente-titulo').innerHTML = `<i class="fa-solid fa-user-plus text-amber-500"></i> Cadastrar Novo Cliente`;
-            document.getElementById('modal-form-cliente').classList.remove('hidden');
+            try {
+                const form = document.getElementById('form-salvar-cliente');
+                if (form) form.reset();
+                document.getElementById('cli-id').value = '';
+                document.getElementById('cli-estrelas').value = '5';
+                document.getElementById('txt-modal-cliente-titulo').innerHTML = `<i class="fa-solid fa-user-plus text-amber-500"></i> Cadastrar Novo Cliente`;
+                const modal = document.getElementById('modal-form-cliente');
+                if (modal) modal.classList.remove('hidden');
+            } catch(e) { console.error(e); }
         }
 
         function fecharModalFormCliente() {
-            document.getElementById('modal-form-cliente').classList.add('hidden');
+            const modal = document.getElementById('modal-form-cliente');
+            if (modal) modal.classList.add('hidden');
         }
 
         function editarClienteModal(id) {
-            const cli = adminClientes.find(c => c.id === id);
-            if (!cli) return;
+            try {
+                const cli = adminClientes.find(c => String(c.id) === String(id));
+                if (!cli) return;
 
-            document.getElementById('cli-id').value = cli.id;
-            document.getElementById('cli-nome').value = cli.nome;
-            document.getElementById('cli-tipo').value = cli.tipo || 'PF';
-            document.getElementById('cli-doc').value = cli.doc;
-            document.getElementById('cli-wpp').value = cli.wpp;
-            document.getElementById('cli-email').value = cli.email || '';
-            document.getElementById('cli-endereco').value = cli.endereco;
-            document.getElementById('cli-estrelas').value = cli.estrelas !== undefined ? String(cli.estrelas) : '5';
-            document.getElementById('cli-status').value = cli.status || 'ATIVO';
+                document.getElementById('cli-id').value = cli.id;
+                document.getElementById('cli-nome').value = cli.nome || '';
+                document.getElementById('cli-tipo').value = cli.tipo || 'PF';
+                document.getElementById('cli-doc').value = cli.doc || '';
+                document.getElementById('cli-wpp').value = cli.wpp || '';
+                document.getElementById('cli-email').value = cli.email || '';
+                document.getElementById('cli-endereco').value = cli.endereco || '';
+                document.getElementById('cli-estrelas').value = cli.estrelas !== undefined ? String(cli.estrelas) : '5';
+                document.getElementById('cli-status').value = cli.status || 'ATIVO';
 
-            document.getElementById('txt-modal-cliente-titulo').innerHTML = `<i class="fa-solid fa-user-gear text-amber-500"></i> Editar Cliente #${cli.id}`;
-            document.getElementById('modal-form-cliente').classList.remove('hidden');
+                document.getElementById('txt-modal-cliente-titulo').innerHTML = `<i class="fa-solid fa-user-gear text-amber-500"></i> Editar Cliente #${cli.id}`;
+                const modal = document.getElementById('modal-form-cliente');
+                if (modal) modal.classList.remove('hidden');
+            } catch(e) { console.error(e); }
         }
 
         function salvarClienteSubmit(e) {
@@ -2574,7 +2657,7 @@
             const status = document.getElementById('cli-status').value;
 
             if (id && id !== '') {
-                const cli = adminClientes.find(c => c.id === Number(id));
+                const cli = adminClientes.find(c => String(c.id) === String(id));
                 if (cli) {
                     cli.nome = nome;
                     cli.tipo = tipo;
@@ -2586,7 +2669,7 @@
                     cli.status = status;
                 }
             } else {
-                const novoId = adminClientes.length > 0 ? Math.max(...adminClientes.map(c => c.id)) + 1 : 1;
+                const novoId = adminClientes.length > 0 ? Math.max(...adminClientes.map(c => Number(c.id) || 0)) + 1 : 1;
                 adminClientes.push({
                     id: novoId,
                     nome: nome,
