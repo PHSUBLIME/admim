@@ -316,8 +316,8 @@
                     </div>
 
                     <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <button onclick="abrirModalAcabamentos()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
-                            <i class="fa-solid fa-scissors"></i> Acabamentos
+                        <button onclick="abrirModalGerenciarCategorias()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-tags"></i> + Criar Categoria
                         </button>
                         <button onclick="carregarProdutosAdmin(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
                             <i class="fa-solid fa-rotate-right"></i> Recarregar
@@ -487,6 +487,33 @@
 
     </div>
 
+    <!-- MODAL DE CRIAR NOVA CATEGORIA (NOVO!) -->
+    <div id="modal-gerenciar-categorias" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-purple-200">
+            <button onclick="fecharModalGerenciarCategorias()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-purple-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-tags text-amber-500"></i> Criar Nova Categoria
+                </h3>
+            </div>
+
+            <form onsubmit="salvarNovaCategoriaSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Nome da Categoria *</label>
+                    <input type="text" id="nova-cat-nome" required placeholder="Ex: Mochila Pirulito, Acrílico, DTF..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-600 font-bold">
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalGerenciarCategorias()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-purple-900 hover:bg-purple-800 text-white font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-plus"></i> Adicionar Categoria
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL DE NOVO PEDIDO MANUAL -->
     <div id="modal-novo-pedido-admin" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
@@ -550,53 +577,6 @@
                     </button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <!-- MODAL DE ACABAMENTOS DE GRÁFICA (NOVO!) -->
-    <div id="modal-acabamentos" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-purple-200 my-8">
-            <button onclick="fecharModalAcabamentos()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-2">
-                <h3 class="text-base font-black text-purple-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-scissors text-amber-500"></i> Acabamentos e Serviços Gráficos
-                </h3>
-            </div>
-
-            <div class="space-y-3 text-xs">
-                <form onsubmit="salvarAcabamentoSubmit(event)" class="bg-purple-50 p-3 rounded-xl border border-purple-200 space-y-2">
-                    <span class="font-bold text-purple-900 uppercase block text-[11px]">Adicionar Novo Acabamento:</span>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <input type="text" id="acab-nome" required placeholder="Nome (Ex: Ilhós nas 4 Pontas)" class="px-3 py-1.5 border rounded-lg focus:outline-none">
-                        <input type="number" step="0.01" id="acab-valor" required placeholder="Valor Adicional R$" class="px-3 py-1.5 border rounded-lg focus:outline-none font-bold text-emerald-700">
-                        <input type="number" id="acab-prazo" required placeholder="Prazo Extra (Dias)" class="px-3 py-1.5 border rounded-lg focus:outline-none">
-                    </div>
-                    <button type="submit" class="w-full bg-purple-900 hover:bg-purple-800 text-white font-black py-2 rounded-lg text-xs uppercase shadow transition-all">
-                        + Salvar Acabamento
-                    </button>
-                </form>
-
-                <div class="border border-slate-200 rounded-xl overflow-hidden bg-white max-h-48 overflow-y-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
-                                <th class="py-2 px-3">ACABAMENTO</th>
-                                <th class="py-2 px-3 text-center">VALOR EXTRA</th>
-                                <th class="py-2 px-3 text-center">PRAZO</th>
-                                <th class="py-2 px-3 text-center">AÇÃO</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela-acabamentos-body" class="divide-y divide-slate-100">
-                            <!-- Preenchido via JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="pt-2 border-t border-slate-100 flex justify-end">
-                <button type="button" onclick="fecharModalAcabamentos()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Fechar</button>
-            </div>
         </div>
     </div>
 
@@ -825,16 +805,7 @@
                     <div class="sm:col-span-2">
                         <label class="font-bold text-slate-700 block mb-1">Categoria *</label>
                         <select id="prod-categoria" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-medium">
-                            <option value="Banner com tubete">Banner com tubete</option>
-                            <option value="Cartão de Visita">Cartão de Visita</option>
-                            <option value="Folheto, Folder e Flyer">Folheto, Folder e Flyer</option>
-                            <option value="Adesivo">Adesivo</option>
-                            <option value="Canecas, Copos e Taças">Canecas, Copos e Taças</option>
-                            <option value="Camisa, Camiseta & Blusa">Camisa, Camiseta & Blusa</option>
-                            <option value="DTF Transfer Digital">DTF Transfer Digital</option>
-                            <option value="ARTES">ARTES</option>
-                            <option value="Raspadinha">Raspadinha</option>
-                            <option value="Geral">Geral</option>
+                            <!-- Preenchido Dinamicamente -->
                         </select>
                     </div>
                     <div>
@@ -974,7 +945,10 @@
         const SENHA_ADMIN = '1234';
         let adminProdutos = [];
         let idItemExclusaoPendente = null;
-        let tipoItemExclusao = 'produto'; // 'produto' ou 'pedido'
+        let tipoItemExclusao = 'produto';
+
+        // CATEGORIAS PERSONALIZADAS DO PAINEL
+        let adminCategoriasExtra = ['Banner com tubete', 'Cartão de Visita', 'Folheto, Folder e Flyer', 'Adesivo', 'Canecas, Copos e Taças', 'Camisa, Camiseta & Blusa', 'DTF Transfer Digital', 'ARTES', 'Raspadinha', 'Geral'];
 
         // PAGINAÇÃO E FILTRO DE CATEGORIAS DA TABELA DO ADMIN
         let categoriaFiltroAdmin = '';
@@ -983,15 +957,6 @@
 
         // FILTRO DE SITUAÇÃO DE PEDIDOS
         let situacaoFiltroPedidosAdmin = '';
-
-        // BASE DE ACABAMENTOS
-        let adminAcabamentosDefault = [
-            { id: 1, nome: "Tubete + Cordão", valor: 5.00, prazo: 1 },
-            { id: 2, nome: "Ilhós nas 4 pontas", valor: 8.00, prazo: 1 },
-            { id: 3, nome: "Corte Contorno / Especial", valor: 15.00, prazo: 2 },
-            { id: 4, nome: "Laminação Fosca", valor: 12.00, prazo: 1 }
-        ];
-        let adminAcabamentos = [];
 
         // BASE DE CLIENTES
         let adminClientesDefault = [
@@ -1072,6 +1037,45 @@
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
+        // GERENCIAR CATEGORIAS
+        function abrirModalGerenciarCategorias() {
+            document.getElementById('nova-cat-nome').value = '';
+            document.getElementById('modal-gerenciar-categorias').classList.remove('hidden');
+        }
+
+        function fecharModalGerenciarCategorias() {
+            document.getElementById('modal-gerenciar-categorias').classList.add('hidden');
+        }
+
+        function salvarNovaCategoriaSubmit(e) {
+            e.preventDefault();
+            const novaCat = document.getElementById('nova-cat-nome').value.trim();
+
+            if (novaCat && !adminCategoriasExtra.includes(novaCat)) {
+                adminCategoriasExtra.push(novaCat);
+                atualizarDropdownCategoriasForm();
+                renderizarBotoesCategoriasAdmin();
+                fecharModalGerenciarCategorias();
+                mostrarToast(`Categoria '${novaCat}' criada com sucesso!`);
+            }
+        }
+
+        function atualizarDropdownCategoriasForm() {
+            const select = document.getElementById('prod-categoria');
+            if (!select) return;
+
+            const categoriasUnicas = new Set([...adminCategoriasExtra, ...adminProdutos.map(p => p.categoria.trim())]);
+            const lista = Array.from(categoriasUnicas).filter(Boolean).sort();
+
+            select.innerHTML = '';
+            lista.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.innerText = cat;
+                select.appendChild(opt);
+            });
+        }
+
         // CARREGA PEDIDOS COM PERSISTÊNCIA NO F5
         function carregarPedidosSalvosLocal() {
             const salvos = localStorage.getItem('phsublime_admin_pedidos');
@@ -1108,25 +1112,6 @@
 
         function salvarClientesSalvosLocal() {
             localStorage.setItem('phsublime_admin_clientes', JSON.stringify(adminClientes));
-        }
-
-        // CARREGA ACABAMENTOS
-        function carregarAcabamentosSalvosLocal() {
-            const salvos = localStorage.getItem('phsublime_admin_acabamentos');
-            if (salvos) {
-                try {
-                    adminAcabamentos = JSON.parse(salvos);
-                } catch(e) {
-                    adminAcabamentos = adminAcabamentosDefault;
-                }
-            } else {
-                adminAcabamentos = adminAcabamentosDefault;
-                localStorage.setItem('phsublime_admin_acabamentos', JSON.stringify(adminAcabamentos));
-            }
-        }
-
-        function salvarAcabamentosSalvosLocal() {
-            localStorage.setItem('phsublime_admin_acabamentos', JSON.stringify(adminAcabamentos));
         }
 
         // NOVO PEDIDO MANUAL SUBMIT
@@ -1200,66 +1185,6 @@
             carregarPedidosAdmin();
             fecharModalNovoPedidoManual();
             mostrarToast("Novo pedido criado com sucesso!");
-        }
-
-        // ACABAMENTOS MODAL
-        function abrirModalAcabamentos() {
-            renderizarTabelaAcabamentos();
-            document.getElementById('modal-acabamentos').classList.remove('hidden');
-        }
-
-        function fecharModalAcabamentos() {
-            document.getElementById('modal-acabamentos').classList.add('hidden');
-        }
-
-        function renderizarTabelaAcabamentos() {
-            const tbody = document.getElementById('tabela-acabamentos-body');
-            tbody.innerHTML = '';
-
-            if (adminAcabamentos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-slate-400">Nenhum acabamento cadastrado.</td></tr>`;
-                return;
-            }
-
-            adminAcabamentos.forEach((a, idx) => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100 hover:bg-slate-50";
-                tr.innerHTML = `
-                    <td class="py-2 px-3 font-bold text-slate-800">${escapeHtml(a.nome)}</td>
-                    <td class="py-2 px-3 text-center font-black text-emerald-700">R$ ${parseFloat(a.valor).toFixed(2)}</td>
-                    <td class="py-2 px-3 text-center font-bold text-slate-600">+${a.prazo} dia(s)</td>
-                    <td class="py-2 px-3 text-center">
-                        <button onclick="excluirAcabamento(${idx})" class="text-red-500 hover:text-red-700 font-bold" title="Excluir">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function salvarAcabamentoSubmit(e) {
-            e.preventDefault();
-            const nome = document.getElementById('acab-nome').value;
-            const valor = parseFloat(document.getElementById('acab-valor').value || 0);
-            const prazo = Number(document.getElementById('acab-prazo').value || 1);
-
-            const novoId = adminAcabamentos.length > 0 ? Math.max(...adminAcabamentos.map(a => a.id)) + 1 : 1;
-            adminAcabamentos.push({ id: novoId, nome: nome, valor: valor, prazo: prazo });
-
-            salvarAcabamentosSalvosLocal();
-            renderizarTabelaAcabamentos();
-            document.getElementById('acab-nome').value = '';
-            document.getElementById('acab-valor').value = '';
-            document.getElementById('acab-prazo').value = '';
-            mostrarToast("Acabamento salvo com sucesso!");
-        }
-
-        function excluirAcabamento(idx) {
-            adminAcabamentos.splice(idx, 1);
-            salvarAcabamentosSalvosLocal();
-            renderizarTabelaAcabamentos();
-            mostrarToast("Acabamento removido!");
         }
 
         // CAIXA DE MENSAGEM CUSTOMIZADA
@@ -1680,6 +1605,7 @@
                 adminProdutos = Array.from(mapaUnicos.values());
 
                 atualizarEstatisticas();
+                atualizarDropdownCategoriasForm();
                 renderizarBotoesCategoriasAdmin();
                 renderizarTabelaAdminPaginada();
 
@@ -1713,7 +1639,7 @@
             const container = document.getElementById('container-botoes-categorias-admin');
             if (!container) return;
 
-            const categoriasSet = new Set(adminProdutos.map(p => p.categoria.trim()).filter(Boolean));
+            const categoriasSet = new Set([...adminCategoriasExtra, ...adminProdutos.map(p => p.categoria.trim())].filter(Boolean));
             const listaCats = Array.from(categoriasSet).sort();
 
             let html = `
@@ -2278,7 +2204,6 @@
         async function inicializarAdmin() {
             carregarPedidosSalvosLocal();
             carregarClientesSalvosLocal();
-            carregarAcabamentosSalvosLocal();
             carregarPedidosAdmin();
             carregarRelatoriosFinanceiros();
             await carregarProdutosAdmin();
