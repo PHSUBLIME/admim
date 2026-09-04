@@ -28,7 +28,6 @@
         body { font-family: 'Open Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
         h1, h2, h3, h4, .font-heading { font-family: 'Roboto', sans-serif; }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #1c0792; border-radius: 4px; }
@@ -60,14 +59,12 @@
 </head>
 <body class="bg-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-blue-900">
 
-    <!-- CONTAINER ONDE OS SCRIPTS HTML / PIXELS DO ADMIN SERÃO INJETADOS -->
     <div id="container-scripts-admin-head"></div>
 
     <!-- CABEÇALHO PRINCIPAL DA LOJA -->
     <header id="header-principal" class="bg-custom-cabecalho text-white shadow-xl relative z-30 border-b-4 border-amber-400">
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
             
-            <!-- LOGO PHSUBLIME -->
             <a href="javascript:void(0)" onclick="filtrarCategoria('')" class="flex items-center gap-3 group shrink-0">
                 <div class="w-12 h-12 shrink-0 flex items-center justify-center bg-white rounded-xl p-1 shadow-md group-hover:scale-105 transition-all">
                     <img id="logo-loja-img" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.outerHTML='<i class=\'fa-solid fa-crown text-blue-900 text-2xl\'></i>'">
@@ -83,7 +80,6 @@
                 </div>
             </a>
 
-            <!-- BARRA DE PESQUISA CENTRAL -->
             <div class="w-full md:w-1/3 relative">
                 <div class="flex items-center bg-white rounded-lg overflow-hidden shadow-inner border border-slate-300">
                     <input type="text" id="input-busca-catalogo" onkeyup="buscarComDebounce()" placeholder="Buscar produtos, lonas, cartões, copos, DTF..." class="w-full px-4 py-2.5 text-slate-800 text-xs sm:text-sm focus:outline-none">
@@ -93,16 +89,13 @@
                 </div>
             </div>
 
-            <!-- ÁREA DE CONTATO E CARRINHO -->
             <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-                <!-- CARRINHO -->
                 <button onclick="alternarAba('carrinho')" class="relative bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
                     <i class="fa-solid fa-cart-shopping text-base"></i>
                     <span class="hidden sm:inline">CARRINHO</span>
                     <span id="badge-carrinho-qtd" class="bg-blue-900 text-white font-bold px-2 py-0.5 rounded-full text-[10px] border border-blue-950">0</span>
                 </button>
 
-                <!-- WHATSAPP -->
                 <a id="btn-wpp-topo" href="https://wa.me/5521986147221" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-white font-black text-xs px-3 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-1.5">
                     <i class="fa-brands fa-whatsapp text-base"></i>
                     <span id="txt-wpp-topo" class="hidden md:inline">(21) 98614-7221</span>
@@ -111,11 +104,9 @@
 
         </div>
 
-        <!-- MENU DE NAVEGAÇÃO SUPERIOR DINÂMICO -->
         <nav class="bg-custom-menu border-t border-blue-800 text-xs font-bold text-white">
             <div class="max-w-[1536px] mx-auto px-2 sm:px-4 flex items-center justify-between">
                 <div id="container-menu-categorias-topo" class="flex items-center text-[10px] sm:text-xs overflow-x-auto whitespace-nowrap">
-                    <!-- Preenchido via JavaScript com base nas categorias do Admin/Supabase -->
                 </div>
 
                 <div class="hidden lg:flex items-center gap-2 text-[11px] text-amber-300 font-semibold px-2">
@@ -125,7 +116,6 @@
         </nav>
     </header>
 
-    <!-- BREADCRUMB NAVEGAÇÃO -->
     <div class="bg-white border-b border-slate-200 py-2">
         <div class="max-w-[1536px] mx-auto px-4 text-xs font-semibold text-slate-500 flex items-center gap-2">
             <a href="javascript:void(0)" onclick="filtrarCategoria('')" class="hover:text-blue-900">Home</a>
@@ -134,13 +124,10 @@
         </div>
     </div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
 
-        <!-- ================= SEÇÃO 1: CATÁLOGO / VITRINE ================= -->
         <div id="secao-catalogo" class="space-y-6">
             
-            <!-- BANNERS PROMOCIONAIS DINÂMICOS DO ADMIN -->
             <div class="max-w-5xl mx-auto relative w-full overflow-hidden rounded-xl shadow-md bg-blue-950 group">
                 <div id="banner-slider-container" class="flex transition-transform duration-500 ease-in-out w-full"></div>
 
@@ -155,35 +142,28 @@
                 <div id="banner-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10"></div>
             </div>
 
-            <!-- LAYOUT PRINCIPAL EM 2 COLUNAS -->
             <div class="flex flex-col lg:flex-row gap-6 pt-2">
                 
-                <!-- SIDEBAR ESQUERDA -->
                 <aside class="w-full lg:w-64 shrink-0 space-y-4">
                     
-                    <!-- MAIS VENDIDOS / DESTAQUES -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-red-600 text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
                             <span>MAIS VENDIDOS</span>
                             <i class="fa-solid fa-fire text-amber-300"></i>
                         </div>
                         <ul id="lista-mais-vendidos-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700">
-                            <!-- Preenchido dinamicamente -->
                         </ul>
                     </div>
 
-                    <!-- TODAS AS CATEGORIAS -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#316AC7] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider">
                             CATEGORIAS DO CATÁLOGO
                         </div>
                         <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[500px] overflow-y-auto">
-                            <!-- Preenchido dinamicamente -->
                         </ul>
                     </div>
                 </aside>
 
-                <!-- AREA DE CONTEÚDO PRINCIPAL (PRODUTOS) -->
                 <div class="flex-1 space-y-4">
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-2">
                         <h3 id="txt-titulo-categoria-atual" class="text-base font-black text-blue-900 uppercase font-heading flex items-center gap-2">
@@ -192,17 +172,14 @@
                         <span id="txt-contador-produtos" class="text-xs text-slate-500 font-bold bg-slate-100 px-3 py-1 rounded-full">Carregando estoque...</span>
                     </div>
 
-                    <!-- GRID DE CARDS DE PRODUTOS -->
                     <div id="container-catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
 
-                    <!-- PAGINAÇÃO -->
                     <div id="container-paginacao" class="flex justify-center items-center gap-2 pt-6"></div>
                 </div>
 
             </div>
         </div>
 
-        <!-- ================= SEÇÃO 2: CARRINHO DE COMPRAS ================= -->
         <div id="secao-carrinho" class="hidden space-y-6">
             <div id="carrinho-vazio-msg" class="hidden bg-white border border-slate-200 p-12 rounded-xl text-center space-y-3 shadow-sm">
                 <i class="fa-solid fa-cart-flatbed text-5xl text-slate-300 block"></i>
@@ -239,7 +216,6 @@
                     <div class="bg-white border-2 border-[#316AC7] rounded-xl shadow-lg p-5 space-y-4">
                         <h3 class="text-sm font-black text-blue-900 uppercase font-heading border-b border-slate-100 pb-2.5">Resumo do Pedido</h3>
                         
-                        <!-- CUPOM DE DESCONTO -->
                         <div class="space-y-1.5">
                             <label class="text-[11px] font-bold text-slate-600 block">Tem um Cupom de Desconto?</label>
                             <div class="flex gap-2">
@@ -266,7 +242,6 @@
 
     </main>
 
-    <!-- RODAPÉ DA LOJA -->
     <footer id="footer-principal" class="bg-custom-menu text-white border-t-4 border-amber-400 pt-8 pb-6 mt-12 text-xs">
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-blue-100">
@@ -307,7 +282,6 @@
             </div>
 
             <form id="form-checkout-cliente" onsubmit="confirmarPedidoEEnviarWhatsapp(event)" class="space-y-4 text-xs">
-                
                 <div class="flex items-center gap-4 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
                     <label class="font-bold text-slate-700">Tipo de Cadastro:</label>
                     <label class="flex items-center gap-1.5 cursor-pointer font-semibold">
@@ -440,11 +414,16 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT DA LOJA E INTEGRAÇÃO AUTOMÁTICA AO PAINEL ADMIN -->
     <script>
-        const SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1'; 
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        if (typeof window.SUPABASE_URL === 'undefined') {
+            var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
+        }
+        if (typeof window.SUPABASE_ANON_KEY === 'undefined') {
+            var SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1';
+        }
+        if (typeof window.supabaseClient === 'undefined' && typeof supabase !== 'undefined') {
+            var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
 
         let whatsappAtendimentoLoja = '5521986147221';
 
@@ -456,39 +435,41 @@
         function formatarUrlImagem(url) {
             if (!url || typeof url !== 'string' || !url.trim()) return '';
             const u = url.trim();
-            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) return u;
-            return `https://phsublime.com.br/${u.startsWith('/') ? u.slice(1) : u}`;
+
+            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) {
+                return u;
+            }
+
+            // Garante que só busca imagens e não faz GET de slugs/nomes de texto no GitHub Pages (evita erro 404)
+            const temExtensaoImagem = /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(u);
+            if (temExtensaoImagem) {
+                const caminho = u.startsWith('/') ? u.slice(1) : u;
+                return `https://phsublime.sistograf.net/${caminho}`;
+            }
+
+            return '';
         }
 
-        // ==================== 1. CONEXÃO COM AS CONFIGURAÇÕES DO ADMIN (CMS & LOGOS) ====================
         function carregarConfiguracoesAdminLocal() {
             const cmsData = localStorage.getItem('phsublime_admin_logos');
             if (!cmsData) return;
 
             try {
                 const config = JSON.parse(cmsData);
-                
-                // Favicon
                 if (config.favicon) {
                     const favEl = document.getElementById('site-favicon');
                     if (favEl) favEl.href = config.favicon;
                 }
-
-                // Logo do Sistema
                 if (config.logoSistema) {
                     const logoImg = document.getElementById('logo-loja-img');
                     if (logoImg) logoImg.src = config.logoSistema;
                 }
-
-                // Cores do Tema
                 if (config.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', config.corCabecalho);
                 if (config.corBotao) document.documentElement.style.setProperty('--cor-menu', config.corBotao);
                 if (config.corBotaoGabarito) document.documentElement.style.setProperty('--cor-botao-gabarito', config.corBotaoGabarito);
-
             } catch(e) {}
         }
 
-        // ==================== 2. INJEÇÃO DE BANNERS DO ADMIN ====================
         let bannersCarrossel = [
             { img: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_OFERTAS ESPECIAIS.jpg' },
             { img: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_sss.gif' }
@@ -555,7 +536,6 @@
 
         setInterval(() => mudarBanner(1), 5000);
 
-        // ==================== 3. INJEÇÃO DE SCRIPTS / PIXELS DE MARKETING DO ADMIN ====================
         function carregarScriptsAdminHead() {
             const tagsSalvas = localStorage.getItem('phsublime_admin_codigos_html');
             if (!tagsSalvas) return;
@@ -575,7 +555,6 @@
             } catch(e) {}
         }
 
-        // ==================== 4. ESTOQUE & PRODUTOS (SUPABASE) ====================
         let catalogoEstoque = [];
         let categoriaFiltro = '';
         let paginaAtual = 1;
@@ -632,7 +611,6 @@
             renderizarCatalogo();
         }
 
-        // ==================== 5. NAVEGAÇÃO E CATEGORIAS ====================
         function renderizarMenusCategorias() {
             const categoriasSet = new Set();
             catalogoEstoque.forEach(p => {
@@ -641,7 +619,6 @@
 
             const categorias = Array.from(categoriasSet);
 
-            // Menu do Topo
             const menuTopo = document.getElementById('container-menu-categorias-topo');
             if (menuTopo) {
                 let htmlTopo = `<button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 transition-all uppercase">INÍCIO</button>`;
@@ -651,23 +628,36 @@
                 menuTopo.innerHTML = htmlTopo;
             }
 
-            // Sidebar Mais Vendidos
             const sbMaisVendidos = document.getElementById('lista-mais-vendidos-sidebar');
             if (sbMaisVendidos) {
                 let htmlMV = '';
-                categorias.slice(0, 5).forEach(cat => {
-                    htmlMV += `
-                        <li>
-                            <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
-                                <span>${escapeAttr(cat)}</span> <span class="tag-promocao">PROMOÇÃO</span>
-                            </a>
-                        </li>
-                    `;
-                });
+                const salvosMv = localStorage.getItem('phsublime_admin_mais_vendidos');
+                const listaManual = salvosMv ? JSON.parse(salvosMv) : [];
+
+                if (Array.isArray(listaManual) && listaManual.length > 0) {
+                    listaManual.forEach(item => {
+                        htmlMV += `
+                            <li>
+                                <a href="javascript:void(0)" onclick="abrirModalDetalhes('${escapeAttr(item.id)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
+                                    <span class="truncate pr-2">${escapeAttr(item.nome)}</span> <span class="tag-promocao shrink-0">DESTAQUE</span>
+                                </a>
+                            </li>
+                        `;
+                    });
+                } else {
+                    categorias.slice(0, 5).forEach(cat => {
+                        htmlMV += `
+                            <li>
+                                <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
+                                    <span>${escapeAttr(cat)}</span> <span class="tag-promocao">PROMOÇÃO</span>
+                                </a>
+                            </li>
+                        `;
+                    });
+                }
                 sbMaisVendidos.innerHTML = htmlMV;
             }
 
-            // Sidebar Todas Categorias
             const sbTodas = document.getElementById('lista-todas-categorias-sidebar');
             if (sbTodas) {
                 let htmlTodas = `<li><a href="javascript:void(0)" onclick="filtrarCategoria('')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between font-bold text-blue-900"><span>Ver Todo o Catálogo</span> <i class="fa-solid fa-border-all text-[10px]"></i></a></li>`;
@@ -739,7 +729,6 @@
             const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
             const itensPagina = filtrados.slice(inicio, inicio + ITENS_POR_PAGINA);
 
-            // Personalização dos Botões dos Cards vinda do Admin
             let txtBtnComprar = "COMPRAR 🚀";
             const cmsData = localStorage.getItem('phsublime_admin_logos');
             if (cmsData) {
@@ -804,7 +793,6 @@
             window.scrollTo({ top: 300, behavior: 'smooth' });
         }
 
-        // ==================== 6. MODAL DE DETALHES DO PRODUTO ====================
         function abrirModalDetalhes(id) {
             const item = catalogoEstoque.find(p => String(p.id) === String(id));
             if (!item) return;
@@ -841,7 +829,6 @@
             document.getElementById('modal-detalhes-produto').classList.add('hidden');
         }
 
-        // ==================== 7. CARRINHO & CUPONS DE DESCONTO ====================
         function adicionarAoCarrinho(id) {
             const item = catalogoEstoque.find(p => String(p.id) === String(id));
             if (!item) return;
@@ -990,7 +977,6 @@
             if (totalEl) totalEl.innerText = `R$ ${totalFinal.toFixed(2)}`;
         }
 
-        // ==================== 8. CHECKOUT E ENVIO VIA WHATSAPP ====================
         function abrirModalCheckout() {
             if (carrinho.length === 0) return;
             document.getElementById('modal-checkout-cliente').classList.remove('hidden');
