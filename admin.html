@@ -69,10 +69,10 @@
 
                 <!-- MENU MUDANÇA DE ABAS -->
                 <div class="flex items-center gap-2">
-                    <button onclick="mudarAbaAdmin('pedidos')" id="btn-aba-pedidos" class="px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-cart-flatbed"></i> PEDIDOS <span id="badge-total-pedidos" class="bg-blue-900 text-white text-[10px] px-1.5 py-0.5 rounded-full ml-0.5">1</span>
+                    <button onclick="mudarAbaAdmin('pedidos')" id="btn-aba-pedidos" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-cart-flatbed"></i> PEDIDOS <span id="badge-total-pedidos" class="bg-amber-400 text-blue-950 text-[10px] px-1.5 py-0.5 rounded-full ml-0.5 font-black">1</span>
                     </button>
-                    <button onclick="mudarAbaAdmin('produtos')" id="btn-aba-produtos" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
+                    <button onclick="mudarAbaAdmin('produtos')" id="btn-aba-produtos" class="px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-boxes-stacked"></i> PRODUTOS
                     </button>
                     <button onclick="mudarAbaAdmin('clientes')" id="btn-aba-clientes" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
@@ -96,7 +96,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
                     <div>
-                        <span class="text-xs text-slate-500 font-bold block uppercase">Total no Banco</span>
+                        <span class="text-xs text-slate-500 font-bold block uppercase">Total Único no Banco</span>
                         <strong id="stat-total-produtos" class="text-2xl font-black text-blue-900">0</strong>
                     </div>
                     <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-xl flex items-center justify-center text-xl font-bold">
@@ -138,7 +138,7 @@
             </div>
 
             <!-- ================= ABA 1: GERENCIADOR DE PEDIDOS ================= -->
-            <section id="secao-admin-pedidos" class="space-y-6">
+            <section id="secao-admin-pedidos" class="hidden space-y-6">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
                     <div>
                         <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Central de Pedidos da Gráfica</h3>
@@ -177,7 +177,7 @@
             </section>
 
             <!-- ================= ABA 2: GERENCIADOR DE PRODUTOS ================= -->
-            <section id="secao-admin-produtos" class="hidden space-y-6">
+            <section id="secao-admin-produtos" class="space-y-6">
                 
                 <!-- BARRA DE AÇÕES -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -186,15 +186,20 @@
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                     </div>
 
-                    <button onclick="abrirModalFormProduto()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-5 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-2 uppercase">
-                        <i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Novo Produto
-                    </button>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button onclick="carregarProdutosAdmin(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-rotate-right"></i> Recarregar
+                        </button>
+                        <button onclick="abrirModalFormProduto()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-5 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-2 uppercase">
+                            <i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Produto
+                        </button>
+                    </div>
                 </div>
 
                 <!-- TABELA DE PRODUTOS -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="bg-[#316AC7] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
-                        <span><i class="fa-solid fa-list text-amber-300"></i> Produtos Cadastrados no Banco</span>
+                        <span><i class="fa-solid fa-list text-amber-300"></i> Produtos Cadastrados no Banco (Sem duplicados)</span>
                         <span id="txt-count-tabela-admin" class="bg-amber-400 text-blue-950 font-black px-2 py-0.5 rounded text-[10px]">0 de 0</span>
                     </div>
 
@@ -206,7 +211,7 @@
                                     <th class="py-3 px-4">PRODUTO / REFERÊNCIA</th>
                                     <th class="py-3 px-4">CATEGORIA</th>
                                     <th class="py-3 px-4 text-center">PREÇO (R$)</th>
-                                    <th class="py-3 px-4 text-center w-32">AÇÕES</th>
+                                    <th class="py-3 px-4 text-center w-48">AÇÕES</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-admin-produtos-body" class="divide-y divide-slate-100">
@@ -500,7 +505,12 @@
 
         let pedidoEmEdicaoModal = null;
 
-        // VERIFICA LOGIN SALVO (SESSÃO PERSISTENTE NO NAVEGADOR)
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // VERIFICA LOGIN SALVO
         function verificarSessaoAdmin() {
             const logado = localStorage.getItem('phsublime_admin_logado');
             if (logado === 'true') {
@@ -717,7 +727,7 @@
         }
 
         // ============ PRODUTOS DO SUPABASE ============
-        async function carregarProdutosAdmin() {
+        async function carregarProdutosAdmin(exibirToast = false) {
             const tbody = document.getElementById('tabela-admin-produtos-body');
             tbody.innerHTML = `
                 <tr>
@@ -735,26 +745,36 @@
 
                 if (error) throw error;
 
-                adminProdutos = (data || []).map(item => {
+                // DEDUPLICAÇÃO DE REGISTROS POR ID ÚNICO
+                const mapaUnicos = new Map();
+
+                (data || []).forEach(item => {
                     let preco = item.Preco_Venda ?? item.precoVenda ?? item.Preco ?? 0;
                     if (typeof preco === 'string') preco = parseFloat(preco.replace(',', '.'));
 
                     let precoDe = item.precoDe ? parseFloat(String(item.precoDe).replace(',', '.')) : null;
 
-                    return {
-                        id: item.id,
-                        nome: item.Nome || item.nome || 'Produto sem nome',
-                        categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
-                        ref: item.Referencia || item.ref || '---',
-                        preco: isNaN(preco) ? 0 : preco,
-                        precoDe: precoDe,
-                        imagem: item.Url || item.imagem || '',
-                        descricao: item.Descricao || item.descricao || ''
-                    };
+                    const idVal = item.id;
+                    if (idVal && !mapaUnicos.has(String(idVal))) {
+                        mapaUnicos.set(String(idVal), {
+                            id: String(idVal),
+                            nome: item.Nome || item.nome || 'Produto sem nome',
+                            categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
+                            ref: item.Referencia || item.ref || '---',
+                            preco: isNaN(preco) ? 0 : preco,
+                            precoDe: precoDe,
+                            imagem: item.Url || item.imagem || '',
+                            descricao: item.Descricao || item.descricao || ''
+                        });
+                    }
                 });
+
+                adminProdutos = Array.from(mapaUnicos.values());
 
                 atualizarEstatisticas();
                 renderizarTabelaAdmin(adminProdutos);
+
+                if (exibirToast) mostrarToast("Produtos recarregados do banco!");
 
             } catch (err) {
                 console.error("Erro ao carregar banco:", err);
@@ -797,28 +817,30 @@
                 tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
 
                 const htmlImg = prod.imagem 
-                    ? `<img src="${prod.imagem}" class="w-10 h-10 object-contain rounded border bg-white p-0.5" onerror="this.outerHTML='<i class=\'fa-solid fa-box text-slate-300 text-lg\'></i>'">`
+                    ? `<img src="${escapeHtml(prod.imagem)}" class="w-10 h-10 object-contain rounded border bg-white p-0.5" onerror="this.outerHTML='<i class=\'fa-solid fa-box text-slate-300 text-lg\'></i>'">`
                     : `<i class="fa-solid fa-box text-slate-300 text-lg"></i>`;
+
+                const idSeguro = String(prod.id).replace(/'/g, "\\'");
 
                 tr.innerHTML = `
                     <td class="py-3 px-4">${htmlImg}</td>
                     <td class="py-3 px-4">
-                        <strong class="text-slate-800 block leading-tight font-bold">${prod.nome}</strong>
-                        <span class="text-[10px] text-slate-400 font-mono">Ref: ${prod.ref}</span>
+                        <strong class="text-slate-800 block leading-tight font-bold">${escapeHtml(prod.nome)}</strong>
+                        <span class="text-[10px] text-slate-400 font-mono">Ref: ${escapeHtml(prod.ref)}</span>
                     </td>
                     <td class="py-3 px-4">
-                        <span class="bg-blue-100 text-blue-900 font-black text-[10px] px-2 py-0.5 rounded uppercase">${prod.categoria}</span>
+                        <span class="bg-blue-100 text-blue-900 font-black text-[10px] px-2 py-0.5 rounded uppercase">${escapeHtml(prod.categoria)}</span>
                     </td>
                     <td class="py-3 px-4 text-center font-black text-emerald-700">
                         R$ ${prod.preco.toFixed(2)}
                     </td>
                     <td class="py-3 px-4 text-center">
-                        <div class="flex items-center justify-center gap-1.5">
-                            <button onclick="editarProdutoModal(${prod.id})" class="bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-lg font-bold" title="Editar">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="editarProdutoModal('${idSeguro}')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-pen-to-square"></i> Editar
                             </button>
-                            <button onclick="excluirProduto(${prod.id})" class="bg-red-600 hover:bg-red-500 text-white p-1.5 rounded-lg font-bold" title="Excluir">
-                                <i class="fa-solid fa-trash-can"></i>
+                            <button onclick="excluirProduto('${idSeguro}')" class="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-trash-can"></i> Excluir
                             </button>
                         </div>
                     </td>
@@ -849,8 +871,11 @@
         }
 
         function editarProdutoModal(id) {
-            const prod = adminProdutos.find(p => p.id === id);
-            if (!prod) return;
+            const prod = adminProdutos.find(p => String(p.id) === String(id));
+            if (!prod) {
+                alert("Produto não encontrado na lista.");
+                return;
+            }
 
             document.getElementById('prod-id').value = prod.id;
             document.getElementById('prod-nome').value = prod.nome;
@@ -889,15 +914,18 @@
             };
 
             try {
-                if (id) {
+                if (id && id.trim() !== '') {
+                    // ATUALIZAÇÃO POR ID
+                    const targetId = isNaN(id) ? id : Number(id);
                     const { error } = await supabaseClient
                         .from('produtos')
                         .update(payload)
-                        .eq('id', id);
+                        .eq('id', targetId);
 
                     if (error) throw error;
                     mostrarToast("Produto atualizado com sucesso!");
                 } else {
+                    // NOVO CADASTRO
                     const { error } = await supabaseClient
                         .from('produtos')
                         .insert([payload]);
@@ -916,13 +944,14 @@
         }
 
         async function excluirProduto(id) {
-            if (!confirm("Tem certeza que deseja excluir este produto do banco de dados?")) return;
+            if (!confirm("Tem certeza que deseja excluir ESTE produto específico do banco de dados?")) return;
 
             try {
+                const targetId = isNaN(id) ? id : Number(id);
                 const { error } = await supabaseClient
                     .from('produtos')
                     .delete()
-                    .eq('id', id);
+                    .eq('id', targetId);
 
                 if (error) throw error;
 
