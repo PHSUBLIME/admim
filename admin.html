@@ -63,13 +63,16 @@
                     </div>
                     <div>
                         <h1 class="text-base font-black tracking-wider text-white font-heading">PHSUBLIME ADMIN</h1>
-                        <span class="text-[10px] text-amber-300 font-bold uppercase block">Painel de Gestão de Estoque e Clientes</span>
+                        <span class="text-[10px] text-amber-300 font-bold uppercase block">Painel de Gestão de Estoque, Pedidos e Clientes</span>
                     </div>
                 </div>
 
                 <!-- MENU MUDANÇA DE ABAS -->
                 <div class="flex items-center gap-2">
-                    <button onclick="mudarAbaAdmin('produtos')" id="btn-aba-produtos" class="px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5">
+                    <button onclick="mudarAbaAdmin('pedidos')" id="btn-aba-pedidos" class="px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-cart-flatbed"></i> PEDIDOS <span id="badge-total-pedidos" class="bg-blue-900 text-white text-[10px] px-1.5 py-0.5 rounded-full ml-0.5">1</span>
+                    </button>
+                    <button onclick="mudarAbaAdmin('produtos')" id="btn-aba-produtos" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-boxes-stacked"></i> PRODUTOS
                     </button>
                     <button onclick="mudarAbaAdmin('clientes')" id="btn-aba-clientes" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
@@ -103,11 +106,11 @@
 
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
                     <div>
-                        <span class="text-xs text-slate-500 font-bold block uppercase">Em Promoção</span>
-                        <strong id="stat-total-promos" class="text-2xl font-black text-amber-600">0</strong>
+                        <span class="text-xs text-slate-500 font-bold block uppercase">Pedidos Recebidos</span>
+                        <strong id="stat-total-pedidos" class="text-2xl font-black text-emerald-600">1</strong>
                     </div>
-                    <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-xl font-bold">
-                        <i class="fa-solid fa-fire"></i>
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-receipt"></i>
                     </div>
                 </div>
 
@@ -134,8 +137,47 @@
                 </div>
             </div>
 
-            <!-- ================= ABA 1: GERENCIADOR DE PRODUTOS ================= -->
-            <section id="secao-admin-produtos" class="space-y-6">
+            <!-- ================= ABA 1: GERENCIADOR DE PEDIDOS ================= -->
+            <section id="secao-admin-pedidos" class="space-y-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Central de Pedidos da Gráfica</h3>
+                        <p class="text-xs text-slate-500">Gerencie o status de produção, pagamentos, arquivos de impressão e entregas.</p>
+                    </div>
+                    <button onclick="carregarPedidosAdmin()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-rotate-right"></i> Atualizar Pedidos
+                    </button>
+                </div>
+
+                <!-- TABELA DE PEDIDOS -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-[#316AC7] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
+                        <span><i class="fa-solid fa-clipboard-list text-amber-300"></i> Pedidos Recentes</span>
+                        <span class="bg-amber-400 text-blue-950 font-black px-2 py-0.5 rounded text-[10px]">Ativos</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
+                                    <th class="py-3 px-4">CÓDIGO / DATA</th>
+                                    <th class="py-3 px-4">CLIENTE</th>
+                                    <th class="py-3 px-4">FORMA ENTREGA</th>
+                                    <th class="py-3 px-4 text-center">TOTAL (R$)</th>
+                                    <th class="py-3 px-4 text-center">SITUAÇÃO</th>
+                                    <th class="py-3 px-4 text-center">AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-admin-pedidos-body" class="divide-y divide-slate-100">
+                                <!-- Inserido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= ABA 2: GERENCIADOR DE PRODUTOS ================= -->
+            <section id="secao-admin-produtos" class="hidden space-y-6">
                 
                 <!-- BARRA DE AÇÕES -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -180,7 +222,7 @@
 
             </section>
 
-            <!-- ================= ABA 2: GERENCIADOR DE CLIENTES ================= -->
+            <!-- ================= ABA 3: GERENCIADOR DE CLIENTES ================= -->
             <section id="secao-admin-clientes" class="hidden space-y-6">
                 
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
@@ -223,6 +265,110 @@
             <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
         </footer>
 
+    </div>
+
+    <!-- MODAL DETALHES DO PEDIDO (IGUAL AO SEU SISTEMA ANTIGO) -->
+    <div id="modal-detalhes-pedido-admin" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalDetalhesPedido()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-3 flex items-center justify-between flex-wrap gap-2">
+                <div>
+                    <h3 id="txt-modal-pedido-codigo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-bookmark text-amber-500"></i> Pedido #75Y19RYI
+                    </h3>
+                    <span id="txt-modal-pedido-data" class="text-xs text-slate-500 font-semibold block">Criado em 14/06/2026 15:35:58</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="enviarAtualizacaoWhatsappPedido()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> Notificar Cliente
+                    </button>
+                </div>
+            </div>
+
+            <!-- GRID COM CARDS DE INFORMAÇÕES -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <!-- CLIENTE -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                    <h4 class="font-black text-blue-900 uppercase text-[11px] border-b border-slate-200 pb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-user text-amber-500"></i> Dados do Cliente
+                    </h4>
+                    <p><strong class="text-slate-800" id="det-cli-nome">GABRIEL SALES DA SILVA</strong></p>
+                    <p><strong>Tipo:</strong> <span id="det-cli-tipo">Pessoa Física</span></p>
+                    <p><strong>CPF/CNPJ:</strong> <span id="det-cli-doc" class="font-mono">174.635.767-36</span></p>
+                    <p><strong>Email:</strong> <span id="det-cli-email">bielyt.cevd@gmail.com</span></p>
+                    <p><strong>WhatsApp:</strong> <span id="det-cli-wpp" class="font-bold text-emerald-700">(21) 99013-0003</span></p>
+                </div>
+
+                <!-- TRANSPORTE -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                    <h4 class="font-black text-blue-900 uppercase text-[11px] border-b border-slate-200 pb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-truck text-blue-600"></i> Transporte / Entrega
+                    </h4>
+                    <p><strong>Tipo:</strong> <span id="det-transp-tipo">Transportadora - PH ENTREGA</span></p>
+                    <p><strong>Prazo:</strong> <span id="det-transp-prazo">2 dias úteis</span></p>
+                    <p><strong>Endereço:</strong> <span id="det-transp-end">Estrada da Água Grande, 221 - Bl. 2 Apt.404 - Irajá. Rio de Janeiro/RJ. CEP 21230-362</span></p>
+                </div>
+            </div>
+
+            <!-- RESUMO DE VALORES E SITUAÇÃO -->
+            <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div>
+                    <span class="text-slate-500 font-bold block text-[11px]">SITUAÇÃO DO PEDIDO</span>
+                    <select id="select-modal-situacao-pedido" class="mt-1 bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-bold text-blue-900 focus:outline-none w-full">
+                        <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                        <option value="Confirmado">Confirmado</option>
+                        <option value="Em Produção">Em Produção</option>
+                        <option value="Saiu para Entrega">Saiu para Entrega</option>
+                        <option value="Concluído">Concluído</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+                <div>
+                    <span class="text-slate-500 font-bold block text-[11px]">FORMA DE PAGAMENTO</span>
+                    <strong id="det-financeiro-forma" class="text-slate-800 text-sm block mt-1">Mercado Pago / PIX</strong>
+                </div>
+                <div>
+                    <span class="text-slate-500 font-bold block text-[11px]">VALOR TOTAL</span>
+                    <strong id="det-financeiro-total" class="text-red-600 text-lg font-black block mt-0.5">R$ 107,02</strong>
+                </div>
+            </div>
+
+            <!-- ITENS DO PEDIDO E ARQUIVOS -->
+            <div class="space-y-3">
+                <h4 class="font-black text-blue-900 uppercase text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-packing text-amber-500"></i> Itens e Arquivos de Impressão do Cliente
+                </h4>
+                <div class="border border-slate-200 rounded-xl overflow-hidden bg-white">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
+                                <th class="py-2.5 px-3">ITEM</th>
+                                <th class="py-2.5 px-3">PRODUTO / ESPECIFICAÇÃO</th>
+                                <th class="py-2.5 px-3 text-center">ARQUIVO ENVIADO</th>
+                                <th class="py-2.5 px-3 text-right">SUBTOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-detalhes-itens-pedido" class="divide-y divide-slate-100">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- OBSERVAÇÕES INTERNAS -->
+            <div class="space-y-2">
+                <label class="font-black text-slate-700 text-xs block">Observações Internas da Gráfica</label>
+                <textarea id="txt-modal-obs-interna" rows="3" placeholder="Anotações para a produção, corte ou entrega..." class="w-full p-2.5 border border-slate-300 rounded-xl text-xs focus:outline-none focus:border-blue-600"></textarea>
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex justify-end gap-3">
+                <button type="button" onclick="fecharModalDetalhesPedido()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Fechar</button>
+                <button type="button" onclick="salvarAlteracoesPedidoModal()" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2 uppercase">
+                    <i class="fa-solid fa-floppy-disk"></i> SALVAR ALTERAÇÕES
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL DE FORMULÁRIO (CADASTRAR / EDITAR PRODUTO) -->
@@ -311,6 +457,49 @@
         const SENHA_ADMIN = '1234';
         let adminProdutos = [];
 
+        // BASE DE PEDIDOS
+        let adminPedidos = [
+            {
+                id: 75,
+                codigo: "#75Y19RYI",
+                data: "14/06/2026 15:35:58",
+                cliente: {
+                    nome: "GABRIEL SALES DA SILVA",
+                    tipo: "Pessoa Física",
+                    doc: "174.635.767-36",
+                    email: "bielyt.cevd@gmail.com",
+                    wpp: "(21) 99013-0003"
+                },
+                transporte: {
+                    tipo: "Transportadora - PH ENTREGA",
+                    prazo: "2 dias úteis",
+                    endereco: "Estrada da Água Grande, 221 - Bl. 2 Apt.404 - Irajá. Rio de Janeiro/RJ. CEP 21230-362"
+                },
+                financeiro: {
+                    produtosVal: 91.07,
+                    freteVal: 9.90,
+                    acrescimoVal: 6.05,
+                    totalVal: 107.02,
+                    forma: "Mercado Pago / PIX"
+                },
+                situacao: "Confirmado",
+                obsInterna: "Arte aprovada. Corte especial em vinil brilho.",
+                itens: [
+                    {
+                        id: 94,
+                        ref: "sign03",
+                        nome: "700un. Adesivo Brilho 0,08 M² + Corte Contorno (DOCERIA VIVI)",
+                        especificacao: "Vinil Brilho 0,08 | Cores: 4x0 | L: 0.04m - A: 0.04m",
+                        subtotal: 91.07,
+                        arquivoUrl: "https://phsublime.com.br/admin/pedidos/pedido/75/itens/94/arquivos/41/75_94(1-1)_(700unid)_sign03_Adesivo-Brilho-0-08-M-Corte-Contorno_4x0_Frente.pdf",
+                        arquivoNome: "PD75Y19RYI_IT94frente.pdf"
+                    }
+                ]
+            }
+        ];
+
+        let pedidoEmEdicaoModal = null;
+
         function autenticarAdmin(e) {
             e.preventDefault();
             const senha = document.getElementById('input-senha-admin').value;
@@ -340,6 +529,149 @@
             }
         }
 
+        // ============ LÓGICA DE PEDIDOS ============
+        function carregarPedidosAdmin() {
+            const tbody = document.getElementById('tabela-admin-pedidos-body');
+            const statTotal = document.getElementById('stat-total-pedidos');
+            const badgeTotal = document.getElementById('badge-total-pedidos');
+
+            if (statTotal) statTotal.innerText = adminPedidos.length;
+            if (badgeTotal) badgeTotal.innerText = adminPedidos.length;
+
+            tbody.innerHTML = '';
+
+            if (adminPedidos.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="py-8 text-center text-slate-400 font-bold">
+                            Nenhum pedido registrado até o momento.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            adminPedidos.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
+
+                let corBadge = "bg-amber-100 text-amber-800";
+                if (p.situacao === 'Confirmado' || p.situacao === 'Em Produção') corBadge = "bg-blue-100 text-blue-900";
+                if (p.situacao === 'Concluído') corBadge = "bg-emerald-100 text-emerald-800";
+                if (p.situacao === 'Cancelado') corBadge = "bg-red-100 text-red-800";
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4">
+                        <strong class="text-blue-900 font-black block">${p.codigo}</strong>
+                        <span class="text-[10px] text-slate-400">${p.data}</span>
+                    </td>
+                    <td class="py-3 px-4">
+                        <strong class="text-slate-800 block leading-tight font-bold">${p.cliente.nome}</strong>
+                        <span class="text-[10px] text-slate-400 font-bold text-emerald-700">${p.cliente.wpp}</span>
+                    </td>
+                    <td class="py-3 px-4 font-semibold text-slate-600">
+                        ${p.transporte.tipo}
+                    </td>
+                    <td class="py-3 px-4 text-center font-black text-red-600">
+                        R$ ${p.financeiro.totalVal.toFixed(2)}
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <span class="${corBadge} font-black text-[10px] px-2.5 py-1 rounded uppercase">${p.situacao}</span>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="abrirModalDetalhesPedido(${p.id})" class="bg-[#316AC7] hover:bg-blue-800 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg shadow transition-all flex items-center gap-1 mx-auto">
+                            <i class="fa-solid fa-eye"></i> Detalhes
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalDetalhesPedido(id) {
+            const p = adminPedidos.find(item => item.id === id);
+            if (!p) return;
+
+            pedidoEmEdicaoModal = p;
+
+            document.getElementById('txt-modal-pedido-codigo').innerHTML = `<i class="fa-solid fa-bookmark text-amber-500"></i> Pedido ${p.codigo}`;
+            document.getElementById('txt-modal-pedido-data').innerText = `Criado em ${p.data}`;
+
+            // Cliente
+            document.getElementById('det-cli-nome').innerText = p.cliente.nome;
+            document.getElementById('det-cli-tipo').innerText = p.cliente.tipo;
+            document.getElementById('det-cli-doc').innerText = p.cliente.doc;
+            document.getElementById('det-cli-email').innerText = p.cliente.email;
+            document.getElementById('det-cli-wpp').innerText = p.cliente.wpp;
+
+            // Transporte
+            document.getElementById('det-transp-tipo').innerText = p.transporte.tipo;
+            document.getElementById('det-transp-prazo').innerText = p.transporte.prazo;
+            document.getElementById('det-transp-end').innerText = p.transporte.endereco;
+
+            // Financeiro
+            document.getElementById('select-modal-situacao-pedido').value = p.situacao;
+            document.getElementById('det-financeiro-forma').innerText = p.financeiro.forma;
+            document.getElementById('det-financeiro-total').innerText = `R$ ${p.financeiro.totalVal.toFixed(2)}`;
+
+            document.getElementById('txt-modal-obs-interna').value = p.obsInterna || '';
+
+            // Itens
+            const tbodyItens = document.getElementById('tabela-detalhes-itens-pedido');
+            tbodyItens.innerHTML = '';
+
+            p.itens.forEach(it => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3 font-mono font-bold text-slate-500">#${it.id}</td>
+                    <td class="py-2.5 px-3">
+                        <strong class="text-slate-800 block">${it.nome}</strong>
+                        <span class="text-[10px] text-slate-400 block">${it.especificacao}</span>
+                    </td>
+                    <td class="py-2.5 px-3 text-center">
+                        <a href="${it.arquivoUrl}" download class="bg-blue-100 hover:bg-blue-200 text-blue-900 font-bold px-2.5 py-1 rounded text-[11px] inline-flex items-center gap-1">
+                            <i class="fa-solid fa-cloud-arrow-down"></i> Baixar ${it.arquivoNome}
+                        </a>
+                    </td>
+                    <td class="py-2.5 px-3 text-right font-black text-slate-800">
+                        R$ ${it.subtotal.toFixed(2)}
+                    </td>
+                `;
+                tbodyItens.appendChild(tr);
+            });
+
+            document.getElementById('modal-detalhes-pedido-admin').classList.remove('hidden');
+        }
+
+        function fecharModalDetalhesPedido() {
+            document.getElementById('modal-detalhes-pedido-admin').classList.add('hidden');
+        }
+
+        function salvarAlteracoesPedidoModal() {
+            if (!pedidoEmEdicaoModal) return;
+
+            const novaSituacao = document.getElementById('select-modal-situacao-pedido').value;
+            const novaObs = document.getElementById('txt-modal-obs-interna').value;
+
+            pedidoEmEdicaoModal.situacao = novaSituacao;
+            pedidoEmEdicaoModal.obsInterna = novaObs;
+
+            carregarPedidosAdmin();
+            fecharModalDetalhesPedido();
+            mostrarToast(`Pedido ${pedidoEmEdicaoModal.codigo} atualizado com sucesso!`);
+        }
+
+        function enviarAtualizacaoWhatsappPedido() {
+            if (!pedidoEmEdicaoModal) return;
+
+            const wppFormatado = pedidoEmEdicaoModal.cliente.wpp.replace(/\D/g, '');
+            const msg = `Olá *${pedidoEmEdicaoModal.cliente.nome}*! 👋\n\nAtualização do seu pedido *${pedidoEmEdicaoModal.codigo}* na *PHSUBLIME GRÁFICA*:\n\n📌 *Situação Atual:* ${pedidoEmEdicaoModal.situacao}\n💰 *Valor Total:* R$ ${pedidoEmEdicaoModal.financeiro.totalVal.toFixed(2)}\n\nQualquer dúvida, estamos à disposição!`;
+
+            window.open(`https://wa.me/55${wppFormatado}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // ============ PRODUTOS DO SUPABASE ============
         async function carregarProdutosAdmin() {
             const tbody = document.getElementById('tabela-admin-produtos-body');
             tbody.innerHTML = `
@@ -393,10 +725,6 @@
 
         function atualizarEstatisticas() {
             document.getElementById('stat-total-produtos').innerText = adminProdutos.length;
-            
-            const totalPromos = adminProdutos.filter(p => p.precoDe && p.precoDe > p.preco).length;
-            document.getElementById('stat-total-promos').innerText = totalPromos;
-
             const categoriasUnicas = new Set(adminProdutos.map(p => p.categoria));
             document.getElementById('stat-total-categorias').innerText = categoriasUnicas.size;
         }
@@ -566,6 +894,14 @@
             const tbody = document.getElementById('tabela-admin-clientes-body');
             tbody.innerHTML = `
                 <tr class="border-b border-slate-100">
+                    <td class="py-3 px-4 font-bold text-slate-800">GABRIEL SALES DA SILVA</td>
+                    <td class="py-3 px-4"><span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold text-[10px]">PF</span></td>
+                    <td class="py-3 px-4 font-mono">174.635.767-36</td>
+                    <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> (21) 99013-0003</td>
+                    <td class="py-3 px-4">Estrada da Água Grande, 221 - Irajá / RJ</td>
+                    <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
+                </tr>
+                <tr class="border-b border-slate-100">
                     <td class="py-3 px-4 font-bold text-slate-800">Vania Btraz</td>
                     <td class="py-3 px-4"><span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold text-[10px]">PF</span></td>
                     <td class="py-3 px-4 font-mono">098.090.717-95</td>
@@ -577,23 +913,27 @@
         }
 
         function mudarAbaAdmin(aba) {
-            ['produtos', 'clientes'].forEach(a => document.getElementById(`secao-admin-${a}`)?.classList.add('hidden'));
+            ['pedidos', 'produtos', 'clientes'].forEach(a => document.getElementById(`secao-admin-${a}`)?.classList.add('hidden'));
             document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
 
+            const btnPed = document.getElementById('btn-aba-pedidos');
             const btnProd = document.getElementById('btn-aba-produtos');
             const btnClis = document.getElementById('btn-aba-clientes');
 
-            if (aba === 'produtos') {
-                btnProd.className = "px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5";
-                btnClis.className = "px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5";
-            } else {
-                btnClis.className = "px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5";
-                btnProd.className = "px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5";
-                carregarClientesExemplo();
-            }
+            const estiloAtivo = "px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5";
+            const estiloInativo = "px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5";
+
+            btnPed.className = aba === 'pedidos' ? estiloAtivo : estiloInativo;
+            btnProd.className = aba === 'produtos' ? estiloAtivo : estiloInativo;
+            btnClis.className = aba === 'clientes' ? estiloAtivo : estiloInativo;
+
+            if (aba === 'pedidos') carregarPedidosAdmin();
+            if (aba === 'produtos') carregarProdutosAdmin();
+            if (aba === 'clientes') carregarClientesExemplo();
         }
 
         async function inicializarAdmin() {
+            carregarPedidosAdmin();
             await carregarProdutosAdmin();
         }
     </script>
