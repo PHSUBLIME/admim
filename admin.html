@@ -315,12 +315,15 @@
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                     </div>
 
-                    <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <button onclick="abrirModalGerenciarCategorias()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
-                            <i class="fa-solid fa-tags"></i> + Criar Categoria
+                    <div class="flex items-center gap-2 w-full sm:w-auto flex-wrap sm:flex-nowrap">
+                        <button onclick="autoCategorizarProdutosInteligente()" class="bg-amber-500 hover:bg-amber-400 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5" title="Auto-categoriza os produtos pelos seus nomes">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> 🪄 Auto-Categorizar
                         </button>
-                        <button onclick="carregarProdutosAdmin(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
-                            <i class="fa-solid fa-rotate-right"></i> Recarregar
+                        <button onclick="abrirModalGerenciarCategorias()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-tags"></i> Gerenciar Categorias
+                        </button>
+                        <button onclick="carregarProdutosAdmin(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-3 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-rotate-right"></i>
                         </button>
                         <button onclick="abrirModalFormProduto()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-1.5 uppercase">
                             <i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Produto
@@ -487,30 +490,36 @@
 
     </div>
 
-    <!-- MODAL DE CRIAR NOVA CATEGORIA (NOVO!) -->
+    <!-- MODAL DE CRIAR E EXCLUIR CATEGORIAS DA LOJA -->
     <div id="modal-gerenciar-categorias" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-purple-200">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative border border-purple-200">
             <button onclick="fecharModalGerenciarCategorias()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <div class="border-b border-slate-100 pb-2">
                 <h3 class="text-base font-black text-purple-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-tags text-amber-500"></i> Criar Nova Categoria
+                    <i class="fa-solid fa-tags text-amber-500"></i> Gerenciador de Categorias
                 </h3>
             </div>
 
-            <form onsubmit="salvarNovaCategoriaSubmit(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Nome da Categoria *</label>
-                    <input type="text" id="nova-cat-nome" required placeholder="Ex: Mochila Pirulito, Acrílico, DTF..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-600 font-bold">
-                </div>
-
-                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalGerenciarCategorias()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
-                    <button type="submit" class="bg-purple-900 hover:bg-purple-800 text-white font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
-                        <i class="fa-solid fa-plus"></i> Adicionar Categoria
+            <div class="space-y-3 text-xs">
+                <form onsubmit="salvarNovaCategoriaSubmit(event)" class="bg-purple-50 p-3 rounded-xl border border-purple-200 flex gap-2">
+                    <input type="text" id="nova-cat-nome" required placeholder="Digite o nome da nova categoria..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-600 font-bold">
+                    <button type="submit" class="bg-purple-900 hover:bg-purple-800 text-white font-black px-4 py-2 rounded-lg shadow uppercase transition-all shrink-0">
+                        + Criar
                     </button>
+                </form>
+
+                <div>
+                    <span class="font-bold text-slate-700 block mb-1">Categorias Ativas no Sistema:</span>
+                    <div class="border border-slate-200 rounded-xl overflow-hidden max-h-56 overflow-y-auto divide-y divide-slate-100" id="lista-categorias-modal-box">
+                        <!-- Preenchido dinamicamente -->
+                    </div>
                 </div>
-            </form>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex justify-end">
+                <button type="button" onclick="fecharModalGerenciarCategorias()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Fechar</button>
+            </div>
         </div>
     </div>
 
@@ -947,6 +956,34 @@
         let idItemExclusaoPendente = null;
         let tipoItemExclusao = 'produto';
 
+        // MAPA INTELIGENTE DE AUTO-CATEGORIZAÇÃO POR PALAVRAS-CHAVE
+        const MAPA_AUTO_CATEGORIAS = [
+            { cat: 'Banner com tubete', keywords: ['tubete', 'mini banner', 'roll up', 'lona 240g', 'lona 440g', 'lona', 'faixa', 'backlight', 'frontlight'] },
+            { cat: 'Cartão de Visita', keywords: ['cartao', 'cartão', 'crt', 'visita', 'transparente', 'pvc', 'couche', 'couché', 'opaline', 'duplo', 'postal'] },
+            { cat: 'Folheto, Folder e Flyer', keywords: ['folheto', 'panfleto', 'flyer', 'folder', 'cupom', 'panfletos'] },
+            { cat: 'Adesivo', keywords: ['adesivo', 'vinil', 'rotulo', 'rótulo', 'autocolante', 'microperfurado', 'corte contorno'] },
+            { cat: 'Canecas, Copos e Taças', keywords: ['copo', 'caneca', 'taca', 'taça', 'long drink', 'twister', 'gin', 'balde'] },
+            { cat: 'Camisa, Camiseta & Blusa', keywords: ['camisa', 'camiseta', 'oversized', 'plus size', 'blusa', 'moletom', 'avental', 'boné', 'bone'] },
+            { cat: 'DTF Transfer Digital', keywords: ['dtf', 'transfer'] },
+            { cat: 'ARTES', keywords: ['arte', 'artes', 'criação de arte'] },
+            { cat: 'Raspadinha', keywords: ['raspadinha'] },
+            { cat: 'Ventarola', keywords: ['ventarola', 'abanador', 'leque'] },
+            { cat: 'Blocos e Comandas', keywords: ['bloco', 'comanda', 'recibo', 'autocopiativo'] },
+            { cat: 'Casa & Decoração', keywords: ['almofada', 'quadro', 'puff', 'decoracao'] }
+        ];
+
+        function classificarCategoriaPorNome(nomeProduto) {
+            if (!nomeProduto) return 'Geral';
+            const nomeLower = nomeProduto.toLowerCase();
+
+            for (const item of MAPA_AUTO_CATEGORIAS) {
+                if (item.keywords.some(kw => nomeLower.includes(kw))) {
+                    return item.cat;
+                }
+            }
+            return 'Geral';
+        }
+
         // CATEGORIAS PERSONALIZADAS DO PAINEL
         let adminCategoriasExtra = ['Banner com tubete', 'Cartão de Visita', 'Folheto, Folder e Flyer', 'Adesivo', 'Canecas, Copos e Taças', 'Camisa, Camiseta & Blusa', 'DTF Transfer Digital', 'ARTES', 'Raspadinha', 'Geral'];
 
@@ -1037,14 +1074,40 @@
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
-        // GERENCIAR CATEGORIAS
+        // GERENCIAR E EXCLUIR CATEGORIAS
         function abrirModalGerenciarCategorias() {
+            renderizarListaCategoriasModal();
             document.getElementById('nova-cat-nome').value = '';
             document.getElementById('modal-gerenciar-categorias').classList.remove('hidden');
         }
 
         function fecharModalGerenciarCategorias() {
             document.getElementById('modal-gerenciar-categorias').classList.add('hidden');
+        }
+
+        function renderizarListaCategoriasModal() {
+            const box = document.getElementById('lista-categorias-modal-box');
+            if (!box) return;
+
+            const categoriasUnicas = new Set([...adminCategoriasExtra, ...adminProdutos.map(p => p.categoria.trim())].filter(Boolean));
+            const lista = Array.from(categoriasUnicas).sort();
+
+            box.innerHTML = '';
+            lista.forEach(cat => {
+                const totalProds = adminProdutos.filter(p => p.categoria.trim() === cat).length;
+                const div = document.createElement('div');
+                div.className = "p-2.5 flex items-center justify-between hover:bg-slate-50";
+                div.innerHTML = `
+                    <div>
+                        <strong class="font-bold text-slate-800 block">${escapeHtml(cat)}</strong>
+                        <span class="text-[10px] text-slate-400 font-medium">${totalProds} produto(s) associado(s)</span>
+                    </div>
+                    <button onclick="excluirCategoriaConfirm('${escapeHtml(cat)}')" class="text-red-500 hover:text-red-700 p-1 font-bold text-xs flex items-center gap-1" title="Excluir Categoria">
+                        <i class="fa-solid fa-trash-can"></i> Excluir
+                    </button>
+                `;
+                box.appendChild(div);
+            });
         }
 
         function salvarNovaCategoriaSubmit(e) {
@@ -1055,9 +1118,41 @@
                 adminCategoriasExtra.push(novaCat);
                 atualizarDropdownCategoriasForm();
                 renderizarBotoesCategoriasAdmin();
-                fecharModalGerenciarCategorias();
-                mostrarToast(`Categoria '${novaCat}' criada com sucesso!`);
+                renderizarListaCategoriasModal();
+                document.getElementById('nova-cat-nome').value = '';
+                mostrarToast(`Categoria '${novaCat}' criada!`);
             }
+        }
+
+        function excluirCategoriaConfirm(catNome) {
+            if (!confirm(`Tem certeza que deseja excluir a categoria '${catNome}'?`)) return;
+
+            adminCategoriasExtra = adminCategoriasExtra.filter(c => c !== catNome);
+            if (categoriaFiltroAdmin === catNome) categoriaFiltroAdmin = '';
+
+            atualizarDropdownCategoriasForm();
+            renderizarBotoesCategoriasAdmin();
+            renderizarListaCategoriasModal();
+            renderizarTabelaAdminPaginada();
+            mostrarToast(`Categoria '${catNome}' removida!`);
+        }
+
+        function autoCategorizarProdutosInteligente() {
+            let alterados = 0;
+            adminProdutos.forEach(p => {
+                if (!p.categoria || p.categoria === 'Geral' || p.categoria.trim() === '') {
+                    const novaCat = classificarCategoriaPorNome(p.nome);
+                    if (novaCat !== 'Geral') {
+                        p.categoria = novaCat;
+                        alterados++;
+                    }
+                }
+            });
+
+            atualizarDropdownCategoriasForm();
+            renderizarBotoesCategoriasAdmin();
+            renderizarTabelaAdminPaginada();
+            mostrarToast(`${alterados} produtos organizados automaticamente por categoria!`);
         }
 
         function atualizarDropdownCategoriasForm() {
@@ -1386,7 +1481,7 @@
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="6" class="py-8 text-center text-slate-400 font-bold">
-                            Nenhum pedido encontrado nesta situação.
+                            Nenhum pedido registrado até o momento.
                         </td>
                     </tr>
                 `;
@@ -1588,10 +1683,15 @@
 
                     const idVal = item.id;
                     if (idVal && !mapaUnicos.has(String(idVal))) {
+                        let catCalculada = item.Categorias_Secundarias || item.categoria || 'Geral';
+                        if (!catCalculada || catCalculada === 'Geral' || catCalculada.trim() === '') {
+                            catCalculada = classificarCategoriaPorNome(item.Nome || item.nome);
+                        }
+
                         mapaUnicos.set(String(idVal), {
                             id: String(idVal),
                             nome: item.Nome || item.nome || 'Produto sem nome',
-                            categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
+                            categoria: catCalculada,
                             ref: item.Referencia || item.ref || '---',
                             preco: isNaN(preco) ? 0 : preco,
                             precoDe: precoDe,
