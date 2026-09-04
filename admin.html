@@ -108,7 +108,7 @@
                 
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-white rounded-xl p-1 shadow flex items-center justify-center">
-                        <img src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
+                        <img id="header-logo-img" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
                     </div>
                     <div>
                         <h1 class="text-base font-black tracking-wider text-white font-heading">PHSUBLIME ADMIN</h1>
@@ -134,6 +134,11 @@
                         <i class="fa-solid fa-chart-line"></i> RELATÓRIOS
                     </button>
 
+                    <!-- PERSONALIZAÇÃO DE LOGOS E IDENTIDADE VISUAL -->
+                    <button onclick="abrirModalPersonalizacaoCMS()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Personalizar Logos, Favicon e Banners">
+                        <i class="fa-solid fa-trademark"></i> Logos & CMS
+                    </button>
+
                     <button onclick="abrirModalGerenciadorBanners()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Banners da Home">
                         <i class="fa-regular fa-image"></i> Banners
                     </button>
@@ -144,10 +149,6 @@
 
                     <button onclick="abrirModalPaginasExtras()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Páginas Extras da Loja">
                         <i class="fa-solid fa-file-lines"></i> Páginas
-                    </button>
-
-                    <button onclick="abrirModalPersonalizacaoCMS()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Aparência e Logo">
-                        <i class="fa-solid fa-paint-brush"></i> CMS
                     </button>
 
                     <button onclick="abrirModalControleMensagens()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Controle de Mensagens e WhatsApp">
@@ -188,14 +189,14 @@
                         <h2 class="text-xl font-black font-heading tracking-wide flex items-center gap-2">
                             👋 Painel Administrador PHSUBLIME GRÁFICA
                         </h2>
-                        <p class="text-xs text-blue-100">Controle completo de pedidos, estoque Supabase, banners, mensagens de WhatsApp e clientes.</p>
+                        <p class="text-xs text-blue-100">Controle completo de pedidos, estoque Supabase, logos, banners, mensagens de WhatsApp e clientes.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="abrirModalGerenciadorBanners()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
-                            <i class="fa-regular fa-image"></i> Banners da Loja
+                        <button onclick="abrirModalPersonalizacaoCMS()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
+                            <i class="fa-solid fa-trademark"></i> Logos & Marcas
                         </button>
-                        <button onclick="abrirModalCodigosHTML()" class="bg-blue-900 hover:bg-blue-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-amber-400">
-                            <i class="fa-brands fa-html5"></i> Scripts & Pixels
+                        <button onclick="abrirModalGerenciadorBanners()" class="bg-blue-900 hover:bg-blue-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-amber-400">
+                            <i class="fa-regular fa-image"></i> Banners
                         </button>
                         <button onclick="abrirModalAcabamentos()" class="bg-purple-900 hover:bg-purple-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-purple-400">
                             <i class="fa-solid fa-cut"></i> Acabamentos
@@ -526,7 +527,85 @@
 
     <!-- ================= CAIXA DE MODAIS COMPLETOS ================= -->
 
-    <!-- MODAL NOVO: GERENCIADOR DE BANNERS DA LOJA -->
+    <!-- MODAL PERSONALIZAÇÃO CMS & LOGOS DA MARCA (MIGRADO DO CÓDIGO NOVO) -->
+    <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-blue-950 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-trademark text-amber-500"></i> Personalização de Logos & Identidade Visual
+                </h3>
+            </div>
+
+            <form onsubmit="salvarCMSLojaSubmit(event)" class="space-y-4 text-xs">
+                <!-- CARDS DAS 4 LOGOS DA PHSUBLIME -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- LOGO SISTEMA -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="font-black text-blue-900 block">Logo do Sistema (.png)</label>
+                            <span class="text-[10px] text-slate-400 font-bold">Cabeçalho e Menu</span>
+                        </div>
+                        <input type="text" id="cms-logo-url" value="https://phsublime.sistograf.net/storage/logos/logosistema.png" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
+                        <div class="w-full h-12 bg-white rounded-lg border p-1 flex items-center justify-center">
+                            <img id="preview-logo-sistema" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
+                        </div>
+                    </div>
+
+                    <!-- FAVICON -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="font-black text-blue-900 block">Favicon (.ico - 48x48 max)</label>
+                            <span class="text-[10px] text-slate-400 font-bold">Aba do Navegador</span>
+                        </div>
+                        <input type="text" id="cms-favicon-url" value="https://phsublime.sistograf.net/storage/logos/favicon.ico" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
+                        <div class="w-full h-12 bg-white rounded-lg border p-1 flex items-center justify-center">
+                            <img id="preview-favicon" src="https://phsublime.sistograf.net/storage/logos/favicon.ico" class="w-8 h-8 object-contain" onerror="this.onerror=null; this.style.display='none';">
+                        </div>
+                    </div>
+
+                    <!-- LOGO ORDEM DE SERVIÇO -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="font-black text-blue-900 block">Logo Ordem de Serviço (.png)</label>
+                            <span class="text-[10px] text-slate-400 font-bold">PDF / Recibos de Balcão</span>
+                        </div>
+                        <input type="text" id="cms-logo-os-url" value="https://phsublime.sistograf.net/storage/logos/logo_ordemservico.png" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
+                        <div class="w-full h-12 bg-white rounded-lg border p-1 flex items-center justify-center">
+                            <img id="preview-logo-os" src="https://phsublime.sistograf.net/storage/logos/logo_ordemservico.png" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
+                        </div>
+                    </div>
+
+                    <!-- IMAGEM DE COMPARTILHAMENTO -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-start justify-between">
+                            <label class="font-black text-blue-900 block">Imagem para WhatsApp / Redes (.jpg)</label>
+                            <span class="text-[10px] text-slate-400 font-bold">Open Graph</span>
+                        </div>
+                        <input type="text" id="cms-img-share-url" value="https://phsublime.sistograf.net/storage/logos/imagem_compartilhamento.jpg" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
+                        <div class="w-full h-12 bg-white rounded-lg border p-1 flex items-center justify-center">
+                            <img id="preview-img-share" src="https://phsublime.sistograf.net/storage/logos/imagem_compartilhamento.jpg" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Banners Principais da Home (URLs separadas por vírgula)</label>
+                    <textarea id="cms-banners" rows="2" class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]" placeholder="https://banner1.jpg, https://banner2.jpg"></textarea>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-300">Cancelar</button>
+                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-5 py-2 rounded-xl shadow uppercase">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar Logos e CMS
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL GERENCIADOR DE BANNERS -->
     <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -570,7 +649,6 @@
                 </div>
             </form>
 
-            <!-- FILTRO DE TIPO E TABELA DE BANNERS -->
             <div class="space-y-2">
                 <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
                     <span class="font-bold text-slate-700">Banners Cadastrados no Sistema:</span>
@@ -998,36 +1076,6 @@
         </div>
     </div>
 
-    <!-- MODAL 4: PERSONALIZAÇÃO & CMS -->
-    <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-2">
-                <h3 class="text-base font-black text-blue-950 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-paint-brush text-amber-500"></i> Personalização e Aparência da Loja
-                </h3>
-            </div>
-
-            <form onsubmit="salvarCMSLojaSubmit(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">URL da Logo da Empresa</label>
-                    <input type="text" id="cms-logo-url" value="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="w-full px-3 py-2 border rounded-lg font-mono">
-                </div>
-
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Banners da Home (URLs separadas por vírgula)</label>
-                    <textarea id="cms-banners" rows="2" class="w-full px-3 py-2 border rounded-lg font-mono" placeholder="https://banner1.jpg, https://banner2.jpg"></textarea>
-                </div>
-
-                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-300">Cancelar</button>
-                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-5 py-2 rounded-xl shadow uppercase">Salvar CMS</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- MODAL 5: MENSAGENS & TEMPLATES WHATSAPP -->
     <div id="modal-controle-mensagens" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
@@ -1411,7 +1459,6 @@
                 .replace(/'/g, '&#39;');
         }
 
-        // FUNÇÃO SEGURA PARA RENDERIZAR IMAGENS SEM ERRO DE ASPAS
         function renderImagemHtml(url, classeCss) {
             classeCss = classeCss || "w-10 h-10 object-contain rounded border bg-white p-0.5";
             if (!url || typeof url !== 'string' || !url.trim()) {
@@ -1421,7 +1468,53 @@
             return '<img src="' + urlLimpa + '" class="' + classeCss + '" onerror="this.onerror=null; this.style.display=\'none\';">';
         }
 
-        // BASE DE BANNERS (MIGRADO DO CÓDIGO ANTIGO)
+        // BASE DE LOGOS E IDENTIDADE VISUAL
+        let adminLogosDefault = {
+            logoSistema: "https://phsublime.sistograf.net/storage/logos/logosistema.png",
+            favicon: "https://phsublime.sistograf.net/storage/logos/favicon.ico",
+            logoOrdemServico: "https://phsublime.sistograf.net/storage/logos/logo_ordemservico.png",
+            imagemCompartilhamento: "https://phsublime.sistograf.net/storage/logos/imagem_compartilhamento.jpg"
+        };
+
+        function carregarLogosCMSLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_logos');
+            const config = salvos ? JSON.parse(salvos) : adminLogosDefault;
+
+            const elLogoSistema = document.getElementById('cms-logo-url');
+            const elFavicon = document.getElementById('cms-favicon-url');
+            const elLogoOs = document.getElementById('cms-logo-os-url');
+            const elImgShare = document.getElementById('cms-img-share-url');
+
+            if (elLogoSistema) elLogoSistema.value = config.logoSistema || adminLogosDefault.logoSistema;
+            if (elFavicon) elFavicon.value = config.favicon || adminLogosDefault.favicon;
+            if (elLogoOs) elLogoOs.value = config.logoOrdemServico || adminLogosDefault.logoOrdemServico;
+            if (elImgShare) elImgShare.value = config.imagemCompartilhamento || adminLogosDefault.imagemCompartilhamento;
+
+            atualizarPreviewsLogosCMS();
+        }
+
+        function atualizarPreviewsLogosCMS() {
+            const logoSys = document.getElementById('cms-logo-url')?.value;
+            const favicon = document.getElementById('cms-favicon-url')?.value;
+            const logoOs = document.getElementById('cms-logo-os-url')?.value;
+            const imgShare = document.getElementById('cms-img-share-url')?.value;
+
+            const pLogoSys = document.getElementById('preview-logo-sistema');
+            const pFavicon = document.getElementById('preview-favicon');
+            const pLogoOs = document.getElementById('preview-logo-os');
+            const pImgShare = document.getElementById('preview-img-share');
+
+            if (pLogoSys && logoSys) pLogoSys.src = logoSys;
+            if (pFavicon && favicon) pFavicon.src = favicon;
+            if (pLogoOs && logoOs) pLogoOs.src = logoOs;
+            if (pImgShare && imgShare) pImgShare.src = imgShare;
+
+            // Atualiza no header em tempo real
+            const headerLogo = document.getElementById('header-logo-img');
+            if (headerLogo && logoSys) headerLogo.src = logoSys;
+        }
+
+        // BASE DE BANNERS
         let adminBannersDefault = [
             { id: 1, tipo: "animacao", tipoNome: "Animação / Carrossel Home", imagem: "https://phsublime.sistograf.net/storage/banners/banner_promocao.jpg", link: "https://phsublime.com.br/promocao", criadoEm: "01/09/2026" },
             { id: 2, tipo: "mini_banner", tipoNome: "Mini Banner Promocional", imagem: "https://phsublime.sistograf.net/storage/banners/mini_canecas.jpg", link: "https://phsublime.com.br/canecas", criadoEm: "02/09/2026" },
@@ -1852,10 +1945,27 @@
             mostrarToast("Página extra removida!");
         }
 
-        // CMS E PERSONALIZAÇÃO
-        function abrirModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden'); }
+        // CMS E PERSONALIZAÇÃO DE LOGOS
+        function abrirModalPersonalizacaoCMS() {
+            carregarLogosCMSLocal();
+            document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden');
+        }
         function fecharModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.add('hidden'); }
-        function salvarCMSLojaSubmit(e) { e.preventDefault(); fecharModalPersonalizacaoCMS(); mostrarToast("Aparência e Banners salvos!"); }
+
+        function salvarCMSLojaSubmit(e) {
+            e.preventDefault();
+            const configLogos = {
+                logoSistema: document.getElementById('cms-logo-url')?.value || adminLogosDefault.logoSistema,
+                favicon: document.getElementById('cms-favicon-url')?.value || adminLogosDefault.favicon,
+                logoOrdemServico: document.getElementById('cms-logo-os-url')?.value || adminLogosDefault.logoOrdemServico,
+                imagemCompartilhamento: document.getElementById('cms-img-share-url')?.value || adminLogosDefault.imagemCompartilhamento
+            };
+
+            localStorage.setItem('phsublime_admin_logos', JSON.stringify(configLogos));
+            atualizarPreviewsLogosCMS();
+            fecharModalPersonalizacaoCMS();
+            mostrarToast("Logos e Identidade Visual salvas!");
+        }
 
         function abrirModalControleMensagens() { document.getElementById('modal-controle-mensagens')?.classList.remove('hidden'); }
         function fecharModalControleMensagens() { document.getElementById('modal-controle-mensagens')?.classList.add('hidden'); }
@@ -2344,6 +2454,7 @@
 
         async function inicializarAdmin() {
             salvaLogAcesso();
+            carregarLogosCMSLocal();
             carregarBannersSalvosLocal();
             carregarCodigosHTMLSalvosLocal();
             carregarPaginasExtrasSalvasLocal();
