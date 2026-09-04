@@ -152,9 +152,12 @@
                         </h2>
                         <p class="text-xs text-blue-100">Confira abaixo os alertas do sistema, aniversariantes do mês e atalhos rápidos para a sua gestão.</p>
                     </div>
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="abrirModalNewsletterMarketing()" class="bg-purple-800 hover:bg-purple-700 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
+                            <i class="fa-solid fa-[#bullhorn] fa-bullhorn text-amber-300"></i> Pop-ups & Newsletter
+                        </button>
                         <button onclick="abrirModalCriarCupom()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
-                            <i class="fa-solid fa-ticket-simple text-sm"></i> Criar Cupom de Desconto
+                            <i class="fa-solid fa-ticket-simple text-sm"></i> Criar Cupom
                         </button>
                     </div>
                 </div>
@@ -232,18 +235,18 @@
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex items-center gap-3">
                                 <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-xl flex items-center justify-center text-2xl shrink-0">
-                                    <i class="fa-solid fa-chart-line"></i>
+                                    <i class="fa-solid fa-newspaper text-purple-700"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-black text-blue-900 uppercase text-xs font-heading">Estoque e Produtos</h4>
-                                    <p class="text-xs text-slate-600 mt-0.5">Seu catálogo possui <strong class="text-blue-900 font-black" id="txt-home-total-prod">278 produtos</strong> sincronizados e prontos para vendas online.</p>
+                                    <h4 class="font-black text-blue-900 uppercase text-xs font-heading">Newsletter e Pop-ups de Ofertas</h4>
+                                    <p class="text-xs text-slate-600 mt-0.5">Capture e-mails de visitantes e exiba ofertas promocionais automáticas no seu site.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                            <span class="text-[11px] text-slate-400 font-medium">Atualizado via Supabase</span>
-                            <button onclick="mudarAbaAdmin('produtos')" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg shadow transition-all">
-                                Gerenciar Estoque
+                            <span class="text-[11px] text-slate-400 font-medium">Captação Ativa de Leads</span>
+                            <button onclick="abrirModalNewsletterMarketing()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg shadow transition-all">
+                                Configurar Pop-up
                             </button>
                         </div>
                     </div>
@@ -433,6 +436,9 @@
                         <p class="text-xs text-slate-500">Consulte, edite dados cadastrais, notas por estrelas e gerencie saldos em conta.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="abrirModalNewsletterMarketing()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-bullhorn"></i> Pop-ups & Newsletter
+                        </button>
                         <button onclick="exportarClientesCSV()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-all shadow flex items-center gap-1.5">
                             <i class="fa-solid fa-file-excel"></i> Exportar Excel
                         </button>
@@ -536,6 +542,86 @@
             <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
         </footer>
 
+    </div>
+
+    <!-- MODAL DE NEWSLETTER E CONFIGURAÇÃO DE POP-UP PROMOCIONAL -->
+    <div id="modal-newsletter-marketing" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-5 shadow-2xl relative border border-purple-200 my-8">
+            <button onclick="fecharModalNewsletterMarketing()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+                <h3 class="text-base font-black text-purple-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-bullhorn text-amber-500"></i> Marketing, Newsletter e Pop-ups
+                </h3>
+                <button onclick="exportarNewsletterCSV()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition-all shadow flex items-center gap-1.5">
+                    <i class="fa-solid fa-download"></i> Exportar E-mails (CSV)
+                </button>
+            </div>
+
+            <form onsubmit="salvarConfiguracaoPopupSubmit(event)" class="space-y-4 text-xs">
+                <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 space-y-3">
+                    <label class="flex items-center gap-2 font-black text-purple-950 text-sm">
+                        <input type="checkbox" id="popup-ativo" checked class="w-4 h-4 rounded text-purple-900">
+                        Ativar Pop-up Promocional no Site
+                    </label>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Título da Oferta *</label>
+                            <input type="text" id="popup-titulo" value="Ganhe 10% OFF na Primeira Compra!" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Quando Mostrar o Pop-up?</label>
+                            <select id="popup-frequencia" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                                <option value="5">Após 5 segundos</option>
+                                <option value="10">Após 10 segundos</option>
+                                <option value="0">Imediatamente</option>
+                                <option value="sair">Ao tentar sair da página (Exit Popup)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Link de Redirecionamento / Cupom</label>
+                        <input type="text" id="popup-link" value="https://phsublime.com.br/promocao" placeholder="https://..." class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <span class="font-bold text-slate-700 block mb-1.5">Últimos E-mails Capturados no Site:</span>
+                    <div class="border border-slate-200 rounded-xl overflow-hidden max-h-40 overflow-y-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead class="bg-slate-100 font-bold text-slate-600">
+                                <tr>
+                                    <th class="p-2">NOME</th>
+                                    <th class="p-2">E-MAIL</th>
+                                    <th class="p-2 text-right">DATA</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
+                                <tr>
+                                    <td class="p-2 font-bold">Daniel Henrique</td>
+                                    <td class="p-2 text-emerald-700 font-bold">daniel@phsublime.com.br</td>
+                                    <td class="p-2 text-right text-slate-400">04/09/2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 font-bold">Thaiza Araujo</td>
+                                    <td class="p-2 text-emerald-700 font-bold">thaiza@gmail.com</td>
+                                    <td class="p-2 text-right text-slate-400">03/09/2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalNewsletterMarketing()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-purple-900 hover:bg-purple-800 text-white font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar Configuração
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- MODAL DE CRIAR E EXCLUIR CATEGORIAS DA LOJA -->
@@ -1167,6 +1253,44 @@
         function escapeHtml(str) {
             if (str === null || str === undefined) return '';
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // LÓGICA DE NEWSLETTER E POP-UPS DE MARKETING
+        function abrirModalNewsletterMarketing() {
+            document.getElementById('modal-newsletter-marketing').classList.remove('hidden');
+        }
+
+        function fecharModalNewsletterMarketing() {
+            document.getElementById('modal-newsletter-marketing').classList.add('hidden');
+        }
+
+        function salvarConfiguracaoPopupSubmit(e) {
+            e.preventDefault();
+            const ativo = document.getElementById('popup-ativo').checked;
+            const titulo = document.getElementById('popup-titulo').value;
+            const freq = document.getElementById('popup-frequencia').value;
+
+            const config = { ativo, titulo, frequencia: freq };
+            localStorage.setItem('phsublime_popup_config', JSON.stringify(config));
+
+            fecharModalNewsletterMarketing();
+            mostrarToast("Configuração do Pop-up de Vendas salva!");
+        }
+
+        function exportarNewsletterCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,Nome,Email,DataInscricao\n";
+            csvContent += "Daniel Henrique,daniel@phsublime.com.br,04/09/2026\n";
+            csvContent += "Thaiza Araujo,thaiza@gmail.com,03/09/2026\n";
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Newsletter_Emails_PHSUBLIME_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            mostrarToast("Lista de e-mails da Newsletter exportada!");
         }
 
         // GERENCIAR E EXCLUIR CATEGORIAS
