@@ -198,7 +198,7 @@
                         <div>
                             <span class="text-xs text-slate-500 font-bold block uppercase">Relatório Financeiro</span>
                             <strong id="card-home-faturamento-total" class="text-xl font-black text-emerald-600">R$ 107,02</strong>
-                            <span class="text-[11px] text-amber-600 font-bold group-hover:underline block mt-1">Ver relatorios <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                            <span class="text-[11px] text-amber-600 font-bold group-hover:underline block mt-1">Ver relatórios <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
                         </div>
                         <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
                             <i class="fa-solid fa-chart-line"></i>
@@ -360,16 +360,19 @@
             <!-- ================= ABA 3: GERENCIADOR DE CLIENTES ================= -->
             <section id="secao-admin-clientes" class="hidden space-y-6">
                 
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
                     <div>
                         <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Base de Clientes e Créditos</h3>
-                        <p class="text-xs text-slate-500">Consulte, edite dados cadastrais e gerencie saldos em conta dos clientes.</p>
+                        <p class="text-xs text-slate-500">Consulte, edite dados cadastrais, notas por estrelas e gerencie saldos em conta.</p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="carregarClientesAdmin()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-all">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="exportarClientesCSV()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-excel"></i> Exportar Excel
+                        </button>
+                        <button onclick="carregarClientesAdmin()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg transition-all">
                             <i class="fa-solid fa-rotate-right"></i> Atualizar Lista
                         </button>
-                        <button onclick="abrirModalFormCliente()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-lg transition-all uppercase flex items-center gap-1.5">
+                        <button onclick="abrirModalFormCliente()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-3.5 py-2 rounded-lg transition-all uppercase flex items-center gap-1.5 shadow">
                             <i class="fa-solid fa-user-plus"></i> Novo Cliente
                         </button>
                     </div>
@@ -381,6 +384,7 @@
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
+                                    <th class="py-3 px-4">AVALIAÇÃO</th>
                                     <th class="py-3 px-4">NOME / RAZÃO SOCIAL</th>
                                     <th class="py-3 px-4">TIPO</th>
                                     <th class="py-3 px-4">DOCUMENTO (CPF/CNPJ)</th>
@@ -770,15 +774,16 @@
                         <input type="text" id="cli-nome" required placeholder="Ex: Gabriel Sales da Silva" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
                     </div>
                     <div>
-                        <label class="font-bold text-slate-700 block mb-1">Tipo *</label>
+                        <label class="font-bold text-slate-700 block mb-1">Tipo de Cliente *</label>
                         <select id="cli-tipo" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
                             <option value="PF">Pessoa Física (PF)</option>
                             <option value="PJ">Pessoa Jurídica (PJ)</option>
+                            <option value="Revendedor">Revendedor Especial</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                         <label class="font-bold text-slate-700 block mb-1">Documento (CPF / CNPJ) *</label>
                         <input type="text" id="cli-doc" required placeholder="000.000.000-00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-mono">
@@ -786,6 +791,17 @@
                     <div>
                         <label class="font-bold text-slate-700 block mb-1">WhatsApp / Telefone *</label>
                         <input type="text" id="cli-wpp" required placeholder="(21) 99999-9999" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-emerald-700">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Avaliação (1 a 5 ⭐)</label>
+                        <select id="cli-estrelas" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-amber-500 font-bold text-amber-500">
+                            <option value="5">⭐⭐⭐⭐⭐ (5 Estrelas)</option>
+                            <option value="4">⭐⭐⭐⭐ (4 Estrelas)</option>
+                            <option value="3">⭐⭐⭐ (3 Estrelas)</option>
+                            <option value="2">⭐⭐ (2 Estrelas)</option>
+                            <option value="1">⭐ (1 Estrela)</option>
+                            <option value="0">Sem nota (0)</option>
+                        </select>
                     </div>
                 </div>
 
@@ -849,6 +865,7 @@
                 email: "bielyt.cevd@gmail.com",
                 endereco: "Estrada da Água Grande, 221 - Irajá / RJ",
                 saldoCredito: 0.00,
+                estrelas: 5,
                 status: "ATIVO"
             },
             {
@@ -860,6 +877,7 @@
                 email: "robertojor11ge271828@gmail.com",
                 endereco: "Rua Maria Flaviana de Lima, 8 - Bento Ribeiro / RJ",
                 saldoCredito: 174.35,
+                estrelas: 4,
                 status: "ATIVO"
             }
         ];
@@ -1278,7 +1296,7 @@
             window.open(`https://wa.me/55${wppFormatado}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // ============ PRODUTOS DO SUPABASE (COM UNIDADE DE MEDIDA E PAGINAÇÃO POR CATEGORIA) ============
+        // ============ PRODUTOS DO SUPABASE ============
         async function carregarProdutosAdmin(exibirToast = false) {
             const tbody = document.getElementById('tabela-admin-produtos-body');
             tbody.innerHTML = `
@@ -1659,7 +1677,7 @@
             }
         }
 
-        // ============ LÓGICA DE CLIENTES E CRÉDITOS ============
+        // ============ LÓGICA DE CLIENTES, ESTRELAS E EXPORTAÇÃO EXCEL/CSV ============
         function carregarClientesAdmin() {
             carregarClientesSalvosLocal();
 
@@ -1672,7 +1690,7 @@
             if (adminClientes.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="7" class="py-8 text-center text-slate-400 font-bold">
+                        <td colspan="8" class="py-8 text-center text-slate-400 font-bold">
                             Nenhum cliente cadastrado no momento.
                         </td>
                     </tr>
@@ -1686,8 +1704,20 @@
 
                 const corStatus = cli.status === 'ATIVO' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800';
                 const saldoVal = cli.saldoCredito ? parseFloat(cli.saldoCredito) : 0.00;
+                
+                // ESTRELAS DE CLASSIFICAÇÃO
+                const numEstrelas = cli.estrelas !== undefined ? Number(cli.estrelas) : 5;
+                let htmlEstrelas = '';
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= numEstrelas) {
+                        htmlEstrelas += `<i class="fa-solid fa-star text-amber-400 text-xs"></i>`;
+                    } else {
+                        htmlEstrelas += `<i class="fa-regular fa-star text-slate-300 text-xs"></i>`;
+                    }
+                }
 
                 tr.innerHTML = `
+                    <td class="py-3 px-4 whitespace-nowrap">${htmlEstrelas}</td>
                     <td class="py-3 px-4 font-bold text-slate-800">${escapeHtml(cli.nome)}</td>
                     <td class="py-3 px-4"><span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold text-[10px]">${cli.tipo}</span></td>
                     <td class="py-3 px-4 font-mono">${escapeHtml(cli.doc)}</td>
@@ -1707,6 +1737,41 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        function exportarClientesCSV() {
+            if (adminClientes.length === 0) {
+                mostrarModalNotificacaoCustom("Aviso", "Nenhum cliente cadastrado para exportar.");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,ID,Nome,Tipo,Documento,WhatsApp,Email,Endereco,SaldoCredito,Estrelas,Status\n";
+
+            adminClientes.forEach(c => {
+                const row = [
+                    c.id,
+                    `"${(c.nome || '').replace(/"/g, '""')}"`,
+                    c.tipo || 'PF',
+                    `"${c.doc || ''}"`,
+                    `"${c.wpp || ''}"`,
+                    `"${c.email || ''}"`,
+                    `"${(c.endereco || '').replace(/"/g, '""')}"`,
+                    (c.saldoCredito || 0).toFixed(2),
+                    c.estrelas || 5,
+                    c.status || 'ATIVO'
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Clientes_PHSUBLIME_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            mostrarToast("Planilha de clientes exportada!");
         }
 
         function gerenciarCreditoClienteModal(id) {
@@ -1760,6 +1825,7 @@
         function abrirModalFormCliente() {
             document.getElementById('form-salvar-cliente').reset();
             document.getElementById('cli-id').value = '';
+            document.getElementById('cli-estrelas').value = '5';
             document.getElementById('txt-modal-cliente-titulo').innerHTML = `<i class="fa-solid fa-user-plus text-amber-500"></i> Cadastrar Novo Cliente`;
             document.getElementById('modal-form-cliente').classList.remove('hidden');
         }
@@ -1779,6 +1845,7 @@
             document.getElementById('cli-wpp').value = cli.wpp;
             document.getElementById('cli-email').value = cli.email || '';
             document.getElementById('cli-endereco').value = cli.endereco;
+            document.getElementById('cli-estrelas').value = cli.estrelas !== undefined ? String(cli.estrelas) : '5';
             document.getElementById('cli-status').value = cli.status || 'ATIVO';
 
             document.getElementById('txt-modal-cliente-titulo').innerHTML = `<i class="fa-solid fa-user-gear text-amber-500"></i> Editar Cliente #${cli.id}`;
@@ -1795,6 +1862,7 @@
             const wpp = document.getElementById('cli-wpp').value;
             const email = document.getElementById('cli-email').value;
             const endereco = document.getElementById('cli-endereco').value;
+            const estrelas = Number(document.getElementById('cli-estrelas').value || 5);
             const status = document.getElementById('cli-status').value;
 
             if (id && id !== '') {
@@ -1806,6 +1874,7 @@
                     cli.wpp = wpp;
                     cli.email = email;
                     cli.endereco = endereco;
+                    cli.estrelas = estrelas;
                     cli.status = status;
                 }
             } else {
@@ -1819,6 +1888,7 @@
                     email: email,
                     endereco: endereco,
                     saldoCredito: 0.00,
+                    estrelas: estrelas,
                     status: status
                 });
             }
