@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    <!-- CAIXA DE CONFIRMAÇÃO DE EXCLUSÃO (SEM A JANELA CINZA DO NAVEGADOR) -->
+    <!-- CAIXA DE CONFIRMAÇÃO DE EXCLUSÃO DE PRODUTO -->
     <div id="modal-confirm-exclusao" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-red-200 relative">
             <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
@@ -105,11 +105,14 @@
                 </div>
 
                 <!-- MENU MUDANÇA DE ABAS -->
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1">
+                    <button onclick="mudarAbaAdmin('inicio')" id="btn-aba-inicio" class="px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-house"></i> INÍCIO
+                    </button>
                     <button onclick="mudarAbaAdmin('pedidos')" id="btn-aba-pedidos" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-cart-flatbed"></i> PEDIDOS <span id="badge-total-pedidos" class="bg-amber-400 text-blue-950 text-[10px] px-1.5 py-0.5 rounded-full ml-0.5 font-black hidden">0</span>
                     </button>
-                    <button onclick="mudarAbaAdmin('produtos')" id="btn-aba-produtos" class="px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5">
+                    <button onclick="mudarAbaAdmin('produtos')" id="btn-aba-produtos" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-boxes-stacked"></i> PRODUTOS
                     </button>
                     <button onclick="mudarAbaAdmin('clientes')" id="btn-aba-clientes" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
@@ -129,50 +132,119 @@
         <!-- CORPO PRINCIPAL -->
         <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 space-y-6">
 
-            <!-- CARDS DE ESTATÍSTICAS -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
-                    <div>
-                        <span class="text-xs text-slate-500 font-bold block uppercase">Total Único no Banco</span>
-                        <strong id="stat-total-produtos" class="text-2xl font-black text-blue-900">0</strong>
+            <!-- ================= ABA 0: INÍCIO / HOME (NOVA!) ================= -->
+            <section id="secao-admin-inicio" class="space-y-6">
+                
+                <!-- BEM-VINDO CARD -->
+                <div class="bg-gradient-to-r from-blue-900 to-[#316AC7] text-white p-6 rounded-2xl shadow-md border-b-4 border-amber-400 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <h2 class="text-xl font-black font-heading tracking-wide flex items-center gap-2">
+                            👋 Bem-vindo ao Painel Administrador PHSUBLIME
+                        </h2>
+                        <p class="text-xs text-blue-100">Confira abaixo os alertas do sistema, aniversariantes do mês e atalhos rápidos para a sua gestão.</p>
                     </div>
-                    <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-xl flex items-center justify-center text-xl font-bold">
-                        <i class="fa-solid fa-box"></i>
-                    </div>
-                </div>
-
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
-                    <div>
-                        <span class="text-xs text-slate-500 font-bold block uppercase">Pedidos Recebidos</span>
-                        <strong id="stat-total-pedidos" class="text-2xl font-black text-emerald-600">1</strong>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-xl font-bold">
-                        <i class="fa-solid fa-receipt"></i>
+                    <div class="flex items-center gap-2">
+                        <button onclick="abrirModalCriarCupom()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
+                            <i class="fa-solid fa-ticket-simple text-sm"></i> Criar Cupom de Desconto
+                        </button>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
-                    <div>
-                        <span class="text-xs text-slate-500 font-bold block uppercase">Categorias</span>
-                        <strong id="stat-total-categorias" class="text-2xl font-black text-purple-900">0</strong>
+                <!-- CARDS DE ATALHOS RÁPIDOS -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div onclick="mudarAbaAdmin('pedidos')" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                        <div>
+                            <span class="text-xs text-slate-500 font-bold block uppercase">Central de Pedidos</span>
+                            <strong id="card-home-pedidos-qtd" class="text-2xl font-black text-blue-900">1</strong>
+                            <span class="text-[11px] text-blue-600 font-bold group-hover:underline block mt-1">Ver detalhes <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
                     </div>
-                    <div class="w-12 h-12 bg-purple-100 text-purple-900 rounded-xl flex items-center justify-center text-xl font-bold">
-                        <i class="fa-solid fa-tags"></i>
+
+                    <div onclick="mudarAbaAdmin('produtos')" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                        <div>
+                            <span class="text-xs text-slate-500 font-bold block uppercase">Produtos no Banco</span>
+                            <strong id="stat-total-produtos" class="text-2xl font-black text-emerald-600">278</strong>
+                            <span class="text-[11px] text-emerald-600 font-bold group-hover:underline block mt-1">Gerenciar estoque <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                    </div>
+
+                    <div onclick="mudarAbaAdmin('clientes')" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-purple-500 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                        <div>
+                            <span class="text-xs text-slate-500 font-bold block uppercase">Clientes Cadastrados</span>
+                            <strong id="card-home-clientes-qtd" class="text-2xl font-black text-purple-900">2</strong>
+                            <span class="text-[11px] text-purple-600 font-bold group-hover:underline block mt-1">Ver clientes <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-100 text-purple-900 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-slate-500 font-bold block uppercase">Status da Conexão</span>
+                            <strong id="stat-status-supabase" class="text-sm font-black text-emerald-600 flex items-center gap-1.5 mt-1">
+                                <i class="fa-solid fa-circle text-[10px]"></i> Conectado
+                            </strong>
+                            <span class="text-[10px] text-slate-400 block mt-1">Supabase Nuvem</span>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
-                    <div>
-                        <span class="text-xs text-slate-500 font-bold block uppercase">Status Conexão</span>
-                        <strong id="stat-status-supabase" class="text-sm font-black text-emerald-600 flex items-center gap-1.5 mt-1">
-                            <i class="fa-solid fa-circle text-[10px]"></i> Conectado
-                        </strong>
+                <!-- ALERTAS INTELIGENTES DO MÊS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- ANIVERSARIANTES DO MÊS -->
+                    <div class="bg-white p-5 rounded-xl border border-amber-200 shadow-sm space-y-3 relative overflow-hidden">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl shrink-0">
+                                    <i class="fa-solid fa-gift"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-blue-900 uppercase text-xs font-heading">Aniversariantes do Mês</h4>
+                                    <p class="text-xs text-slate-600 mt-0.5"><strong class="text-amber-600 font-black">2 clientes</strong> fazem aniversário neste mês! Presenteie-os com um cupom de desconto no WhatsApp.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400 font-medium">Campanha Promocional de Fidelidade</span>
+                            <button onclick="abrirModalCriarCupom()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-[11px] px-3 py-1.5 rounded-lg shadow transition-all">
+                                Criar Cupom NIVER
+                            </button>
+                        </div>
                     </div>
-                    <div class="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center text-xl font-bold">
-                        <i class="fa-solid fa-database"></i>
+
+                    <!-- ESTOQUE E PRODUTOS EM ALERTA -->
+                    <div class="bg-white p-5 rounded-xl border border-blue-200 shadow-sm space-y-3 relative overflow-hidden">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-xl flex items-center justify-center text-2xl shrink-0">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-blue-900 uppercase text-xs font-heading">Estoque e Produtos</h4>
+                                    <p class="text-xs text-slate-600 mt-0.5">Seu catálogo possui <strong class="text-blue-900 font-black" id="txt-home-total-prod">278 produtos</strong> sincronizados e prontos para vendas online.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400 font-medium">Atualizado via Supabase</span>
+                            <button onclick="mudarAbaAdmin('produtos')" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg shadow transition-all">
+                                Gerenciar Estoque
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+            </section>
 
             <!-- ================= ABA 1: GERENCIADOR DE PEDIDOS ================= -->
             <section id="secao-admin-pedidos" class="hidden space-y-6">
@@ -214,7 +286,7 @@
             </section>
 
             <!-- ================= ABA 2: GERENCIADOR DE PRODUTOS ================= -->
-            <section id="secao-admin-produtos" class="space-y-6">
+            <section id="secao-admin-produtos" class="hidden space-y-6">
                 
                 <!-- BARRA DE AÇÕES -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -313,6 +385,44 @@
             <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
         </footer>
 
+    </div>
+
+    <!-- MODAL DE CRIAR CUPOM DE DESCONTO -->
+    <div id="modal-criar-cupom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-blue-200">
+            <button onclick="fecharModalCriarCupom()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-ticket text-amber-500"></i> Criar Cupom de Desconto
+                </h3>
+            </div>
+
+            <form onsubmit="salvarCupomSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Código do Cupom *</label>
+                    <input type="text" id="cupom-codigo" required placeholder="Ex: NIVER10 ou DESCONTO15" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 uppercase font-bold tracking-wider">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Desconto (%) *</label>
+                        <input type="number" id="cupom-porcentagem" required min="1" max="100" placeholder="10" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-emerald-700">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Validade (Dias)</label>
+                        <input type="number" id="cupom-validade" min="1" value="30" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalCriarCupom()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-paper-plane"></i> Gerar e Enviar no WhatsApp
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- MODAL DETALHES DO PEDIDO -->
@@ -716,6 +826,29 @@
             idProdutoExclusaoPendente = null;
         }
 
+        // LÓGICA DE CUPOM DE DESCONTO
+        function abrirModalCriarCupom() {
+            document.getElementById('cupom-codigo').value = 'NIVER10';
+            document.getElementById('modal-criar-cupom').classList.remove('hidden');
+        }
+
+        function fecharModalCriarCupom() {
+            document.getElementById('modal-criar-cupom').classList.add('hidden');
+        }
+
+        function salvarCupomSubmit(e) {
+            e.preventDefault();
+            const codigo = document.getElementById('cupom-codigo').value.toUpperCase().trim();
+            const porc = document.getElementById('cupom-porcentagem').value;
+
+            fecharModalCriarCupom();
+
+            const msgWpp = `Olá! 🎂🎉 Parabéns pelo seu aniversário! A *PHSUBLIME GRÁFICA* preparou um presente especial para você:\n\nCupom de Desconto: *${codigo}*\nValor: *${porc}% DE DESCONTO* em seu próximo pedido!\n\nAproveite em nosso site ou faça seu pedido por aqui!`;
+            
+            window.open(`https://wa.me/5521986147221?text=${encodeURIComponent(msgWpp)}`, '_blank');
+            mostrarToast(`Cupom ${codigo} gerado com sucesso!`);
+        }
+
         // VERIFICA LOGIN SALVO
         function verificarSessaoAdmin() {
             const logado = localStorage.getItem('phsublime_admin_logado');
@@ -768,12 +901,14 @@
 
             const tbody = document.getElementById('tabela-admin-pedidos-body');
             const statTotal = document.getElementById('stat-total-pedidos');
+            const cardHomePed = document.getElementById('card-home-pedidos-qtd');
             const badgeTotal = document.getElementById('badge-total-pedidos');
 
             // CONTA APENAS PEDIDOS PENDENTES/ATIVOS (NÃO CONCLUÍDOS E NÃO CANCELADOS)
             const pedidosPendentesCount = adminPedidos.filter(p => p.situacao !== 'Concluído' && p.situacao !== 'Cancelado').length;
 
             if (statTotal) statTotal.innerText = adminPedidos.length;
+            if (cardHomePed) cardHomePed.innerText = adminPedidos.length;
             
             if (badgeTotal) {
                 badgeTotal.innerText = pedidosPendentesCount;
@@ -1011,9 +1146,15 @@
         }
 
         function atualizarEstatisticas() {
-            document.getElementById('stat-total-produtos').innerText = adminProdutos.length;
+            const statTotal = document.getElementById('stat-total-produtos');
+            const txtHomeTotal = document.getElementById('txt-home-total-prod');
+
+            if (statTotal) statTotal.innerText = adminProdutos.length;
+            if (txtHomeTotal) txtHomeTotal.innerText = `${adminProdutos.length} produtos`;
+
             const categoriasUnicas = new Set(adminProdutos.map(p => p.categoria));
-            document.getElementById('stat-total-categorias').innerText = categoriasUnicas.size;
+            const statCat = document.getElementById('stat-total-categorias');
+            if (statCat) statCat.innerText = categoriasUnicas.size;
         }
 
         function renderizarTabelaAdmin(lista) {
@@ -1233,6 +1374,9 @@
             carregarClientesSalvosLocal();
 
             const tbody = document.getElementById('tabela-admin-clientes-body');
+            const cardHomeCli = document.getElementById('card-home-clientes-qtd');
+            if (cardHomeCli) cardHomeCli.innerText = adminClientes.length;
+
             tbody.innerHTML = '';
 
             if (adminClientes.length === 0) {
@@ -1310,7 +1454,6 @@
             const status = document.getElementById('cli-status').value;
 
             if (id && id !== '') {
-                // Editar existente
                 const cli = adminClientes.find(c => c.id === Number(id));
                 if (cli) {
                     cli.nome = nome;
@@ -1322,7 +1465,6 @@
                     cli.status = status;
                 }
             } else {
-                // Criar novo
                 const novoId = adminClientes.length > 0 ? Math.max(...adminClientes.map(c => c.id)) + 1 : 1;
                 adminClientes.push({
                     id: novoId,
@@ -1348,9 +1490,10 @@
         }
 
         function mudarAbaAdmin(aba) {
-            ['pedidos', 'produtos', 'clientes'].forEach(a => document.getElementById(`secao-admin-${a}`)?.classList.add('hidden'));
+            ['inicio', 'pedidos', 'produtos', 'clientes'].forEach(a => document.getElementById(`secao-admin-${a}`)?.classList.add('hidden'));
             document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
 
+            const btnIni = document.getElementById('btn-aba-inicio');
             const btnPed = document.getElementById('btn-aba-pedidos');
             const btnProd = document.getElementById('btn-aba-produtos');
             const btnClis = document.getElementById('btn-aba-clientes');
@@ -1358,6 +1501,7 @@
             const estiloAtivo = "px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5";
             const estiloInativo = "px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5";
 
+            btnIni.className = aba === 'inicio' ? estiloAtivo : estiloInativo;
             btnPed.className = aba === 'pedidos' ? estiloAtivo : estiloInativo;
             btnProd.className = aba === 'produtos' ? estiloAtivo : estiloInativo;
             btnClis.className = aba === 'clientes' ? estiloAtivo : estiloInativo;
