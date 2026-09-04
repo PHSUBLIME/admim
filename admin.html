@@ -129,7 +129,12 @@
                         <i class="fa-solid fa-chart-line"></i> RELATÓRIOS
                     </button>
 
-                    <!-- PÁGINAS EXTRAS INSTITUCIONAIS (MÓDULO NOVO MIGRADO) -->
+                    <!-- NOVO MÓDULO: CÓDIGOS HTML E PIXELS -->
+                    <button onclick="abrirModalCodigosHTML()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Pixels, Tag Manager e Scripts Extras">
+                        <i class="fa-brands fa-html5"></i> Códigos HTML
+                    </button>
+
+                    <!-- PÁGINAS EXTRAS INSTITUCIONAIS -->
                     <button onclick="abrirModalPaginasExtras()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Páginas Extras da Loja">
                         <i class="fa-solid fa-file-lines"></i> Páginas Extras
                     </button>
@@ -181,14 +186,14 @@
                         <p class="text-xs text-blue-100">Controle completo de pedidos, estoque Supabase, acabamentos, mensagens de WhatsApp e clientes.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="abrirModalPaginasExtras()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
+                        <button onclick="abrirModalCodigosHTML()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
+                            <i class="fa-brands fa-html5"></i> Scripts & Pixels
+                        </button>
+                        <button onclick="abrirModalPaginasExtras()" class="bg-blue-900 hover:bg-blue-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-amber-400">
                             <i class="fa-solid fa-file-lines"></i> Páginas Extras
                         </button>
                         <button onclick="abrirModalAcabamentos()" class="bg-purple-900 hover:bg-purple-800 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase border border-purple-400">
                             <i class="fa-solid fa-cut"></i> Acabamentos
-                        </button>
-                        <button onclick="abrirModalControleMensagens()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 uppercase">
-                            <i class="fa-brands fa-whatsapp"></i> Wpp Automatizado
                         </button>
                     </div>
                 </div>
@@ -516,7 +521,82 @@
 
     <!-- ================= CAIXA DE MODAIS COMPLETOS ================= -->
 
-    <!-- MODAL NOVO: GERENCIADOR DE PÁGINAS EXTRAS INSTITUCIONAIS (MIGRADO DO CÓDIGO ANTIGO) -->
+    <!-- MODAL NOVO: GERENCIADOR DE CÓDIGOS HTML E PIXELS (MIGRADO DO CÓDIGO ANTIGO) -->
+    <div id="modal-codigos-html" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalCodigosHTML()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-brands fa-html5 text-amber-500"></i> Injeção de Códigos HTML & Pixels de Rastreamento
+                </h3>
+            </div>
+
+            <form onsubmit="salvarNovoCodigoHTMLSubmit(event)" class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 space-y-3 text-xs">
+                <h4 class="font-bold text-blue-950 uppercase text-[11px]"><i class="fa-solid fa-circle-plus text-emerald-600"></i> Adicionar Novo Código ou Tag</h4>
+                <input type="hidden" id="html-tag-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Descrição do Código *</label>
+                        <input type="text" id="html-tag-desc" required placeholder="Ex: Google Tag Manager ou Meta Pixel" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Local de Publicação</label>
+                        <select id="html-tag-local" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                            <option value="Head (<head>)">Cabeçalho (&lt;head&gt;)</option>
+                            <option value="Body Inicial (<body>)">Início do Corpo (&lt;body&gt;)</option>
+                            <option value="Rodapé (</body>)">Rodapé (&lt;/body&gt;)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Páginas de Publicação</label>
+                        <select id="html-tag-paginas" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                            <option value="Todas as Páginas">Todas as Páginas da Loja</option>
+                            <option value="Somente no Checkout">Apenas no Checkout / Sucesso</option>
+                            <option value="Somente na Home">Apenas na Página Inicial (Home)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Código Script / HTML *</label>
+                    <textarea id="html-tag-codigo" required rows="3" placeholder="Cole o script aqui: <script>...</script>" class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]"></textarea>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black px-5 py-2 rounded-xl text-xs uppercase shadow">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar e Ativar Script
+                    </button>
+                </div>
+            </form>
+
+            <div>
+                <span class="font-bold text-slate-700 block mb-1.5 text-xs">Códigos e Pixels Ativos na Loja:</span>
+                <div class="border border-slate-200 rounded-xl overflow-hidden max-h-48 overflow-y-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 font-bold text-slate-600 uppercase text-[10px]">
+                                <th class="p-2.5">DESCRIÇÃO</th>
+                                <th class="p-2.5">LOCAL</th>
+                                <th class="p-2.5">PÁGINAS</th>
+                                <th class="p-2.5 text-center">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-codigos-html-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex justify-end">
+                <button type="button" onclick="fecharModalCodigosHTML()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PÁGINAS EXTRAS INSTITUCIONAIS -->
     <div id="modal-paginas-extras" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalPaginasExtras()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -1236,7 +1316,14 @@
         let idItemExclusaoPendente = null;
         let tipoItemExclusao = 'produto';
 
-        // BASE DE PÁGINAS EXTRAS (MIGRADO DO SISTEMA ANTIGO)
+        // BASE DE CÓDIGOS HTML E TAGS DE MARKETING (MIGRADO DO CÓDIGO ANTIGO)
+        let adminCodigosHtmlDefault = [
+            { id: 1, desc: "Google Tag Manager (GTM)", local: "Head (<head>)", paginas: "Todas as Páginas", codigo: "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PHSUBLIME');</script>" },
+            { id: 2, desc: "Pixel do Meta / Facebook", local: "Head (<head>)", paginas: "Somente no Checkout", codigo: "<!-- Meta Pixel Code -->\n<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '1234567890');fbq('track', 'PageView');</script>" }
+        ];
+        let adminCodigosHtml = [];
+
+        // BASE DE PÁGINAS EXTRAS
         let adminPaginasExtrasDefault = [
             { id: 1, titulo: "Como Enviar seu Arquivo / Gabarito", slug: "como-enviar-arte", conteudo: "Envie seus arquivos preferencialmente em PDF X-1a, CorelDraw em curvas ou CMYK 300 DPI." },
             { id: 2, titulo: "Política de Garantia e Devoluções", slug: "garantia-devolucao", conteudo: "Garantimos a qualidade de impressão da PHSUBLIME. Em caso de defeitos de corte ou cor, entre em contato em até 7 dias." },
@@ -1381,7 +1468,96 @@
             }, 800);
         }
 
-        // PÁGINAS EXTRAS (MIGRADO DO CÓDIGO NOVO)
+        // MÓDULO CÓDIGOS HTML E PIXELS
+        function carregarCodigosHTMLSalvosLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_codigos_html');
+            adminCodigosHtml = salvos ? JSON.parse(salvos) : adminCodigosHtmlDefault;
+        }
+
+        function salvarCodigosHTMLLocal() {
+            localStorage.setItem('phsublime_admin_codigos_html', JSON.stringify(adminCodigosHtml));
+        }
+
+        function renderizarTabelaCodigosHTMLModal() {
+            const tbody = document.getElementById('tabela-codigos-html-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            adminCodigosHtml.forEach(tag => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="p-2.5 font-bold text-slate-800">${escapeHtml(tag.desc)}</td>
+                    <td class="p-2.5 text-blue-900 font-bold">${escapeHtml(tag.local)}</td>
+                    <td class="p-2.5 text-slate-600">${escapeHtml(tag.paginas)}</td>
+                    <td class="p-2.5 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="editarCodigoHTMLModal('${tag.id}')" class="text-blue-600 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="excluirCodigoHTML('${tag.id}')" class="text-red-600 font-bold"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalCodigosHTML() {
+            carregarCodigosHTMLSalvosLocal();
+            renderizarTabelaCodigosHTMLModal();
+            document.getElementById('modal-codigos-html')?.classList.remove('hidden');
+        }
+
+        function fecharModalCodigosHTML() {
+            document.getElementById('modal-codigos-html')?.classList.add('hidden');
+        }
+
+        function salvarNovoCodigoHTMLSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('html-tag-id').value;
+            const desc = document.getElementById('html-tag-desc').value.trim();
+            const local = document.getElementById('html-tag-local').value;
+            const paginas = document.getElementById('html-tag-paginas').value;
+            const codigo = document.getElementById('html-tag-codigo').value;
+
+            if (id) {
+                const tag = adminCodigosHtml.find(t => String(t.id) === String(id));
+                if (tag) {
+                    tag.desc = desc;
+                    tag.local = local;
+                    tag.paginas = paginas;
+                    tag.codigo = codigo;
+                }
+            } else {
+                const novoId = adminCodigosHtml.length > 0 ? Math.max(...adminCodigosHtml.map(t => t.id || 0)) + 1 : 1;
+                adminCodigosHtml.push({ id: novoId, desc, local, paginas, codigo });
+            }
+
+            salvarCodigosHTMLLocal();
+            renderizarTabelaCodigosHTMLModal();
+            document.getElementById('html-tag-id').value = '';
+            document.getElementById('html-tag-desc').value = '';
+            document.getElementById('html-tag-codigo').value = '';
+            mostrarToast(`Tag '${desc}' salva com sucesso!`);
+        }
+
+        function editarCodigoHTMLModal(id) {
+            const tag = adminCodigosHtml.find(t => String(t.id) === String(id));
+            if (!tag) return;
+            document.getElementById('html-tag-id').value = tag.id;
+            document.getElementById('html-tag-desc').value = tag.desc;
+            document.getElementById('html-tag-local').value = tag.local;
+            document.getElementById('html-tag-paginas').value = tag.paginas;
+            document.getElementById('html-tag-codigo').value = tag.codigo || '';
+        }
+
+        function excluirCodigoHTML(id) {
+            adminCodigosHtml = adminCodigosHtml.filter(t => String(t.id) !== String(id));
+            salvarCodigosHTMLLocal();
+            renderizarTabelaCodigosHTMLModal();
+            mostrarToast("Tag de código removida!");
+        }
+
+        // PÁGINAS EXTRAS
         function carregarPaginasExtrasSalvasLocal() {
             const salvos = localStorage.getItem('phsublime_admin_paginas_extras');
             adminPaginasExtras = salvos ? JSON.parse(salvos) : adminPaginasExtrasDefault;
@@ -1942,6 +2118,7 @@
 
         async function inicializarAdmin() {
             salvaLogAcesso();
+            carregarCodigosHTMLSalvosLocal();
             carregarPaginasExtrasSalvasLocal();
             carregarCuponsSalvosLocal();
             carregarPedidosSalvosLocal();
