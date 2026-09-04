@@ -134,7 +134,6 @@
                         <i class="fa-solid fa-chart-line"></i> RELATÓRIOS
                     </button>
 
-                    <!-- PERSONALIZAÇÃO DE TEMA, CORES E LOGOS -->
                     <button onclick="abrirModalPersonalizacaoCMS()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Aparência, Cores e Logos do Tema">
                         <i class="fa-solid fa-paint-brush"></i> Aparência & CMS
                     </button>
@@ -209,7 +208,7 @@
                     <div onclick="mudarAbaAdmin('pedidos')" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div>
                             <span class="text-xs text-slate-500 font-bold block uppercase">Central de Pedidos</span>
-                            <strong id="card-home-pedidos-qtd" class="text-2xl font-black text-blue-900">1</strong>
+                            <strong id="card-home-pedidos-qtd" class="text-2xl font-black text-blue-900">0</strong>
                             <span class="text-[11px] text-blue-600 font-bold group-hover:underline block mt-1">Gerenciar vendas <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
                         </div>
                         <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
@@ -220,7 +219,7 @@
                     <div onclick="mudarAbaAdmin('produtos')" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div>
                             <span class="text-xs text-slate-500 font-bold block uppercase">Produtos no Banco</span>
-                            <strong id="stat-total-produtos" class="text-2xl font-black text-emerald-600">278</strong>
+                            <strong id="stat-total-produtos" class="text-2xl font-black text-emerald-600">0</strong>
                             <span class="text-[11px] text-emerald-600 font-bold group-hover:underline block mt-1">Estoque Supabase <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
                         </div>
                         <div class="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
@@ -231,7 +230,7 @@
                     <div onclick="mudarAbaAdmin('clientes')" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-purple-500 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div>
                             <span class="text-xs text-slate-500 font-bold block uppercase">Clientes Cadastrados</span>
-                            <strong id="card-home-clientes-qtd" class="text-2xl font-black text-purple-900">2</strong>
+                            <strong id="card-home-clientes-qtd" class="text-2xl font-black text-purple-900">0</strong>
                             <span class="text-[11px] text-purple-600 font-bold group-hover:underline block mt-1">Créditos e Cadastro <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
                         </div>
                         <div class="w-12 h-12 bg-purple-100 text-purple-900 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
@@ -242,7 +241,7 @@
                     <div onclick="mudarAbaAdmin('relatorios')" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 hover:border-amber-500 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div>
                             <span class="text-xs text-slate-500 font-bold block uppercase">Faturamento Geral</span>
-                            <strong id="card-home-faturamento-total" class="text-xl font-black text-emerald-600">R$ 107,02</strong>
+                            <strong id="card-home-faturamento-total" class="text-xl font-black text-emerald-600">R$ 0,00</strong>
                             <span class="text-[11px] text-amber-600 font-bold group-hover:underline block mt-1">Relatórios <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
                         </div>
                         <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
@@ -323,7 +322,7 @@
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="bg-[#316AC7] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
                         <span><i class="fa-solid fa-clipboard-list text-amber-300"></i> Pedidos Cadastrados</span>
-                        <span id="txt-count-pedidos-tabela" class="bg-amber-400 text-blue-950 font-black px-2 py-0.5 rounded text-[10px]">1 Pedido</span>
+                        <span id="txt-count-pedidos-tabela" class="bg-amber-400 text-blue-950 font-black px-2 py-0.5 rounded text-[10px]">0 Pedidos</span>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -370,6 +369,50 @@
                         </button>
                         <button onclick="abrirModalFormProduto()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-1.5 uppercase">
                             <i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Produto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PAINEL REAJUSTE DE PREÇOS EM MASSA -->
+                <div id="painel-reajuste-massa" class="hidden bg-purple-50 p-4 rounded-xl border border-purple-200 space-y-3 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-purple-200 pb-2">
+                        <h4 class="font-black text-purple-950 text-xs font-heading uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-rocket text-amber-500"></i> Reajuste de Preços em Massa
+                        </h4>
+                        <button onclick="alternarPainelReajusteMassa()" class="text-purple-700 hover:text-purple-950 font-bold text-xs"><i class="fa-solid fa-xmark"></i> Fechar</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Categoria Alvo</label>
+                            <select id="reajuste-categoria" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-medium">
+                                <option value="TODOS">Todas as Categorias</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Operação</label>
+                            <select id="reajuste-operacao" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold">
+                                <option value="+">Aumentar Preço (+ %)</option>
+                                <option value="-">Reduzir Preço (- %)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-purple-900 block mb-1">Porcentagem (%) *</label>
+                            <input type="number" id="reajuste-porcentagem" placeholder="Ex: 10" min="1" max="100" class="w-full px-3 py-2 border rounded-lg focus:outline-none font-bold text-purple-900">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="executarReajustePrecosEmMassa()" class="w-full bg-purple-900 hover:bg-purple-800 text-white font-black py-2 rounded-lg shadow uppercase transition-all flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-bolt"></i> Aplicar Reajuste
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BARRA AÇÕES EM MASSA DE PRODUTOS SELECIONADOS -->
+                <div id="barra-acoes-massa-produtos" class="hidden bg-slate-900 text-white p-3 rounded-xl shadow-md flex items-center justify-between text-xs">
+                    <span class="font-bold text-amber-400" id="txt-qtd-selecionados-massa">0 produtos selecionados</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="excluirProdutosSelecionadosEmMassa()" class="bg-red-600 hover:bg-red-500 text-white font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-trash-can"></i> Excluir Selecionados
                         </button>
                     </div>
                 </div>
@@ -480,17 +523,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-emerald-500 border border-slate-200 space-y-1">
                         <span class="text-xs text-slate-500 font-bold block uppercase">Faturamento Total</span>
-                        <strong id="relat-faturamento-total" class="text-2xl font-black text-emerald-600">R$ 107,02</strong>
+                        <strong id="relat-faturamento-total" class="text-2xl font-black text-emerald-600">R$ 0,00</strong>
                     </div>
 
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-600 border border-slate-200 space-y-1">
                         <span class="text-xs text-slate-500 font-bold block uppercase">Ticket Médio</span>
-                        <strong id="relat-ticket-medio" class="text-2xl font-black text-blue-900">R$ 107,02</strong>
+                        <strong id="relat-ticket-medio" class="text-2xl font-black text-blue-900">R$ 0,00</strong>
                     </div>
 
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-purple-600 border border-slate-200 space-y-1">
                         <span class="text-xs text-slate-500 font-bold block uppercase">Pedidos Concluídos</span>
-                        <strong id="relat-concluidos-count" class="text-2xl font-black text-purple-900">1 de 1</strong>
+                        <strong id="relat-concluidos-count" class="text-2xl font-black text-purple-900">0 de 0</strong>
                     </div>
                 </div>
 
@@ -527,7 +570,7 @@
 
     <!-- ================= CAIXA DE MODAIS COMPLETOS ================= -->
 
-    <!-- MODAL ESTÚDIO VISUAL DE APARÊNCIA, TEMA & LOGOS (MIGRADO DO CÓDIGO NOVO) -->
+    <!-- MODAL PERSONALIZAÇÃO CMS, TEMA E LOGOS -->
     <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -540,7 +583,7 @@
 
             <form onsubmit="salvarCMSLojaSubmit(event)" class="space-y-5 text-xs">
                 
-                <!-- SEÇÃO 1: PALETA DE CORES DO TEMA COM COLOR PICKER -->
+                <!-- PALETA DE CORES DO TEMA -->
                 <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 space-y-3">
                     <h4 class="font-black text-blue-950 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-palette text-amber-500"></i> Paleta de Cores do Tema da Loja</h4>
                     
@@ -579,7 +622,7 @@
                     </div>
                 </div>
 
-                <!-- SEÇÃO 2: CUSTOMIZAÇÃO DO CARD DE PRODUTO E BOTÃO COMPRAR -->
+                <!-- CARD DE PRODUTO & BOTÃO COMPRAR -->
                 <div class="bg-purple-50/60 p-4 rounded-xl border border-purple-200 space-y-3">
                     <h4 class="font-black text-purple-950 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-file-invoice text-purple-700"></i> Personalização do Card de Produto</h4>
                     
@@ -605,41 +648,53 @@
                     </div>
                 </div>
 
-                <!-- SEÇÃO 3: CRONÔMETRO E BARRA DE EXPIRAÇÃO DE OFERTA -->
-                <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 space-y-3">
-                    <h4 class="font-black text-amber-950 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-clock text-amber-600"></i> Timer de Expiração de Oferta / Promoção</h4>
-                    
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Cor de Fundo Oferta</label>
-                            <input type="color" id="color-oferta-bg" value="#D60000" class="w-full h-8 rounded border cursor-pointer">
+                <!-- CARDS DAS 4 LOGOS DA PHSUBLIME -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- LOGO SISTEMA -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="font-black text-blue-900 block">Logo do Sistema (.png)</label>
+                            <span class="text-[10px] text-slate-400 font-bold">Cabeçalho e Menu</span>
                         </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Cor do Título Oferta</label>
-                            <input type="color" id="color-oferta-titulo" value="#FFD706" class="w-full h-8 rounded border cursor-pointer">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Cor de Fundo Timer</label>
-                            <input type="color" id="color-oferta-timer-bg" value="#FFFFFF" class="w-full h-8 rounded border cursor-pointer">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SEÇÃO 4: LOGOS E MARCA DA PHSUBLIME -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
-                        <label class="font-black text-blue-900 block">Logo do Sistema (.png)</label>
                         <input type="text" id="cms-logo-url" value="https://phsublime.sistograf.net/storage/logos/logosistema.png" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
                         <div class="w-full h-10 bg-white rounded border p-1 flex items-center justify-center">
                             <img id="preview-logo-sistema" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
-                        <label class="font-black text-blue-900 block">Favicon (.ico - 48x48 max)</label>
+                    <!-- FAVICON -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="font-black text-blue-900 block">Favicon (.ico - 48x48 max)</label>
+                            <span class="text-[10px] text-slate-400 font-bold">Aba do Navegador</span>
+                        </div>
                         <input type="text" id="cms-favicon-url" value="https://phsublime.sistograf.net/storage/logos/favicon.ico" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
                         <div class="w-full h-10 bg-white rounded border p-1 flex items-center justify-center">
                             <img id="preview-favicon" src="https://phsublime.sistograf.net/storage/logos/favicon.ico" class="w-7 h-7 object-contain" onerror="this.onerror=null; this.style.display='none';">
+                        </div>
+                    </div>
+
+                    <!-- LOGO ORDEM DE SERVIÇO -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="font-black text-blue-900 block">Logo Ordem de Serviço (.png)</label>
+                            <span class="text-[10px] text-slate-400 font-bold">PDF / Recibos de Balcão</span>
+                        </div>
+                        <input type="text" id="cms-logo-os-url" value="https://phsublime.sistograf.net/storage/logos/logo_ordemservico.png" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
+                        <div class="w-full h-10 bg-white rounded border p-1 flex items-center justify-center">
+                            <img id="preview-logo-os" src="https://phsublime.sistograf.net/storage/logos/logo_ordemservico.png" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
+                        </div>
+                    </div>
+
+                    <!-- IMAGEM DE COMPARTILHAMENTO -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-start justify-between">
+                            <label class="font-black text-blue-900 block">Imagem para WhatsApp / Redes (.jpg)</label>
+                            <span class="text-[10px] text-slate-400 font-bold">Open Graph</span>
+                        </div>
+                        <input type="text" id="cms-img-share-url" value="https://phsublime.sistograf.net/storage/logos/imagem_compartilhamento.jpg" onchange="atualizarPreviewsLogosCMS()" class="w-full px-3 py-1.5 border rounded-lg font-mono text-[11px]">
+                        <div class="w-full h-10 bg-white rounded border p-1 flex items-center justify-center">
+                            <img id="preview-img-share" src="https://phsublime.sistograf.net/storage/logos/imagem_compartilhamento.jpg" class="max-h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
                         </div>
                     </div>
                 </div>
@@ -1508,7 +1563,6 @@
                 .replace(/'/g, '&#39;');
         }
 
-        // FUNÇÃO SEGURA PARA RENDERIZAR IMAGENS SEM ERRO DE ASPAS
         function renderImagemHtml(url, classeCss) {
             classeCss = classeCss || "w-10 h-10 object-contain rounded border bg-white p-0.5";
             if (!url || typeof url !== 'string' || !url.trim()) {
@@ -1532,9 +1586,13 @@
 
             const elLogoSistema = document.getElementById('cms-logo-url');
             const elFavicon = document.getElementById('cms-favicon-url');
+            const elLogoOs = document.getElementById('cms-logo-os-url');
+            const elImgShare = document.getElementById('cms-img-share-url');
 
             if (elLogoSistema) elLogoSistema.value = config.logoSistema || adminLogosDefault.logoSistema;
             if (elFavicon) elFavicon.value = config.favicon || adminLogosDefault.favicon;
+            if (elLogoOs) elLogoOs.value = config.logoOrdemServico || adminLogosDefault.logoOrdemServico;
+            if (elImgShare) elImgShare.value = config.imagemCompartilhamento || adminLogosDefault.imagemCompartilhamento;
 
             atualizarPreviewsLogosCMS();
         }
@@ -1542,12 +1600,18 @@
         function atualizarPreviewsLogosCMS() {
             const logoSys = document.getElementById('cms-logo-url')?.value;
             const favicon = document.getElementById('cms-favicon-url')?.value;
+            const logoOs = document.getElementById('cms-logo-os-url')?.value;
+            const imgShare = document.getElementById('cms-img-share-url')?.value;
 
             const pLogoSys = document.getElementById('preview-logo-sistema');
             const pFavicon = document.getElementById('preview-favicon');
+            const pLogoOs = document.getElementById('preview-logo-os');
+            const pImgShare = document.getElementById('preview-img-share');
 
             if (pLogoSys && logoSys) pLogoSys.src = logoSys;
             if (pFavicon && favicon) pFavicon.src = favicon;
+            if (pLogoOs && logoOs) pLogoOs.src = logoOs;
+            if (pImgShare && imgShare) pImgShare.src = imgShare;
 
             const headerLogo = document.getElementById('header-logo-img');
             if (headerLogo && logoSys) headerLogo.src = logoSys;
@@ -1561,7 +1625,7 @@
         ];
         let adminBanners = [];
 
-        // BASE DE CÓDIGOS HTML E TAGS DE MARKETING (ESCAPADO COM <\/script>)
+        // BASE DE CÓDIGOS HTML E TAGS DE MARKETING
         let adminCodigosHtmlDefault = [
             { id: 1, desc: "Google Tag Manager (GTM)", local: "Head (<head>)", paginas: "Todas as Páginas", codigo: "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PHSUBLIME');<\/script>" },
             { id: 2, desc: "Pixel do Meta / Facebook", local: "Head (<head>)", paginas: "Somente no Checkout", codigo: "<!-- Meta Pixel Code -->\n<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '1234567890');fbq('track', 'PageView');<\/script>" }
@@ -1705,6 +1769,174 @@
             setTimeout(() => {
                 window.location.reload();
             }, 800);
+        }
+
+        // ==================== CORREÇÃO 1: FUNÇÕES DE REAJUSTE DE PREÇOS EM MASSA E AUTO-CAT ====================
+        function alternarPainelReajusteMassa() {
+            const painel = document.getElementById('painel-reajuste-massa');
+            if (!painel) return;
+            painel.classList.toggle('hidden');
+            
+            // Preenche o dropdown de categorias no painel de reajuste
+            const selectCat = document.getElementById('reajuste-categoria');
+            if (selectCat && selectCat.options.length <= 1) {
+                selectCat.innerHTML = '<option value="TODOS">Todas as Categorias</option>';
+                adminCategoriasExtra.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.innerText = cat;
+                    selectCat.appendChild(opt);
+                });
+            }
+        }
+
+        async function executarReajustePrecosEmMassa() {
+            const catAlvo = document.getElementById('reajuste-categoria')?.value || 'TODOS';
+            const operacao = document.getElementById('reajuste-operacao')?.value || '+';
+            const porcentagem = parseFloat(document.getElementById('reajuste-porcentagem')?.value) || 0;
+
+            if (porcentagem <= 0) {
+                mostrarToast("Informe uma porcentagem válida acima de 0%!");
+                return;
+            }
+
+            let afetados = 0;
+            const multiplicador = operacao === '+' ? (1 + porcentagem / 100) : (1 - porcentagem / 100);
+
+            for (let prod of adminProdutos) {
+                if (catAlvo === 'TODOS' || prod.categoria.trim() === catAlvo.trim()) {
+                    const novoPreco = parseFloat((prod.preco * multiplicador).toFixed(2));
+                    prod.preco = Math.max(0, novoPreco);
+                    afetados++;
+
+                    // Atualiza individualmente no Supabase
+                    try {
+                        await supabaseClient.from('produtos').update({ Preco_Venda: prod.preco }).eq('id', prod.id);
+                    } catch(err) {
+                        console.error("Erro ao reajustar produto Supabase:", prod.id, err);
+                    }
+                }
+            }
+
+            renderizarTabelaAdminPaginada();
+            mostrarToast(`Reajuste de ${operacao}${porcentagem}% aplicado em ${afetados} produtos!`);
+            alternarPainelReajusteMassa();
+        }
+
+        async function autoCategorizarProdutosInteligente() {
+            let alterados = 0;
+            mostrarToast("Analisando e auto-categorizando produtos...");
+
+            for (let prod of adminProdutos) {
+                const catSugerida = classificarCategoriaPorNome(prod.nome);
+                if (catSugerida !== prod.categoria) {
+                    prod.categoria = catSugerida;
+                    alterados++;
+
+                    try {
+                        await supabaseClient.from('produtos').update({ Categorias_Secundarias: catSugerida }).eq('id', prod.id);
+                    } catch(err) {
+                        console.error("Erro ao auto-categorizar:", prod.id, err);
+                    }
+                }
+            }
+
+            renderizarBotoesCategoriasAdmin();
+            renderizarTabelaAdminPaginada();
+            mostrarToast(`Auto-categorização concluída! ${alterados} produtos atualizados.`);
+        }
+
+        function alternarMarcarTodosProdutos(chkTodos) {
+            const checkboxes = document.querySelectorAll('.chk-prod-item');
+            checkboxes.forEach(c => c.checked = chkTodos.checked);
+            atualizarBarraAcoesMassaProdutos();
+        }
+
+        function atualizarBarraAcoesMassaProdutos() {
+            const checados = document.querySelectorAll('.chk-prod-item:checked');
+            const barra = document.getElementById('barra-acoes-massa-produtos');
+            const txtQtd = document.getElementById('txt-qtd-selecionados-massa');
+
+            if (!barra) return;
+
+            if (checados.length > 0) {
+                barra.classList.remove('hidden');
+                if (txtQtd) txtQtd.innerText = `${checados.length} produto(s) selecionado(s)`;
+            } else {
+                barra.classList.add('hidden');
+            }
+        }
+
+        async function excluirProdutosSelecionadosEmMassa() {
+            const checados = Array.from(document.querySelectorAll('.chk-prod-item:checked')).map(c => c.value);
+            if (checados.length === 0) return;
+
+            if (!confirm(`Tem certeza que deseja excluir ${checados.length} produto(s) selecionado(s) do Supabase?`)) {
+                return;
+            }
+
+            mostrarToast(`Excluindo ${checados.length} produtos...`);
+
+            try {
+                for (let id of checados) {
+                    await supabaseClient.from('produtos').delete().eq('id', id);
+                }
+                mostrarToast(`${checados.length} produto(s) excluído(s) com sucesso!`);
+                await carregarProdutosAdmin();
+            } catch(e) {
+                mostrarToast("Erro ao excluir produtos em massa!");
+            }
+        }
+
+        // ==================== CORREÇÃO 4: RELATÓRIO FINANCEIRO DINÂMICO ====================
+        function calcularEAtualizarRelatorios() {
+            let faturamentoTotal = 0;
+            let concluidosCount = 0;
+
+            const tbody = document.getElementById('tabela-relatorio-financeiro-body');
+            if (tbody) tbody.innerHTML = '';
+
+            adminPedidos.forEach(p => {
+                faturamentoTotal += p.financeiro.totalVal || 0;
+                if (p.situacao === 'Concluído' || p.situacao === 'Confirmado' || p.situacao === 'Em Produção') {
+                    concluidosCount++;
+                }
+
+                if (tbody) {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-50";
+                    tr.innerHTML = `
+                        <td class="py-3 px-4 font-mono text-slate-500">${escapeHtml(p.data)}</td>
+                        <td class="py-3 px-4 font-black text-blue-900">${escapeHtml(p.codigo)}</td>
+                        <td class="py-3 px-4 font-bold text-slate-800">${escapeHtml(p.cliente.nome)}</td>
+                        <td class="py-3 px-4 font-medium text-slate-600">${escapeHtml(p.financeiro.forma)}</td>
+                        <td class="py-3 px-4 text-slate-600">${escapeHtml(p.transporte.tipo)}</td>
+                        <td class="py-3 px-4 text-right font-black text-emerald-600">R$ ${p.financeiro.totalVal.toFixed(2)}</td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+            });
+
+            const totalPedidos = adminPedidos.length;
+            const ticketMedio = totalPedidos > 0 ? (faturamentoTotal / totalPedidos) : 0;
+
+            // Atualiza cards da aba de Relatórios
+            const elFat = document.getElementById('relat-faturamento-total');
+            const elTicket = document.getElementById('relat-ticket-medio');
+            const elConcl = document.getElementById('relat-concluidos-count');
+
+            if (elFat) elFat.innerText = `R$ ${faturamentoTotal.toFixed(2)}`;
+            if (elTicket) elTicket.innerText = `R$ ${ticketMedio.toFixed(2)}`;
+            if (elConcl) elConcl.innerText = `${concluidosCount} de ${totalPedidos}`;
+
+            // Atualiza atalhos da Home
+            const cardFatHome = document.getElementById('card-home-faturamento-total');
+            const cardPedQtdHome = document.getElementById('card-home-pedidos-qtd');
+            const cardCliQtdHome = document.getElementById('card-home-clientes-qtd');
+
+            if (cardFatHome) cardFatHome.innerText = `R$ ${faturamentoTotal.toFixed(2)}`;
+            if (cardPedQtdHome) cardPedQtdHome.innerText = totalPedidos;
+            if (cardCliQtdHome) cardCliQtdHome.innerText = adminClientes.length;
         }
 
         // MÓDULO BANNERS DA LOJA
@@ -1996,8 +2228,8 @@
             const configLogos = {
                 logoSistema: document.getElementById('cms-logo-url')?.value || adminLogosDefault.logoSistema,
                 favicon: document.getElementById('cms-favicon-url')?.value || adminLogosDefault.favicon,
-                logoOrdemServico: adminLogosDefault.logoOrdemServico,
-                imagemCompartilhamento: adminLogosDefault.imagemCompartilhamento,
+                logoOrdemServico: document.getElementById('cms-logo-os-url')?.value || adminLogosDefault.logoOrdemServico,
+                imagemCompartilhamento: document.getElementById('cms-img-share-url')?.value || adminLogosDefault.imagemCompartilhamento,
                 
                 // Tema e Cores
                 corFundo: document.getElementById('hex-fundo')?.value || "#EAEAEA",
@@ -2006,12 +2238,7 @@
                 corRodape: document.getElementById('hex-rodape')?.value || "#316AC7",
                 textoBotaoCard: document.getElementById('card-texto-botao')?.value || "COMPRAR 🚀",
                 exibirGabaritoCard: document.getElementById('card-exibir-gabarito')?.value || "com-gabarito",
-                corBotaoGabarito: document.getElementById('hex-btn-gabarito')?.value || "#2966FF",
-                
-                // Offer Timer
-                corOfertaBg: document.getElementById('color-oferta-bg')?.value || "#D60000",
-                corOfertaTitulo: document.getElementById('color-oferta-titulo')?.value || "#FFD706",
-                corOfertaTimerBg: document.getElementById('color-oferta-timer-bg')?.value || "#FFFFFF"
+                corBotaoGabarito: document.getElementById('hex-btn-gabarito')?.value || "#2966FF"
             };
 
             localStorage.setItem('phsublime_admin_logos', JSON.stringify(configLogos));
@@ -2173,6 +2400,7 @@
                 atualizarDropdownCategoriasForm();
                 renderizarBotoesCategoriasAdmin();
                 renderizarTabelaAdminPaginada();
+                calcularEAtualizarRelatorios();
                 if (exibirToast) mostrarToast("Produtos recarregados!");
             } catch (err) {
                 tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-red-500 font-bold">Erro de conexão Supabase.</td></tr>`;
@@ -2235,7 +2463,7 @@
                 const htmlImg = renderImagemHtml(prod.imagem, "w-10 h-10 object-contain rounded border bg-white p-0.5");
 
                 tr.innerHTML = `
-                    <td class="py-3 px-3 text-center"><input type="checkbox" value="${prod.id}" class="chk-prod-item rounded"></td>
+                    <td class="py-3 px-3 text-center"><input type="checkbox" value="${prod.id}" class="chk-prod-item rounded" onchange="atualizarBarraAcoesMassaProdutos()"></td>
                     <td class="py-3 px-4">${htmlImg}</td>
                     <td class="py-3 px-4"><strong class="text-slate-800 font-bold block">${escapeHtml(prod.nome)}</strong><span class="text-[10px] text-slate-400 font-mono">Ref: ${escapeHtml(prod.ref)}</span></td>
                     <td class="py-3 px-4"><span class="bg-blue-100 text-blue-900 font-black text-[10px] px-2 py-0.5 rounded uppercase">${escapeHtml(prod.categoria)}</span></td>
@@ -2264,38 +2492,59 @@
         }
         function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
 
+        // ==================== CORREÇÃO 2: PREENCHIMENTO COMPLETO DO FORMULÁRIO DE PRODUTO ====================
         function editarProdutoModal(id) {
             const prod = adminProdutos.find(p => String(p.id) === String(id));
             if (!prod) return;
+
             document.getElementById('prod-id').value = prod.id;
             document.getElementById('prod-nome').value = prod.nome || '';
             document.getElementById('prod-ref').value = prod.ref || '';
             document.getElementById('prod-categoria').value = prod.categoria || 'Geral';
             document.getElementById('prod-preco').value = parseFloat(prod.preco || 0).toFixed(2);
+            document.getElementById('prod-unidade').value = prod.unidade || 'un';
+            document.getElementById('prod-prazo').value = prod.prazoProducao || 3;
+            document.getElementById('prod-taxa-arte').value = prod.taxaArte ? parseFloat(prod.taxaArte).toFixed(2) : '';
+            document.getElementById('prod-preco-revendedor').value = prod.precoRevendedor ? parseFloat(prod.precoRevendedor).toFixed(2) : '';
+            document.getElementById('prod-imagem').value = prod.imagem || '';
+            document.getElementById('prod-gabarito-link').value = prod.gabaritoUrl || '';
+            document.getElementById('prod-descricao').value = prod.descricao || '';
+
             document.getElementById('modal-form-produto')?.classList.remove('hidden');
         }
 
         async function salvarProdutoSubmit(e) {
             e.preventDefault();
             const id = document.getElementById('prod-id').value;
+
             const payload = {
-                Nome: document.getElementById('prod-nome').value,
-                Referencia: document.getElementById('prod-ref').value,
+                Nome: document.getElementById('prod-nome').value.trim(),
+                Referencia: document.getElementById('prod-ref').value.trim(),
                 Categorias_Secundarias: document.getElementById('prod-categoria').value,
-                Preco_Venda: parseFloat(document.getElementById('prod-preco').value) || 0
+                Preco_Venda: parseFloat(document.getElementById('prod-preco').value) || 0,
+                Unidade_Medida: document.getElementById('prod-unidade').value,
+                prazo_producao: parseInt(document.getElementById('prod-prazo').value) || 3,
+                taxa_arte: parseFloat(document.getElementById('prod-taxa-arte').value) || 0,
+                preco_revendedor: parseFloat(document.getElementById('prod-preco-revendedor').value) || 0,
+                Url: document.getElementById('prod-imagem').value.trim(),
+                gabarito_url: document.getElementById('prod-gabarito-link').value.trim(),
+                Descricao: document.getElementById('prod-descricao').value.trim()
             };
 
             try {
                 if (id) {
                     await supabaseClient.from('produtos').update(payload).eq('id', id);
-                    mostrarToast("Produto atualizado!");
+                    mostrarToast("Produto atualizado no Supabase!");
                 } else {
                     await supabaseClient.from('produtos').insert([payload]);
-                    mostrarToast("Produto cadastrado!");
+                    mostrarToast("Produto cadastrado no Supabase!");
                 }
                 fecharModalFormProduto();
                 await carregarProdutosAdmin();
-            } catch(err) { mostrarToast("Erro ao salvar no Supabase!"); }
+            } catch(err) {
+                console.error("Erro ao salvar produto:", err);
+                mostrarToast("Erro ao salvar no Supabase!");
+            }
         }
 
         function excluirProduto(id) {
@@ -2341,6 +2590,7 @@
                 `;
                 tbody.appendChild(tr);
             });
+            calcularEAtualizarRelatorios();
             if (feedbackComToast) mostrarToast("Pedidos atualizados!");
         }
 
@@ -2399,6 +2649,7 @@
                 `;
                 tbody.appendChild(tr);
             });
+            calcularEAtualizarRelatorios();
         }
 
         function abrirModalFormCliente() { document.getElementById('form-salvar-cliente')?.reset(); document.getElementById('modal-form-cliente')?.classList.remove('hidden'); }
@@ -2502,6 +2753,7 @@
             if (aba === 'pedidos') carregarPedidosAdmin();
             if (aba === 'produtos') carregarProdutosAdmin();
             if (aba === 'clientes') carregarClientesAdmin();
+            if (aba === 'relatorios') calcularEAtualizarRelatorios();
         }
 
         async function inicializarAdmin() {
@@ -2515,6 +2767,7 @@
             carregarClientesSalvosLocal();
             carregarPedidosAdmin();
             await carregarProdutosAdmin();
+            calcularEAtualizarRelatorios();
         }
 
         window.onload = function() {
