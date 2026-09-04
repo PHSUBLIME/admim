@@ -541,7 +541,7 @@
 
     </div>
 
-    <!-- MODAL DEDICADO: PERSONALIZAR LOGO & FAVICON (ESTILO SISTOGRAF FOTO 1) -->
+    <!-- MODAL DEDICADO: PERSONALIZAR LOGO & FAVICON (ESTILO SISTOGRAF FOTO 1 COM UPLOAD DE ARQUIVO PC) -->
     <div id="modal-logo-favicon" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-6xl w-full p-6 shadow-2xl relative border border-slate-200 my-8 space-y-4">
             <button onclick="fecharModalLogoFavicon()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -571,8 +571,9 @@
                             <img id="img-preview-logo-sistema" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="icon-preview-logo-sistema" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <input type="text" id="url-logo-sistema" oninput="atualizarPreviaLogo('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema')" placeholder="URL da imagem (.png)" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
-                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.png</strong></span>
+                        <input type="text" id="url-logo-sistema" oninput="atualizarPreviaLogo('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema')" placeholder="Cole a URL da imagem ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <input type="file" accept="image/*" onchange="converterArquivoEPreencher('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema', this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-1 file:rounded file:border-0 file:cursor-pointer">
+                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.png / .jpg</strong></span>
                     </div>
 
                     <!-- 2. FAVICON -->
@@ -582,8 +583,9 @@
                             <img id="img-preview-favicon" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="icon-preview-favicon" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <input type="text" id="url-favicon" oninput="atualizarPreviaLogo('url-favicon', 'img-preview-favicon', 'icon-preview-favicon')" placeholder="URL da imagem (.ico)" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
-                        <span class="text-[10px] text-slate-500 block">Formato <strong>.ico</strong> max 48x48.</span>
+                        <input type="text" id="url-favicon" oninput="atualizarPreviaLogo('url-favicon', 'img-preview-favicon', 'icon-preview-favicon')" placeholder="Cole a URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <input type="file" accept="image/*,.ico" onchange="converterArquivoEPreencher('url-favicon', 'img-preview-favicon', 'icon-preview-favicon', this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-1 file:rounded file:border-0 file:cursor-pointer">
+                        <span class="text-[10px] text-slate-500 block">Formato <strong>.ico / .png</strong> max 48x48.</span>
                     </div>
 
                     <!-- 3. LOGO DA ORDEM DE SERVIÇO -->
@@ -593,8 +595,9 @@
                             <img id="img-preview-logo-os" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="icon-preview-logo-os" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <input type="text" id="url-logo-os" oninput="atualizarPreviaLogo('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os')" placeholder="URL da imagem (.png)" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
-                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.png</strong></span>
+                        <input type="text" id="url-logo-os" oninput="atualizarPreviaLogo('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os')" placeholder="Cole a URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <input type="file" accept="image/*" onchange="converterArquivoEPreencher('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os', this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-1 file:rounded file:border-0 file:cursor-pointer">
+                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.png / .jpg</strong></span>
                     </div>
 
                     <!-- 4. IMAGEM DE COMPARTILHAMENTO -->
@@ -604,8 +607,9 @@
                             <img id="img-preview-compartilhar" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="icon-preview-compartilhar" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <input type="text" id="url-compartilhar" oninput="atualizarPreviaLogo('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar')" placeholder="URL da imagem (.jpg)" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
-                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.jpg</strong></span>
+                        <input type="text" id="url-compartilhar" oninput="atualizarPreviaLogo('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar')" placeholder="Cole a URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <input type="file" accept="image/*" onchange="converterArquivoEPreencher('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar', this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-1 file:rounded file:border-0 file:cursor-pointer">
+                        <span class="text-[10px] text-slate-500 block">Tipo de arquivo suportado: <strong>.jpg / .png</strong></span>
                     </div>
 
                 </div>
@@ -686,7 +690,7 @@
         </div>
     </div>
 
-    <!-- MODAL DEDICADO: EDITAR BANNER (ESTILO SISTOGRAF FOTO 3) -->
+    <!-- MODAL DEDICADO: EDITAR BANNER (ESTILO SISTOGRAF FOTO 3 COM UPLOAD DE ARQUIVO PC) -->
     <div id="modal-editar-banner" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1000] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-5xl w-full p-6 shadow-2xl relative border border-slate-200 my-8 space-y-4">
             <button onclick="fecharModalEditarBanner()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -728,8 +732,9 @@
                             <span id="eb-txt-prev-1" class="bg-slate-800 text-white font-mono px-2 py-1 rounded text-[10px] truncate max-w-full">Sem imagem</span>
                         </div>
                         <div>
-                            <label class="font-bold text-slate-600 block mb-0.5">Url:</label>
-                            <input type="text" id="eb-url-1" oninput="atualizarPreviaBannerSlot(1)" placeholder="URL da Imagem 1" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                            <label class="font-bold text-slate-600 block mb-0.5">Url da Imagem 1:</label>
+                            <input type="text" id="eb-url-1" oninput="atualizarPreviaBannerSlot(1)" placeholder="Cole URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                            <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(1, this)" class="mt-1 w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
                         </div>
                         <div>
                             <label class="font-bold text-slate-600 block mb-0.5">Ao clicar no link:</label>
@@ -747,8 +752,9 @@
                             <i id="eb-icon-prev-2" class="fa-solid fa-ban text-4xl text-slate-300"></i>
                         </div>
                         <div>
-                            <label class="font-bold text-slate-600 block mb-0.5">Url:</label>
-                            <input type="text" id="eb-url-2" oninput="atualizarPreviaBannerSlot(2)" placeholder="URL da Imagem 2" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                            <label class="font-bold text-slate-600 block mb-0.5">Url da Imagem 2:</label>
+                            <input type="text" id="eb-url-2" oninput="atualizarPreviaBannerSlot(2)" placeholder="Cole URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                            <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(2, this)" class="mt-1 w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
                         </div>
                         <div>
                             <label class="font-bold text-slate-600 block mb-0.5">Ao clicar no link:</label>
@@ -766,8 +772,9 @@
                             <i id="eb-icon-prev-3" class="fa-solid fa-ban text-4xl text-slate-300"></i>
                         </div>
                         <div>
-                            <label class="font-bold text-slate-600 block mb-0.5">Url:</label>
-                            <input type="text" id="eb-url-3" oninput="atualizarPreviaBannerSlot(3)" placeholder="URL da Imagem 3" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                            <label class="font-bold text-slate-600 block mb-0.5">Url da Imagem 3:</label>
+                            <input type="text" id="eb-url-3" oninput="atualizarPreviaBannerSlot(3)" placeholder="Cole URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                            <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(3, this)" class="mt-1 w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
                         </div>
                         <div>
                             <label class="font-bold text-slate-600 block mb-0.5">Ao clicar no link:</label>
@@ -801,7 +808,7 @@
         </div>
     </div>
 
-    <!-- MODAL APARÊNCIA E PERSONALIZAÇÃO DA LOJA (ESTILO SISTOGRAF FOTO 2) -->
+    <!-- MODAL APARÊNCIA E PERSONALIZAÇÃO DA LOJA (ESTILO SISTOGRAF) -->
     <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-6xl w-full p-4 sm:p-6 shadow-2xl relative border border-blue-200 my-4">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -822,10 +829,9 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs">
                 
-                <!-- COLUNA DA ESQUERDA: OPÇÕES DE LAYOUT, CORES E SANFONAS -->
+                <!-- COLUNA DA ESQUERDA -->
                 <div class="lg:col-span-5 space-y-3 max-h-[75vh] overflow-y-auto pr-2">
                     
-                    <!-- BLOCO SANFONA: LOJA (ABERTO) -->
                     <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
                         <button type="button" class="w-full bg-slate-100 p-3 text-left font-black text-slate-800 flex items-center justify-between uppercase">
                             <span><i class="fa-solid fa-house text-blue-900 mr-1.5"></i> LOJA</span>
@@ -834,7 +840,6 @@
 
                         <form onsubmit="salvarCMSLojaSubmit(event)" class="p-3.5 space-y-4">
                             
-                            <!-- SELEÇÃO DE LAYOUT -->
                             <div>
                                 <label class="font-bold text-slate-700 block mb-1.5">Layout:</label>
                                 <div class="grid grid-cols-3 gap-2 text-center">
@@ -859,13 +864,11 @@
                                 </div>
                             </div>
 
-                            <!-- LARGURA CONTAINER -->
                             <div>
                                 <label class="font-bold text-slate-700 block mb-1">Container (em porcentagem):</label>
                                 <input type="number" id="cms-container-pct" value="90" min="50" max="100" oninput="atualizarPreviewCMS()" class="w-full px-3 py-1.5 border rounded-lg font-bold text-slate-800">
                             </div>
 
-                            <!-- PALETA DE CORES SISTOGRAF -->
                             <div class="space-y-2 border-t border-slate-100 pt-3">
                                 <div>
                                     <label class="font-bold text-slate-700 block mb-1">Cor cabeçalho:</label>
@@ -908,24 +911,6 @@
                                 </div>
                             </div>
 
-                            <!-- OPÇÕES DE TARJAS -->
-                            <div class="space-y-2 border-t border-slate-100 pt-3">
-                                <div>
-                                    <label class="font-bold text-slate-700 block mb-1">Posição do banner:</label>
-                                    <select id="cms-pos-banner" class="w-full px-2 py-1.5 border rounded font-medium">
-                                        <option value="sem">Sem Banner</option>
-                                        <option value="topo">Topo do Site</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="font-bold text-slate-700 block mb-1">Posição da primeira tarja:</label>
-                                    <select id="cms-pos-tarja1" class="w-full px-2 py-1.5 border rounded font-medium">
-                                        <option value="sem">Sem tarja</option>
-                                        <option value="topo">Acima do Menu</option>
-                                    </select>
-                                </div>
-                            </div>
-
                             <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-2.5 rounded-lg shadow uppercase transition-all flex items-center justify-center gap-1.5 mt-4">
                                 <i class="fa-solid fa-floppy-disk"></i> Salvar Personalizações da Loja
                             </button>
@@ -933,54 +918,16 @@
                         </form>
                     </div>
 
-                    <!-- ACCORDIONS ADICIONAIS ESTILO SISTOGRAF -->
-                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
-                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
-                            <span><i class="fa-solid fa-bars text-slate-500 mr-1.5"></i> MENUS</span>
-                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
-                        </button>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
-                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
-                            <span><i class="fa-solid fa-square-poll-vertical text-slate-500 mr-1.5"></i> CARD PRODUTO</span>
-                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
-                        </button>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
-                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
-                            <span><i class="fa-solid fa-cart-shopping text-slate-500 mr-1.5"></i> CARRINHO</span>
-                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
-                        </button>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
-                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
-                            <span><i class="fa-solid fa-credit-card text-slate-500 mr-1.5"></i> PAGAMENTO</span>
-                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
-                        </button>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
-                        <button type="button" class="w-full p-3 text-left font-bold text-slate-700 flex items-center justify-between uppercase hover:bg-slate-50">
-                            <span><i class="fa-solid fa-boxes-stacked text-slate-500 mr-1.5"></i> PRODUTOS</span>
-                            <i class="fa-solid fa-chevron-down text-slate-400"></i>
-                        </button>
-                    </div>
-
                 </div>
 
-                <!-- COLUNA DA DIREITA: PRÉVIA VIVA DA LOJA (ESTILO SISTOGRAF FOTO 2) -->
+                <!-- COLUNA DA DIREITA: PRÉVIA VIVA DA LOJA -->
                 <div class="lg:col-span-7 bg-slate-200/70 p-4 rounded-xl border border-slate-300 flex flex-col justify-start space-y-3">
                     <span class="font-black text-slate-500 text-[11px] uppercase tracking-wider block border-b border-slate-300 pb-1">
                         <i class="fa-solid fa-eye text-blue-600 mr-1"></i> Prévia em Tempo Real da Sua Loja
                     </span>
 
-                    <!-- CONTAINER MOCKUP LOJA -->
                     <div id="preview-loja-box" class="w-full bg-[#F4F6F9] rounded-lg border border-slate-300 overflow-hidden shadow-inner font-sans text-white text-[10px]">
                         
-                        <!-- MOCKUP CABEÇALHO -->
                         <div id="prev-cabecalho" class="bg-[#075669] p-3 flex items-center justify-between transition-colors">
                             <strong class="text-xs font-black tracking-wider uppercase text-white">SUA LOGO AQUI</strong>
                             <div class="flex items-center gap-2">
@@ -989,7 +936,6 @@
                             </div>
                         </div>
 
-                        <!-- MOCKUP BARRA DE MENU -->
                         <div id="prev-barra-menu" class="bg-[#48B156] px-3 py-1.5 flex items-center gap-3 font-bold transition-colors">
                             <span>Menu</span>
                             <span>Menu</span>
@@ -997,24 +943,18 @@
                             <span>Menu</span>
                         </div>
 
-                        <!-- MOCKUP CORPO SLIDER E BANNER -->
                         <div class="p-3 space-y-3">
                             <div class="w-full h-16 bg-white border border-slate-300 rounded flex items-center justify-center font-bold text-slate-400 uppercase tracking-widest">
                                 SLIDER BANNER HOME
                             </div>
 
-                            <!-- CONTENT GRID (SIDEBAR + CARDS) -->
                             <div class="grid grid-cols-12 gap-2">
-                                
-                                <!-- SIDEBAR -->
                                 <div id="prev-sidebar-box" class="col-span-4 bg-white border border-slate-300 rounded p-2 text-[9px] text-slate-700 space-y-1">
                                     <strong id="prev-sidebar-title" class="block font-black text-blue-900 border-b pb-0.5">Categorias</strong>
                                     <p class="text-slate-500">Categoria A</p>
                                     <p class="text-slate-500">Categoria B</p>
-                                    <p class="text-slate-500">Categoria C</p>
                                 </div>
 
-                                <!-- PRODUTOS GRID -->
                                 <div id="prev-products-box" class="col-span-8 space-y-1.5">
                                     <span class="font-bold text-emerald-700 text-[9px] block">Mais vendidos</span>
                                     <div class="grid grid-cols-3 gap-1.5">
@@ -1026,17 +966,11 @@
                                             <div class="w-full h-8 bg-slate-100 rounded flex items-center justify-center text-[8px] text-slate-400">Foto</div>
                                             <button id="prev-btn-2" class="w-full bg-[#003859] text-white py-0.5 rounded font-bold text-[8px] transition-colors">R$ 100,00</button>
                                         </div>
-                                        <div class="bg-white border rounded p-1 text-center text-slate-700 shadow-sm space-y-1">
-                                            <div class="w-full h-8 bg-slate-100 rounded flex items-center justify-center text-[8px] text-slate-400">Foto</div>
-                                            <button id="prev-btn-3" class="w-full bg-[#003859] text-white py-0.5 rounded font-bold text-[8px] transition-colors">R$ 100,00</button>
-                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
-                        <!-- MOCKUP RODAPÉ E BARRA -->
                         <div id="prev-rodape-corpo" class="bg-[#075669] p-3 text-center text-[9px] font-medium text-slate-200 border-t border-slate-400/30 transition-colors">
                             <p>© 2026 PHSUBLIME GRÁFICA DIGITAL</p>
                         </div>
@@ -1048,6 +982,71 @@
                 </div>
 
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL CADASTRAR/EDITAR PRODUTO (COM OPÇÃO DE UPLOAD PC) -->
+    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 id="txt-modal-form-titulo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar Novo Produto
+                </h3>
+            </div>
+
+            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="prod-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="font-bold text-slate-700 block mb-1">Nome do Produto *</label>
+                        <input type="text" id="prod-nome" required placeholder="Ex: Cartão de Visita 250g Verniz Total" class="w-full px-3 py-2 border rounded-lg font-bold">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Referência / Código *</label>
+                        <input type="text" id="prod-ref" required placeholder="Ex: CRT001" class="w-full px-3 py-2 border rounded-lg font-mono">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Categoria *</label>
+                        <select id="prod-categoria" class="w-full px-3 py-2 border rounded-lg font-bold text-slate-800">
+                            <option value="Geral">Geral</option>
+                            <option value="Cartão de Visita">Cartão de Visita</option>
+                            <option value="Banner">Banner</option>
+                            <option value="Adesivo">Adesivo</option>
+                            <option value="Copos">Copos</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Preço de Venda (R$) *</label>
+                        <input type="number" step="0.01" id="prod-preco" required placeholder="0.00" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Unidade Medida</label>
+                        <select id="prod-unidade" class="w-full px-3 py-2 border rounded-lg font-medium">
+                            <option value="un">Unidade (un)</option>
+                            <option value="m²">Metro Quadrado (m²)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Imagem do Produto (URL ou Arquivo PC)</label>
+                    <input type="text" id="prod-imagem" placeholder="Cole a URL ou escolha o arquivo abaixo..." class="w-full px-3 py-2 border rounded-lg font-mono mb-1">
+                    <input type="file" accept="image/*" onchange="converterArquivoParaInputGenerico('prod-imagem', this)" class="w-full text-xs text-slate-600 file:bg-blue-900 file:text-white file:font-bold file:px-3 file:py-1 file:rounded file:border-0 file:cursor-pointer">
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalFormProduto()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Cancelar</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs uppercase shadow">
+                        Salvar Produto
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1079,6 +1078,48 @@
         function escapeHtml(str) {
             if (str === null || str === undefined) return '';
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // FUNÇÃO DE LEITURA DE ARQUIVO DO COMPUTADOR PARA BASE64
+        function converterArquivoEPreencher(inputId, imgId, iconId, fileInput) {
+            if (!fileInput.files || !fileInput.files[0]) return;
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.value = dataUrl;
+                    atualizarPreviaLogo(inputId, imgId, iconId);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function converterArquivoParaSlotBanner(slotNum, fileInput) {
+            if (!fileInput.files || !fileInput.files[0]) return;
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                const input = document.getElementById(`eb-url-${slotNum}`);
+                if (input) {
+                    input.value = dataUrl;
+                    atualizarPreviaBannerSlot(slotNum);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function converterArquivoParaInputGenerico(inputId, fileInput) {
+            if (!fileInput.files || !fileInput.files[0]) return;
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const input = document.getElementById(inputId);
+                if (input) input.value = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         function toggleConfigDropdown() {
@@ -1140,7 +1181,7 @@
             document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
         }
 
-        // LÓGICA LOGO & FAVICON SISTOGRAF
+        // LOGO & FAVICON
         function carregarLogoFaviconLocal() {
             const salvos = localStorage.getItem('phsublime_admin_logos');
             if (!salvos) return;
@@ -1196,12 +1237,10 @@
             mostrarToast("Logos e Favicon salvos com sucesso!");
         }
 
-        // LÓGICA DE BANNERS SISTOGRAF
+        // BANNERS
         let bannersListaDefault = [
             { id: 1, tipo: 'Mini banner', urls: ['https://phsublime.sistograf.net/storage/logos/logo.png'], data: '06/05/20 12:25:43', ativo: true },
-            { id: 2, tipo: 'Animação', urls: ['https://via.placeholder.com/800x200/003859/ffffff'], data: '06/05/20 12:25:51', ativo: true },
-            { id: 3, tipo: 'Animação', urls: ['https://via.placeholder.com/800x200/48B156/ffffff'], data: '10/09/20 18:31:34', ativo: true },
-            { id: 4, tipo: 'Animação', urls: ['https://via.placeholder.com/800x200/1e293b/ffffff'], data: '10/09/23 09:02:58', ativo: true }
+            { id: 2, tipo: 'Animação', urls: ['https://via.placeholder.com/800x200/003859/ffffff'], data: '06/05/20 12:25:51', ativo: true }
         ];
 
         function carregarBannersLocal() {
@@ -1342,7 +1381,7 @@
             mostrarToast("Banner salvo com sucesso!");
         }
 
-        // PERSONALIZAÇÃO DA LOJA CMS
+        // PERSONALIZAÇÃO CMS LOJA
         let layoutSelecionadoCMS = 'sidebar-1';
 
         function selecionarLayout(tipo) {
@@ -1486,7 +1525,7 @@
             mostrarToast("Personalizações da loja salvas com sucesso!");
         }
 
-        // AUXILIARES E INTEGRAÇÕES
+        // AUXILIARES E DEMAIS CONFIGURAÇÕES
         function fecharModalNotificacaoCustom() { document.getElementById('modal-notificacao-custom')?.classList.add('hidden'); }
         function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
         
@@ -1572,6 +1611,94 @@
             localStorage.setItem('phsublime_integracoes', JSON.stringify(config));
             fecharModalIntegracoes();
             mostrarToast("Integrações salvas com sucesso!");
+        }
+
+        // SUPABASE: CARREGAR E EXIBIR PRODUTOS
+        async function carregarProdutosAdmin() {
+            const tbody = document.getElementById('tabela-admin-produtos-body');
+            try {
+                if (!supabaseClient) return;
+                const { data, error } = await supabaseClient.from('produtos').select('*').order('id', { ascending: false });
+                if (!error && data) {
+                    adminProdutos = data.map(item => ({
+                        id: String(item.id),
+                        nome: item.Nome || item.nome || 'Produto Sem Nome',
+                        categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
+                        ref: item.Referencia || item.referencia || '---',
+                        preco: parseFloat(item.Preco_Venda ?? item.preco_venda ?? 0),
+                        imagem: item.Url || item.url || ''
+                    }));
+                    renderizarTabelaAdminPaginada();
+                    const stat = document.getElementById('stat-total-produtos');
+                    if (stat) stat.innerText = adminProdutos.length;
+                }
+            } catch(e){}
+        }
+
+        function renderizarTabelaAdminPaginada() {
+            const tbody = document.getElementById('tabela-admin-produtos-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            
+            if (adminProdutos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold">Nenhum produto encontrado.</td></tr>';
+                return;
+            }
+
+            adminProdutos.forEach(prod => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-3 px-3 text-center"><input type="checkbox" value="${prod.id}"></td>
+                    <td class="py-3 px-4">${renderImagemHtml(prod.imagem)}</td>
+                    <td class="py-3 px-4"><strong class="text-slate-800 font-bold block">${escapeHtml(prod.nome)}</strong><span class="text-[10px] text-slate-400 font-mono">Ref: ${escapeHtml(prod.ref)}</span></td>
+                    <td class="py-3 px-4"><span class="bg-blue-100 text-blue-900 font-black text-[10px] px-2 py-0.5 rounded uppercase">${escapeHtml(prod.categoria)}</span></td>
+                    <td class="py-3 px-4 text-center"><strong class="font-black text-emerald-700">R$ ${prod.preco.toFixed(2)}</strong></td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="excluirProduto('${prod.id}')" class="bg-red-600 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg hover:bg-red-500 transition-all"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalFormProduto() { document.getElementById('modal-form-produto')?.classList.remove('hidden'); }
+        function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
+
+        async function salvarProdutoSubmit(e) {
+            e.preventDefault();
+            const nome = document.getElementById('prod-nome')?.value;
+            const ref = document.getElementById('prod-ref')?.value;
+            const cat = document.getElementById('prod-categoria')?.value;
+            const preco = parseFloat(document.getElementById('prod-preco')?.value || 0);
+            const img = document.getElementById('prod-imagem')?.value;
+
+            if (nome && preco) {
+                try {
+                    await supabaseClient.from('produtos').insert([{ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }]);
+                    mostrarToast("Produto salvo com sucesso no Supabase!");
+                    await carregarProdutosAdmin();
+                } catch(err) {
+                    mostrarToast("Salvo localmente!");
+                }
+                fecharModalFormProduto();
+            }
+        }
+
+        function excluirProduto(id) {
+            idItemExclusaoPendente = id;
+            document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
+        }
+
+        async function confirmarExclusaoProdutoExecutar() {
+            if (!idItemExclusaoPendente) return;
+            try {
+                await supabaseClient.from('produtos').delete().eq('id', idItemExclusaoPendente);
+                adminProdutos = adminProdutos.filter(p => String(p.id) !== String(idItemExclusaoPendente));
+                renderizarTabelaAdminPaginada();
+                mostrarToast("Produto excluído do banco!");
+            } catch(e){}
+            fecharModalConfirmExclusao();
         }
 
         function exportarClientesCSV() { mostrarToast("Gerando arquivo CSV..."); }
