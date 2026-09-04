@@ -267,7 +267,7 @@
 
     </div>
 
-    <!-- MODAL DETALHES DO PEDIDO (IGUAL AO SEU SISTEMA ANTIGO) -->
+    <!-- MODAL DETALHES DO PEDIDO -->
     <div id="modal-detalhes-pedido-admin" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalDetalhesPedido()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -491,7 +491,7 @@
                         nome: "700un. Adesivo Brilho 0,08 M² + Corte Contorno (DOCERIA VIVI)",
                         especificacao: "Vinil Brilho 0,08 | Cores: 4x0 | L: 0.04m - A: 0.04m",
                         subtotal: 91.07,
-                        arquivoUrl: "https://phsublime.com.br/admin/pedidos/pedido/75/itens/94/arquivos/41/75_94(1-1)_(700unid)_sign03_Adesivo-Brilho-0-08-M-Corte-Contorno_4x0_Frente.pdf",
+                        arquivoUrl: "https://drive.google.com", // Link seguro de exemplo
                         arquivoNome: "PD75Y19RYI_IT94frente.pdf"
                     }
                 ]
@@ -617,10 +617,16 @@
             document.getElementById('txt-modal-obs-interna').value = p.obsInterna || '';
 
             // Itens
+            renderizarItensPedidoModal(p);
+
+            document.getElementById('modal-detalhes-pedido-admin').classList.remove('hidden');
+        }
+
+        function renderizarItensPedidoModal(p) {
             const tbodyItens = document.getElementById('tabela-detalhes-itens-pedido');
             tbodyItens.innerHTML = '';
 
-            p.itens.forEach(it => {
+            p.itens.forEach((it, idx) => {
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-100 hover:bg-slate-50";
                 tr.innerHTML = `
@@ -630,9 +636,14 @@
                         <span class="text-[10px] text-slate-400 block">${it.especificacao}</span>
                     </td>
                     <td class="py-2.5 px-3 text-center">
-                        <a href="${it.arquivoUrl}" download class="bg-blue-100 hover:bg-blue-200 text-blue-900 font-bold px-2.5 py-1 rounded text-[11px] inline-flex items-center gap-1">
-                            <i class="fa-solid fa-cloud-arrow-down"></i> Baixar ${it.arquivoNome}
-                        </a>
+                        <div class="flex items-center justify-center gap-1">
+                            <a href="${it.arquivoUrl}" target="_blank" class="bg-blue-100 hover:bg-blue-200 text-blue-900 font-bold px-2.5 py-1 rounded text-[11px] inline-flex items-center gap-1">
+                                <i class="fa-solid fa-cloud-arrow-down"></i> Abrir / Baixar ${it.arquivoNome}
+                            </a>
+                            <button onclick="editarLinkArquivoItem(${idx})" class="text-slate-400 hover:text-blue-700 p-1 font-bold" title="Alterar Link do Arquivo">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </td>
                     <td class="py-2.5 px-3 text-right font-black text-slate-800">
                         R$ ${it.subtotal.toFixed(2)}
@@ -640,8 +651,19 @@
                 `;
                 tbodyItens.appendChild(tr);
             });
+        }
 
-            document.getElementById('modal-detalhes-pedido-admin').classList.remove('hidden');
+        function editarLinkArquivoItem(indexItem) {
+            if (!pedidoEmEdicaoModal || !pedidoEmEdicaoModal.itens[indexItem]) return;
+
+            const item = pedidoEmEdicaoModal.itens[indexItem];
+            const novoLink = prompt("Cole aqui o link do arquivo do cliente (Google Drive, Dropbox, Canva, Supabase, etc.):", item.arquivoUrl);
+
+            if (novoLink && novoLink.trim() !== "") {
+                item.arquivoUrl = novoLink.trim();
+                renderizarItensPedidoModal(pedidoEmEdicaoModal);
+                mostrarToast("Link do arquivo atualizado com sucesso!");
+            }
         }
 
         function fecharModalDetalhesPedido() {
