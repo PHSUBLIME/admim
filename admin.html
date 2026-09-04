@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <!-- CAIXA DE CONFIRMAÇÃO DE EXCLUSÃO DE PRODUTO -->
+    <!-- CAIXA DE CONFIRMAÇÃO DE EXCLUSÃO (PRODUTO OU PEDIDO) -->
     <div id="modal-confirm-exclusao" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-red-200 relative">
             <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
@@ -57,13 +57,13 @@
             </div>
             <div>
                 <h3 class="text-base font-black text-slate-800 font-heading uppercase">Confirmar Exclusão</h3>
-                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este item do banco de dados?</p>
+                <p id="txt-confirm-exclusao-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este item do sistema?</p>
             </div>
             <div class="grid grid-cols-2 gap-3 pt-2">
                 <button onclick="fecharModalConfirmExclusao()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl text-xs uppercase transition-all">
                     Cancelar
                 </button>
-                <button onclick="confirmarExclusaoProdutoExecutar()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow transition-all">
+                <button id="btn-confirmar-exclusao-exec" onclick="confirmarExclusaoProdutoExecutar()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow transition-all">
                     Sim, Excluir
                 </button>
             </div>
@@ -198,7 +198,7 @@
                         <div>
                             <span class="text-xs text-slate-500 font-bold block uppercase">Relatório Financeiro</span>
                             <strong id="card-home-faturamento-total" class="text-xl font-black text-emerald-600">R$ 107,02</strong>
-                            <span class="text-[11px] text-amber-600 font-bold group-hover:underline block mt-1">Ver relatórios <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                            <span class="text-[11px] text-amber-600 font-bold group-hover:underline block mt-1">Ver relatorios <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
                         </div>
                         <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-xl flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-all">
                             <i class="fa-solid fa-chart-line"></i>
@@ -270,11 +270,19 @@
                     </div>
                 </div>
 
+                <!-- FILTRO RÁPIDO DE PEDIDOS POR SITUAÇÃO -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 space-y-2">
+                    <span class="text-[11px] font-black text-slate-500 uppercase block tracking-wider"><i class="fa-solid fa-filter text-amber-500"></i> Filtrar Pedidos por Situação:</span>
+                    <div id="container-botoes-filtros-pedidos" class="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap pb-1 text-xs font-bold">
+                        <!-- Gerado Dinamicamente -->
+                    </div>
+                </div>
+
                 <!-- TABELA DE PEDIDOS -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="bg-[#316AC7] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
                         <span><i class="fa-solid fa-clipboard-list text-amber-300"></i> Pedidos Recentes</span>
-                        <span class="bg-amber-400 text-blue-950 font-black px-2 py-0.5 rounded text-[10px]">Ativos</span>
+                        <span id="txt-count-pedidos-tabela" class="bg-amber-400 text-blue-950 font-black px-2 py-0.5 rounded text-[10px]">1 Pedido</span>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -286,7 +294,7 @@
                                     <th class="py-3 px-4">FORMA ENTREGA</th>
                                     <th class="py-3 px-4 text-center">TOTAL (R$)</th>
                                     <th class="py-3 px-4 text-center">SITUAÇÃO</th>
-                                    <th class="py-3 px-4 text-center">AÇÕES</th>
+                                    <th class="py-3 px-4 text-center w-36">AÇÕES</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-admin-pedidos-body" class="divide-y divide-slate-100">
@@ -308,10 +316,13 @@
                     </div>
 
                     <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <button onclick="carregarProdutosAdmin(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
+                        <button onclick="abrirModalAcabamentos()" class="bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-scissors"></i> Acabamentos
+                        </button>
+                        <button onclick="carregarProdutosAdmin(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all shadow flex items-center gap-1.5">
                             <i class="fa-solid fa-rotate-right"></i> Recarregar
                         </button>
-                        <button onclick="abrirModalFormProduto()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-5 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-2 uppercase">
+                        <button onclick="abrirModalFormProduto()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-1.5 uppercase">
                             <i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Produto
                         </button>
                     </div>
@@ -539,6 +550,53 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE ACABAMENTOS DE GRÁFICA (NOVO!) -->
+    <div id="modal-acabamentos" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-purple-200 my-8">
+            <button onclick="fecharModalAcabamentos()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-purple-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-scissors text-amber-500"></i> Acabamentos e Serviços Gráficos
+                </h3>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <form onsubmit="salvarAcabamentoSubmit(event)" class="bg-purple-50 p-3 rounded-xl border border-purple-200 space-y-2">
+                    <span class="font-bold text-purple-900 uppercase block text-[11px]">Adicionar Novo Acabamento:</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <input type="text" id="acab-nome" required placeholder="Nome (Ex: Ilhós nas 4 Pontas)" class="px-3 py-1.5 border rounded-lg focus:outline-none">
+                        <input type="number" step="0.01" id="acab-valor" required placeholder="Valor Adicional R$" class="px-3 py-1.5 border rounded-lg focus:outline-none font-bold text-emerald-700">
+                        <input type="number" id="acab-prazo" required placeholder="Prazo Extra (Dias)" class="px-3 py-1.5 border rounded-lg focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-purple-900 hover:bg-purple-800 text-white font-black py-2 rounded-lg text-xs uppercase shadow transition-all">
+                        + Salvar Acabamento
+                    </button>
+                </form>
+
+                <div class="border border-slate-200 rounded-xl overflow-hidden bg-white max-h-48 overflow-y-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+                                <th class="py-2 px-3">ACABAMENTO</th>
+                                <th class="py-2 px-3 text-center">VALOR EXTRA</th>
+                                <th class="py-2 px-3 text-center">PRAZO</th>
+                                <th class="py-2 px-3 text-center">AÇÃO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-acabamentos-body" class="divide-y divide-slate-100">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex justify-end">
+                <button type="button" onclick="fecharModalAcabamentos()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Fechar</button>
+            </div>
         </div>
     </div>
 
@@ -915,12 +973,25 @@
 
         const SENHA_ADMIN = '1234';
         let adminProdutos = [];
-        let idProdutoExclusaoPendente = null;
+        let idItemExclusaoPendente = null;
+        let tipoItemExclusao = 'produto'; // 'produto' ou 'pedido'
 
         // PAGINAÇÃO E FILTRO DE CATEGORIAS DA TABELA DO ADMIN
         let categoriaFiltroAdmin = '';
         let paginaAtualAdmin = 1;
         const ITENS_POR_PAGINA_ADMIN = 15;
+
+        // FILTRO DE SITUAÇÃO DE PEDIDOS
+        let situacaoFiltroPedidosAdmin = '';
+
+        // BASE DE ACABAMENTOS
+        let adminAcabamentosDefault = [
+            { id: 1, nome: "Tubete + Cordão", valor: 5.00, prazo: 1 },
+            { id: 2, nome: "Ilhós nas 4 pontas", valor: 8.00, prazo: 1 },
+            { id: 3, nome: "Corte Contorno / Especial", valor: 15.00, prazo: 2 },
+            { id: 4, nome: "Laminação Fosca", valor: 12.00, prazo: 1 }
+        ];
+        let adminAcabamentos = [];
 
         // BASE DE CLIENTES
         let adminClientesDefault = [
@@ -1039,6 +1110,25 @@
             localStorage.setItem('phsublime_admin_clientes', JSON.stringify(adminClientes));
         }
 
+        // CARREGA ACABAMENTOS
+        function carregarAcabamentosSalvosLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_acabamentos');
+            if (salvos) {
+                try {
+                    adminAcabamentos = JSON.parse(salvos);
+                } catch(e) {
+                    adminAcabamentos = adminAcabamentosDefault;
+                }
+            } else {
+                adminAcabamentos = adminAcabamentosDefault;
+                localStorage.setItem('phsublime_admin_acabamentos', JSON.stringify(adminAcabamentos));
+            }
+        }
+
+        function salvarAcabamentosSalvosLocal() {
+            localStorage.setItem('phsublime_admin_acabamentos', JSON.stringify(adminAcabamentos));
+        }
+
         // NOVO PEDIDO MANUAL SUBMIT
         function abrirModalNovoPedidoManual() {
             document.getElementById('nped-cliente-nome').value = '';
@@ -1112,6 +1202,66 @@
             mostrarToast("Novo pedido criado com sucesso!");
         }
 
+        // ACABAMENTOS MODAL
+        function abrirModalAcabamentos() {
+            renderizarTabelaAcabamentos();
+            document.getElementById('modal-acabamentos').classList.remove('hidden');
+        }
+
+        function fecharModalAcabamentos() {
+            document.getElementById('modal-acabamentos').classList.add('hidden');
+        }
+
+        function renderizarTabelaAcabamentos() {
+            const tbody = document.getElementById('tabela-acabamentos-body');
+            tbody.innerHTML = '';
+
+            if (adminAcabamentos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-slate-400">Nenhum acabamento cadastrado.</td></tr>`;
+                return;
+            }
+
+            adminAcabamentos.forEach((a, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-2 px-3 font-bold text-slate-800">${escapeHtml(a.nome)}</td>
+                    <td class="py-2 px-3 text-center font-black text-emerald-700">R$ ${parseFloat(a.valor).toFixed(2)}</td>
+                    <td class="py-2 px-3 text-center font-bold text-slate-600">+${a.prazo} dia(s)</td>
+                    <td class="py-2 px-3 text-center">
+                        <button onclick="excluirAcabamento(${idx})" class="text-red-500 hover:text-red-700 font-bold" title="Excluir">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function salvarAcabamentoSubmit(e) {
+            e.preventDefault();
+            const nome = document.getElementById('acab-nome').value;
+            const valor = parseFloat(document.getElementById('acab-valor').value || 0);
+            const prazo = Number(document.getElementById('acab-prazo').value || 1);
+
+            const novoId = adminAcabamentos.length > 0 ? Math.max(...adminAcabamentos.map(a => a.id)) + 1 : 1;
+            adminAcabamentos.push({ id: novoId, nome: nome, valor: valor, prazo: prazo });
+
+            salvarAcabamentosSalvosLocal();
+            renderizarTabelaAcabamentos();
+            document.getElementById('acab-nome').value = '';
+            document.getElementById('acab-valor').value = '';
+            document.getElementById('acab-prazo').value = '';
+            mostrarToast("Acabamento salvo com sucesso!");
+        }
+
+        function excluirAcabamento(idx) {
+            adminAcabamentos.splice(idx, 1);
+            salvarAcabamentosSalvosLocal();
+            renderizarTabelaAcabamentos();
+            mostrarToast("Acabamento removido!");
+        }
+
         // CAIXA DE MENSAGEM CUSTOMIZADA
         function mostrarModalNotificacaoCustom(titulo, mensagem, tipo = 'erro') {
             const modal = document.getElementById('modal-notificacao-custom');
@@ -1140,7 +1290,7 @@
 
         function fecharModalConfirmExclusao() {
             document.getElementById('modal-confirm-exclusao').classList.add('hidden');
-            idProdutoExclusaoPendente = null;
+            idItemExclusaoPendente = null;
         }
 
         // LÓGICA DE CUPOM DE DESCONTO
@@ -1242,7 +1392,35 @@
             });
         }
 
-        // ============ LÓGICA DE PEDIDOS ============
+        // ============ LÓGICA DE PEDIDOS E FILTROS ============
+        function renderizarBotoesFiltrosPedidosAdmin() {
+            const container = document.getElementById('container-botoes-filtros-pedidos');
+            if (!container) return;
+
+            const situacoesSet = ['TODOS', 'CONFIRMADO', 'EM PRODUÇÃO', 'AGUARDANDO PAGAMENTO', 'CONCLUÍDO', 'CANCELADO'];
+
+            let html = '';
+            situacoesSet.forEach(sit => {
+                const keySit = sit === 'TODOS' ? '' : sit;
+                const totalSit = sit === 'TODOS' ? adminPedidos.length : adminPedidos.filter(p => p.situacao.toUpperCase() === sit).length;
+                const estaAtivo = situacaoFiltroPedidosAdmin === keySit;
+
+                html += `
+                    <button onclick="filtrarPedidosPorSituacaoAdmin('${keySit}')" class="px-3 py-1.5 rounded-lg font-black transition-all ${estaAtivo ? 'bg-amber-400 text-blue-950 shadow' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'}">
+                        ${sit} (${totalSit})
+                    </button>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function filtrarPedidosPorSituacaoAdmin(sit) {
+            situacaoFiltroPedidosAdmin = sit;
+            renderizarBotoesFiltrosPedidosAdmin();
+            carregarPedidosAdmin();
+        }
+
         function carregarPedidosAdmin(feedbackComToast = false) {
             carregarPedidosSalvosLocal();
 
@@ -1255,6 +1433,7 @@
             const statTotal = document.getElementById('stat-total-pedidos');
             const cardHomePed = document.getElementById('card-home-pedidos-qtd');
             const badgeTotal = document.getElementById('badge-total-pedidos');
+            const txtCountTabela = document.getElementById('txt-count-pedidos-tabela');
 
             const pedidosPendentesCount = adminPedidos.filter(p => p.situacao !== 'Concluído' && p.situacao !== 'Cancelado').length;
 
@@ -1272,16 +1451,22 @@
 
             tbody.innerHTML = '';
 
-            if (adminPedidos.length === 0) {
+            let pedidosFiltrados = adminPedidos.filter(p => {
+                return !situacaoFiltroPedidosAdmin || p.situacao.toUpperCase() === situacaoFiltroPedidosAdmin.toUpperCase();
+            });
+
+            if (txtCountTabela) txtCountTabela.innerText = `${pedidosFiltrados.length} Pedido(s)`;
+
+            if (pedidosFiltrados.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="6" class="py-8 text-center text-slate-400 font-bold">
-                            Nenhum pedido registrado até o momento.
+                            Nenhum pedido encontrado nesta situação.
                         </td>
                     </tr>
                 `;
             } else {
-                adminPedidos.forEach(p => {
+                pedidosFiltrados.forEach(p => {
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
 
@@ -1309,15 +1494,21 @@
                             <span class="${corBadge} font-black text-[10px] px-2.5 py-1 rounded uppercase">${p.situacao}</span>
                         </td>
                         <td class="py-3 px-4 text-center">
-                            <button onclick="abrirModalDetalhesPedido(${p.id})" class="bg-[#316AC7] hover:bg-blue-800 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg shadow transition-all flex items-center gap-1 mx-auto">
-                                <i class="fa-solid fa-eye"></i> Detalhes
-                            </button>
+                            <div class="flex items-center justify-center gap-1">
+                                <button onclick="abrirModalDetalhesPedido(${p.id})" class="bg-[#316AC7] hover:bg-blue-800 text-white font-bold text-[11px] px-2.5 py-1.5 rounded-lg shadow transition-all flex items-center gap-1" title="Ver Detalhes">
+                                    <i class="fa-solid fa-eye"></i> Detalhes
+                                </button>
+                                <button onclick="excluirPedidoConfirm(${p.id})" class="bg-red-600 hover:bg-red-500 text-white font-bold text-[11px] px-2.5 py-1.5 rounded-lg shadow transition-all flex items-center gap-1" title="Excluir Pedido">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
                         </td>
                     `;
                     tbody.appendChild(tr);
                 });
             }
 
+            renderizarBotoesFiltrosPedidosAdmin();
             carregarRelatoriosFinanceiros();
 
             if (feedbackComToast) {
@@ -1434,6 +1625,13 @@
             const msg = `Olá *${pedidoEmEdicaoModal.cliente.nome}*! 👋\n\nAtualização do seu pedido *${pedidoEmEdicaoModal.codigo}* na *PHSUBLIME GRÁFICA*:\n\n📌 *Situação Atual:* ${pedidoEmEdicaoModal.situacao}\n💰 *Valor Total:* R$ ${pedidoEmEdicaoModal.financeiro.totalVal.toFixed(2)}\n\nQualquer dúvida, estamos à disposição!`;
 
             window.open(`https://wa.me/55${wppFormatado}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function excluirPedidoConfirm(id) {
+            idItemExclusaoPendente = id;
+            tipoItemExclusao = 'pedido';
+            document.getElementById('txt-confirm-exclusao-msg').innerText = "Tem certeza que deseja excluir este pedido do sistema?";
+            document.getElementById('modal-confirm-exclusao').classList.remove('hidden');
         }
 
         // ============ PRODUTOS DO SUPABASE ============
@@ -1788,14 +1986,25 @@
 
         // CONFIRMAÇÃO DE EXCLUSÃO PERSONALIZADA
         function excluirProduto(id) {
-            idProdutoExclusaoPendente = id;
+            idItemExclusaoPendente = id;
+            tipoItemExclusao = 'produto';
+            document.getElementById('txt-confirm-exclusao-msg').innerText = "Tem certeza que deseja excluir este produto do banco de dados?";
             document.getElementById('modal-confirm-exclusao').classList.remove('hidden');
         }
 
         async function confirmarExclusaoProdutoExecutar() {
-            if (!idProdutoExclusaoPendente) return;
+            if (!idItemExclusaoPendente) return;
 
-            const targetId = isNaN(idProdutoExclusaoPendente) ? idProdutoExclusaoPendente : Number(idProdutoExclusaoPendente);
+            if (tipoItemExclusao === 'pedido') {
+                adminPedidos = adminPedidos.filter(p => String(p.id) !== String(idItemExclusaoPendente));
+                salvarPedidosSalvosLocal();
+                carregarPedidosAdmin();
+                fecharModalConfirmExclusao();
+                mostrarToast("Pedido removido com sucesso!");
+                return;
+            }
+
+            const targetId = isNaN(idItemExclusaoPendente) ? idItemExclusaoPendente : Number(idItemExclusaoPendente);
             fecharModalConfirmExclusao();
 
             try {
@@ -1953,7 +2162,6 @@
 
             clienteEmEdicaoCredito.saldoCredito = saldoAtual;
 
-            // ATUALIZAÇÃO AUTOMÁTICA E INSTANTÂNEA DA TABELA
             salvarClientesSalvosLocal();
             carregarClientesAdmin();
             fecharModalCreditoCliente();
@@ -2031,11 +2239,15 @@
                 });
             }
 
-            // ATUALIZAÇÃO AUTOMÁTICA E INSTANTÂNEA DA TABELA
             salvarClientesSalvosLocal();
             carregarClientesAdmin();
             fecharModalFormCliente();
             mostrarToast("Cliente salvo com sucesso!");
+        }
+
+        function carregarClientesExemplo() {
+            carregarClientesAdmin();
+            mostrarToast("Lista de clientes atualizada!");
         }
 
         function mudarAbaAdmin(aba) {
@@ -2066,6 +2278,7 @@
         async function inicializarAdmin() {
             carregarPedidosSalvosLocal();
             carregarClientesSalvosLocal();
+            carregarAcabamentosSalvosLocal();
             carregarPedidosAdmin();
             carregarRelatoriosFinanceiros();
             await carregarProdutosAdmin();
