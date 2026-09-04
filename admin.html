@@ -27,7 +27,7 @@
 </head>
 <body class="bg-slate-100 min-h-screen flex flex-col justify-between">
 
-    <!-- CAIXA DE MENSAGEM BONITINHA (MODAL CUSTOMIZADO) -->
+    <!-- CAIXA DE MENSAGEM CUSTOMIZADA (AVISOS E ERROS) -->
     <div id="modal-notificacao-custom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10000] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-slate-200 relative">
             <div id="notif-custom-icon-box" class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
@@ -40,6 +40,27 @@
             <button onclick="fecharModalNotificacaoCustom()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-xs uppercase shadow transition-all">
                 ENTENDIDO
             </button>
+        </div>
+    </div>
+
+    <!-- CAIXA DE CONFIRMAÇÃO DE EXCLUSÃO (SEM A JANELA CINZA DO NAVEGADOR) -->
+    <div id="modal-confirm-exclusao" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-red-200 relative">
+            <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <div>
+                <h3 class="text-base font-black text-slate-800 font-heading uppercase">Confirmar Exclusão</h3>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este produto do banco de dados?</p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="fecharModalConfirmExclusao()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl text-xs uppercase transition-all">
+                    Cancelar
+                </button>
+                <button onclick="confirmarExclusaoProdutoExecutar()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow transition-all">
+                    Sim, Excluir
+                </button>
+            </div>
         </div>
     </div>
 
@@ -86,7 +107,7 @@
                 <!-- MENU MUDANÇA DE ABAS -->
                 <div class="flex items-center gap-2">
                     <button onclick="mudarAbaAdmin('pedidos')" id="btn-aba-pedidos" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-cart-flatbed"></i> PEDIDOS <span id="badge-total-pedidos" class="bg-amber-400 text-blue-950 text-[10px] px-1.5 py-0.5 rounded-full ml-0.5 font-black">1</span>
+                        <i class="fa-solid fa-cart-flatbed"></i> PEDIDOS <span id="badge-total-pedidos" class="bg-amber-400 text-blue-950 text-[10px] px-1.5 py-0.5 rounded-full ml-0.5 font-black hidden">0</span>
                     </button>
                     <button onclick="mudarAbaAdmin('produtos')" id="btn-aba-produtos" class="px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-boxes-stacked"></i> PRODUTOS
@@ -249,11 +270,16 @@
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
                     <div>
                         <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Base de Clientes</h3>
-                        <p class="text-xs text-slate-500">Consulte os dados cadastrais dos clientes registrados no sistema.</p>
+                        <p class="text-xs text-slate-500">Consulte e edite os dados cadastrais dos clientes registrados no sistema.</p>
                     </div>
-                    <button onclick="carregarClientesExemplo()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all">
-                        <i class="fa-solid fa-rotate-right"></i> Atualizar Lista
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="carregarClientesAdmin()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-all">
+                            <i class="fa-solid fa-rotate-right"></i> Atualizar Lista
+                        </button>
+                        <button onclick="abrirModalFormCliente()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-lg transition-all uppercase flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-plus"></i> Novo Cliente
+                        </button>
+                    </div>
                 </div>
 
                 <!-- TABELA DE CLIENTES -->
@@ -268,6 +294,7 @@
                                     <th class="py-3 px-4">CONTATO / WHATSAPP</th>
                                     <th class="py-3 px-4">ENDEREÇO</th>
                                     <th class="py-3 px-4 text-center">STATUS</th>
+                                    <th class="py-3 px-4 text-center">AÇÕES</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-admin-clientes-body" class="divide-y divide-slate-100">
@@ -463,6 +490,73 @@
         </div>
     </div>
 
+    <!-- MODAL DE FORMULÁRIO DE CLIENTE (CADASTRAR / EDITAR) -->
+    <div id="modal-form-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalFormCliente()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-3">
+                <h3 id="txt-modal-cliente-titulo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-user-gear text-amber-500"></i> Editar Cliente
+                </h3>
+            </div>
+
+            <form id="form-salvar-cliente" onsubmit="salvarClienteSubmit(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="cli-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="font-bold text-slate-700 block mb-1">Nome Completo / Razão Social *</label>
+                        <input type="text" id="cli-nome" required placeholder="Ex: Gabriel Sales da Silva" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Tipo *</label>
+                        <select id="cli-tipo" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
+                            <option value="PF">Pessoa Física (PF)</option>
+                            <option value="PJ">Pessoa Jurídica (PJ)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Documento (CPF / CNPJ) *</label>
+                        <input type="text" id="cli-doc" required placeholder="000.000.000-00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-mono">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">WhatsApp / Telefone *</label>
+                        <input type="text" id="cli-wpp" required placeholder="(21) 99999-9999" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-emerald-700">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">E-mail</label>
+                    <input type="email" id="cli-email" placeholder="cliente@email.com" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Endereço Completo</label>
+                    <input type="text" id="cli-endereco" placeholder="Ex: Estrada da Água Grande, 221 - Irajá / RJ" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Status do Cliente</label>
+                    <select id="cli-status" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
+                        <option value="ATIVO">ATIVO</option>
+                        <option value="INATIVO">INATIVO</option>
+                    </select>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex justify-end gap-3">
+                    <button type="button" onclick="fecharModalFormCliente()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2 uppercase">
+                        <i class="fa-solid fa-floppy-disk"></i> SALVAR CLIENTE
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- TOAST NOTIFICAÇÃO -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-amber-400 px-5 py-3.5 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[1001]">
         <i id="toast-icon" class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
@@ -477,6 +571,32 @@
 
         const SENHA_ADMIN = '1234';
         let adminProdutos = [];
+        let idProdutoExclusaoPendente = null;
+
+        // BASE DE CLIENTES
+        let adminClientesDefault = [
+            {
+                id: 1,
+                nome: "GABRIEL SALES DA SILVA",
+                tipo: "PF",
+                doc: "174.635.767-36",
+                wpp: "(21) 99013-0003",
+                email: "bielyt.cevd@gmail.com",
+                endereco: "Estrada da Água Grande, 221 - Irajá / RJ",
+                status: "ATIVO"
+            },
+            {
+                id: 2,
+                nome: "Vania Btraz",
+                tipo: "PF",
+                doc: "098.090.717-95",
+                wpp: "(91) 99138-5409",
+                email: "robertojor11ge271828@gmail.com",
+                endereco: "Rua Maria Flaviana de Lima, 8 - Bento Ribeiro / RJ",
+                status: "ATIVO"
+            }
+        ];
+        let adminClientes = [];
 
         // BASE DE PEDIDOS
         let adminPedidosDefault = [
@@ -546,7 +666,26 @@
             localStorage.setItem('phsublime_admin_pedidos', JSON.stringify(adminPedidos));
         }
 
-        // MOSTRAR CAIXA DE MENSAGEM CUSTOMIZADA
+        // CARREGA CLIENTES COM PERSISTÊNCIA NO F5
+        function carregarClientesSalvosLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_clientes');
+            if (salvos) {
+                try {
+                    adminClientes = JSON.parse(salvos);
+                } catch(e) {
+                    adminClientes = adminClientesDefault;
+                }
+            } else {
+                adminClientes = adminClientesDefault;
+                salvarClientesSalvosLocal();
+            }
+        }
+
+        function salvarClientesSalvosLocal() {
+            localStorage.setItem('phsublime_admin_clientes', JSON.stringify(adminClientes));
+        }
+
+        // CAIXA DE MENSAGEM CUSTOMIZADA
         function mostrarModalNotificacaoCustom(titulo, mensagem, tipo = 'erro') {
             const modal = document.getElementById('modal-notificacao-custom');
             const iconBox = document.getElementById('notif-custom-icon-box');
@@ -570,6 +709,11 @@
 
         function fecharModalNotificacaoCustom() {
             document.getElementById('modal-notificacao-custom').classList.add('hidden');
+        }
+
+        function fecharModalConfirmExclusao() {
+            document.getElementById('modal-confirm-exclusao').classList.add('hidden');
+            idProdutoExclusaoPendente = null;
         }
 
         // VERIFICA LOGIN SALVO
@@ -626,8 +770,19 @@
             const statTotal = document.getElementById('stat-total-pedidos');
             const badgeTotal = document.getElementById('badge-total-pedidos');
 
+            // CONTA APENAS PEDIDOS PENDENTES/ATIVOS (NÃO CONCLUÍDOS E NÃO CANCELADOS)
+            const pedidosPendentesCount = adminPedidos.filter(p => p.situacao !== 'Concluído' && p.situacao !== 'Cancelado').length;
+
             if (statTotal) statTotal.innerText = adminPedidos.length;
-            if (badgeTotal) badgeTotal.innerText = adminPedidos.length;
+            
+            if (badgeTotal) {
+                badgeTotal.innerText = pedidosPendentesCount;
+                if (pedidosPendentesCount > 0) {
+                    badgeTotal.classList.remove('hidden');
+                } else {
+                    badgeTotal.classList.add('hidden');
+                }
+            }
 
             tbody.innerHTML = '';
 
@@ -646,7 +801,7 @@
 
                     let corBadge = "bg-amber-100 text-amber-800";
                     if (p.situacao === 'Confirmado' || p.situacao === 'Em Produção') corBadge = "bg-blue-100 text-blue-900";
-                    if (p.situacao === 'Concluído') corBadge = "bg-emerald-100 text-emerald-800";
+                    if (p.situacao === 'Concluído') corBadge = "bg-emerald-100 text-emerald-800 font-black";
                     if (p.situacao === 'Cancelado') corBadge = "bg-red-100 text-red-800";
 
                     tr.innerHTML = `
@@ -997,7 +1152,6 @@
                         .eq('id', targetId);
 
                     if (error) {
-                        // TENTA SEM O CAMPO precoDe CASO A COLUNA NÃO EXISTA NO SUPABASE
                         if (error.code === '42703' || String(error.message).includes('precoDe')) {
                             delete payload.precoDe;
                             const { error: err2 } = await supabaseClient
@@ -1045,11 +1199,19 @@
             }
         }
 
-        async function excluirProduto(id) {
-            if (!confirm("Tem certeza que deseja excluir ESTE produto específico do banco de dados?")) return;
+        // CONFIRMAÇÃO DE EXCLUSÃO PERSONALIZADA (SEM O POPUP CINZA DO NAVEGADOR)
+        function excluirProduto(id) {
+            idProdutoExclusaoPendente = id;
+            document.getElementById('modal-confirm-exclusao').classList.remove('hidden');
+        }
+
+        async function confirmarExclusaoProdutoExecutar() {
+            if (!idProdutoExclusaoPendente) return;
+
+            const targetId = isNaN(idProdutoExclusaoPendente) ? idProdutoExclusaoPendente : Number(idProdutoExclusaoPendente);
+            fecharModalConfirmExclusao();
 
             try {
-                const targetId = isNaN(id) ? id : Number(id);
                 const { error } = await supabaseClient
                     .from('produtos')
                     .delete()
@@ -1066,26 +1228,123 @@
             }
         }
 
-        function carregarClientesExemplo() {
+        // ============ LÓGICA DE CLIENTES ============
+        function carregarClientesAdmin() {
+            carregarClientesSalvosLocal();
+
             const tbody = document.getElementById('tabela-admin-clientes-body');
-            tbody.innerHTML = `
-                <tr class="border-b border-slate-100">
-                    <td class="py-3 px-4 font-bold text-slate-800">GABRIEL SALES DA SILVA</td>
-                    <td class="py-3 px-4"><span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold text-[10px]">PF</span></td>
-                    <td class="py-3 px-4 font-mono">174.635.767-36</td>
-                    <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> (21) 99013-0003</td>
-                    <td class="py-3 px-4">Estrada da Água Grande, 221 - Irajá / RJ</td>
-                    <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
-                </tr>
-                <tr class="border-b border-slate-100">
-                    <td class="py-3 px-4 font-bold text-slate-800">Vania Btraz</td>
-                    <td class="py-3 px-4"><span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold text-[10px]">PF</span></td>
-                    <td class="py-3 px-4 font-mono">098.090.717-95</td>
-                    <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> (91) 99138-5409</td>
-                    <td class="py-3 px-4">Rua Maria Flaviana de Lima, 8 - Bento Ribeiro / RJ</td>
-                    <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
-                </tr>
-            `;
+            tbody.innerHTML = '';
+
+            if (adminClientes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="py-8 text-center text-slate-400 font-bold">
+                            Nenhum cliente cadastrado no momento.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            adminClientes.forEach(cli => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
+
+                const corStatus = cli.status === 'ATIVO' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800';
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold text-slate-800">${escapeHtml(cli.nome)}</td>
+                    <td class="py-3 px-4"><span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold text-[10px]">${cli.tipo}</span></td>
+                    <td class="py-3 px-4 font-mono">${escapeHtml(cli.doc)}</td>
+                    <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> ${escapeHtml(cli.wpp)}</td>
+                    <td class="py-3 px-4">${escapeHtml(cli.endereco)}</td>
+                    <td class="py-3 px-4 text-center"><span class="${corStatus} font-black px-2 py-0.5 rounded text-[10px]">${cli.status}</span></td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="editarClienteModal(${cli.id})" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow hover:scale-105 transition-all inline-flex items-center gap-1">
+                            <i class="fa-solid fa-user-pen"></i> Editar
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalFormCliente() {
+            document.getElementById('form-salvar-cliente').reset();
+            document.getElementById('cli-id').value = '';
+            document.getElementById('txt-modal-cliente-titulo').innerHTML = `<i class="fa-solid fa-user-plus text-amber-500"></i> Cadastrar Novo Cliente`;
+            document.getElementById('modal-form-cliente').classList.remove('hidden');
+        }
+
+        function fecharModalFormCliente() {
+            document.getElementById('modal-form-cliente').classList.add('hidden');
+        }
+
+        function editarClienteModal(id) {
+            const cli = adminClientes.find(c => c.id === id);
+            if (!cli) return;
+
+            document.getElementById('cli-id').value = cli.id;
+            document.getElementById('cli-nome').value = cli.nome;
+            document.getElementById('cli-tipo').value = cli.tipo || 'PF';
+            document.getElementById('cli-doc').value = cli.doc;
+            document.getElementById('cli-wpp').value = cli.wpp;
+            document.getElementById('cli-email').value = cli.email || '';
+            document.getElementById('cli-endereco').value = cli.endereco;
+            document.getElementById('cli-status').value = cli.status || 'ATIVO';
+
+            document.getElementById('txt-modal-cliente-titulo').innerHTML = `<i class="fa-solid fa-user-gear text-amber-500"></i> Editar Cliente #${cli.id}`;
+            document.getElementById('modal-form-cliente').classList.remove('hidden');
+        }
+
+        function salvarClienteSubmit(e) {
+            e.preventDefault();
+
+            const id = document.getElementById('cli-id').value;
+            const nome = document.getElementById('cli-nome').value;
+            const tipo = document.getElementById('cli-tipo').value;
+            const doc = document.getElementById('cli-doc').value;
+            const wpp = document.getElementById('cli-wpp').value;
+            const email = document.getElementById('cli-email').value;
+            const endereco = document.getElementById('cli-endereco').value;
+            const status = document.getElementById('cli-status').value;
+
+            if (id && id !== '') {
+                // Editar existente
+                const cli = adminClientes.find(c => c.id === Number(id));
+                if (cli) {
+                    cli.nome = nome;
+                    cli.tipo = tipo;
+                    cli.doc = doc;
+                    cli.wpp = wpp;
+                    cli.email = email;
+                    cli.endereco = endereco;
+                    cli.status = status;
+                }
+            } else {
+                // Criar novo
+                const novoId = adminClientes.length > 0 ? Math.max(...adminClientes.map(c => c.id)) + 1 : 1;
+                adminClientes.push({
+                    id: novoId,
+                    nome: nome,
+                    tipo: tipo,
+                    doc: doc,
+                    wpp: wpp,
+                    email: email,
+                    endereco: endereco,
+                    status: status
+                });
+            }
+
+            salvarClientesSalvosLocal();
+            carregarClientesAdmin();
+            fecharModalFormCliente();
+            mostrarToast("Cliente salvo com sucesso!");
+        }
+
+        function carregarClientesExemplo() {
+            carregarClientesAdmin();
+            mostrarToast("Lista de clientes atualizada!");
         }
 
         function mudarAbaAdmin(aba) {
@@ -1105,11 +1364,12 @@
 
             if (aba === 'pedidos') carregarPedidosAdmin();
             if (aba === 'produtos') carregarProdutosAdmin();
-            if (aba === 'clientes') carregarClientesExemplo();
+            if (aba === 'clientes') carregarClientesAdmin();
         }
 
         async function inicializarAdmin() {
             carregarPedidosSalvosLocal();
+            carregarClientesSalvosLocal();
             carregarPedidosAdmin();
             await carregarProdutosAdmin();
         }
