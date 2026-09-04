@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHSUBLIME - Painel Administrador</title>
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="https://phsublime.sistograf.net/storage/logos/favicon.ico">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body { font-family: 'Open Sans', sans-serif; background-color: #f1f5f9; color: #0f172a; }
+        h1, h2, h3, h4, .font-heading { font-family: 'Roboto', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #cbd5e1; }
+        ::-webkit-scrollbar-thumb { background: #1c0792; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col justify-between">
+
+    <!-- MODAL DE LOGIN / SENHA DE SEGURANÇA -->
+    <div id="modal-login-admin" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-5">
+            <div class="w-16 h-16 bg-blue-900 text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-lg">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <div>
+                <h2 class="text-xl font-black text-blue-950 uppercase font-heading">Painel de Administração</h2>
+                <p class="text-xs text-slate-500 font-semibold mt-1">PHSUBLIME GRÁFICA DIGITAL</p>
+            </div>
+            <form onsubmit="autenticarAdmin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 text-left mb-1">Senha do Administrador *</label>
+                    <input type="password" id="input-senha-admin" required placeholder="Digite a senha (Padrão: 1234)" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-700 text-center font-bold tracking-widest">
+                </div>
+                <button type="submit" class="w-full bg-[#316AC7] hover:bg-blue-800 text-white font-black py-3 rounded-xl shadow-lg transition-all text-sm uppercase flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-key"></i> ACESSAR PAINEL
+                </button>
+            </form>
+            <p class="text-[11px] text-slate-400">Dica: A senha padrão inicial é <strong>1234</strong></p>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL DO PAINEL ADMIN -->
+    <div id="conteudo-painel" class="hidden flex-1 flex flex-col">
+
+        <!-- NAVEGAÇÃO / HEADER ADMIN -->
+        <header class="bg-[#08009C] text-white shadow-md border-b-4 border-amber-400 sticky top-0 z-40">
+            <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-xl p-1 shadow flex items-center justify-center">
+                        <img src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.outerHTML='<i class=\'fa-solid fa-crown text-blue-900 text-xl\'></i>'">
+                    </div>
+                    <div>
+                        <h1 class="text-base font-black tracking-wider text-white font-heading">PHSUBLIME ADMIN</h1>
+                        <span class="text-[10px] text-amber-300 font-bold uppercase block">Painel de Gestão de Estoque e Clientes</span>
+                    </div>
+                </div>
+
+                <!-- MENU MUDANÇA DE ABAS -->
+                <div class="flex items-center gap-2">
+                    <button onclick="mudarAbaAdmin('produtos')" id="btn-aba-produtos" class="px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-boxes-stacked"></i> PRODUTOS
+                    </button>
+                    <button onclick="mudarAbaAdmin('clientes')" id="btn-aba-clientes" class="px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-address-book"></i> CLIENTES
+                    </button>
+                    <a href="index.html" target="_blank" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1">
+                        <i class="fa-solid fa-store"></i> <span class="hidden sm:inline">Ver Loja</span>
+                    </a>
+                    <button onclick="sairAdmin()" class="px-3 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-bold transition-all" title="Sair do Painel">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- CORPO PRINCIPAL -->
+        <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 space-y-6">
+
+            <!-- CARDS DE ESTATÍSTICAS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-slate-500 font-bold block uppercase">Total no Banco</span>
+                        <strong id="stat-total-produtos" class="text-2xl font-black text-blue-900">0</strong>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-slate-500 font-bold block uppercase">Em Promoção</span>
+                        <strong id="stat-total-promos" class="text-2xl font-black text-amber-600">0</strong>
+                    </div>
+                    <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-slate-500 font-bold block uppercase">Categorias</span>
+                        <strong id="stat-total-categorias" class="text-2xl font-black text-purple-900">0</strong>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 text-purple-900 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-slate-500 font-bold block uppercase">Status Conexão</span>
+                        <strong id="stat-status-supabase" class="text-sm font-black text-emerald-600 flex items-center gap-1.5 mt-1">
+                            <i class="fa-solid fa-circle text-[10px]"></i> Conectado
+                        </strong>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= ABA 1: GERENCIADOR DE PRODUTOS ================= -->
+            <section id="secao-admin-produtos" class="space-y-6">
+                
+                <!-- BARRA DE AÇÕES -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="w-full sm:w-1/2 relative">
+                        <input type="text" id="input-busca-admin" onkeyup="filtrarTabelaAdmin()" placeholder="Buscar produto por nome, referência ou categoria..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:border-blue-700">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    </div>
+
+                    <button onclick="abrirModalFormProduto()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-5 py-2.5 rounded-xl shadow transition-all flex items-center justify-center gap-2 uppercase">
+                        <i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Novo Produto
+                    </button>
+                </div>
+
+                <!-- TABELA DE PRODUTOS -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-[#316AC7] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
+                        <span><i class="fa-solid fa-list text-amber-300"></i> Produtos Cadastrados no Banco</span>
+                        <span id="txt-count-tabela-admin" class="bg-amber-400 text-blue-950 font-black px-2 py-0.5 rounded text-[10px]">0 de 0</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
+                                    <th class="py-3 px-4 w-16">FOTO</th>
+                                    <th class="py-3 px-4">PRODUTO / REFERÊNCIA</th>
+                                    <th class="py-3 px-4">CATEGORIA</th>
+                                    <th class="py-3 px-4 text-center">PREÇO (R$)</th>
+                                    <th class="py-3 px-4 text-center w-32">AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-admin-produtos-body" class="divide-y divide-slate-100">
+                                <tr>
+                                    <td colspan="5" class="py-8 text-center text-slate-400 font-bold">
+                                        <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block"></i> Carregando produtos do banco...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ================= ABA 2: GERENCIADOR DE CLIENTES ================= -->
+            <section id="secao-admin-clientes" class="hidden space-y-6">
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Base de Clientes</h3>
+                        <p class="text-xs text-slate-500">Consulte os dados cadastrais dos clientes registrados no sistema.</p>
+                    </div>
+                    <button onclick="carregarClientesExemplo()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all">
+                        <i class="fa-solid fa-rotate-right"></i> Atualizar Lista
+                    </button>
+                </div>
+
+                <!-- TABELA DE CLIENTES -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
+                                    <th class="py-3 px-4">NOME / RAZÃO SOCIAL</th>
+                                    <th class="py-3 px-4">TIPO</th>
+                                    <th class="py-3 px-4">DOCUMENTO (CPF/CNPJ)</th>
+                                    <th class="py-3 px-4">CONTATO / WHATSAPP</th>
+                                    <th class="py-3 px-4">ENDEREÇO</th>
+                                    <th class="py-3 px-4 text-center">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-admin-clientes-body" class="divide-y divide-slate-100">
+                                <!-- Preenchido dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- RODAPÉ -->
+        <footer class="bg-[#08009C] text-white py-4 border-t-2 border-amber-400 text-xs text-center">
+            <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
+        </footer>
+
+    </div>
+
+    <!-- MODAL DE FORMULÁRIO (CADASTRAR / EDITAR PRODUTO) -->
+    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-3">
+                <h3 id="txt-modal-form-titulo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar Novo Produto
+                </h3>
+            </div>
+
+            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="prod-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="font-bold text-slate-700 block mb-1">Nome do Produto *</label>
+                        <input type="text" id="prod-nome" required placeholder="Ex: Mini Banner 240g 25x35cm" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Referência / SKU *</label>
+                        <input type="text" id="prod-ref" required placeholder="Ex: sign101fp" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Categoria *</label>
+                        <select id="prod-categoria" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-medium">
+                            <option value="Banner com tubete">Banner com tubete</option>
+                            <option value="Cartão de Visita">Cartão de Visita</option>
+                            <option value="Folheto, Folder e Flyer">Folheto, Folder e Flyer</option>
+                            <option value="Adesivo">Adesivo</option>
+                            <option value="Canecas, Copos e Taças">Canecas, Copos e Taças</option>
+                            <option value="Camisa, Camiseta & Blusa">Camisa, Camiseta & Blusa</option>
+                            <option value="DTF Transfer Digital">DTF Transfer Digital</option>
+                            <option value="ARTES">ARTES</option>
+                            <option value="Raspadinha">Raspadinha</option>
+                            <option value="Geral">Geral</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Preço de Venda (R$) *</label>
+                        <input type="number" step="0.01" id="prod-preco" required placeholder="0.00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-emerald-700">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Preço Antigo 'De' (R$)</label>
+                        <input type="number" step="0.01" id="prod-preco-de" placeholder="Opcional" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Link da Imagem (URL) *</label>
+                    <input type="url" id="prod-imagem" required placeholder="https://..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Descrição em Texto / HTML</label>
+                    <textarea id="prod-descricao" rows="4" placeholder="Detalhes da impressão, dimensões, acabamento..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-mono text-[11px]"></textarea>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex justify-end gap-3">
+                    <button type="button" onclick="fecharModalFormProduto()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2 uppercase">
+                        <i class="fa-solid fa-floppy-disk"></i> SALVAR NO BANCO
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICAÇÃO -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-amber-400 px-5 py-3.5 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[1001]">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
+        <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
+    </div>
+
+    <!-- SCRIPT DO PAINEL ADMIN -->
+    <script>
+        const SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const SENHA_ADMIN = '1234'; // Altere sua senha de acesso se desejar
+        let adminProdutos = [];
+
+        function autenticarAdmin(e) {
+            e.preventDefault();
+            const senha = document.getElementById('input-senha-admin').value;
+
+            if (senha === SENHA_ADMIN) {
+                document.getElementById('modal-login-admin').classList.add('hidden');
+                document.getElementById('conteudo-painel').classList.remove('hidden');
+                inicializarAdmin();
+            } else {
+                alert('Senha incorreta! Tente novamente.');
+            }
+        }
+
+        function sairAdmin() {
+            document.getElementById('modal-login-admin').classList.remove('hidden');
+            document.getElementById('conteudo-painel').classList.add('hidden');
+            document.getElementById('input-senha-admin').value = '';
+        }
+
+        function mostrarToast(msg) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            if (msgEl) msgEl.innerText = msg;
+            if (toast) {
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
+            }
+        }
+
+        async function carregarProdutosAdmin() {
+            const tbody = document.getElementById('tabela-admin-produtos-body');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="py-8 text-center text-slate-400 font-bold">
+                        <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block text-blue-900"></i> Conectando ao Supabase...
+                    </td>
+                </tr>
+            `;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('produtos')
+                    .select('*')
+                    .order('id', { ascending: false });
+
+                if (error) throw error;
+
+                adminProdutos = (data || []).map(item => {
+                    let preco = item.Preco_Venda ?? item.precoVenda ?? item.Preco ?? 0;
+                    if (typeof preco === 'string') preco = parseFloat(preco.replace(',', '.'));
+
+                    let precoDe = item.precoDe ? parseFloat(String(item.precoDe).replace(',', '.')) : null;
+
+                    return {
+                        id: item.id,
+                        nome: item.Nome || item.nome || 'Produto sem nome',
+                        categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
+                        ref: item.Referencia || item.ref || '---',
+                        preco: isNaN(preco) ? 0 : preco,
+                        precoDe: precoDe,
+                        imagem: item.Url || item.imagem || '',
+                        descricao: item.Descricao || item.descricao || ''
+                    };
+                });
+
+                atualizarEstatisticas();
+                renderizarTabelaAdmin(adminProdutos);
+
+            } catch (err) {
+                console.error("Erro ao carregar banco:", err);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-6 text-center text-red-500 font-bold">
+                            Erro ao conectar com o Supabase. Verifique a tabela 'produtos'.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function atualizarEstatisticas() {
+            document.getElementById('stat-total-produtos').innerText = adminProdutos.length;
+            
+            const totalPromos = adminProdutos.filter(p => p.precoDe && p.precoDe > p.preco).length;
+            document.getElementById('stat-total-promos').innerText = totalPromos;
+
+            const categoriasUnicas = new Set(adminProdutos.map(p => p.categoria));
+            document.getElementById('stat-total-categorias').innerText = categoriasUnicas.size;
+        }
+
+        function renderizarTabelaAdmin(lista) {
+            const tbody = document.getElementById('tabela-admin-produtos-body');
+            const counter = document.getElementById('txt-count-tabela-admin');
+
+            counter.innerText = `${lista.length} de ${adminProdutos.length}`;
+            tbody.innerHTML = '';
+
+            if (lista.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-slate-400 font-bold">
+                            Nenhum produto cadastrado ou encontrado na busca.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            lista.forEach(prod => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
+
+                const htmlImg = prod.imagem 
+                    ? `<img src="${prod.imagem}" class="w-10 h-10 object-contain rounded border bg-white p-0.5" onerror="this.outerHTML='<i class=\'fa-solid fa-box text-slate-300 text-lg\'></i>'">`
+                    : `<i class="fa-solid fa-box text-slate-300 text-lg"></i>`;
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4">${htmlImg}</td>
+                    <td class="py-3 px-4">
+                        <strong class="text-slate-800 block leading-tight font-bold">${prod.nome}</strong>
+                        <span class="text-[10px] text-slate-400 font-mono">Ref: ${prod.ref}</span>
+                    </td>
+                    <td class="py-3 px-4">
+                        <span class="bg-blue-100 text-blue-900 font-black text-[10px] px-2 py-0.5 rounded uppercase">${prod.categoria}</span>
+                    </td>
+                    <td class="py-3 px-4 text-center font-black text-emerald-700">
+                        R$ ${prod.preco.toFixed(2)}
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="editarProdutoModal(${prod.id})" class="bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-lg font-bold" title="Editar">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button onclick="excluirProduto(${prod.id})" class="bg-red-600 hover:bg-red-500 text-white p-1.5 rounded-lg font-bold" title="Excluir">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filtrarTabelaAdmin() {
+            const query = document.getElementById('input-busca-admin').value.toLowerCase().trim();
+            const filtrados = adminProdutos.filter(p => 
+                p.nome.toLowerCase().includes(query) || 
+                p.ref.toLowerCase().includes(query) || 
+                p.categoria.toLowerCase().includes(query)
+            );
+            renderizarTabelaAdmin(filtrados);
+        }
+
+        function abrirModalFormProduto() {
+            document.getElementById('form-salvar-produto').reset();
+            document.getElementById('prod-id').value = '';
+            document.getElementById('txt-modal-form-titulo').innerText = 'Cadastrar Novo Produto';
+            document.getElementById('modal-form-produto').classList.remove('hidden');
+        }
+
+        function fecharModalFormProduto() {
+            document.getElementById('modal-form-produto').classList.add('hidden');
+        }
+
+        function editarProdutoModal(id) {
+            const prod = adminProdutos.find(p => p.id === id);
+            if (!prod) return;
+
+            document.getElementById('prod-id').value = prod.id;
+            document.getElementById('prod-nome').value = prod.nome;
+            document.getElementById('prod-ref').value = prod.ref;
+            document.getElementById('prod-categoria').value = prod.categoria;
+            document.getElementById('prod-preco').value = prod.preco;
+            document.getElementById('prod-preco-de').value = prod.precoDe || '';
+            document.getElementById('prod-imagem').value = prod.imagem;
+            document.getElementById('prod-descricao').value = prod.descricao;
+
+            document.getElementById('txt-modal-form-titulo').innerText = 'Editar Produto';
+            document.getElementById('modal-form-produto').classList.remove('hidden');
+        }
+
+        async function salvarProdutoSubmit(e) {
+            e.preventDefault();
+
+            const id = document.getElementById('prod-id').value;
+            const nome = document.getElementById('prod-nome').value;
+            const ref = document.getElementById('prod-ref').value;
+            const categoria = document.getElementById('prod-categoria').value;
+            const preco = parseFloat(document.getElementById('prod-preco').value);
+            const precoDeVal = document.getElementById('prod-preco-de').value;
+            const precoDe = precoDeVal ? parseFloat(precoDeVal) : null;
+            const imagem = document.getElementById('prod-imagem').value;
+            const descricao = document.getElementById('prod-descricao').value;
+
+            const payload = {
+                Nome: nome,
+                Referencia: ref,
+                Categorias_Secundarias: categoria,
+                Preco_Venda: preco,
+                precoDe: precoDe,
+                Url: imagem,
+                Descricao: descricao
+            };
+
+            try {
+                if (id) {
+                    // Atualizar
+                    const { error } = await supabaseClient
+                        .from('produtos')
+                        .update(payload)
+                        .eq('id', id);
+
+                    if (error) throw error;
+                    mostrarToast("Produto atualizado com sucesso!");
+                } else {
+                    // Inserir
+                    const { error } = await supabaseClient
+                        .from('produtos')
+                        .insert([payload]);
+
+                    if (error) throw error;
+                    mostrarToast("Produto cadastrado no banco!");
+                }
+
+                fecharModalFormProduto();
+                await carregarProdutosAdmin();
+
+            } catch (err) {
+                console.error("Erro ao salvar produto:", err);
+                alert("Erro ao salvar produto no Supabase. Verifique o console.");
+            }
+        }
+
+        async function excluirProduto(id) {
+            if (!confirm("Tem certeza que deseja excluir este produto do banco de dados?")) return;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('produtos')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                mostrarToast("Produto removido com sucesso!");
+                await carregarProdutosAdmin();
+
+            } catch (err) {
+                console.error("Erro ao excluir:", err);
+                alert("Não foi possível excluir o produto.");
+            }
+        }
+
+        function carregarClientesExemplo() {
+            const tbody = document.getElementById('tabela-admin-clientes-body');
+            tbody.innerHTML = `
+                <tr class="border-b border-slate-100">
+                    <td class="py-3 px-4 font-bold text-slate-800">Vania Btraz</td>
+                    <td class="py-3 px-4"><span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold text-[10px]">PF</span></td>
+                    <td class="py-3 px-4 font-mono">098.090.717-95</td>
+                    <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> (91) 99138-5409</td>
+                    <td class="py-3 px-4">Rua Maria Flaviana de Lima, 8 - Bento Ribeiro / RJ</td>
+                    <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
+                </tr>
+                <tr class="border-b border-slate-100">
+                    <td class="py-3 px-4 font-bold text-slate-800">Gráfica Sublime Express LTDA</td>
+                    <td class="py-3 px-4"><span class="bg-blue-100 text-blue-900 px-2 py-0.5 rounded font-bold text-[10px]">PJ</span></td>
+                    <td class="py-3 px-4 font-mono">12.345.678/0001-90</td>
+                    <td class="py-3 px-4 font-bold text-emerald-700"><i class="fa-brands fa-whatsapp"></i> (21) 98614-7221</td>
+                    <td class="py-3 px-4">Av. Brasil, 1500 - Rio de Janeiro / RJ</td>
+                    <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
+                </tr>
+            `;
+        }
+
+        function mudarAbaAdmin(aba) {
+            ['produtos', 'clientes'].forEach(a => document.getElementById(`secao-admin-${a}`)?.classList.add('hidden'));
+            document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
+
+            const btnProd = document.getElementById('btn-aba-produtos');
+            const btnClis = document.getElementById('btn-aba-clientes');
+
+            if (aba === 'produtos') {
+                btnProd.className = "px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5";
+                btnClis.className = "px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5";
+            } else {
+                btnClis.className = "px-4 py-2 rounded-lg text-xs font-black bg-amber-400 text-blue-950 shadow transition-all flex items-center gap-1.5";
+                btnProd.className = "px-4 py-2 rounded-lg text-xs font-black bg-blue-900 hover:bg-blue-800 text-white transition-all flex items-center gap-1.5";
+                carregarClientesExemplo();
+            }
+        }
+
+        async function inicializarAdmin() {
+            await carregarProdutosAdmin();
+        }
+    </script>
+</body>
+</html>
