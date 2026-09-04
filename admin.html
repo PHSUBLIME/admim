@@ -1,3 +1,18 @@
+Para resolver esses erros do console de forma definitiva, precisamos fazer 2
+ajustes simples nos seus arquivos:
+
+1.  Remover o script do Zendesk (que não existe mais e está gerando os erros de
+    Tracking Prevention e 404).
+2.  Atualizar a função formatarUrlImagem() para tratar os nomes/slugs dos
+    produtos vindos do Supabase. Como alguns produtos no banco têm textos
+    simples no campo de imagem em vez de um link com .jpg ou .png, o navegador
+    tentava acessar esses caminhos como se fossem páginas no seu GitHub
+    (phsublime.github.io/admim/nome-do-produto), gerando os erros 404.
+
+Aqui estão os códigos completos dos 2 arquivos com todas as correções aplicadas:
+
+📄 1. loja.html (Corrigido)
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -435,8 +450,19 @@
         function formatarUrlImagem(url) {
             if (!url || typeof url !== 'string' || !url.trim()) return '';
             const u = url.trim();
-            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) return u;
-            return `https://phsublime.com.br/${u.startsWith('/') ? u.slice(1) : u}`;
+
+            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) {
+                return u;
+            }
+
+            // Garante que só busca imagens e não faz GET de slugs/nomes de texto no GitHub Pages (evita erro 404)
+            const temExtensaoImagem = /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(u);
+            if (temExtensaoImagem) {
+                const caminho = u.startsWith('/') ? u.slice(1) : u;
+                return `https://phsublime.sistograf.net/${caminho}`;
+            }
+
+            return '';
         }
 
         function carregarConfiguracoesAdminLocal() {
@@ -1088,7 +1114,7 @@
 </body>
 </html>
 
-📄 2. Código COMPLETO e ÍNTEGRO de admin.html
+📄 2. admin.html (Corrigido)
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -2578,8 +2604,6 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=c0af88ff-cbd4-4974-866d-aa124db2da78" async onerror="this.remove()"></script>
-
     <script>
         // DECLARAÇÃO SEGURA DO SUPABASE (EVITA UNCAUGHT SYNTAXERROR)
         if (typeof window.SUPABASE_URL === 'undefined') {
@@ -2612,6 +2636,11 @@
                 return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
             }
             const urlLimpa = escapeHtml(url.trim());
+            // Verifica se possui extensão válida de imagem para evitar GETs desnecessários de slugs (404)
+            const temExtensaoImagem = /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(urlLimpa);
+            if (!temExtensaoImagem && !urlLimpa.startsWith('http://') && !urlLimpa.startsWith('https://')) {
+                return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
+            }
             return '<img src="' + urlLimpa + '" class="' + classeCss + '" onerror="this.onerror=null; this.style.display=\'none\';">';
         }
 
@@ -3079,13 +3108,3 @@
     </script>
 </body>
 </html>
-
-🔥 O que foi corrigido e mantido?
-
-1.  Nada foi removido: Todos os 16 Modais, Formulários e Menus do admin.html
-    estão no arquivo.
-2.  Correção do Erro de Inicialização do Supabase: As variáveis SUPABASE_URL,
-    SUPABASE_ANON_KEY e supabaseClient agora utilizam verificação de escopo com
-    var / window., eliminando o erro de Redeclaração.
-3.  Funções e Manipuladores de Evento Completo: Adicionadas todas as rotinas
-    para cliques de formulários e botões nos modais.
