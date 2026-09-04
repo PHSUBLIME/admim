@@ -57,7 +57,7 @@
             </div>
             <div>
                 <h3 class="text-base font-black text-slate-800 font-heading uppercase">Confirmar Exclusão</h3>
-                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este produto do banco de dados?</p>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este item do banco de dados?</p>
             </div>
             <div class="grid grid-cols-2 gap-3 pt-2">
                 <button onclick="fecharModalConfirmExclusao()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl text-xs uppercase transition-all">
@@ -260,9 +260,14 @@
                         <h3 class="text-sm font-black text-blue-900 uppercase font-heading">Central de Pedidos da Gráfica</h3>
                         <p class="text-xs text-slate-500">Gerencie o status de produção, pagamentos, arquivos de impressão e entregas.</p>
                     </div>
-                    <button onclick="carregarPedidosAdmin(true)" id="btn-atualizar-pedidos" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 shadow">
-                        <i class="fa-solid fa-rotate-right"></i> Atualizar Pedidos
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="carregarPedidosAdmin(true)" id="btn-atualizar-pedidos" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 shadow">
+                            <i class="fa-solid fa-rotate-right"></i> Atualizar Pedidos
+                        </button>
+                        <button onclick="abrirModalNovoPedidoManual()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-lg transition-all uppercase flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-circle-plus"></i> Novo Pedido
+                        </button>
+                    </div>
                 </div>
 
                 <!-- TABELA DE PEDIDOS -->
@@ -369,9 +374,6 @@
                         <button onclick="exportarClientesCSV()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-all shadow flex items-center gap-1.5">
                             <i class="fa-solid fa-file-excel"></i> Exportar Excel
                         </button>
-                        <button onclick="carregarClientesAdmin()" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg transition-all">
-                            <i class="fa-solid fa-rotate-right"></i> Atualizar Lista
-                        </button>
                         <button onclick="abrirModalFormCliente()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-3.5 py-2 rounded-lg transition-all uppercase flex items-center gap-1.5 shadow">
                             <i class="fa-solid fa-user-plus"></i> Novo Cliente
                         </button>
@@ -472,6 +474,72 @@
             <p>© 2026 PHSUBLIME - Painel do Administrador | Desenvolvido para Gestão Rápida</p>
         </footer>
 
+    </div>
+
+    <!-- MODAL DE NOVO PEDIDO MANUAL -->
+    <div id="modal-novo-pedido-admin" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalNovoPedidoManual()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b border-slate-100 pb-2">
+                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus text-emerald-600"></i> Criar Novo Pedido Manual
+                </h3>
+            </div>
+
+            <form onsubmit="salvarNovoPedidoManualSubmit(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Nome do Cliente *</label>
+                        <input type="text" id="nped-cliente-nome" required placeholder="Ex: Gabriel Sales" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">WhatsApp / Telefone *</label>
+                        <input type="text" id="nped-cliente-wpp" required placeholder="(21) 99999-9999" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Descrição dos Produtos / Itens *</label>
+                    <input type="text" id="nped-item-nome" required placeholder="Ex: 1000 Cartões de Visita + Lona 2x1m" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Valor Total (R$) *</label>
+                        <input type="number" step="0.01" id="nped-total" required placeholder="100.00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-emerald-700">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Forma de Pagamento</label>
+                        <select id="nped-pagamento" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                            <option value="PIX">PIX</option>
+                            <option value="Cartão de Crédito">Cartão de Crédito</option>
+                            <option value="Dinheiro / Retirada">Dinheiro / Retirada</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Situação Inicial</label>
+                        <select id="nped-situacao" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
+                            <option value="Confirmado">Confirmado</option>
+                            <option value="Em Produção">Em Produção</option>
+                            <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Endereço / Retirada</label>
+                    <input type="text" id="nped-endereco" placeholder="Ex: Retirada no Balcão ou Endereço de Entrega" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalNovoPedidoManual()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs shadow-md transition-all uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar Pedido
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- MODAL DE GESTÃO DE CRÉDITO DO CLIENTE -->
@@ -971,6 +1039,79 @@
             localStorage.setItem('phsublime_admin_clientes', JSON.stringify(adminClientes));
         }
 
+        // NOVO PEDIDO MANUAL SUBMIT
+        function abrirModalNovoPedidoManual() {
+            document.getElementById('nped-cliente-nome').value = '';
+            document.getElementById('nped-cliente-wpp').value = '';
+            document.getElementById('nped-item-nome').value = '';
+            document.getElementById('nped-total').value = '';
+            document.getElementById('nped-endereco').value = '';
+            document.getElementById('modal-novo-pedido-admin').classList.remove('hidden');
+        }
+
+        function fecharModalNovoPedidoManual() {
+            document.getElementById('modal-novo-pedido-admin').classList.add('hidden');
+        }
+
+        function salvarNovoPedidoManualSubmit(e) {
+            e.preventDefault();
+
+            const nome = document.getElementById('nped-cliente-nome').value;
+            const wpp = document.getElementById('nped-cliente-wpp').value;
+            const itemNome = document.getElementById('nped-item-nome').value;
+            const totalVal = parseFloat(document.getElementById('nped-total').value || 0);
+            const pagamento = document.getElementById('nped-pagamento').value;
+            const situacao = document.getElementById('nped-situacao').value;
+            const endereco = document.getElementById('nped-endereco').value || 'Balcão de Retirada';
+
+            const novoId = adminPedidos.length > 0 ? Math.max(...adminPedidos.map(p => p.id)) + 1 : 100;
+            const codRandom = `#${Math.floor(100000 + Math.random() * 900000)}`;
+            const dataHoje = new Date().toLocaleString('pt-BR');
+
+            adminPedidos.unshift({
+                id: novoId,
+                codigo: codRandom,
+                data: dataHoje,
+                cliente: {
+                    nome: nome,
+                    tipo: "Pessoa Física",
+                    doc: "---",
+                    email: "cliente@loja.com",
+                    wpp: wpp
+                },
+                transporte: {
+                    tipo: "PH ENTREGA / Retirada",
+                    prazo: "1 dia útil",
+                    endereco: endereco
+                },
+                financeiro: {
+                    produtosVal: totalVal,
+                    freteVal: 0,
+                    acrescimoVal: 0,
+                    totalVal: totalVal,
+                    forma: pagamento
+                },
+                situacao: situacao,
+                obsInterna: "Pedido registrado diretamente pelo painel.",
+                itens: [
+                    {
+                        id: 1,
+                        ref: "MANUAL",
+                        nome: itemNome,
+                        especificacao: "Item registrado via painel",
+                        subtotal: totalVal,
+                        arquivoUrl: "https://drive.google.com",
+                        arquivoNome: "Arte_Pedido_Manual.pdf"
+                    }
+                ]
+            });
+
+            salvarPedidosSalvosLocal();
+            carregarPedidosAdmin();
+            fecharModalNovoPedidoManual();
+            mostrarToast("Novo pedido criado com sucesso!");
+        }
+
         // CAIXA DE MENSAGEM CUSTOMIZADA
         function mostrarModalNotificacaoCustom(titulo, mensagem, tipo = 'erro') {
             const modal = document.getElementById('modal-notificacao-custom');
@@ -1279,7 +1420,6 @@
             pedidoEmEdicaoModal.situacao = novaSituacao;
             pedidoEmEdicaoModal.obsInterna = novaObs;
 
-            // SALVA NO LOCALSTORAGE PARA MANTER APÓS O F5
             salvarPedidosSalvosLocal();
 
             carregarPedidosAdmin();
@@ -1371,7 +1511,6 @@
             if (statCat) statCat.innerText = categoriasUnicas.size;
         }
 
-        // MONTA BOTÕES DE CATEGORIAS ACIMA DA TABELA
         function renderizarBotoesCategoriasAdmin() {
             const container = document.getElementById('container-botoes-categorias-admin');
             if (!container) return;
@@ -1487,7 +1626,6 @@
                 tbody.appendChild(tr);
             });
 
-            // MONTA CONTROLES DA PAGINAÇÃO
             if (infoPaginacao) {
                 infoPaginacao.innerText = `Página ${paginaAtualAdmin} de ${totalPaginas} (${filtrados.length} produtos)`;
             }
@@ -1677,7 +1815,7 @@
             }
         }
 
-        // ============ LÓGICA DE CLIENTES, ESTRELAS E EXPORTAÇÃO EXCEL/CSV ============
+        // ============ LÓGICA DE CLIENTES (ATUALIZAÇÃO AUTOMÁTICA) ============
         function carregarClientesAdmin() {
             carregarClientesSalvosLocal();
 
@@ -1705,7 +1843,6 @@
                 const corStatus = cli.status === 'ATIVO' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800';
                 const saldoVal = cli.saldoCredito ? parseFloat(cli.saldoCredito) : 0.00;
                 
-                // ESTRELAS DE CLASSIFICAÇÃO
                 const numEstrelas = cli.estrelas !== undefined ? Number(cli.estrelas) : 5;
                 let htmlEstrelas = '';
                 for (let i = 1; i <= 5; i++) {
@@ -1816,6 +1953,7 @@
 
             clienteEmEdicaoCredito.saldoCredito = saldoAtual;
 
+            // ATUALIZAÇÃO AUTOMÁTICA E INSTANTÂNEA DA TABELA
             salvarClientesSalvosLocal();
             carregarClientesAdmin();
             fecharModalCreditoCliente();
@@ -1893,15 +2031,11 @@
                 });
             }
 
+            // ATUALIZAÇÃO AUTOMÁTICA E INSTANTÂNEA DA TABELA
             salvarClientesSalvosLocal();
             carregarClientesAdmin();
             fecharModalFormCliente();
             mostrarToast("Cliente salvo com sucesso!");
-        }
-
-        function carregarClientesExemplo() {
-            carregarClientesAdmin();
-            mostrarToast("Lista de clientes atualizada!");
         }
 
         function mudarAbaAdmin(aba) {
