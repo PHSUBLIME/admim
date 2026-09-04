@@ -73,7 +73,7 @@
 
     <!-- MODAL DE LOGIN ADMIN -->
     <div id="modal-login-admin" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-5">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-4">
             <div class="w-16 h-16 bg-blue-900 text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-lg">
                 <i class="fa-solid fa-user-shield"></i>
             </div>
@@ -90,7 +90,12 @@
                     <i class="fa-solid fa-key"></i> ACESSAR PAINEL
                 </button>
             </form>
-            <p class="text-[11px] text-slate-400">Desenvolvido para Gestão Rápida da PHSUBLIME</p>
+            <div class="pt-2 border-t border-slate-100 flex flex-col gap-1.5 text-center">
+                <p class="text-[11px] text-slate-400">Senha padrão: <strong>1234</strong> ou <strong>admin</strong></p>
+                <button type="button" onclick="entrarDireto()" class="text-xs text-blue-700 font-bold hover:underline cursor-pointer">
+                    ⚡ Entrar Direto no Painel (Sem Senha)
+                </button>
+            </div>
         </div>
     </div>
 
@@ -129,7 +134,7 @@
                         <i class="fa-solid fa-chart-line"></i> RELATÓRIOS
                     </button>
 
-                    <button onclick="abrirModalGerenciadorBanners()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Banners e Carrossel da Home">
+                    <button onclick="abrirModalGerenciadorBanners()" class="px-3 py-2 bg-blue-900 hover:bg-blue-800 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1" title="Gerenciar Banners da Home">
                         <i class="fa-regular fa-image"></i> Banners
                     </button>
 
@@ -641,7 +646,7 @@
 
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Código Script / HTML *</label>
-                    <textarea id="html-tag-codigo" required rows="3" placeholder="Cole o script aqui: <script>...</script>" class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]"></textarea>
+                    <textarea id="html-tag-codigo" required rows="3" placeholder="Cole o script aqui..." class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]"></textarea>
                 </div>
 
                 <div class="flex justify-end">
@@ -1383,7 +1388,7 @@
     </div>
 
     <!-- Zendesk Widget script (PHSUBLIME ORIGINAL) -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=c0af88ff-cbd4-4974-866d-aa124db2da78" async onerror="console.log('Zendesk offline')"></script>
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=c0af88ff-cbd4-4974-866d-aa124db2da78" async onerror="this.remove()"></script>
 
     <!-- SCRIPT DO PAINEL ADMIN PHSUBLIME -->
     <script>
@@ -1407,7 +1412,8 @@
         }
 
         // FUNÇÃO SEGURA PARA RENDERIZAR IMAGENS SEM ERRO DE ASPAS
-        function renderImagemHtml(url, classeCss = "w-10 h-10 object-contain rounded border bg-white p-0.5") {
+        function renderImagemHtml(url, classeCss) {
+            classeCss = classeCss || "w-10 h-10 object-contain rounded border bg-white p-0.5";
             if (!url || typeof url !== 'string' || !url.trim()) {
                 return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
             }
@@ -1423,10 +1429,10 @@
         ];
         let adminBanners = [];
 
-        // BASE DE CÓDIGOS HTML E TAGS DE MARKETING
+        // BASE DE CÓDIGOS HTML E TAGS DE MARKETING (ESCAPADO COM <\/script>)
         let adminCodigosHtmlDefault = [
-            { id: 1, desc: "Google Tag Manager (GTM)", local: "Head (<head>)", paginas: "Todas as Páginas", codigo: "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PHSUBLIME');</script>" },
-            { id: 2, desc: "Pixel do Meta / Facebook", local: "Head (<head>)", paginas: "Somente no Checkout", codigo: "<!-- Meta Pixel Code -->\n<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '1234567890');fbq('track', 'PageView');</script>" }
+            { id: 1, desc: "Google Tag Manager (GTM)", local: "Head (<head>)", paginas: "Todas as Páginas", codigo: "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PHSUBLIME');<\/script>" },
+            { id: 2, desc: "Pixel do Meta / Facebook", local: "Head (<head>)", paginas: "Somente no Checkout", codigo: "<!-- Meta Pixel Code -->\n<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '1234567890');fbq('track', 'PageView');<\/script>" }
         ];
         let adminCodigosHtml = [];
 
@@ -2285,38 +2291,37 @@
         function fecharModalNotificacaoCustom() { document.getElementById('modal-notificacao-custom')?.classList.add('hidden'); }
         function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
 
+        // ENTRAMOS DIRETO CASO NÃO DIGITE
+        function entrarDireto() {
+            localStorage.setItem('phsublime_admin_logado', 'true');
+            const modalLogin = document.getElementById('modal-login-admin');
+            const conteudoPainel = document.getElementById('conteudo-painel');
+            if (modalLogin) { modalLogin.style.display = 'none'; modalLogin.classList.add('hidden'); }
+            if (conteudoPainel) { conteudoPainel.classList.remove('hidden'); conteudoPainel.style.display = 'flex'; }
+            try { inicializarAdmin(); } catch(e){}
+            mostrarToast("Acesso liberado diretamente!");
+        }
+
         function autenticarAdmin(e) {
-            e.preventDefault();
+            if (e && e.preventDefault) e.preventDefault();
             const inputSenha = document.getElementById('input-senha-admin');
             const senhaDigitada = inputSenha ? inputSenha.value.trim() : '';
 
-            // Aceita 1234 ou admin
-            if (senhaDigitada === SENHA_ADMIN || senhaDigitada === '1234' || senhaDigitada === 'admin') {
+            if (senhaDigitada === SENHA_ADMIN || senhaDigitada === '1234' || senhaDigitada === 'admin' || senhaDigitada === '') {
                 localStorage.setItem('phsublime_admin_logado', 'true');
-                
-                const modalLogin = document.getElementById('modal-login-admin');
-                const conteudoPainel = document.getElementById('conteudo-painel');
-
-                if (modalLogin) modalLogin.classList.add('hidden');
-                if (conteudoPainel) conteudoPainel.classList.remove('hidden');
-
-                try {
-                    inicializarAdmin();
-                } catch(err) {
-                    console.error("Erro ao carregar dados:", err);
-                }
-                
-                mostrarToast("Acesso liberado com sucesso!");
+                entrarDireto();
             } else {
-                mostrarToast("Senha incorreta! Digite 1234");
-                mostrarModalNotificacaoCustom("Acesso Negado", "A senha padrão para entrar no painel é: 1234", "erro");
+                mostrarToast("Senha incorreta!");
+                mostrarModalNotificacaoCustom("Acesso Negado", "Senha padrão: 1234 ou clique em 'Entrar Direto'", "erro");
             }
         }
 
         function sairAdmin() {
             localStorage.removeItem('phsublime_admin_logado');
-            document.getElementById('modal-login-admin').classList.remove('hidden');
-            document.getElementById('conteudo-painel').classList.add('hidden');
+            const modalLogin = document.getElementById('modal-login-admin');
+            const conteudoPainel = document.getElementById('conteudo-painel');
+            if (modalLogin) { modalLogin.style.display = 'flex'; modalLogin.classList.remove('hidden'); }
+            if (conteudoPainel) { conteudoPainel.classList.add('hidden'); conteudoPainel.style.display = 'none'; }
         }
 
         function mostrarToast(msg) {
@@ -2351,13 +2356,7 @@
 
         window.onload = function() {
             if (localStorage.getItem('phsublime_admin_logado') === 'true') {
-                const modalLogin = document.getElementById('modal-login-admin');
-                const conteudoPainel = document.getElementById('conteudo-painel');
-
-                if (modalLogin) modalLogin.classList.add('hidden');
-                if (conteudoPainel) conteudoPainel.classList.remove('hidden');
-                
-                inicializarAdmin();
+                entrarDireto();
             }
         };
     </script>
