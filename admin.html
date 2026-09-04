@@ -166,7 +166,7 @@
                                 <button onclick="abrirModalFormasPagamento()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-credit-card text-blue-500"></i> Formas Pagamento</button>
                                 <button onclick="abrirModalBalcoesRetirada()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-emerald-700"><i class="fa-solid fa-truck text-emerald-500"></i> Balcões de Retirada</button>
                                 <button onclick="abrirModalCriarCupom()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-ticket text-amber-500"></i> Cupons & Ofertas</button>
-                                <button onclick="abrirModalIntegracoes()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-plug text-indigo-500"></i> Integrações</button>
+                                <button onclick="abrirModalIntegracoes()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-indigo-700"><i class="fa-solid fa-plug text-indigo-500"></i> Integrações</button>
                                 <a href="loja.html" target="_blank" class="w-full text-left hover:text-emerald-600 flex items-center gap-2 py-1 font-bold text-emerald-600"><i class="fa-solid fa-store"></i> Ver Loja Online</a>
                             </div>
                         </div>
@@ -1157,9 +1157,10 @@
             </form>
         </div>
     </div>
-<!-- MODAL DEDICADO DE INTEGRAÇÕES -->
+
+    <!-- MODAL DEDICADO DE INTEGRAÇÕES (ESTILO SISTOGRAF) -->
     <div id="modal-integracoes" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalIntegracoes()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <!-- BREADCRUMB -->
@@ -1167,100 +1168,180 @@
                 <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
                     <span>Painel Administrador</span>
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Configurações</span>
+                    <span>Soluções</span>
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span class="text-blue-900">Integrações & APIs</span>
+                    <span class="text-blue-900">Integrações</span>
                 </div>
                 <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
                     <i class="fa-solid fa-plug text-indigo-600"></i> Central de Integrações do Sistema
                 </h3>
             </div>
 
-            <form onsubmit="salvarIntegracoesSubmit(event)" class="space-y-4 text-xs">
+            <!-- LISTA DE FERRAMENTAS COM TOGGLES (ESTILO SISTOGRAF) -->
+            <form onsubmit="salvarIntegracoesSubmit(event)" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs">
                 
+                <!-- BENCHMARK -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-envelope-open-text fa-solid text-2xl text-pink-600 w-8 text-center"></i>
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">Benchmark</strong>
+                            <p class="text-[11px] text-slate-500">Use o Benchmark para criar e enviar campanhas de email marketing.</p>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-benchmark-ativo" onchange="atualizarBadgeStatus('int-benchmark-ativo', 'lbl-benchmark')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-benchmark" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
+                    </label>
+                </div>
+
+                <!-- GOOGLE ADWORDS -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-brands fa-google text-2xl text-blue-500 w-8 text-center"></i>
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">Google Adwords</strong>
+                            <p class="text-[11px] text-slate-500">Permite a criação de anúncios no Google para exibir seu site nos resultados de busca.</p>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-adwords-ativo" onchange="atualizarBadgeStatus('int-adwords-ativo', 'lbl-adwords')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-adwords" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
+                    </label>
+                </div>
+
+                <!-- GOOGLE ANALYTICS -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-chart-line fa-solid text-2xl text-amber-500 w-8 text-center"></i>
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">Google Analytics</strong>
+                            <p class="text-[11px] text-slate-500">Acompanhe as atividades em sua loja, tráfego de visitantes e taxas de conversão.</p>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-ga-ativo" onchange="atualizarBadgeStatus('int-ga-ativo', 'lbl-ga')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-ga" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
+                    </label>
+                </div>
+
+                <!-- GOOGLE TAG MANAGER -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-code text-2xl text-indigo-500 w-8 text-center"></i>
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">Google Tag Manager</strong>
+                            <p class="text-[11px] text-slate-500">Gerenciador de tags do Google para criar e atualizar tags da loja com controle total.</p>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-gtm-ativo" onchange="atualizarBadgeStatus('int-gtm-ativo', 'lbl-gtm')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-gtm" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
+                    </label>
+                </div>
+
+                <!-- JIVOCHAT -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-comments text-2xl text-emerald-500 w-8 text-center"></i>
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">Jivochat</strong>
+                            <p class="text-[11px] text-slate-500">Chat online para atender clientes em tempo real. Centralize contatos do Facebook e Telegram.</p>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-jivo-ativo" onchange="atualizarBadgeStatus('int-jivo-ativo', 'lbl-jivo')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-jivo" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
+                    </label>
+                </div>
+
+                <!-- PIXEL DO FACEBOOK -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-brands fa-facebook text-2xl text-blue-600 w-8 text-center"></i>
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">Pixel do Facebook</strong>
+                            <p class="text-[11px] text-slate-500">Relate conversões, crie públicos e obtenha informações importantes sobre visitantes.</p>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-fb-ativo" onchange="atualizarBadgeStatus('int-fb-ativo', 'lbl-fb')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-fb" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
+                    </label>
+                </div>
+
+                <!-- TAWK.TO -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-headset text-2xl text-emerald-600 w-8 text-center"></i>
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">tawk.to</strong>
+                            <p class="text-[11px] text-slate-500">Ferramenta gratuita de chat online e monitoramento de visitantes em tempo real.</p>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-tawk-ativo" onchange="atualizarBadgeStatus('int-tawk-ativo', 'lbl-tawk')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-tawk" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
+                    </label>
+                </div>
+
+                <!-- WHATSAPP API -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-2xl text-emerald-500 w-8 text-center"></i>
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">WhatsApp Notificação</strong>
+                            <p class="text-[11px] text-slate-500">Com o WhatsApp, suas mensagens e chamadas são rápidas e enviadas automaticamente.</p>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-wpp-ativo" checked onchange="atualizarBadgeStatus('int-wpp-ativo', 'lbl-wpp')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-wpp" class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Ativo</span>
+                    </label>
+                </div>
+
                 <!-- MERCADO PAGO -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-credit-card text-blue-600 text-base"></i>
-                            <strong class="font-bold text-slate-800 text-xs">Mercado Pago (Pagamentos PIX & Cartão)</strong>
-                        </div>
-                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
-                            <input type="checkbox" id="int-mp-ativo" checked class="rounded text-blue-600 accent-blue-600"> Ativo
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-credit-card text-2xl text-blue-600 w-8 text-center"></i>
                         <div>
-                            <label class="font-bold text-slate-700 block mb-1">Public Key (Chave Pública)</label>
-                            <input type="text" id="int-mp-public-key" placeholder="APP_USR-xxxx-xxxx" class="w-full px-3 py-2 border rounded-lg font-mono text-[11px] focus:outline-none focus:border-blue-700">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Access Token (Token de Acesso)</label>
-                            <input type="password" id="int-mp-access-token" placeholder="APP_USR-xxxx-xxxx" class="w-full px-3 py-2 border rounded-lg font-mono text-[11px] focus:outline-none focus:border-blue-700">
+                            <strong class="font-bold text-slate-800 text-xs block">Mercado Pago (PIX & Cartões)</strong>
+                            <p class="text-[11px] text-slate-500">Processador de pagamentos para PIX com baixa automática e Checkout transparente.</p>
                         </div>
                     </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-mp-ativo" checked onchange="atualizarBadgeStatus('int-mp-ativo', 'lbl-mp')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-mp" class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Ativo</span>
+                    </label>
                 </div>
 
-                <!-- WHATSAPP API / EVOLUTION / Z-API -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
-                            <strong class="font-bold text-slate-800 text-xs">API de WhatsApp (Notificações de Pedido)</strong>
-                        </div>
-                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
-                            <input type="checkbox" id="int-wpp-ativo" checked class="rounded text-emerald-600 accent-emerald-600"> Ativo
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <!-- RECAPTCHA -->
+                <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-shield-halved text-2xl text-slate-600 w-8 text-center"></i>
                         <div>
-                            <label class="font-bold text-slate-700 block mb-1">Número do WhatsApp *</label>
-                            <input type="text" id="int-wpp-numero" placeholder="5521986147221" class="w-full px-3 py-2 border rounded-lg font-mono font-bold text-emerald-700">
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label class="font-bold text-slate-700 block mb-1">URL Webhook / API WhatsApp</label>
-                            <input type="text" id="int-wpp-api-url" placeholder="https://api.z-api.io/instances/..." class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]">
+                            <strong class="font-bold text-slate-800 text-xs block">reCAPTCHA Google</strong>
+                            <p class="text-[11px] text-slate-500">Serviço gratuito que protege seu site contra spam e tentativas de acesso automatizado.</p>
                         </div>
                     </div>
-                </div>
-
-                <!-- CORREIOS / MELHOR ENVIO -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-truck-fast text-amber-600 text-base"></i>
-                            <strong class="font-bold text-slate-800 text-xs">Cálculo de Frete (Correios / Melhor Envio)</strong>
-                        </div>
-                        <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-700">
-                            <input type="checkbox" id="int-frete-ativo" checked class="rounded text-amber-600 accent-amber-600"> Ativo
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">CEP Origem (Sede)</label>
-                            <input type="text" id="int-frete-cep-origem" value="21230-362" placeholder="21230-362" class="w-full px-3 py-2 border rounded-lg font-mono font-bold">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Token Melhor Envio / Correios API</label>
-                            <input type="password" id="int-frete-token" placeholder="Bearer eyJhbGci..." class="w-full px-3 py-2 border rounded-lg font-mono text-[11px]">
-                        </div>
-                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                        <input type="checkbox" id="int-recaptcha-ativo" onchange="atualizarBadgeStatus('int-recaptcha-ativo', 'lbl-recaptcha')" class="rounded text-blue-600 accent-blue-600">
+                        <span id="lbl-recaptcha" class="bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase">Inativo</span>
+                    </label>
                 </div>
 
                 <!-- BOTAO SALVAR -->
                 <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
                     <button type="button" onclick="fecharModalIntegracoes()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all uppercase">Cancelar</button>
-                    <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white font-black px-6 py-2.5 rounded-xl shadow-md transition-all uppercase flex items-center gap-2 text-xs">
-                        <i class="fa-solid fa-floppy-disk"></i> Salvar Integrações
+                    <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white font-black px-6 py-2.5 rounded-xl shadow-md transition-all uppercase flex items-center gap-2 text-xs">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar Alterações
                     </button>
                 </div>
 
             </form>
         </div>
     </div>
+
     <!-- TOAST FLUTUANTE -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-amber-400 px-5 py-3.5 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[1001]">
         <i id="toast-icon" class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
@@ -1373,9 +1454,6 @@
                 if (document.getElementById('cfg-correios-cartao')) document.getElementById('cfg-correios-cartao').value = cfg.correiosCartao || '';
                 if (document.getElementById('cfg-endereco-completo')) document.getElementById('cfg-endereco-completo').value = cfg.endereco || 'Estrada da Água Grande, 221 - Irajá / RJ';
                 if (document.getElementById('cfg-horario-limite')) document.getElementById('cfg-horario-limite').value = cfg.horarioLimite || '23:59';
-                if (document.getElementById('cfg-seo-title')) document.getElementById('cfg-seo-title').value = cfg.seoTitle || '';
-                if (document.getElementById('cfg-seo-keywords')) document.getElementById('cfg-seo-keywords').value = cfg.seoKeywords || '';
-                if (document.getElementById('cfg-seo-desc')) document.getElementById('cfg-seo-desc').value = cfg.seoDesc || '';
             } catch(e) {}
         }
 
@@ -1393,10 +1471,7 @@
                 correiosCws: document.getElementById('cfg-correios-cws')?.value,
                 correiosCartao: document.getElementById('cfg-correios-cartao')?.value,
                 endereco: document.getElementById('cfg-endereco-completo')?.value,
-                horarioLimite: document.getElementById('cfg-horario-limite')?.value,
-                seoTitle: document.getElementById('cfg-seo-title')?.value,
-                seoKeywords: document.getElementById('cfg-seo-keywords')?.value,
-                seoDesc: document.getElementById('cfg-seo-desc')?.value
+                horarioLimite: document.getElementById('cfg-horario-limite')?.value
             };
 
             localStorage.setItem('phsublime_dados_loja', JSON.stringify(config));
@@ -1840,24 +1915,47 @@
 
         function abrirModalMessenger() { mostrarToast("Abre Messenger Chat"); }
 
-        // LÓGICA DO MODAL DE INTEGRAÇÕES
+        // LÓGICA DO MODAL DE INTEGRAÇÕES (SISTOGRAF)
+        function atualizarBadgeStatus(inputId, labelId) {
+            const input = document.getElementById(inputId);
+            const lbl = document.getElementById(labelId);
+            if (!input || !lbl) return;
+
+            if (input.checked) {
+                lbl.innerText = 'Ativo';
+                lbl.className = 'bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded text-[10px] uppercase';
+            } else {
+                lbl.innerText = 'Inativo';
+                lbl.className = 'bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase';
+            }
+        }
+
         function carregarIntegracoesLocal() {
             const salvos = localStorage.getItem('phsublime_integracoes');
             if (!salvos) return;
 
             try {
                 const cfg = JSON.parse(salvos);
-                if (document.getElementById('int-mp-ativo')) document.getElementById('int-mp-ativo').checked = cfg.mpAtivo !== false;
-                if (document.getElementById('int-mp-public-key')) document.getElementById('int-mp-public-key').value = cfg.mpPublicKey || '';
-                if (document.getElementById('int-mp-access-token')) document.getElementById('int-mp-access-token').value = cfg.mpAccessToken || '';
+                const mapa = [
+                    { id: 'int-benchmark-ativo', lbl: 'lbl-benchmark', key: 'benchmarkAtivo' },
+                    { id: 'int-adwords-ativo', lbl: 'lbl-adwords', key: 'adwordsAtivo' },
+                    { id: 'int-ga-ativo', lbl: 'lbl-ga', key: 'gaAtivo' },
+                    { id: 'int-gtm-ativo', lbl: 'lbl-gtm', key: 'gtmAtivo' },
+                    { id: 'int-jivo-ativo', lbl: 'lbl-jivo', key: 'jivoAtivo' },
+                    { id: 'int-fb-ativo', lbl: 'lbl-fb', key: 'fbAtivo' },
+                    { id: 'int-tawk-ativo', lbl: 'lbl-tawk', key: 'tawkAtivo' },
+                    { id: 'int-wpp-ativo', lbl: 'lbl-wpp', key: 'wppAtivo' },
+                    { id: 'int-mp-ativo', lbl: 'lbl-mp', key: 'mpAtivo' },
+                    { id: 'int-recaptcha-ativo', lbl: 'lbl-recaptcha', key: 'recaptchaAtivo' }
+                ];
 
-                if (document.getElementById('int-wpp-ativo')) document.getElementById('int-wpp-ativo').checked = cfg.wppAtivo !== false;
-                if (document.getElementById('int-wpp-numero')) document.getElementById('int-wpp-numero').value = cfg.wppNumero || '5521986147221';
-                if (document.getElementById('int-wpp-api-url')) document.getElementById('int-wpp-api-url').value = cfg.wppApiUrl || '';
-
-                if (document.getElementById('int-frete-ativo')) document.getElementById('int-frete-ativo').checked = cfg.freteAtivo !== false;
-                if (document.getElementById('int-frete-cep-origem')) document.getElementById('int-frete-cep-origem').value = cfg.freteCepOrigem || '21230-362';
-                if (document.getElementById('int-frete-token')) document.getElementById('int-frete-token').value = cfg.freteToken || '';
+                mapa.forEach(item => {
+                    const el = document.getElementById(item.id);
+                    if (el) {
+                        el.checked = cfg[item.key] === true;
+                        atualizarBadgeStatus(item.id, item.lbl);
+                    }
+                });
             } catch(e) {}
         }
 
@@ -1875,25 +1973,27 @@
         function salvarIntegracoesSubmit(e) {
             e.preventDefault();
             const config = {
-                mpAtivo: document.getElementById('int-mp-ativo')?.checked,
-                mpPublicKey: document.getElementById('int-mp-public-key')?.value,
-                mpAccessToken: document.getElementById('int-mp-access-token')?.value,
-                wppAtivo: document.getElementById('int-wpp-ativo')?.checked,
-                wppNumero: document.getElementById('int-wpp-numero')?.value,
-                wppApiUrl: document.getElementById('int-wpp-api-url')?.value,
-                freteAtivo: document.getElementById('int-frete-ativo')?.checked,
-                freteCepOrigem: document.getElementById('int-frete-cep-origem')?.value,
-                freteToken: document.getElementById('int-frete-token')?.value
+                benchmarkAtivo: document.getElementById('int-benchmark-ativo')?.checked || false,
+                adwordsAtivo: document.getElementById('int-adwords-ativo')?.checked || false,
+                gaAtivo: document.getElementById('int-ga-ativo')?.checked || false,
+                gtmAtivo: document.getElementById('int-gtm-ativo')?.checked || false,
+                jivoAtivo: document.getElementById('int-jivo-ativo')?.checked || false,
+                fbAtivo: document.getElementById('int-fb-ativo')?.checked || false,
+                tawkAtivo: document.getElementById('int-tawk-ativo')?.checked || false,
+                wppAtivo: document.getElementById('int-wpp-ativo')?.checked || false,
+                mpAtivo: document.getElementById('int-mp-ativo')?.checked || false,
+                recaptchaAtivo: document.getElementById('int-recaptcha-ativo')?.checked || false
             };
 
             localStorage.setItem('phsublime_integracoes', JSON.stringify(config));
             fecharModalIntegracoes();
             mostrarToast("Integrações salvas com sucesso!");
         }
+
         function exportarClientesCSV() { mostrarToast("Gerando arquivo CSV..."); }
         function atualizarCacheSistema() { mostrarToast("Limpeza de cache realizada!"); setTimeout(() => window.location.reload(), 800); }
 
-       async function inicializarAdmin() {
+        async function inicializarAdmin() {
             carregarDadosLojaLocal();
             carregarBalcoesLocal();
             carregarFormasPagamentoLocal();
