@@ -131,23 +131,10 @@
     <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
 
         <div id="secao-catalogo" class="space-y-6">
-            
-            <div class="max-w-5xl mx-auto relative w-full overflow-hidden rounded-xl shadow-md bg-blue-950 group">
-                <div id="banner-slider-container" class="flex transition-transform duration-500 ease-in-out w-full"></div>
-
-                <button onclick="mudarBanner(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-amber-400 hover:text-blue-950 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all z-10">
-                    <i class="fa-solid fa-chevron-left text-xs"></i>
-                </button>
-                
-                <button onclick="mudarBanner(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-amber-400 hover:text-blue-950 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all z-10">
-                    <i class="fa-solid fa-chevron-right text-xs"></i>
-                </button>
-
-                <div id="banner-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10"></div>
-            </div>
 
             <div class="flex flex-col lg:flex-row gap-6 pt-2">
                 
+                <!-- SIDEBAR ESQUERDA -->
                 <aside class="w-full lg:w-64 shrink-0 space-y-4">
                     
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -168,7 +155,31 @@
                     </div>
                 </aside>
 
-                <div class="flex-1 space-y-4">
+                <!-- ÁREA PRINCIPAL: BANNERS + PRODUTOS -->
+                <div class="flex-1 space-y-6">
+                    
+                    <!-- ÁREA DE BANNERS (1 GRANDE SLIDER + 3 MINI BANNERS PARADOS) -->
+                    <div class="space-y-4">
+                        <!-- 1. BANNER GRANDE ROTATIVO -->
+                        <div class="relative w-full overflow-hidden rounded-xl shadow-md bg-blue-950 group">
+                            <div id="banner-slider-container" class="flex transition-transform duration-500 ease-in-out w-full"></div>
+
+                            <button onclick="mudarBanner(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-amber-400 hover:text-blue-950 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all z-10">
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
+                            </button>
+                            
+                            <button onclick="mudarBanner(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-amber-400 hover:text-blue-950 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all z-10">
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+
+                            <div id="banner-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10"></div>
+                        </div>
+
+                        <!-- 2. TRÊS MINI BANNERS PARADOS LADO A LADO -->
+                        <div id="container-mini-banners" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+                    </div>
+
+                    <!-- CABEÇALHO DO CATÁLOGO -->
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-2">
                         <h3 id="txt-titulo-categoria-atual" class="text-base font-black text-blue-900 uppercase font-heading flex items-center gap-2">
                             PRODUTOS DA GRÁFICA
@@ -176,9 +187,11 @@
                         <span id="txt-contador-produtos" class="text-xs text-slate-500 font-bold bg-slate-100 px-3 py-1 rounded-full">Carregando estoque...</span>
                     </div>
 
+                    <!-- GRID DE 8 PRODUTOS POR PÁGINA -->
                     <div id="container-catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
 
-                    <div id="container-paginacao" class="flex justify-center items-center gap-2 pt-6"></div>
+                    <!-- PAGINAÇÃO -->
+                    <div id="container-paginacao" class="flex justify-center items-center gap-2 pt-4"></div>
                 </div>
 
             </div>
@@ -539,7 +552,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL COM EMBARALHAMENTO E 8 PRODUTOS POR PÁGINA -->
+    <!-- SCRIPT JS PRINCIPAL COM EMBARALHAMENTO E BANNERS (1 GRANDE + 3 MINIS) -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
@@ -703,9 +716,16 @@
             document.getElementById('modal-pagina-extra-loja').classList.add('hidden');
         }
 
+        // BANNERS: SLIDER ROTATIVO + 3 MINI BANNERS PARADOS
         let bannersCarrossel = [
-            { img: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_OFERTAS ESPECIAIS.jpg' },
-            { img: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_sss.gif' }
+            { img: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_OFERTAS ESPECIAIS.jpg', link: '' },
+            { img: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_sss.gif', link: '' }
+        ];
+
+        let miniBannersParados = [
+            { img: 'https://via.placeholder.com/600x200/1e1b4b/f59e0b?text=INDIQUE+E+GANHE', link: '' },
+            { img: 'https://via.placeholder.com/600x200/0284c7/ffffff?text=DESCONTO+EM+CRÉDITOS', link: '' },
+            { img: 'https://via.placeholder.com/600x200/7e22ce/ffffff?text=NOVIDADES+DTF+LOJA', link: '' }
         ];
 
         function carregarBannersAdmin() {
@@ -714,11 +734,16 @@
                 if (bannersSalvos) {
                     const lista = JSON.parse(bannersSalvos);
                     if (Array.isArray(lista) && lista.length > 0) {
-                        bannersCarrossel = lista.map(b => ({ img: b.imagem, link: b.link }));
+                        const slider = lista.filter(b => !b.tipo || b.tipo === 'Animação' || b.tipo.includes('Slider'));
+                        const minis = lista.filter(b => b.tipo === 'Mini Banner');
+                        
+                        if (slider.length > 0) bannersCarrossel = slider;
+                        if (minis.length > 0) miniBannersParados = minis.slice(0, 3);
                     }
                 }
             } catch(e) {}
             renderizarBanners();
+            renderizarMiniBanners();
         }
 
         let bannerIndiceAtual = 0;
@@ -750,6 +775,25 @@
                     dot.onclick = () => irParaBanner(i);
                     dots.appendChild(dot);
                 }
+            });
+        }
+
+        function renderizarMiniBanners() {
+            const container = document.getElementById('container-mini-banners');
+            if (!container) return;
+            container.innerHTML = '';
+
+            miniBannersParados.forEach((m, idx) => {
+                const card = document.createElement('div');
+                card.className = "rounded-xl overflow-hidden shadow-md border border-slate-200 hover:shadow-lg transition-all group bg-blue-950";
+                const imgHtml = `<img src="${formatarUrlImagem(m.img)}" alt="Mini Banner ${idx+1}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 max-h-36" onerror="this.onerror=null; this.style.display='none';">`;
+                
+                if (m.link) {
+                    card.innerHTML = `<a href="${escapeAttr(m.link)}" target="_blank">${imgHtml}</a>`;
+                } else {
+                    card.innerHTML = imgHtml;
+                }
+                container.appendChild(card);
             });
         }
 
