@@ -66,7 +66,7 @@
 
     <div id="container-scripts-admin-head"></div>
 
-    <!-- GAVETA DO CARRINHO LATERAL (SLIDE-OVER DRAWER) -->
+    <!-- GAVETA DO CARRINHO LATERAL -->
     <div id="aba-lateral-carrinho" class="fixed top-0 right-0 w-80 sm:w-96 h-full bg-slate-900/95 backdrop-blur-md text-white z-[1000] shadow-2xl transition-transform duration-300 translate-x-full flex flex-col justify-between p-4 border-l border-blue-800">
         <div class="space-y-4 flex-1 flex flex-col overflow-hidden">
             <div class="flex items-center justify-between border-b border-slate-700 pb-3">
@@ -203,7 +203,7 @@
                         </ul>
                     </div>
 
-                    <!-- 3. BLOCO TODOS OS PRODUTOS (COM AS CATEGORIAS DA GRAFICONALTA) -->
+                    <!-- 3. BLOCO TODOS OS PRODUTOS (COM TODAS AS CATEGORIAS GRAFICONALTA) -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider">
                             TODOS OS PRODUTOS
@@ -675,36 +675,51 @@
         const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
-        // CATÁLOGO NATIVO COMPLETO DAS CATEGORIAS DA GRAFICONALTA
+        // LISTA FIXA DE CATEGORIAS DA GRAFICONALTA PARA NUNCA SUMIR
+        const CATEGORIAS_FIXAS_GRAFICONALTA = [
+            "Adesivo",
+            "Banner, Faixa, Lona e Painel",
+            "Cartão de Visita",
+            "DTF Transfer Digital",
+            "Folheto, Folder e Flyer",
+            "Camisa, Camiseta e Blusa",
+            "Wind Banner",
+            "Canecas, Copos e Taças",
+            "Calendários e Folhinha",
+            "Agendas, Cadernos e Planners",
+            "Embalagens Fast Food"
+        ];
+
+        // CATÁLOGO COMPLETO PADRÃO DA GRAFICONALTA
         const CATALOGO_GRAFICONALTA_PADRAO = [
-            { id: 1, nome: "Adesivo Vinil Brilho 0,10 M²", categoria: "Adesivo", precoVenda: 28.80, ref: "sign01", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/3/img/20190313_imprimir_adesivo_personalizado.jpg", descricao: "<p>Adesivo vinil brilho de alta resolução e durabilidade.</p>" },
-            { id: 2, nome: "Adesivo Brilho + Corte Contorno 5cm", categoria: "Adesivo", precoVenda: 33.60, ref: "sign03", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/5/img/20190313_imprimir_adesivo_personalizado_com_corte_especial_brilho.jpg", descricao: "<p>Adesivo recortado eletronicamente para rótulos e etiquetas.</p>" },
-            { id: 3, nome: "Adesivo Microperfurado M²", categoria: "Adesivo", precoVenda: 45.00, ref: "sign120", producao: "24 horas", imagem: "", descricao: "<p>Adesivo para vidros de carros e vitrines comerciais.</p>" },
+            { id: 'gn-1', nome: "Adesivo Vinil Brilho 0,10 M²", categoria: "Adesivo", precoVenda: 28.80, ref: "sign01", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/3/img/20190313_imprimir_adesivo_personalizado.jpg", descricao: "<p>Adesivo vinil brilho de alta resolução e durabilidade.</p>" },
+            { id: 'gn-2', nome: "Adesivo Brilho + Corte Contorno 5cm", categoria: "Adesivo", precoVenda: 33.60, ref: "sign03", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/5/img/20190313_imprimir_adesivo_personalizado_com_corte_especial_brilho.jpg", descricao: "<p>Adesivo recortado eletronicamente para rótulos e etiquetas.</p>" },
+            { id: 'gn-3', nome: "Adesivo Microperfurado M²", categoria: "Adesivo", precoVenda: 45.00, ref: "sign120", producao: "24 horas", imagem: "", descricao: "<p>Adesivo para vidros de carros e vitrines comerciais.</p>" },
             
-            { id: 4, nome: "Banner Lona Brilho 440g", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 26.88, ref: "sign22", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/24/img/20190316_imprimir_banner_personalizado_03.jpg", descricao: "<p>Banner impresso em lona 440g reforçada com bastão e cordinha.</p>" },
-            { id: 5, nome: "Lona Fosca 240g | Bainha e Ilhós", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 24.00, ref: "sign20p8", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", descricao: "<p>Lona fosca ideal para painéis de festa e fachadas sem reflexo.</p>" },
-            { id: 6, nome: "Roll Up de Alumínio Completo", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 180.00, ref: "sign487", producao: "24 horas", imagem: "", descricao: "<p>Estrutura de roll-up retrátil com lona impressa.</p>" },
+            { id: 'gn-4', nome: "Banner Lona Brilho 440g", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 26.88, ref: "sign22", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/24/img/20190316_imprimir_banner_personalizado_03.jpg", descricao: "<p>Banner impresso em lona 440g reforçada com bastão e cordinha.</p>" },
+            { id: 'gn-5', nome: "Lona Fosca 240g | Bainha e Ilhós", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 24.00, ref: "sign20p8", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", descricao: "<p>Lona fosca ideal para painéis de festa e fachadas sem reflexo.</p>" },
+            { id: 'gn-6', nome: "Roll Up de Alumínio Completo", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 180.00, ref: "sign487", producao: "24 horas", imagem: "", descricao: "<p>Estrutura de roll-up retrátil com lona impressa.</p>" },
 
-            { id: 7, nome: "Cartão 250g | 4/4 | Verniz UV 1/0", categoria: "Cartão de Visita", precoVenda: 21.12, ref: "crt003", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", descricao: "<p>Cartão de visita com frente e verso coloridos e brilho UV.</p>" },
-            { id: 8, nome: "Cartão 300g | Lam. Fosca + UV Local 1/1", categoria: "Cartão de Visita", precoVenda: 72.00, ref: "crt012", producao: "5 dias", imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", descricao: "<p>Cartão nobre com toque aveludado e verniz em relevo.</p>" },
+            { id: 'gn-7', nome: "Cartão 250g | 4/4 | Verniz UV 1/0", categoria: "Cartão de Visita", precoVenda: 21.12, ref: "crt003", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", descricao: "<p>Cartão de visita com frente e verso coloridos e brilho UV.</p>" },
+            { id: 'gn-8', nome: "Cartão 300g | Lam. Fosca + UV Local 1/1", categoria: "Cartão de Visita", precoVenda: 72.00, ref: "crt012", producao: "5 dias", imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", descricao: "<p>Cartão nobre com toque aveludado e verniz em relevo.</p>" },
 
-            { id: 9, nome: "DTF Têxtil por Metro Linear (57x100cm)", categoria: "DTF Transfer Digital", precoVenda: 55.00, ref: "dtf001", producao: "24 horas", imagem: "", descricao: "<p>Impressão DTF têxtil de altíssima qualidade pronta para aplicar em tecidos.</p>" },
-            { id: 10, nome: "DTF UV Cartela A4", categoria: "DTF Transfer Digital", precoVenda: 25.00, ref: "dtfuv01", producao: "24 horas", imagem: "", descricao: "<p>DTF UV para aplicação direta em rígidos (copos, vidros, canetas).</p>" },
+            { id: 'gn-9', nome: "DTF Têxtil por Metro Linear (57x100cm)", categoria: "DTF Transfer Digital", precoVenda: 55.00, ref: "dtf001", producao: "24 horas", imagem: "", descricao: "<p>Impressão DTF têxtil de altíssima qualidade pronta para aplicar em tecidos.</p>" },
+            { id: 'gn-10', nome: "DTF UV Cartela A4", categoria: "DTF Transfer Digital", precoVenda: 25.00, ref: "dtfuv01", producao: "24 horas", imagem: "", descricao: "<p>DTF UV para aplicação direta em rígidos (copos, vidros, canetas).</p>" },
 
-            { id: 11, nome: "Folheto Couchê 80g | 10x14cm | 4/0", categoria: "Folheto, Folder e Flyer", precoVenda: 71.04, ref: "flt001", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", descricao: "<p>Panfletos em papel couchê brilhante para panfletagem.</p>" },
+            { id: 'gn-11', nome: "Folheto Couchê 80g | 10x14cm | 4/0", categoria: "Folheto, Folder e Flyer", precoVenda: 71.04, ref: "flt001", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", descricao: "<p>Panfletos em papel couchê brilhante para panfletagem.</p>" },
             
-            { id: 12, nome: "Camisa Com Manga Adulto Sublimada", categoria: "Camisa, Camiseta e Blusa", precoVenda: 24.00, ref: "cam002", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", descricao: "<p>Camisa personalizada em tecido 100% poliéster.</p>" },
-            { id: 13, nome: "Camisa Babylook Feminina", categoria: "Camisa, Camiseta e Blusa", precoVenda: 22.08, ref: "cam004", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/573/img/20230410_0_6.png", descricao: "<p>Babylook com corte acinturado e estampa total.</p>" },
+            { id: 'gn-12', nome: "Camisa Com Manga Adulto Sublimada", categoria: "Camisa, Camiseta e Blusa", precoVenda: 24.00, ref: "cam002", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", descricao: "<p>Camisa personalizada em tecido 100% poliéster.</p>" },
+            { id: 'gn-13', nome: "Camisa Babylook Feminina", categoria: "Camisa, Camiseta e Blusa", precoVenda: 22.08, ref: "cam004", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/573/img/20230410_0_6.png", descricao: "<p>Babylook com corte acinturado e estampa total.</p>" },
 
-            { id: 14, nome: "Wind Banner Modelo Faca | 260x70cm", categoria: "Wind Banner", precoVenda: 105.60, ref: "sub007", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", descricao: "<p>Wind banner completo com haste e base para bandeira de calçada.</p>" },
-            { id: 15, nome: "Bandeira de Carro | 30x42cm", categoria: "Wind Banner", precoVenda: 6.00, ref: "ELE26-610", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2204/img/20260808_0_bandeira_para_carro_campanha_eleitoral_26.png", descricao: "<p>Bandeira automotiva com suporte para janela.</p>" },
+            { id: 'gn-14', nome: "Wind Banner Modelo Faca | 260x70cm", categoria: "Wind Banner", precoVenda: 105.60, ref: "sub007", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", descricao: "<p>Wind banner completo com haste e base para bandeira de calçada.</p>" },
+            { id: 'gn-15', nome: "Bandeira de Carro | 30x42cm", categoria: "Wind Banner", precoVenda: 6.00, ref: "ELE26-610", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2204/img/20260808_0_bandeira_para_carro_campanha_eleitoral_26.png", descricao: "<p>Bandeira automotiva com suporte para janela.</p>" },
 
-            { id: 16, nome: "Caneca de Alumínio 500ml", categoria: "Canecas, Copos e Taças", precoVenda: 14.50, ref: "cop001", producao: "48 horas", imagem: "", descricao: "<p>Caneca de alumínio para festas e eventos com tirante.</p>" },
-            { id: 17, nome: "Copo Long Drink 350ml Sólido", categoria: "Canecas, Copos e Taças", precoVenda: 3.20, ref: "cop002", producao: "48 horas", imagem: "", descricao: "<p>Copo acrílico rígido para personalização.</p>" },
+            { id: 'gn-16', nome: "Caneca de Alumínio 500ml", categoria: "Canecas, Copos e Taças", precoVenda: 14.50, ref: "cop001", producao: "48 horas", imagem: "", descricao: "<p>Caneca de alumínio para festas e eventos com tirante.</p>" },
+            { id: 'gn-17', nome: "Copo Long Drink 350ml Sólido", categoria: "Canecas, Copos e Taças", precoVenda: 3.20, ref: "cop002", producao: "48 horas", imagem: "", descricao: "<p>Copo acrílico rígido para personalização.</p>" },
 
-            { id: 18, nome: "Calendário de Mesa com Wire-O 2026", categoria: "Calendários e Folhinha", precoVenda: 8.50, ref: "cal001", producao: "3 dias", imagem: "", descricao: "<p>Calendário de mesa corporativo personalizado.</p>" },
-            { id: 19, nome: "Agenda 1 Dia por Página 2026", categoria: "Agendas, Cadernos e Planners", precoVenda: 28.00, ref: "agd001", producao: "4 dias", imagem: "", descricao: "<p>Agenda anual capa dura personalizada.</p>" },
-            { id: 20, nome: "Embalagem Batata Frita Média (500 un)", categoria: "Embalagens Fast Food", precoVenda: 120.00, ref: "emb001", producao: "5 dias", imagem: "", descricao: "<p>Caixinha de papel cartão para batata frita e porções.</p>" }
+            { id: 'gn-18', nome: "Calendário de Mesa com Wire-O 2026", categoria: "Calendários e Folhinha", precoVenda: 8.50, ref: "cal001", producao: "3 dias", imagem: "", descricao: "<p>Calendário de mesa corporativo personalizado.</p>" },
+            { id: 'gn-19', nome: "Agenda 1 Dia por Página 2026", categoria: "Agendas, Cadernos e Planners", precoVenda: 28.00, ref: "agd001", producao: "4 dias", imagem: "", descricao: "<p>Agenda anual capa dura personalizada.</p>" },
+            { id: 'gn-20', nome: "Embalagem Batata Frita Média (500 un)", categoria: "Embalagens Fast Food", precoVenda: 120.00, ref: "emb001", producao: "5 dias", imagem: "", descricao: "<p>Caixinha de papel cartão para batata frita e porções.</p>" }
         ];
 
         function embaralharArray(arr) {
@@ -714,6 +729,26 @@
                 [list[i], list[j]] = [list[j], list[i]];
             }
             return list;
+        }
+
+        function escapeAttr(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function formatarUrlImagem(url) {
+            if (!url || typeof url !== 'string' || !url.trim()) return '';
+            const u = url.trim();
+
+            if (u.match(/^#?[0-9a-fA-F]{3,6}$/) || u.includes('sistograf.net')) {
+                return '';
+            }
+
+            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) {
+                return u;
+            }
+
+            return u;
         }
 
         function carregarPerfilCliente() {
@@ -1088,6 +1123,8 @@
         }
 
         async function carregarEstoqueSupabase() {
+            let produtosSupabase = [];
+
             try {
                 if (supabaseClient) {
                     const { data, error } = await supabaseClient
@@ -1096,12 +1133,12 @@
                         .limit(100);
 
                     if (!error && data && data.length > 0) {
-                        catalogoEstoque = data.map(item => {
+                        produtosSupabase = data.map(item => {
                             let preco = item.Preco_Venda ?? item.preco_venda ?? item.Preco ?? 0;
                             if (typeof preco === 'string') preco = parseFloat(preco.replace(',', '.'));
 
                             return {
-                                id: item.id,
+                                id: `sb-${item.id}`,
                                 nome: item.Nome || item.nome || 'Produto Sem Nome',
                                 categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
                                 precoVenda: isNaN(preco) ? 0 : preco,
@@ -1118,11 +1155,8 @@
                 console.error("Erro ao conectar no Supabase:", err);
             }
 
-            // SE O SUPABASE NÃO TIVER OS PRODUTOS, CARREGA O CATÁLOGO COMPLETO DA GRAFICONALTA
-            if (catalogoEstoque.length === 0) {
-                catalogoEstoque = [...CATALOGO_GRAFICONALTA_PADRAO];
-            }
-
+            // FUSÃO INTELIGENTE: FUSÃO DOS PRODUTOS DO SUPABASE COM O CATÁLOGO COMPLETO DA GRAFICONALTA
+            catalogoEstoque = [...produtosSupabase, ...CATALOGO_GRAFICONALTA_PADRAO];
             catalogoEstoque = embaralharArray(catalogoEstoque);
 
             renderizarMenusCategorias();
@@ -1131,7 +1165,9 @@
         }
 
         function renderizarMenusCategorias() {
-            const categoriasSet = new Set();
+            const categoriasSet = new Set(CATEGORIAS_FIXAS_GRAFICONALTA);
+            
+            // Adiciona também quaisquer categorias extras vindas do Supabase
             catalogoEstoque.forEach(p => {
                 if (p && p.categoria) categoriasSet.add(p.categoria.trim());
             });
@@ -1141,7 +1177,7 @@
             const menuTopo = document.getElementById('container-menu-categorias-topo');
             if (menuTopo) {
                 let htmlTopo = `<button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 transition-all uppercase">INÍCIO</button>`;
-                categorias.slice(0, 7).forEach(cat => {
+                categorias.slice(0, 8).forEach(cat => {
                     htmlTopo += `<button onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">${escapeAttr(cat)}</button>`;
                 });
                 menuTopo.innerHTML = htmlTopo;
@@ -1288,7 +1324,7 @@
                 container.innerHTML = `
                     <div class="col-span-full bg-white border border-slate-200 p-8 rounded-xl text-center space-y-3 shadow-sm">
                         <i class="fa-solid fa-filter text-4xl text-blue-300 block"></i>
-                        <h4 class="text-sm font-bold text-slate-800">Nenhum produto encontrado nesta busca.</h4>
+                        <h4 class="text-sm font-bold text-slate-800">Nenhum produto encontrado nesta categoria.</h4>
                         <button onclick="filtrarCategoria('')" class="px-4 py-2 bg-blue-900 text-white font-bold text-xs rounded-lg hover:bg-blue-800 transition-all">
                             VER TODOS OS PRODUTOS
                         </button>
