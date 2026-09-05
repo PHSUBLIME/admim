@@ -12,14 +12,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Originais da PHSUBLIME -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts Originais PHSUBLIME / Kanit -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@400;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         :root {
-            /* PALETA ORIGINAL PHSUBLIME */
+            /* PALETA OFICIAL PHSUBLIME */
             --cor-cabecalho: #316AC7;
             --cor-menu: #08009C;
             --cor-rodape: #003859;
@@ -28,8 +28,8 @@
             --cor-botao-gabarito: #2563eb;
         }
 
-        body { font-family: 'Open Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        h1, h2, h3, h4, .font-heading { font-family: 'Roboto', sans-serif; }
+        body { font-family: 'Kanit', 'Open Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        h1, h2, h3, h4, .font-heading { font-family: 'Kanit', sans-serif; }
         
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
@@ -56,22 +56,26 @@
         .btn-gabarito:hover { filter: brightness(0.9); }
 
         .tag-promocao { background-color: #1818FF; color: #FFED00; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
-        .tag-novo { background-color: #1900A9; color: #FFFFFF; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
+        .tag-novo { background-color: #dc2626; color: #FFFFFF; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
 
         .conteudo-html-descricao h2 { font-size: 1.1rem; font-weight: 800; color: #3b0764; margin-top: 1rem; margin-bottom: 0.5rem; }
-        .conteudo-html-descricao p { font-size: 0.8rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem; }
+        .conteudo-html-descricao p { font-size: 0.85rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem; }
+
+        /* Estilo da Lista de Subcategorias (Acordeão) */
+        .sub-menu-tree { display: none; }
+        .sub-menu-tree.open { display: block; }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-blue-900 relative">
 
     <div id="container-scripts-admin-head"></div>
 
-    <!-- GAVETA DO CARRINHO LATERAL -->
+    <!-- GAVETA DO CARRINHO LATERAL (SLIDE-OVER DRAWER) -->
     <div id="aba-lateral-carrinho" class="fixed top-0 right-0 w-80 sm:w-96 h-full bg-slate-900/95 backdrop-blur-md text-white z-[1000] shadow-2xl transition-transform duration-300 translate-x-full flex flex-col justify-between p-4 border-l border-blue-800">
         <div class="space-y-4 flex-1 flex flex-col overflow-hidden">
             <div class="flex items-center justify-between border-b border-slate-700 pb-3">
                 <span class="font-black text-sm uppercase flex items-center gap-2 text-amber-400">
-                    <i class="fa-solid fa-cart-shopping"></i> Seu Carrinho
+                    <i class="fa-solid fa-cart-shopping"></i> Seu Carrinho de Compras
                 </span>
                 <button onclick="alternarCarrinhoLateral(false)" class="text-slate-400 hover:text-white font-bold text-xs bg-slate-800 px-2.5 py-1 rounded-lg">
                     ✕ Fechar
@@ -123,7 +127,7 @@
                 </div>
             </div>
 
-            <!-- PERFIL / CARRINHO / WHATSAPP -->
+            <!-- PERFIL / MEUS PEDIDOS / CARRINHO / WHATSAPP -->
             <div class="flex items-center gap-2 sm:gap-3 shrink-0 flex-wrap justify-center">
                 
                 <div id="box-user-header" class="relative">
@@ -136,6 +140,14 @@
                         <i class="fa-solid fa-caret-down text-[10px] ml-1"></i>
                     </button>
                 </div>
+
+                <a href="javascript:void(0)" onclick="mostrarModalMeusPedidos()" class="hidden xl:flex items-center gap-2 bg-blue-900/80 hover:bg-blue-900 text-white px-3 py-2 rounded-xl text-xs font-semibold border border-blue-700 transition-all">
+                    <i class="fa-solid fa-tv text-amber-400"></i>
+                    <div class="text-left leading-tight">
+                        <span class="block text-[11px] font-bold uppercase">Meus Pedidos</span>
+                        <span id="txt-pedidos-producao-count" class="text-[9px] text-emerald-300 font-bold">0 em produção</span>
+                    </div>
+                </a>
 
                 <button onclick="alternarCarrinhoLateral(true)" class="relative bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
                     <i class="fa-solid fa-cart-shopping text-base"></i>
@@ -151,9 +163,17 @@
 
         </div>
 
+        <!-- MENU SUPERIOR OFICIAL GRAFICONALTA -->
         <nav class="bg-custom-menu border-t border-blue-800 text-xs font-bold text-white">
             <div class="max-w-[1536px] mx-auto px-2 sm:px-4 flex items-center justify-between">
                 <div id="container-menu-categorias-topo" class="flex items-center text-[10px] sm:text-xs overflow-x-auto whitespace-nowrap">
+                    <button onclick="filtrarCategoria('')" class="px-3 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 transition-all uppercase">INÍCIO</button>
+                    <button onclick="mostrarModalPaginaExtra('Entrega')" class="px-3 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">Entrega</button>
+                    <button onclick="mostrarModalPaginaExtra('Quem Somos')" class="px-3 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">Quem Somos</button>
+                    <button onclick="mostrarModalPaginaExtra('O que fazemos')" class="px-3 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">O que fazemos</button>
+                    <button onclick="mostrarModalPaginaExtra('Instruções de Uso')" class="px-3 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">Instruções de Uso</button>
+                    <button onclick="mostrarModalPaginaExtra('Perguntas Frequentes')" class="px-3 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">Perguntas Frequentes</button>
+                    <button onclick="mostrarModalPaginaExtra('Balcão de retirada')" class="px-3 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">Balcão de retirada</button>
                 </div>
 
                 <div class="hidden lg:flex items-center gap-2 text-[11px] text-amber-300 font-semibold px-2">
@@ -179,17 +199,17 @@
 
             <div class="flex flex-col lg:flex-row gap-6 pt-2">
                 
-                <!-- SIDEBAR ESQUERDA -->
-                <aside class="w-full lg:w-64 shrink-0 space-y-4">
+                <!-- SIDEBAR ESQUERDA (ÁRVORE DE CATEGORIAS OFICIAL GRAFICONALTA) -->
+                <aside class="w-full lg:w-72 shrink-0 space-y-4">
                     
                     <!-- 1. PESQUISA RÁPIDA DE CATEGORIAS DA SIDEBAR -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="bg-[#316AC7] text-white font-black text-xs px-3 py-2 uppercase tracking-wider flex items-center justify-between">
+                        <div class="bg-[#316AC7] text-white font-black text-xs px-3 py-2.5 uppercase tracking-wider flex items-center justify-between">
                             <span>PESQUISAR CATEGORIAS</span>
                             <i class="fa-solid fa-magnifying-glass text-amber-300"></i>
                         </div>
                         <div class="p-2 bg-slate-50 border-b border-slate-200">
-                            <input type="text" id="input-filtro-categorias-sidebar" onkeyup="filtrarCategoriasSidebar(this.value)" placeholder="Digite para filtrar..." class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-blue-600">
+                            <input type="text" id="input-filtro-categorias-sidebar" onkeyup="filtrarCategoriasSidebar(this.value)" placeholder="Digite para filtrar categoria..." class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-blue-600 font-medium">
                         </div>
                     </div>
 
@@ -203,12 +223,12 @@
                         </ul>
                     </div>
 
-                    <!-- 3. BLOCO TODOS OS PRODUTOS (COM TODAS AS CATEGORIAS GRAFICONALTA) -->
+                    <!-- 3. BLOCO TODOS OS PRODUTOS (ÁRVORE EXPANDÍVEL COMPLETA) -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider">
                             TODOS OS PRODUTOS
                         </div>
-                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[550px] overflow-y-auto">
+                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[600px] overflow-y-auto">
                         </ul>
                     </div>
                 </aside>
@@ -268,8 +288,8 @@
                             Assine nossa newsletter e fique sempre por dentro das novidades
                         </label>
                         <form onsubmit="event.preventDefault(); mostrarToast('Obrigado por assinar nossa newsletter!');" class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-xl mx-auto">
-                            <input type="text" placeholder="Nome" required class="w-full sm:w-1/3 px-3 py-2 text-xs text-slate-800 rounded-lg focus:outline-none">
-                            <input type="email" placeholder="Email" required class="w-full sm:w-1/2 px-3 py-2 text-xs text-slate-800 rounded-lg focus:outline-none">
+                            <input type="text" placeholder="Nome" required class="w-full sm:w-1/3 px-3 py-2 text-xs text-slate-800 rounded-lg focus:outline-none font-semibold">
+                            <input type="email" placeholder="Email" required class="w-full sm:w-1/2 px-3 py-2 text-xs text-slate-800 rounded-lg focus:outline-none font-semibold">
                             <button type="submit" class="w-full sm:w-auto px-5 py-2 bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs rounded-lg transition-all uppercase shadow">
                                 Assinar
                             </button>
@@ -349,13 +369,13 @@
         <div class="max-w-[1536px] mx-auto px-4 flex items-center justify-center gap-3 flex-wrap">
             <span class="font-semibold text-slate-700">Nossa avaliação do</span>
             <span class="text-lg font-black tracking-tight"><span class="text-blue-600">G</span><span class="text-red-500">o</span><span class="text-amber-500">o</span><span class="text-blue-600">g</span><span class="text-emerald-600">l</span><span class="text-red-500">e</span></span>
-            <span class="font-black text-slate-800 text-sm">4,6</span>
+            <span class="font-black text-slate-800 text-sm">4,9</span>
             <div class="flex items-center text-amber-400 text-sm gap-0.5">
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star-half-stroke"></i>
+                <i class="fa-solid fa-star"></i>
             </div>
             <a id="link-avaliar-loja-google" href="https://g.page/r/CQgTmqLSnep4EAE/review" target="_blank" class="border border-slate-400 hover:bg-white text-slate-800 font-bold px-3 py-1 rounded-lg transition-all text-[11px] uppercase ml-2">
                 avaliar loja
@@ -368,10 +388,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 
                 <div class="space-y-3">
-                    <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">DÚVIDAS</h4>
+                    <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">DÚVIDAS & INFORMAÇÕES</h4>
                     <ul id="footer-coluna-duvidas" class="space-y-2 text-slate-200 font-medium">
-                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Instrução')" class="hover:text-amber-300 transition-all">Instrução</a></li>
-                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Missão')" class="hover:text-amber-300 transition-all">Missão</a></li>
+                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Entrega')" class="hover:text-amber-300 transition-all">Entrega</a></li>
+                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Quem Somos')" class="hover:text-amber-300 transition-all">Quem Somos</a></li>
+                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('O que fazemos')" class="hover:text-amber-300 transition-all">O que fazemos</a></li>
+                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Instruções de Uso')" class="hover:text-amber-300 transition-all">Instruções de Uso</a></li>
                         <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Balcão de retirada')" class="hover:text-amber-300 transition-all">Balcão de retirada</a></li>
                         <li><a id="link-fale-conosco-footer" href="https://wa.me/5521986147221" target="_blank" class="hover:text-amber-300 transition-all">Fale Conosco</a></li>
                     </ul>
@@ -472,6 +494,19 @@
             </div>
         </div>
     </footer>
+
+    <!-- MODAL ALERTA DE GABARITO ATUALIZADO (OFICIAL GRAFICONALTA) -->
+    <div id="modal-alerta-gabarito" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1002] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border-2 border-red-500 relative">
+            <h2 class="text-2xl font-black text-red-600 uppercase tracking-wide">ATENÇÃO</h2>
+            <p class="text-xs text-slate-700 font-semibold leading-relaxed">
+                Este produto teve informações importantes do gabarito atualizadas. Por favor, <strong>BAIXE O GABARITO NOVAMENTE</strong> antes de enviar o arquivo final!
+            </p>
+            <button onclick="fecharModalAlertaGabarito()" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow transition-all">
+                X - CIENTE E FECHAR
+            </button>
+        </div>
+    </div>
 
     <!-- MODAL DE LOGIN / MINHA CONTA DO CLIENTE -->
     <div id="modal-login-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
@@ -641,7 +676,7 @@
             <div class="flex justify-end gap-3 pt-2">
                 <button onclick="fecharModalDetalhes()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Fechar</button>
                 
-                <a id="btn-modal-gabarito" href="#" download target="_blank" class="btn-gabarito px-5 py-2.5 font-bold rounded-xl text-xs shadow flex items-center gap-1.5">
+                <a id="btn-modal-gabarito" href="#" download target="_blank" onclick="mostrarAlertaAvisoGabarito()" class="btn-gabarito px-5 py-2.5 font-bold rounded-xl text-xs shadow flex items-center gap-1.5">
                     <i class="fa-solid fa-download"></i> Baixar Gabarito
                 </a>
                 
@@ -652,13 +687,23 @@
         </div>
     </div>
 
+    <!-- MODAL DE PÁGINAS EXTRAS -->
+    <div id="modal-pagina-extra-loja" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalPaginaExtraLoja()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="txt-modal-extra-titulo" class="text-lg font-black text-blue-900 font-heading uppercase border-b pb-2">Página Extra</h3>
+            <div id="txt-modal-extra-conteudo" class="text-xs text-slate-700 leading-relaxed max-h-96 overflow-y-auto space-y-2 pr-1"></div>
+            <div class="flex justify-end pt-2 border-t"><button onclick="fecharModalPaginaExtraLoja()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button></div>
+        </div>
+    </div>
+
     <!-- TOAST DE NOTIFICAÇÃO -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-amber-400 px-5 py-3.5 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[1001]">
         <i id="toast-icon" class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL -->
+    <!-- SCRIPT JS PRINCIPAL COM TODAS AS CATEGORIAS DO HTML DA GRAFICONALTA -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
@@ -675,51 +720,107 @@
         const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
-        // LISTA FIXA DE CATEGORIAS DA GRAFICONALTA PARA NUNCA SUMIR
-        const CATEGORIAS_FIXAS_GRAFICONALTA = [
-            "Adesivo",
-            "Banner, Faixa, Lona e Painel",
-            "Cartão de Visita",
-            "DTF Transfer Digital",
-            "Folheto, Folder e Flyer",
-            "Camisa, Camiseta e Blusa",
-            "Wind Banner",
-            "Canecas, Copos e Taças",
-            "Calendários e Folhinha",
-            "Agendas, Cadernos e Planners",
-            "Embalagens Fast Food"
+        // ESTRUTURA OFICIAL E HIERÁRQUICA EXTRAÍDA DO HTML DA GRAFICONALTA
+        const ARVORE_CATEGORIAS_OFICIAL = [
+            {
+                nome: "Eleições 2026",
+                badge: "NOVIDADE",
+                subs: ["Adesivo Retangular", "Adesivo Praguinha e Pragão", "Adesivo Bola", "Adesivo Perfurado", "Bandeira", "Placa Pirulito", "Cartão Retrovisor 3D", "Card Eleitoral", "Cartão de Visita Econômico", "Cartão Caricatura", "Cartão com Verniz", "Painel Pantográfico Retrátil", "Folheto & Folder", "Revista", "Totem Polionda", "Orçamento Eleitoral", "Santinho e Santão", "Wind Banner"]
+            },
+            {
+                nome: "DTF Transfer Digital",
+                subs: ["DTF Têxtil", "DTF UV", "DTF Paper"]
+            },
+            {
+                nome: "Acrílico",
+                badge: "NOVIDADE",
+                subs: ["Placa de Acrílico", "Troféus"]
+            },
+            {
+                nome: "Adesivo",
+                subs: ["Couchê Adesivo Brilho", "Couchê Adesivo Fosco", "Kraft Adesivo", "Vinil Adesivo Brilho", "Vinil Adesivo Fosco", "Vinil Adesivo Metalizado", "Vinil Adesivo Retroverso", "Vinil Adesivo Transparente", "Vinil Destrutível - Casca de Ovo", "Adesivo Blackout", "Adesivo Brilho", "Adesivo Fosco", "Adesivo Microperfurado", "Adesivo Retroverso", "Adesivo Transparente"]
+            },
+            {
+                nome: "Agendas, Cadernos e Planners",
+                subs: ["Agenda Creche Não Datado", "Agenda Escolar 1 Dia por Página", "Agenda Escolar 2 Dias por Página", "Agendas 1 Dia por Página", "Agendas 2 Dias por Página", "Cadernos Personalizados", "Planner Diário", "Planner Financeiro", "Planner Semanal"]
+            },
+            {
+                nome: "Banner, Faixa, Lona e Painel",
+                subs: ["Lona 240g", "Lona 300g", "Lona 440g", "Lona Backlight", "Lona Canvas", "Lona Sanet", "Mini Banner", "Roll Up", "X Banner"]
+            },
+            {
+                nome: "Blocos e Comandas",
+                subs: ["Bloco Autocopiativo Com 2 Vias - 50x2", "Bloco Autocopiativo Com 3 Vias - 25x3", "Bloco Autocopiativo Com 4 Vias - 25x4", "Bloco Com 1 Via - 100x1", "Bloco Com 1 Via - 50x1", "Bloco Com 2 Vias - 50x2", "Bloco Com 3 Vias - 25x3"]
+            },
+            {
+                nome: "Bonés e Viseiras",
+                badge: "NOVIDADE",
+                subs: ["Boné Básico Tecido", "Boné Básico Telado", "Boné Premium Tecido", "Boné Premium Telado", "Boné de Tactel", "Boné em Camurça", "Boné Telado Promocional", "Viseira", "Viseira de Papel"]
+            },
+            {
+                nome: "Calendários e Folhinha",
+                subs: ["Bloco para Calendário", "Calendário de Mesa", "Calendário de Mesa com Wire-O", "Calendário de Parede", "Calendário de Parede com Bloco"]
+            },
+            {
+                nome: "Camisa, Camiseta e Blusa",
+                subs: ["Camiseta Sem Impressão", "Camisetas de Algodão", "PROMOÇÃO 50% OFF", "Personalização Parcial", "Personalização Total"]
+            },
+            {
+                nome: "Canecas, Copos e Taças",
+                subs: ["Balde de Acrílico 5L", "Balde de Alumínio 6L", "Balde de Alumínio 9L", "Balde de Pipoca", "Caldereta 320ml", "Caldereta 380ml", "Caldereta 520ml", "Caneca de Alumínio 350ml", "Caneca de Alumínio 500ml", "Caneca de Alumínio 800ml", "Caneca de Cerâmica 325ml", "Caneca de Chopp 500ml", "Caneca de Polímero", "Copo Duplo", "Copo Shot", "Copo de Café", "Copo de Whisky Personalizado", "Copão", "Coqueteleira", "Garrafa Slim Fit", "Long Drink Borda Metalizada", "Long Drink Degradê", "Long Drink Sólido", "Taça de Gin Degradê", "Taça de Gin Premium", "Tornado", "Twister"]
+            },
+            {
+                nome: "Cartão de Visita",
+                subs: ["Cartão de Visita 250g", "Cartão de Visita 300g", "Cartão de Visita 300g + Lam. Fosca e UV Local", "Cartão de Visita 300g + Lam. Holográfica", "Cartão de Visita 350g + Lam. Fosca e Hotstamp", "Cartão de Visita Opaline", "Cartão de Visita PVC", "Cartão de Visita Reciclado", "Cartão de Visita em Papel Especial"]
+            },
+            {
+                nome: "Casa & Decoração",
+                subs: ["Almofada", "Jogo de Banheiro", "Jogo de Cama", "Jogo de Cozinha", "Pano de Prato", "Puff", "Tapete", "Toalha", "Toalha de Mesa"]
+            },
+            {
+                nome: "Embalagens Fast Food",
+                subs: ["Batata Frita Grande", "Batata Frita Média", "Batata Frita Pequena", "Box Yakissoba 500ml", "Box Yakissoba 850ml", "Cachorro Quente", "Combinado Sushi", "Cone Grande", "Hamburgueira", "Pastel", "Papel Glassine"]
+            },
+            {
+                nome: "Envelope",
+                subs: ["Envelope 11x16cm", "Envelope 11x23cm", "Envelope 16x23cm", "Envelope 20x28cm", "Envelope 24x34cm", "Envelope 26x36cm", "Envelope 35x48cm", "Envelope 8x11cm", "Envelope de CD"]
+            },
+            {
+                nome: "Festas",
+                subs: ["Cilindro de Festa", "Painel de Festa", "Saia de Mesa", "Tapete de Cerimônia", "Tecido M²"]
+            },
+            {
+                nome: "Folheto, Folder e Flyer",
+                subs: ["Folheto Couchê 115g", "Folheto Couchê 150g", "Folheto Couchê 150g + UV", "Folheto Couchê 80g", "Folheto Couchê 90g", "Folheto Offset 75g"]
+            },
+            {
+                nome: "PS | PVC com Impressão UV",
+                subs: ["PS | PVC 0,5mm", "PS | PVC 1mm", "PS | PVC 2mm", "PS | PVC 3mm"]
+            },
+            {
+                nome: "Sublimação",
+                subs: ["Bandana", "Bandeira", "Lenço", "Tecido M²"]
+            },
+            {
+                nome: "Wind Banner",
+                subs: ["Wind Banner Modelo Faca", "Wind Banner Pena", "Wind Banner Gota"]
+            }
         ];
 
-        // CATÁLOGO COMPLETO PADRÃO DA GRAFICONALTA
+        // CATÁLOGO DE PRODUTOS COMPLETO
         const CATALOGO_GRAFICONALTA_PADRAO = [
             { id: 'gn-1', nome: "Adesivo Vinil Brilho 0,10 M²", categoria: "Adesivo", precoVenda: 28.80, ref: "sign01", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/3/img/20190313_imprimir_adesivo_personalizado.jpg", descricao: "<p>Adesivo vinil brilho de alta resolução e durabilidade.</p>" },
             { id: 'gn-2', nome: "Adesivo Brilho + Corte Contorno 5cm", categoria: "Adesivo", precoVenda: 33.60, ref: "sign03", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/5/img/20190313_imprimir_adesivo_personalizado_com_corte_especial_brilho.jpg", descricao: "<p>Adesivo recortado eletronicamente para rótulos e etiquetas.</p>" },
-            { id: 'gn-3', nome: "Adesivo Microperfurado M²", categoria: "Adesivo", precoVenda: 45.00, ref: "sign120", producao: "24 horas", imagem: "", descricao: "<p>Adesivo para vidros de carros e vitrines comerciais.</p>" },
-            
-            { id: 'gn-4', nome: "Banner Lona Brilho 440g", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 26.88, ref: "sign22", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/24/img/20190316_imprimir_banner_personalizado_03.jpg", descricao: "<p>Banner impresso em lona 440g reforçada com bastão e cordinha.</p>" },
-            { id: 'gn-5', nome: "Lona Fosca 240g | Bainha e Ilhós", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 24.00, ref: "sign20p8", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", descricao: "<p>Lona fosca ideal para painéis de festa e fachadas sem reflexo.</p>" },
-            { id: 'gn-6', nome: "Roll Up de Alumínio Completo", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 180.00, ref: "sign487", producao: "24 horas", imagem: "", descricao: "<p>Estrutura de roll-up retrátil com lona impressa.</p>" },
-
-            { id: 'gn-7', nome: "Cartão 250g | 4/4 | Verniz UV 1/0", categoria: "Cartão de Visita", precoVenda: 21.12, ref: "crt003", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", descricao: "<p>Cartão de visita com frente e verso coloridos e brilho UV.</p>" },
-            { id: 'gn-8', nome: "Cartão 300g | Lam. Fosca + UV Local 1/1", categoria: "Cartão de Visita", precoVenda: 72.00, ref: "crt012", producao: "5 dias", imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", descricao: "<p>Cartão nobre com toque aveludado e verniz em relevo.</p>" },
-
-            { id: 'gn-9', nome: "DTF Têxtil por Metro Linear (57x100cm)", categoria: "DTF Transfer Digital", precoVenda: 55.00, ref: "dtf001", producao: "24 horas", imagem: "", descricao: "<p>Impressão DTF têxtil de altíssima qualidade pronta para aplicar em tecidos.</p>" },
-            { id: 'gn-10', nome: "DTF UV Cartela A4", categoria: "DTF Transfer Digital", precoVenda: 25.00, ref: "dtfuv01", producao: "24 horas", imagem: "", descricao: "<p>DTF UV para aplicação direta em rígidos (copos, vidros, canetas).</p>" },
-
-            { id: 'gn-11', nome: "Folheto Couchê 80g | 10x14cm | 4/0", categoria: "Folheto, Folder e Flyer", precoVenda: 71.04, ref: "flt001", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", descricao: "<p>Panfletos em papel couchê brilhante para panfletagem.</p>" },
-            
-            { id: 'gn-12', nome: "Camisa Com Manga Adulto Sublimada", categoria: "Camisa, Camiseta e Blusa", precoVenda: 24.00, ref: "cam002", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", descricao: "<p>Camisa personalizada em tecido 100% poliéster.</p>" },
-            { id: 'gn-13', nome: "Camisa Babylook Feminina", categoria: "Camisa, Camiseta e Blusa", precoVenda: 22.08, ref: "cam004", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/573/img/20230410_0_6.png", descricao: "<p>Babylook com corte acinturado e estampa total.</p>" },
-
-            { id: 'gn-14', nome: "Wind Banner Modelo Faca | 260x70cm", categoria: "Wind Banner", precoVenda: 105.60, ref: "sub007", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", descricao: "<p>Wind banner completo com haste e base para bandeira de calçada.</p>" },
-            { id: 'gn-15', nome: "Bandeira de Carro | 30x42cm", categoria: "Wind Banner", precoVenda: 6.00, ref: "ELE26-610", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2204/img/20260808_0_bandeira_para_carro_campanha_eleitoral_26.png", descricao: "<p>Bandeira automotiva com suporte para janela.</p>" },
-
-            { id: 'gn-16', nome: "Caneca de Alumínio 500ml", categoria: "Canecas, Copos e Taças", precoVenda: 14.50, ref: "cop001", producao: "48 horas", imagem: "", descricao: "<p>Caneca de alumínio para festas e eventos com tirante.</p>" },
-            { id: 'gn-17', nome: "Copo Long Drink 350ml Sólido", categoria: "Canecas, Copos e Taças", precoVenda: 3.20, ref: "cop002", producao: "48 horas", imagem: "", descricao: "<p>Copo acrílico rígido para personalização.</p>" },
-
-            { id: 'gn-18', nome: "Calendário de Mesa com Wire-O 2026", categoria: "Calendários e Folhinha", precoVenda: 8.50, ref: "cal001", producao: "3 dias", imagem: "", descricao: "<p>Calendário de mesa corporativo personalizado.</p>" },
-            { id: 'gn-19', nome: "Agenda 1 Dia por Página 2026", categoria: "Agendas, Cadernos e Planners", precoVenda: 28.00, ref: "agd001", producao: "4 dias", imagem: "", descricao: "<p>Agenda anual capa dura personalizada.</p>" },
-            { id: 'gn-20', nome: "Embalagem Batata Frita Média (500 un)", categoria: "Embalagens Fast Food", precoVenda: 120.00, ref: "emb001", producao: "5 dias", imagem: "", descricao: "<p>Caixinha de papel cartão para batata frita e porções.</p>" }
+            { id: 'gn-3', nome: "Banner Lona Brilho 440g", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 26.88, ref: "sign22", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/24/img/20190316_imprimir_banner_personalizado_03.jpg", descricao: "<p>Banner impresso em lona 440g reforçada com bastão e cordinha.</p>" },
+            { id: 'gn-4', nome: "Lona Fosca 240g | Bainha e Ilhós", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 24.00, ref: "sign20p8", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", descricao: "<p>Lona fosca ideal para painéis de festa e fachadas sem reflexo.</p>" },
+            { id: 'gn-5', nome: "Cartão 250g | 4/4 | Verniz UV 1/0", categoria: "Cartão de Visita", precoVenda: 21.12, ref: "crt003", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", descricao: "<p>Cartão de visita com frente e verso coloridos e brilho UV.</p>" },
+            { id: 'gn-6', nome: "Cartão 300g | Lam. Fosca + UV Local 1/1", categoria: "Cartão de Visita", precoVenda: 72.00, ref: "crt012", producao: "5 dias", imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", descricao: "<p>Cartão nobre com toque aveludado e verniz em relevo.</p>" },
+            { id: 'gn-7', nome: "DTF Têxtil por Metro Linear (57x100cm)", categoria: "DTF Transfer Digital", precoVenda: 55.00, ref: "dtf001", producao: "24 horas", imagem: "", descricao: "<p>Impressão DTF têxtil de altíssima qualidade pronta para aplicar em tecidos.</p>" },
+            { id: 'gn-8', nome: "Folheto Couchê 80g | 10x14cm | 4/0", categoria: "Folheto, Folder e Flyer", precoVenda: 71.04, ref: "flt001", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", descricao: "<p>Panfletos em papel couchê brilhante para panfletagem.</p>" },
+            { id: 'gn-9', nome: "Camisa Com Manga Adulto Sublimada", categoria: "Camisa, Camiseta e Blusa", precoVenda: 24.00, ref: "cam002", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", descricao: "<p>Camisa personalizada em tecido 100% poliéster.</p>" },
+            { id: 'gn-10', nome: "Wind Banner Modelo Faca | 260x70cm", categoria: "Wind Banner", precoVenda: 105.60, ref: "sub007", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", descricao: "<p>Wind banner completo com haste e base para bandeira de calçada.</p>" },
+            { id: 'gn-11', nome: "Bandeira de Carro | 30x42cm", categoria: "Eleições 2026", precoVenda: 6.00, ref: "ELE26-610", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2204/img/20260808_0_bandeira_para_carro_campanha_eleitoral_26.png", descricao: "<p>Bandeira automotiva com suporte para janela.</p>" },
+            { id: 'gn-12', nome: "Placa de Acrílico 2mm Personalizada", categoria: "Acrílico", precoVenda: 48.00, ref: "acr001", producao: "48 horas", imagem: "", descricao: "<p>Placa de acrílico transparente impressa com alta definição UV.</p>" }
         ];
 
         function embaralharArray(arr) {
@@ -729,26 +830,6 @@
                 [list[i], list[j]] = [list[j], list[i]];
             }
             return list;
-        }
-
-        function escapeAttr(str) {
-            if (str === null || str === undefined) return '';
-            return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
-
-        function formatarUrlImagem(url) {
-            if (!url || typeof url !== 'string' || !url.trim()) return '';
-            const u = url.trim();
-
-            if (u.match(/^#?[0-9a-fA-F]{3,6}$/) || u.includes('sistograf.net')) {
-                return '';
-            }
-
-            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) {
-                return u;
-            }
-
-            return u;
         }
 
         function carregarPerfilCliente() {
@@ -857,6 +938,14 @@
             if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
         }
 
+        function mostrarAlertaAvisoGabarito() {
+            document.getElementById('modal-alerta-gabarito').classList.remove('hidden');
+        }
+
+        function fecharModalAlertaGabarito() {
+            document.getElementById('modal-alerta-gabarito').classList.add('hidden');
+        }
+
         function carregarConfiguracoesAdminLocal() {
             try {
                 const dadosLojaStr = localStorage.getItem('phsublime_dados_loja');
@@ -867,9 +956,6 @@
                         document.title = dados.titulo;
                         const h1El = document.getElementById('txt-nome-loja-topo');
                         if (h1El) h1El.innerText = dados.titulo.split(' - ')[0] || 'PHSUBLIME';
-                        
-                        const fbNome = document.getElementById('footer-fb-nome');
-                        if (fbNome) fbNome.innerText = dados.titulo.split(' - ')[0] || 'PHSUBLIME GRÁFICA';
                     }
 
                     if (dados.tel1) {
@@ -888,9 +974,6 @@
 
                             const linkWppFooter = document.getElementById('footer-wpp-link');
                             if (linkWppFooter) linkWppFooter.href = `https://wa.me/${whatsappAtendimentoLoja}`;
-
-                            const linkFaleConosco = document.getElementById('link-fale-conosco-footer');
-                            if (linkFaleConosco) linkFaleConosco.href = `https://wa.me/${whatsappAtendimentoLoja}`;
                         }
                     }
 
@@ -910,48 +993,6 @@
                     }
                 }
             } catch(e) { console.error("Erro ao ler dados da loja:", e); }
-
-            try {
-                const cmsData = localStorage.getItem('phsublime_admin_logos');
-                if (cmsData) {
-                    const config = JSON.parse(cmsData);
-                    if (config.favicon && !config.favicon.includes('sistograf.net')) {
-                        const favEl = document.getElementById('site-favicon');
-                        if (favEl) favEl.href = config.favicon;
-                    }
-                    if (config.logoSistema && !config.logoSistema.includes('sistograf.net')) {
-                        const logoImg = document.getElementById('logo-loja-img');
-                        if (logoImg) logoImg.src = config.logoSistema;
-
-                        const logoMiniFb = document.getElementById('footer-fb-logo-mini');
-                        if (logoMiniFb) logoMiniFb.src = config.logoSistema;
-
-                        const logoFinalBarra = document.getElementById('footer-logo-barra-final');
-                        if (logoFinalBarra) logoFinalBarra.src = config.logoSistema;
-                    }
-                    if (config.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', config.corCabecalho);
-                    if (config.corBotao) document.documentElement.style.setProperty('--cor-menu', config.corBotao);
-                    if (config.corBotaoGabarito) document.documentElement.style.setProperty('--cor-botao-gabarito', config.corBotaoGabarito);
-                }
-            } catch(e) {}
-
-            try {
-                const paginasExtrasSalvas = localStorage.getItem('phsublime_paginas_extras');
-                if (paginasExtrasSalvas) {
-                    const listaPags = JSON.parse(paginasExtrasSalvas);
-                    const colDuvidas = document.getElementById('footer-coluna-duvidas');
-                    if (colDuvidas && Array.isArray(listaPags) && listaPags.length > 0) {
-                        let htmlDuvidas = '';
-                        listaPags.forEach(pag => {
-                            if (pag && pag.titulo) {
-                                htmlDuvidas += `<li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('${escapeAttr(pag.titulo)}')" class="hover:text-amber-300 transition-all">${escapeAttr(pag.titulo)}</a></li>`;
-                            }
-                        });
-                        htmlDuvidas += `<li><a id="link-fale-conosco-footer" href="https://wa.me/${whatsappAtendimentoLoja}" target="_blank" class="hover:text-amber-300 transition-all">Fale Conosco</a></li>`;
-                        colDuvidas.innerHTML = htmlDuvidas;
-                    }
-                }
-            } catch(e){}
         }
 
         function mostrarModalPaginaExtra(titulo) {
@@ -1076,25 +1117,6 @@
 
         setInterval(() => mudarBanner(1), 5000);
 
-        function carregarScriptsAdminHead() {
-            try {
-                const tagsSalvas = localStorage.getItem('phsublime_admin_codigos_html');
-                if (!tagsSalvas) return;
-
-                const lista = JSON.parse(tagsSalvas);
-                const container = document.getElementById('container-scripts-admin-head');
-                if (!container || !Array.isArray(lista)) return;
-
-                lista.forEach(item => {
-                    if (item && item.codigo) {
-                        const range = document.createRange();
-                        const node = range.createContextualFragment(item.codigo);
-                        container.appendChild(node);
-                    }
-                });
-            } catch(e) {}
-        }
-
         let catalogoEstoque = [];
         let categoriaFiltro = '';
         let paginaAtual = 1;
@@ -1155,7 +1177,6 @@
                 console.error("Erro ao conectar no Supabase:", err);
             }
 
-            // FUSÃO INTELIGENTE: FUSÃO DOS PRODUTOS DO SUPABASE COM O CATÁLOGO COMPLETO DA GRAFICONALTA
             catalogoEstoque = [...produtosSupabase, ...CATALOGO_GRAFICONALTA_PADRAO];
             catalogoEstoque = embaralharArray(catalogoEstoque);
 
@@ -1164,62 +1185,55 @@
             renderizarCatalogo();
         }
 
+        /* RENDERIZADOR DA ÁRVORE DE CATEGORIAS EXPANDÍVEL (IGUAL GRAFICONALTA) */
         function renderizarMenusCategorias() {
-            const categoriasSet = new Set(CATEGORIAS_FIXAS_GRAFICONALTA);
-            
-            // Adiciona também quaisquer categorias extras vindas do Supabase
-            catalogoEstoque.forEach(p => {
-                if (p && p.categoria) categoriasSet.add(p.categoria.trim());
-            });
-
-            const categorias = Array.from(categoriasSet);
-
-            const menuTopo = document.getElementById('container-menu-categorias-topo');
-            if (menuTopo) {
-                let htmlTopo = `<button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 transition-all uppercase">INÍCIO</button>`;
-                categorias.slice(0, 8).forEach(cat => {
-                    htmlTopo += `<button onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">${escapeAttr(cat)}</button>`;
-                });
-                menuTopo.innerHTML = htmlTopo;
-            }
-
             const sbMaisVendidos = document.getElementById('lista-mais-vendidos-sidebar');
             if (sbMaisVendidos) {
                 let htmlMV = '';
-                const salvosMv = localStorage.getItem('phsublime_admin_mais_vendidos');
-                const listaManual = salvosMv ? JSON.parse(salvosMv) : [];
-
-                if (Array.isArray(listaManual) && listaManual.length > 0) {
-                    listaManual.forEach(item => {
-                        htmlMV += `
-                            <li>
-                                <a href="javascript:void(0)" onclick="abrirModalDetalhes('${escapeAttr(item.id)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
-                                    <span class="truncate pr-2">${escapeAttr(item.nome)}</span> <span class="tag-promocao shrink-0">DESTAQUE</span>
-                                </a>
-                            </li>
-                        `;
-                    });
-                } else {
-                    categorias.slice(0, 5).forEach(cat => {
-                        htmlMV += `
-                            <li>
-                                <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
-                                    <span>${escapeAttr(cat)}</span> <span class="tag-promocao">PROMOÇÃO</span>
-                                </a>
-                            </li>
-                        `;
-                    });
-                }
+                ARVORE_CATEGORIAS_OFICIAL.slice(0, 6).forEach(cat => {
+                    htmlMV += `
+                        <li>
+                            <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat.nome)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between font-bold">
+                                <span>${escapeAttr(cat.nome)}</span> 
+                                ${cat.badge ? `<span class="tag-novo">${cat.badge}</span>` : `<span class="tag-promocao">DESTAQUE</span>`}
+                            </a>
+                        </li>
+                    `;
+                });
                 sbMaisVendidos.innerHTML = htmlMV;
             }
 
             const sbTodas = document.getElementById('lista-todas-categorias-sidebar');
             if (sbTodas) {
-                let htmlTodas = `<li class="item-cat-sidebar"><a href="javascript:void(0)" onclick="filtrarCategoria('')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between font-bold text-blue-900"><span>Ver Todo o Catálogo</span> <i class="fa-solid fa-border-all text-[10px]"></i></a></li>`;
-                categorias.forEach(cat => {
-                    htmlTodas += `<li class="item-cat-sidebar" data-nome="${escapeAttr(cat.toLowerCase())}"><a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between"><span>${escapeAttr(cat)}</span></a></li>`;
+                let htmlTodas = `<li class="item-cat-sidebar"><a href="javascript:void(0)" onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between font-bold text-blue-900 border-b"><span>Ver Todo o Catálogo</span> <i class="fa-solid fa-border-all text-[10px]"></i></a></li>`;
+                
+                ARVORE_CATEGORIAS_OFICIAL.forEach((cat, index) => {
+                    const idSub = `sub-tree-${index}`;
+                    htmlTodas += `
+                        <li class="item-cat-sidebar" data-nome="${escapeAttr(cat.nome.toLowerCase())}">
+                            <div class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between font-bold cursor-pointer text-slate-800" onclick="toggleSubMenuTree('${idSub}')">
+                                <span onclick="event.stopPropagation(); filtrarCategoria('${escapeAttr(cat.nome)}')">${escapeAttr(cat.nome)}</span>
+                                <div class="flex items-center gap-1.5">
+                                    ${cat.badge ? `<span class="tag-novo">${cat.badge}</span>` : ''}
+                                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-400 transition-transform" id="icon-${idSub}"></i>
+                                </div>
+                            </div>
+                            <ul id="${idSub}" class="sub-menu-tree pl-6 bg-slate-50 text-[11px] divide-y divide-slate-200">
+                                ${cat.subs.map(sub => `<li class="py-2 hover:text-blue-700 cursor-pointer font-medium" onclick="filtrarCategoria('${escapeAttr(sub)}')">${escapeAttr(sub)}</li>`).join('')}
+                            </ul>
+                        </li>
+                    `;
                 });
                 sbTodas.innerHTML = htmlTodas;
+            }
+        }
+
+        function toggleSubMenuTree(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(`icon-${id}`);
+            if (el) {
+                el.classList.toggle('open');
+                if (icon) icon.classList.toggle('rotate-90');
             }
         }
 
@@ -1265,7 +1279,7 @@
                         </div>
                     </div>
                     <div class="pt-2 border-t border-slate-100 text-center space-y-1">
-                        <span class="text-[9px] text-slate-400 block">a partir de:</span>
+                        <span class="text-[9px] text-slate-400 block">à partir de:</span>
                         <strong class="text-red-600 font-black text-sm block">R$ ${preco.toFixed(2)}</strong>
                         <button onclick="adicionarAoCarrinho('${item.id}')" class="w-full btn-comprar-custom text-white font-black text-[10px] py-1.5 rounded-lg shadow uppercase flex items-center justify-center gap-1">
                             <i class="fa-solid fa-bag-shopping text-[10px]"></i> COMPRAR
@@ -1315,7 +1329,7 @@
             let filtrados = catalogoEstoque.filter(item => {
                 const bateuBusca = !query || item.nome.toLowerCase().includes(query) || item.ref.toLowerCase().includes(query);
                 if (query) return bateuBusca;
-                return !categoriaFiltro || item.categoria.toLowerCase().trim() === categoriaFiltro;
+                return !categoriaFiltro || item.categoria.toLowerCase().trim().includes(categoriaFiltro) || categoriaFiltro.includes(item.categoria.toLowerCase().trim());
             });
 
             if (txtContador) txtContador.innerText = `${filtrados.length} produtos disponíveis`;
@@ -1338,15 +1352,6 @@
             const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
             const itensPagina = filtrados.slice(inicio, inicio + ITENS_POR_PAGINA);
 
-            let txtBtnComprar = "COMPRAR 🚀";
-            const cmsData = localStorage.getItem('phsublime_admin_logos');
-            if (cmsData) {
-                try {
-                    const cfg = JSON.parse(cmsData);
-                    if (cfg.textoBotaoCard) txtBtnComprar = cfg.textoBotaoCard;
-                } catch(e){}
-            }
-
             itensPagina.forEach(item => {
                 const preco = parseFloat(item.precoVenda || 0);
                 const card = document.createElement('div');
@@ -1357,8 +1362,8 @@
                     : `<i class="fa-solid fa-box-open text-4xl text-blue-900/30"></i>`;
 
                 const htmlBtnGabarito = item.gabaritoUrl 
-                    ? `<a href="${escapeAttr(item.gabaritoUrl)}" target="_blank" download class="btn-gabarito text-[11px] py-2 rounded-lg font-bold flex items-center justify-center gap-1"><i class="fa-solid fa-download"></i> Gabarito</a>`
-                    : `<button disabled class="bg-slate-200 text-slate-400 text-[11px] py-2 rounded-lg font-bold cursor-not-allowed">Sem Gabarito</button>`;
+                    ? `<a href="${escapeAttr(item.gabaritoUrl)}" target="_blank" download onclick="mostrarAlertaAvisoGabarito()" class="btn-gabarito text-[11px] py-2 rounded-lg font-bold flex items-center justify-center gap-1"><i class="fa-solid fa-download"></i> Gabarito</a>`
+                    : `<button onclick="mostrarAlertaAvisoGabarito()" class="btn-gabarito text-[11px] py-2 rounded-lg font-bold flex items-center justify-center gap-1"><i class="fa-solid fa-download"></i> Gabarito</button>`;
 
                 card.innerHTML = `
                     <div class="space-y-2">
@@ -1373,13 +1378,13 @@
                     </div>
                     <div class="pt-2 border-t border-slate-100 space-y-2">
                         <div class="text-center">
-                            <span class="text-[10px] text-slate-400 block leading-none">a partir de:</span>
+                            <span class="text-[10px] text-slate-400 block leading-none">à partir de:</span>
                             <strong class="text-red-600 font-black text-lg">R$ ${preco.toFixed(2)}</strong>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             ${htmlBtnGabarito}
                             <button onclick="adicionarAoCarrinho('${item.id}')" class="btn-comprar-custom text-white font-black text-[11px] py-2 rounded-lg shadow uppercase flex items-center justify-center gap-1">
-                                <i class="fa-solid fa-bag-shopping text-[10px]"></i> ${escapeAttr(txtBtnComprar)}
+                                <i class="fa-solid fa-bag-shopping text-[10px]"></i> COMPRAR
                             </button>
                         </div>
                     </div>
@@ -1428,7 +1433,8 @@
                 btnGab.href = item.gabaritoUrl;
                 btnGab.style.display = 'inline-flex';
             } else {
-                btnGab.style.display = 'none';
+                btnGab.style.display = 'inline-flex';
+                btnGab.href = "javascript:mostrarAlertaAvisoGabarito()";
             }
 
             const btnAdd = document.getElementById('btn-modal-adicionar-carrinho');
@@ -1463,6 +1469,7 @@
 
             salvarCarrinho();
             mostrarToast(`${item.nome} adicionado ao carrinho!`);
+            alternarCarrinhoLateral(true);
         }
 
         function removerDoCarrinho(id) {
@@ -1702,11 +1709,14 @@
             }
         }
 
+        function mostrarModalMeusPedidos() {
+            mostrarToast("Você pode acompanhar o status dos seus pedidos diretamente no atendimento via WhatsApp.");
+        }
+
         async function inicializarPortal() {
             carregarConfiguracoesAdminLocal();
             carregarPerfilCliente();
             carregarBannersAdmin();
-            carregarScriptsAdminHead();
             await carregarEstoqueSupabase();
             atualizarBadgeCarrinho();
 
