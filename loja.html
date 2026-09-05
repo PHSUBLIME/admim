@@ -247,7 +247,7 @@
     </main>
 
     <!-- ========================================================================= -->
-    <!-- NOVO RODAPÉ COMPLETO ESTILO SISTOGRAF -->
+    <!-- RODAPÉ COMPLETO COM DADOS ATUALIZADOS -->
     <!-- ========================================================================= -->
 
     <!-- 1. BARRA DE AVALIAÇÃO DO GOOGLE -->
@@ -264,12 +264,12 @@
                 <i class="fa-solid fa-star-half-stroke"></i>
             </div>
             <a id="link-avaliar-loja-google" href="https://g.page/r/CQgTmqLSnep4EAE/review" target="_blank" class="border border-slate-400 hover:bg-white text-slate-800 font-bold px-3 py-1 rounded-lg transition-all text-[11px] uppercase ml-2">
-    avaliar loja
-</a>
+                avaliar loja
+            </a>
         </div>
     </div>
 
-    <!-- 2. CORPO DO RODAPÉ (AZUL ESCURO / TEAL) -->
+    <!-- 2. CORPO DO RODAPÉ (AZUL ESCURO) -->
     <footer id="footer-principal" class="bg-custom-rodape text-white text-xs border-t-4 border-amber-400">
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -285,11 +285,11 @@
                     </ul>
                 </div>
 
-                <!-- COLUNA 2: ENDEREÇO & HORÁRIO -->
+                <!-- COLUNA 2: ENDEREÇO & HORÁRIO ATUALIZADOS -->
                 <div class="space-y-4">
                     <div class="space-y-2">
                         <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOSSO ENDEREÇO</h4>
-                        <p id="footer-endereco-txt" class="text-slate-200 font-medium leading-relaxed">Estrada da Água Grande, 221 - Irajá / RJ</p>
+                        <p id="footer-endereco-txt" class="text-slate-200 font-medium leading-relaxed">Rua Marcílio Dias - Campo Lindo - Seropédica - RJ</p>
                     </div>
                     <div class="space-y-2">
                         <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">HORÁRIO DE ATENDIMENTO</h4>
@@ -302,6 +302,7 @@
                     <div class="space-y-2">
                         <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">CENTRAL DE ATENDIMENTO</h4>
                         <p id="footer-tel-atendimento" class="text-slate-200 font-bold text-sm">(21) 98614-7221</p>
+                        <p id="footer-tel-atendimento-2" class="text-slate-200 font-bold text-sm">(21) 97166-6349</p>
                         <p id="footer-email-atendimento" class="text-slate-200 font-medium">contato@phsublime.com</p>
                     </div>
                     <div class="space-y-2">
@@ -333,11 +334,10 @@
             </div>
         </div>
 
-        <!-- 3. BARRA BRANCA DE CERTIFICADOS, PAGAMENTO E FRETE (ESTILO SISTOGRAF) -->
+        <!-- 3. BARRA BRANCA DE BANDEIRAS -->
         <div class="bg-white text-slate-700 py-6 border-t border-slate-200 text-xs">
             <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center text-center md:text-left">
                 
-                <!-- BANDEIRAS DE PAGAMENTO -->
                 <div class="space-y-2">
                     <span class="font-bold text-slate-500 block uppercase text-[11px]">Formas de Pagamento:</span>
                     <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 text-xl text-slate-600">
@@ -349,7 +349,6 @@
                     </div>
                 </div>
 
-                <!-- SELOS DE SEGURANÇA -->
                 <div class="space-y-2 text-center">
                     <span class="font-bold text-slate-500 block uppercase text-[11px]">Certificados de Segurança:</span>
                     <div class="flex items-center justify-center gap-3 text-xs font-bold text-emerald-700">
@@ -362,7 +361,6 @@
                     </div>
                 </div>
 
-                <!-- BANDEIRAS DE FRETE/ENVIO -->
                 <div class="space-y-2 text-center md:text-right">
                     <span class="font-bold text-slate-500 block uppercase text-[11px]">Formas de Envio:</span>
                     <div class="flex items-center justify-center md:justify-end gap-3 text-xs font-bold text-slate-700">
@@ -374,7 +372,7 @@
             </div>
         </div>
 
-        <!-- 4. FAIXA VERDE INFERIOR COM COPYRIGHT -->
+        <!-- 4. FAIXA VERDE INFERIOR -->
         <div class="bg-custom-barra-rodape text-white py-3 text-center text-xs font-semibold">
             <div class="max-w-[1536px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
@@ -543,6 +541,9 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
+    <!-- ========================================================================= -->
+    <!-- SCRIPT JS SEGURO E PROTEGIDO CONTRA ERROS -->
+    <!-- ========================================================================= -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
@@ -578,12 +579,11 @@
             return '';
         }
 
-        // SINCRONIZAÇÃO COMPLETA DO ADMIN COM O NOVO RODAPÉ DA LOJA
+        // SINCRONIZAÇÃO SEGURA DO ADMIN COM A LOJA
         function carregarConfiguracoesAdminLocal() {
-            // 1. CARREGA DADOS DA LOJA (TÍTULO, TELEFONES, EMAIL, ENDEREÇO, SEO)
-            const dadosLojaStr = localStorage.getItem('phsublime_dados_loja');
-            if (dadosLojaStr) {
-                try {
+            try {
+                const dadosLojaStr = localStorage.getItem('phsublime_dados_loja');
+                if (dadosLojaStr) {
                     const dados = JSON.parse(dadosLojaStr);
                     
                     if (dados.titulo) {
@@ -626,14 +626,12 @@
                         const endFooter = document.getElementById('footer-endereco-txt');
                         if (endFooter) endFooter.innerText = dados.endereco;
                     }
+                }
+            } catch(e) { console.error("Erro ao ler dados da loja:", e); }
 
-                } catch(e) { console.error("Erro ao sincronizar dados da loja:", e); }
-            }
-
-            // 2. CARREGA APARÊNCIA, LOGOS E CORES DO TEMA
-            const cmsData = localStorage.getItem('phsublime_admin_logos');
-            if (cmsData) {
-                try {
+            try {
+                const cmsData = localStorage.getItem('phsublime_admin_logos');
+                if (cmsData) {
                     const config = JSON.parse(cmsData);
                     if (config.favicon) {
                         const favEl = document.getElementById('site-favicon');
@@ -652,38 +650,38 @@
                     if (config.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', config.corCabecalho);
                     if (config.corBotao) document.documentElement.style.setProperty('--cor-menu', config.corBotao);
                     if (config.corBotaoGabarito) document.documentElement.style.setProperty('--cor-botao-gabarito', config.corBotaoGabarito);
-                } catch(e) {}
-            }
+                }
+            } catch(e) {}
 
-            // 3. PÁGINAS EXTRAS DINÂMICAS NA COLUNA DÚVIDAS DO RODAPÉ
-            const paginasExtrasSalvas = localStorage.getItem('phsublime_paginas_extras');
-            if (paginasExtrasSalvas) {
-                try {
+            try {
+                const paginasExtrasSalvas = localStorage.getItem('phsublime_paginas_extras');
+                if (paginasExtrasSalvas) {
                     const listaPags = JSON.parse(paginasExtrasSalvas);
                     const colDuvidas = document.getElementById('footer-coluna-duvidas');
                     if (colDuvidas && Array.isArray(listaPags) && listaPags.length > 0) {
                         let htmlDuvidas = '';
                         listaPags.forEach(pag => {
-                            htmlDuvidas += `<li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('${escapeAttr(pag.titulo)}')" class="hover:text-amber-300 transition-all">${escapeAttr(pag.titulo)}</a></li>`;
+                            if (pag && pag.titulo) {
+                                htmlDuvidas += `<li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('${escapeAttr(pag.titulo)}')" class="hover:text-amber-300 transition-all">${escapeAttr(pag.titulo)}</a></li>`;
+                            }
                         });
                         htmlDuvidas += `<li><a id="link-fale-conosco-footer" href="https://wa.me/${whatsappAtendimentoLoja}" target="_blank" class="hover:text-amber-300 transition-all">Fale Conosco</a></li>`;
                         colDuvidas.innerHTML = htmlDuvidas;
                     }
-                } catch(e){}
-            }
+                }
+            } catch(e){}
         }
 
         function mostrarModalPaginaExtra(titulo) {
-            const paginasExtrasSalvas = localStorage.getItem('phsublime_paginas_extras');
             let conteudo = "<p>Conteúdo em atualização.</p>";
-            
-            if (paginasExtrasSalvas) {
-                try {
+            try {
+                const paginasExtrasSalvas = localStorage.getItem('phsublime_paginas_extras');
+                if (paginasExtrasSalvas) {
                     const listaPags = JSON.parse(paginasExtrasSalvas);
-                    const enc = listaPags.find(p => p.titulo.toLowerCase().trim() === titulo.toLowerCase().trim());
+                    const enc = listaPags.find(p => p && p.titulo && p.titulo.toLowerCase().trim() === String(titulo).toLowerCase().trim());
                     if (enc && enc.conteudo) conteudo = enc.conteudo;
-                } catch(e){}
-            }
+                }
+            } catch(e){}
 
             document.getElementById('txt-modal-extra-titulo').innerText = titulo;
             document.getElementById('txt-modal-extra-conteudo').innerHTML = conteudo;
@@ -700,15 +698,15 @@
         ];
 
         function carregarBannersAdmin() {
-            const bannersSalvos = localStorage.getItem('phsublime_admin_banners');
-            if (bannersSalvos) {
-                try {
+            try {
+                const bannersSalvos = localStorage.getItem('phsublime_admin_banners');
+                if (bannersSalvos) {
                     const lista = JSON.parse(bannersSalvos);
                     if (Array.isArray(lista) && lista.length > 0) {
                         bannersCarrossel = lista.map(b => ({ img: b.imagem, link: b.link }));
                     }
-                } catch(e) {}
-            }
+                }
+            } catch(e) {}
             renderizarBanners();
         }
 
@@ -720,7 +718,7 @@
             if (!container) return;
 
             container.innerHTML = '';
-            dots.innerHTML = '';
+            if (dots) dots.innerHTML = '';
 
             bannersCarrossel.forEach((b, i) => {
                 const item = document.createElement('div');
@@ -735,10 +733,12 @@
 
                 container.appendChild(item);
 
-                const dot = document.createElement('button');
-                dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? 'bg-amber-400 w-6' : 'bg-white/60'}`;
-                dot.onclick = () => irParaBanner(i);
-                dots.appendChild(dot);
+                if (dots) {
+                    const dot = document.createElement('button');
+                    dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? 'bg-amber-400 w-6' : 'bg-white/60'}`;
+                    dot.onclick = () => irParaBanner(i);
+                    dots.appendChild(dot);
+                }
             });
         }
 
@@ -761,16 +761,16 @@
         setInterval(() => mudarBanner(1), 5000);
 
         function carregarScriptsAdminHead() {
-            const tagsSalvas = localStorage.getItem('phsublime_admin_codigos_html');
-            if (!tagsSalvas) return;
-
             try {
+                const tagsSalvas = localStorage.getItem('phsublime_admin_codigos_html');
+                if (!tagsSalvas) return;
+
                 const lista = JSON.parse(tagsSalvas);
                 const container = document.getElementById('container-scripts-admin-head');
                 if (!container || !Array.isArray(lista)) return;
 
                 lista.forEach(item => {
-                    if (item.codigo) {
+                    if (item && item.codigo) {
                         const range = document.createRange();
                         const node = range.createContextualFragment(item.codigo);
                         container.appendChild(node);
@@ -793,7 +793,7 @@
 
         function atualizarBadgeCarrinho() {
             const badge = document.getElementById('badge-carrinho-qtd');
-            if (badge) badge.innerText = carrinho.reduce((acc, i) => acc + i.qtd, 0);
+            if (badge) badge.innerText = carrinho.reduce((acc, i) => acc + (i.qtd || 1), 0);
         }
 
         function mostrarToast(msg) {
@@ -806,29 +806,41 @@
             }
         }
 
+        // CARREGAMENTO PROTEGIDO DO SUPABASE COM PRODUTOS MOCK DE RESERVA
         async function carregarEstoqueSupabase() {
             try {
-                const { data, error } = await supabaseClient.from('produtos').select('*').order('id', { ascending: false });
+                if (supabaseClient) {
+                    const { data, error } = await supabaseClient.from('produtos').select('*').order('id', { ascending: false });
 
-                if (!error && data && data.length > 0) {
-                    catalogoEstoque = data.map(item => {
-                        let preco = item.Preco_Venda ?? item.preco_venda ?? item.Preco ?? 0;
-                        if (typeof preco === 'string') preco = parseFloat(preco.replace(',', '.'));
+                    if (!error && data && data.length > 0) {
+                        catalogoEstoque = data.map(item => {
+                            let preco = item.Preco_Venda ?? item.preco_venda ?? item.Preco ?? 0;
+                            if (typeof preco === 'string') preco = parseFloat(preco.replace(',', '.'));
 
-                        return {
-                            id: item.id,
-                            nome: item.Nome || item.nome || 'Produto Sem Nome',
-                            categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
-                            precoVenda: isNaN(preco) ? 0 : preco,
-                            ref: item.Referencia || item.referencia || '---',
-                            imagem: formatarUrlImagem(item.Url || item.url || ''),
-                            descricao: item.Descricao || item.descricao || '<p>Produto de alta qualidade da PHSUBLIME GRÁFICA.</p>',
-                            gabaritoUrl: item.gabarito_url || ''
-                        };
-                    });
+                            return {
+                                id: item.id,
+                                nome: item.Nome || item.nome || 'Produto Sem Nome',
+                                categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
+                                precoVenda: isNaN(preco) ? 0 : preco,
+                                ref: item.Referencia || item.referencia || '---',
+                                imagem: formatarUrlImagem(item.Url || item.url || ''),
+                                descricao: item.Descricao || item.descricao || '<p>Produto de alta qualidade da PHSUBLIME GRÁFICA.</p>',
+                                gabaritoUrl: item.gabarito_url || ''
+                            };
+                        });
+                    }
                 }
             } catch(err) {
-                console.error("Erro ao carregar estoque Supabase:", err);
+                console.error("Erro ao conectar no Supabase:", err);
+            }
+
+            // PRODUTOS DE RESERVA SE O BANCO ESTIVER VAZIO
+            if (catalogoEstoque.length === 0) {
+                catalogoEstoque = [
+                    { id: 101, nome: "Cartão de Visita 4x0 Verniz Total", categoria: "Cartão de Visita", precoVenda: 45.00, ref: "CV40", imagem: "", descricao: "<p>Cartão de visita com alta alvura e brilho incrível.</p>" },
+                    { id: 102, nome: "Banner em Lona 440g com Bastão", categoria: "Banner", precoVenda: 35.00, ref: "BN440", imagem: "", descricao: "<p>Banner em lona resistente com acabamento em bastão e cordinha.</p>" },
+                    { id: 103, nome: "Adesivo em Vinil Brilho Recortado", categoria: "Adesivo", precoVenda: 25.00, ref: "ADBR", imagem: "", descricao: "<p>Adesivo vinil à prova d'água de alta durabilidade.</p>" }
+                ];
             }
 
             renderizarMenusCategorias();
@@ -838,7 +850,7 @@
         function renderizarMenusCategorias() {
             const categoriasSet = new Set();
             catalogoEstoque.forEach(p => {
-                if (p.categoria) categoriasSet.add(p.categoria.trim());
+                if (p && p.categoria) categoriasSet.add(p.categoria.trim());
             });
 
             const categorias = Array.from(categoriasSet);
@@ -893,9 +905,10 @@
         }
 
         function filtrarCategoria(cat) {
-            categoriaFiltro = cat.trim().toLowerCase();
+            categoriaFiltro = String(cat).trim().toLowerCase();
             paginaAtual = 1;
-            document.getElementById('input-busca-catalogo').value = '';
+            const inBusca = document.getElementById('input-busca-catalogo');
+            if (inBusca) inBusca.value = '';
 
             const bread = document.getElementById('txt-breadcrumb-categoria');
             const tituloCat = document.getElementById('txt-titulo-categoria-atual');
@@ -1099,7 +1112,7 @@
             if (cuponsSalvos) {
                 try {
                     const cupons = JSON.parse(cuponsSalvos);
-                    const encontrado = cupons.find(c => c.codigo.toUpperCase() === codigo);
+                    const encontrado = cupons.find(c => c && c.codigo && c.codigo.toUpperCase() === codigo);
 
                     if (encontrado) {
                         cupomAplicado = encontrado;
@@ -1133,13 +1146,13 @@
             if (!tabela) return;
 
             if (carrinho.length === 0) {
-                msgVazio.classList.remove('hidden');
-                boxConteudo.classList.add('hidden');
+                if (msgVazio) msgVazio.classList.remove('hidden');
+                if (boxConteudo) boxConteudo.classList.add('hidden');
                 return;
             }
 
-            msgVazio.classList.add('hidden');
-            boxConteudo.classList.remove('hidden');
+            if (msgVazio) msgVazio.classList.add('hidden');
+            if (boxConteudo) boxConteudo.classList.remove('hidden');
 
             tabela.innerHTML = '';
             let subtotalGeral = 0;
