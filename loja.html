@@ -203,12 +203,13 @@
                         </ul>
                     </div>
 
-                    <!-- 3. BLOCO TODOS OS PRODUTOS -->
+                    <!-- 3. BLOCO TODOS OS PRODUTOS (COM SUB-BOTÕES EXPANSÍVEIS) -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider">
-                            TODOS OS PRODUTOS
+                        <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
+                            <span>TODOS OS PRODUTOS</span>
+                            <i class="fa-solid fa-layer-group text-amber-300"></i>
                         </div>
-                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[550px] overflow-y-auto">
+                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[600px] overflow-y-auto">
                         </ul>
                     </div>
                 </aside>
@@ -708,27 +709,111 @@
         const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
-        // --- 2. LISTA FIXA DE CATEGORIAS DA GRAFICONAUTA ---
-        const CATEGORIAS_FIXAS_GRAFICONALTA = [
-            "Abadá", "Acrílico", "Adesivo", "Agendas, Cadernos e Planners", "Avental",
-            "Banner, Faixa, Lona e Painel", "Bermuda & Short", "Blocos e Comandas", "Bolsa em Tecido",
-            "Bonés e Viseiras", "Brindes", "Calendários e Folhinha", "Camisa, Camiseta e Blusa",
-            "Canecas, Copos e Taças", "Cangas", "Capa de Carnê", "Capa de Corte", "Cardápio",
-            "Cartaz e Poster", "Cartela Para Bijuteria", "Cartão Duplo", "Cartão Mini", "Cartão Postal",
-            "Cartão de Visita", "Casa & Decoração", "Certificado e Diploma", "Coroa de Papel", "Credenciais",
-            "DTF Transfer Digital", "Display", "Eleições 2026", "Embalagens Fast Food", "Embalagens Presente",
-            "Envelope", "Festas", "Folheto Cupom de Desconto", "Folheto, Folder e Flyer", "Impressão Digital",
-            "Jogo Americano", "Jogo de Tabuleiro", "Marcador de Página", "Mochila Pirulito", "Mochila de Cordão",
-            "Moletons", "Mouse Pad Personalizado", "Máscara em Tecido", "Móbile", "PS | PVC com Impressão UV",
-            "Papel Bandeja", "Papel Fotográfico", "Papel Sublimático", "Papel e Adesivo Para Impressão",
-            "Pastas", "Photobook", "Porta Copo", "Quadro Decorativo Personalizado", "Quadro Magnético",
-            "Quebra-Cabeça", "Raspadinha", "Revista de Colorir", "Sublimação", "Suprimentos", "Tatuagem Temporária",
-            "Timbrado e Receituários", "Ventarola, Abanador e Leque", "Wind Banner", "Álbum de Figurinhas Fotográfico", "Ímã de Geladeira"
+        // --- 2. ESTRUTURA HIERÁRQUICA COMPLETA DE CATEGORIAS E SUB-BOTÕES DA GRAFICONAUTA ---
+        const ESTRUTURA_CATEGORIAS_GRAFICONAUTA = [
+            {
+                nome: "Adesivo",
+                subs: [
+                    {
+                        nome: "Adesivo em Folhas",
+                        subs: ["Couchê Adesivo Brilho", "Couchê Adesivo Fosco", "Kraft Adesivo", "Vinil Adesivo Brilho", "Vinil Adesivo Fosco", "Vinil Adesivo Metalizado", "Vinil Adesivo Retroverso", "Vinil Adesivo Transparente", "Vinil Destrutível - Casca de Ovo"]
+                    },
+                    {
+                        nome: "Adesivo em M²",
+                        subs: ["Adesivo Blackout", "Adesivo Brilho", "Adesivo Fosco", "Adesivo Microperfurado", "Adesivo Retroverso", "Adesivo Transparente"]
+                    }
+                ]
+            },
+            {
+                nome: "Agendas, Cadernos e Planners",
+                subs: [
+                    {
+                        nome: "Agendas 2026",
+                        subs: ["Agenda Creche Não Datado", "Agenda Escolar 1 Dia por Página", "Agenda Escolar 2 Dias por Página", "Agendas 1 Dia por Página", "Agendas 2 Dias por Página"]
+                    },
+                    "Cadernos Personalizados", "Planner Diário", "Planner Financeiro", "Planner Semanal"
+                ]
+            },
+            {
+                nome: "Banner, Faixa, Lona e Painel",
+                subs: ["Lona 240g", "Lona 300g", "Lona 440g", "Lona Backlight", "Lona Canvas", "Lona Sanet", "Mini Banner", "Roll Up", "X Banner"]
+            },
+            {
+                nome: "Blocos e Comandas",
+                subs: [
+                    {
+                        nome: "Colorido",
+                        subs: ["Bloco Autocopiativo Com 2 Vias - 50x2", "Bloco Autocopiativo Com 3 Vias - 25x3", "Bloco Autocopiativo Com 4 Vias - 25x4", "Bloco Com 1 Via - 100x1", "Bloco Com 1 Via - 50x1", "Bloco Com 2 Vias - 50x2", "Bloco Com 3 Vias - 25x3"]
+                    },
+                    {
+                        nome: "Preto e Branco",
+                        subs: ["Bloco Autocopiativo Com 2 Vias - 50x2", "Bloco Autocopiativo Com 3 Vias - 25x3", "Bloco Autocopiativo Com 4 Vias - 25x4", "Bloco Com 1 Via - 100x1", "Bloco Com 1 Via - 50x1", "Bloco Com 2 Vias - 50x2", "Bloco Com 3 Vias - 25x3"]
+                    }
+                ]
+            },
+            {
+                nome: "Bonés e Viseiras",
+                subs: [
+                    { nome: "Boné Básico", subs: ["Tecido", "Telado"] },
+                    { nome: "Boné Premium", subs: ["Tecido", "Telado"] },
+                    "Boné de Tactel", "Boné em Camurça", 
+                    { nome: "Bonés Promocionais", subs: ["Boné Telado", "Boné de Tecido"] },
+                    "Viseira", "Viseira de Papel"
+                ]
+            },
+            {
+                nome: "Camisa, Camiseta e Blusa",
+                subs: [
+                    "Camiseta Sem Impressão",
+                    { nome: "Camisetas de Algodão", subs: ["Algodão", "PROMOÇÃO 50% OFF"] },
+                    "Personalização Parcial", "Personalização Total"
+                ]
+            },
+            {
+                nome: "Canecas, Copos e Taças",
+                subs: [
+                    { nome: "Baldes", subs: ["Balde de Acrílico 5L", "Balde de Alumínio 6L", "Balde de Alumínio 9L", "Balde de Pipoca"] },
+                    { nome: "Caldereta", subs: ["Caldereta 320ml", "Caldereta 380ml", "Caldereta 520ml"] },
+                    { nome: "Canecas", subs: [{ nome: "Caneca de Alumínio", subs: ["Caneca de Alumínio 350ml", "Caneca de Alumínio 500ml", "Caneca de Alumínio 800ml"] }, "Caneca de Cerâmica 325ml", "Caneca de Chopp 500ml", "Caneca de Polímero"] },
+                    "Copo Duplo", "Copo Shot", "Copo de Café", "Copo de Whisky Personalizado", "Copão", "Coqueteleira", "Garrafa Slim Fit",
+                    { nome: "Long Drink", subs: ["Long Drink Borda Metalizada", "Long Drink Degradê", "Long Drink Degradê Borda Metalizada", "Long Drink Sólido"] },
+                    { nome: "Taça de Gin", subs: ["Taça de Gin Degradê", "Taça de Gin Premium"] },
+                    "Tornado", "Twister"
+                ]
+            },
+            {
+                nome: "Cartão de Visita",
+                subs: ["Cartão de Visita 250g", "Cartão de Visita 300g", "Cartão de Visita 300g + Lam. Fosca e UV Local", "Cartão de Visita 300g + Lam. Holográfica", "Cartão de Visita 350g + Lam. Fosca e Hotstamp", "Cartão de Visita Opaline", "Cartão de Visita PVC", "Cartão de Visita Reciclado", "Cartão de Visita em Papel Especial"]
+            },
+            {
+                nome: "DTF Transfer Digital",
+                subs: ["DTF Têxtil", "DTF UV", "DTF Paper"]
+            },
+            {
+                nome: "Eleições 2026",
+                subs: [
+                    "Adesivo Retangular", "Adesivo Praguinha e Pragão", "Adesivo Bola", "Adesivo Perfurado", "Bandeira", "Placa Pirulito",
+                    { nome: "Cartão de Visita Eleitoral", subs: ["Cartão Retrovisor 3D", "Card Eleitoral", "Cartão de Visita Econômico", "Cartão Caricatura", "Cartão com Verniz"] },
+                    "Painel Pantográfico Retrátil", "Folheto & Folder", "Revista", "Totem Polionda", "Orçamento Eleitoral", "Santinho e Santão", "Wind Banner"
+                ]
+            },
+            {
+                nome: "Embalagens Fast Food",
+                subs: [
+                    { nome: "Embalagens Genéricas", subs: ["Batata Frita Grande", "Batata Frita Média", "Batata Frita Pequena", "Box Yakissoba 500ml", "Box Yakissoba 850ml", "Cachorro Quente", "Combinado Sushi Extra Grande", "Combinado Sushi Grande", "Combinado Sushi Mini", "Combinado Sushi Médio", "Combinado Sushi Pequeno", "Cone Grande", "Cone Médio", "Cone Pequeno", "Hamburgueira", "Multiuso", "Pastel"] },
+                    { nome: "Embalagens Personalizadas", subs: ["Batata Frita Grande", "Batata Frita Média", "Batata Frita Pequena", "Cachorro Quente", "Cone Grande", "Cone Médio", "Cone Pequeno", "Hamburgueira", "Multiuso", "Pastel"] },
+                    "Papel Glassine"
+                ]
+            },
+            {
+                nome: "Folheto, Folder e Flyer",
+                subs: ["Folheto Couchê 115g", "Folheto Couchê 150g", "Folheto Couchê 150g + UV", "Folheto Couchê 80g", "Folheto Couchê 90g", "Folheto Offset 75g"]
+            },
+            "Abadá", "Acrílico", "Avental", "Bermuda & Short", "Bolsa em Tecido", "Brindes", "Calendários e Folhinha", "Cangas", "Capa de Carnê", "Capa de Corte", "Cardápio", "Cartaz e Poster", "Cartela Para Bijuteria", "Cartão Duplo", "Cartão Mini", "Cartão Postal", "Casa & Decoração", "Certificado e Diploma", "Coroa de Papel", "Credenciais", "Display", "Embalagens Presente", "Envelope", "Festas", "Folheto Cupom de Desconto", "Impressão Digital", "Jogo Americano", "Jogo de Tabuleiro", "Marcador de Página", "Mochila Pirulito", "Mochila de Cordão", "Moletons", "Mouse Pad Personalizado", "Máscara em Tecido", "Móbile", "PS | PVC com Impressão UV", "Papel Bandeja", "Papel Fotográfico", "Papel Sublimático", "Papel e Adesivo Para Impressão", "Pastas", "Photobook", "Porta Copo", "Quadro Decorativo Personalizado", "Quadro Magnético", "Quebra-Cabeça", "Raspadinha", "Revista de Colorir", "Sublimação", "Suprimentos", "Tatuagem Temporária", "Timbrado e Receituários", "Ventarola, Abanador e Leque", "Wind Banner", "Álbum de Figurinhas Fotográfico", "Ímã de Geladeira"
         ];
 
         // --- 3. CATÁLOGO COMPLETO EXTRAÍDO INTEGRALMENTE DA GRAFICONAUTA ---
         const CATALOGO_GRAFICONALTA_PADRAO = [
-            // DESTAQUES E BANNERS REAIS DA GRAFICONAUTA
             { 
                 id: 'gn-2561', 
                 nome: "Banner | Lona Fosca 240g", 
@@ -779,8 +864,6 @@
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/2579/img/20250831_0_lona_corte_especial.jpeg", 
                 descricao: "<p>Lona fosca 240g com corte contorno especial, bainha reforçada e ilhós. Ideal para painéis de aniversário e cenários.</p>" 
             },
-
-            // ADESIVOS
             { 
                 id: 'gn-3', 
                 nome: "Adesivo Brilho 0,10 M²", 
@@ -811,8 +894,6 @@
                 imagem: "", 
                 descricao: "<p>Adesivo microperfurado para aplicação em vidros automotivos e vitrines de lojas com visibilidade interna.</p>" 
             },
-
-            // CARTÕES DE VISITA
             { 
                 id: 'gn-72', 
                 nome: "Cartão 250g | 4/4 | UV 1/0", 
@@ -833,8 +914,6 @@
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", 
                 descricao: "<p>Cartão DuoDesign 300g/m² com Laminação Fosca 1/1 sofisticada e aplicação de Verniz UV Localizado em relevo frente e verso.</p>" 
             },
-
-            // BANNERS E LONAS ADICIONAIS
             { 
                 id: 'gn-24', 
                 nome: "Banner | Lona Brilho 440g", 
@@ -855,8 +934,6 @@
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/25/img/20190316_imprimir_lona_personalizada_03.jpg", 
                 descricao: "<p>Lona brilho 440g com acabamento duplo em reforço de bainha e anéis de ilhós metálicos nas pontas.</p>" 
             },
-
-            // FOLHETOS
             { 
                 id: 'gn-207', 
                 nome: "Folheto 80g | 10x14cm | 4/0", 
@@ -867,8 +944,6 @@
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", 
                 descricao: "<p>Panfletos em papel couchê brilho 80g tamanho 10x14cm colorido frente (4/0) para divulgação comercial ostensiva.</p>" 
             },
-
-            // VESTUÁRIO E CAMISAS
             { 
                 id: 'gn-571', 
                 nome: "Camisa Com Manga Adulto", 
@@ -889,8 +964,6 @@
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/573/img/20230410_0_6.png", 
                 descricao: "<p>Camisa modelo Babylook feminina personalizada com caimento justo e acabamento reforçado.</p>" 
             },
-
-            // WINDBANNER E ESTRUTURAS
             { 
                 id: 'gn-1277', 
                 nome: "Wind Banner | Modelo Faca | 260x70cm", 
@@ -901,8 +974,6 @@
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", 
                 descricao: "<p>Wind Banner impresso em tecido Microfibra dupla face modelo faca 260x70cm completo para bandeira promocional.</p>" 
             },
-
-            // ELEIÇÕES E BANDEIRAS
             { 
                 id: 'gn-2204', 
                 nome: "Bandeira de Carro | 30x42cm", 
@@ -933,8 +1004,6 @@
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/2207/img/20260808_0_bandeira_grande_para_campanha_90x140cm.png", 
                 descricao: "<p>Bandeira tamanho grande (G) em tecido Tafetá 90x140cm com bainha e costura de suporte.</p>" 
             },
-
-            // DTF & SUBLIMAÇÃO
             { 
                 id: 'gn-406', 
                 nome: "DTF Têxtil por Metro Linear (57x100cm)", 
@@ -955,8 +1024,6 @@
                 imagem: "", 
                 descricao: "<p>DTF UV em cartela A4 para aplicação direta em superfícies rígidas (vidro, acrílico, plástico e metal).</p>" 
             },
-
-            // COPOS E COPO TAÇA
             { 
                 id: 'gn-326', 
                 nome: "Caneca de Alumínio 350ml", 
@@ -977,8 +1044,6 @@
                 imagem: "", 
                 descricao: "<p>Taça de gin em acrílico 580ml com acabamento degradê e alto brilho.</p>" 
             },
-
-            // BLOCOS E DIVERSOS
             { 
                 id: 'gn-344', 
                 nome: "Bloco Autocopiativo Com 2 Vias - 50x2", 
@@ -1011,7 +1076,7 @@
             }
         ];
 
-        // --- 4. FUNÇÕES DE UTILIDADE ---
+        // --- 4. FUNÇÕES DE UTILIDADE E NAVEGAÇÃO ---
         function embaralharArray(arr) {
             let list = [...arr];
             for (let i = list.length - 1; i > 0; i--) {
@@ -1053,7 +1118,120 @@
             }, 3000);
         }
 
-        // --- 5. PERFIL E MENSAGENS DO CLIENTE ---
+        // --- 5. RENDERIZAÇÃO DA ÁRVORE DE CATEGORIAS E SUB-BOTÕES ---
+        function gerarHtmlCategoriasTree(lista, nivel = 0) {
+            let html = '';
+            lista.forEach((cat, idx) => {
+                const idUnico = `subcat-${nivel}-${idx}-${Math.random().toString(36).substr(2, 5)}`;
+                
+                if (typeof cat === 'string') {
+                    html += `
+                        <li class="item-cat-sidebar border-b border-slate-100">
+                            <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between font-semibold text-slate-700 hover:text-blue-900 transition-all text-xs">
+                                <span>${escapeAttr(cat)}</span>
+                                <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
+                            </a>
+                        </li>
+                    `;
+                } else if (cat && cat.nome) {
+                    const temSubs = Array.isArray(cat.subs) && cat.subs.length > 0;
+                    html += `
+                        <li class="item-cat-sidebar border-b border-slate-100">
+                            <div class="flex items-center justify-between px-4 py-2 hover:bg-blue-50 font-bold text-blue-900 cursor-pointer transition-all text-xs" onclick="toggleSubMenuTree('${idUnico}')">
+                                <span onclick="event.stopPropagation(); filtrarCategoria('${escapeAttr(cat.nome)}');" class="hover:underline">${escapeAttr(cat.nome)}</span>
+                                ${temSubs ? `<i id="icon-${idUnico}" class="fa-solid fa-chevron-right text-[10px] text-amber-500 transition-transform"></i>` : ''}
+                            </div>
+                            ${temSubs ? `<ul id="${idUnico}" class="hidden bg-slate-50/80 divide-y divide-slate-100 pl-3 border-l-2 border-amber-400 my-1">${gerarHtmlCategoriasTree(cat.subs, nivel + 1)}</ul>` : ''}
+                        </li>
+                    `;
+                }
+            });
+            return html;
+        }
+
+        function toggleSubMenuTree(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(`icon-${id}`);
+            if (el) {
+                el.classList.toggle('hidden');
+                if (icon) {
+                    icon.classList.toggle('rotate-90');
+                }
+            }
+        }
+
+        function renderizarMenusCategorias() {
+            const menuTopo = document.getElementById('container-menu-categorias-topo');
+            if (menuTopo) {
+                let htmlTopo = `<button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 transition-all uppercase">INÍCIO</button>`;
+                
+                ESTRUTURA_CATEGORIAS_GRAFICONAUTA.slice(0, 8).forEach(catObj => {
+                    const nomeCat = typeof catObj === 'string' ? catObj : catObj.nome;
+                    htmlTopo += `<button onclick="filtrarCategoria('${escapeAttr(nomeCat)}')" class="px-4 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">${escapeAttr(nomeCat)}</button>`;
+                });
+                menuTopo.innerHTML = htmlTopo;
+            }
+
+            const sbMaisVendidos = document.getElementById('lista-mais-vendidos-sidebar');
+            if (sbMaisVendidos) {
+                let htmlMV = '';
+                const salvosMv = localStorage.getItem('phsublime_admin_mais_vendidos');
+                const listaManual = salvosMv ? JSON.parse(salvosMv) : [];
+
+                if (Array.isArray(listaManual) && listaManual.length > 0) {
+                    listaManual.forEach(item => {
+                        htmlMV += `
+                            <li>
+                                <a href="javascript:void(0)" onclick="abrirModalDetalhes('${escapeAttr(item.id)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
+                                    <span class="truncate pr-2">${escapeAttr(item.nome)}</span> <span class="tag-promocao shrink-0">DESTAQUE</span>
+                                </a>
+                            </li>
+                        `;
+                    });
+                } else {
+                    ESTRUTURA_CATEGORIAS_GRAFICONAUTA.slice(0, 6).forEach(catObj => {
+                        const nomeCat = typeof catObj === 'string' ? catObj : catObj.nome;
+                        htmlMV += `
+                            <li>
+                                <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(nomeCat)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
+                                    <span>${escapeAttr(nomeCat)}</span> <span class="tag-promocao">PROMOÇÃO</span>
+                                </a>
+                            </li>
+                        `;
+                    });
+                }
+                sbMaisVendidos.innerHTML = htmlMV;
+            }
+
+            const sbTodas = document.getElementById('lista-todas-categorias-sidebar');
+            if (sbTodas) {
+                let htmlTodas = `
+                    <li class="item-cat-sidebar">
+                        <a href="javascript:void(0)" onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between font-black text-blue-900 border-b border-slate-200">
+                            <span>VER TODO O CATÁLOGO</span> 
+                            <i class="fa-solid fa-border-all text-[10px]"></i>
+                        </a>
+                    </li>
+                `;
+                htmlTodas += gerarHtmlCategoriasTree(ESTRUTURA_CATEGORIAS_GRAFICONAUTA);
+                sbTodas.innerHTML = htmlTodas;
+            }
+        }
+
+        function filtrarCategoriasSidebar(termo) {
+            const busca = termo.toLowerCase().trim();
+            const itens = document.querySelectorAll('#lista-todas-categorias-sidebar .item-cat-sidebar');
+            
+            itens.forEach(item => {
+                if (!busca || item.innerText.toLowerCase().includes(busca)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // --- 6. PERFIL E MENSAGENS DO CLIENTE ---
         function carregarPerfilCliente() {
             try {
                 const p = localStorage.getItem('phsublime_perfil_cliente');
@@ -1107,7 +1285,7 @@
             mostrarToast("Você saiu da conta.");
         }
 
-        // --- 6. GAVETA LATERAL DE CARRINHO (DRAWER) ---
+        // --- 7. GAVETA LATERAL DE CARRINHO (DRAWER) ---
         function alternarCarrinhoLateral(abrir) {
             const drawer = document.getElementById('aba-lateral-carrinho');
             if (!drawer) return;
@@ -1161,7 +1339,7 @@
             if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
         }
 
-        // --- 7. CONFIGURAÇÕES LOCAIS DE BANNER E HEADER ---
+        // --- 8. CONFIGURAÇÕES LOCAIS DE BANNER E HEADER ---
         function carregarConfiguracoesAdminLocal() {
             try {
                 const dadosLojaStr = localStorage.getItem('phsublime_dados_loja');
@@ -1345,7 +1523,7 @@
             } catch(e) {}
         }
 
-        // --- 8. CARREGAMENTO DE PRODUTOS (SUPABASE + CATÁLOGO COMPLETO) ---
+        // --- 9. CARREGAMENTO DE PRODUTOS DA GRÁFICA ---
         async function carregarEstoqueSupabase() {
             let produtosSupabase = [];
 
@@ -1384,78 +1562,6 @@
             renderizarMenusCategorias();
             renderizarProdutosDestaque();
             renderizarCatalogo();
-        }
-
-        function renderizarMenusCategorias() {
-            const categoriasSet = new Set(CATEGORIAS_FIXAS_GRAFICONALTA);
-            
-            catalogoEstoque.forEach(p => {
-                if (p && p.categoria) categoriasSet.add(p.categoria.trim());
-            });
-
-            const categorias = Array.from(categoriasSet);
-
-            const menuTopo = document.getElementById('container-menu-categorias-topo');
-            if (menuTopo) {
-                let htmlTopo = `<button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 transition-all uppercase">INÍCIO</button>`;
-                categorias.slice(0, 8).forEach(cat => {
-                    htmlTopo += `<button onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">${escapeAttr(cat)}</button>`;
-                });
-                menuTopo.innerHTML = htmlTopo;
-            }
-
-            const sbMaisVendidos = document.getElementById('lista-mais-vendidos-sidebar');
-            if (sbMaisVendidos) {
-                let htmlMV = '';
-                const salvosMv = localStorage.getItem('phsublime_admin_mais_vendidos');
-                const listaManual = salvosMv ? JSON.parse(salvosMv) : [];
-
-                if (Array.isArray(listaManual) && listaManual.length > 0) {
-                    listaManual.forEach(item => {
-                        htmlMV += `
-                            <li>
-                                <a href="javascript:void(0)" onclick="abrirModalDetalhes('${escapeAttr(item.id)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
-                                    <span class="truncate pr-2">${escapeAttr(item.nome)}</span> <span class="tag-promocao shrink-0">DESTAQUE</span>
-                                </a>
-                            </li>
-                        `;
-                    });
-                } else {
-                    categorias.slice(0, 6).forEach(cat => {
-                        htmlMV += `
-                            <li>
-                                <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
-                                    <span>${escapeAttr(cat)}</span> <span class="tag-promocao">PROMOÇÃO</span>
-                                </a>
-                            </li>
-                        `;
-                    });
-                }
-                sbMaisVendidos.innerHTML = htmlMV;
-            }
-
-            const sbTodas = document.getElementById('lista-todas-categorias-sidebar');
-            if (sbTodas) {
-                let htmlTodas = `<li class="item-cat-sidebar"><a href="javascript:void(0)" onclick="filtrarCategoria('')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between font-bold text-blue-900 border-b"><span>Ver Todo o Catálogo</span> <i class="fa-solid fa-border-all text-[10px]"></i></a></li>`;
-                categorias.forEach(cat => {
-                    htmlTodas += `<li class="item-cat-sidebar" data-nome="${escapeAttr(cat.toLowerCase())}"><a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between font-semibold"><span>${escapeAttr(cat)}</span></a></li>`;
-                });
-                sbTodas.innerHTML = htmlTodas;
-            }
-        }
-
-        function filtrarCategoriasSidebar(termo) {
-            const busca = termo.toLowerCase().trim();
-            const itens = document.querySelectorAll('#lista-todas-categorias-sidebar .item-cat-sidebar');
-            
-            itens.forEach(item => {
-                const nomeCat = item.getAttribute('data-nome') || '';
-                if (!busca || nomeCat.includes(busca) || item.innerText.toLowerCase().includes(busca)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
         }
 
         function renderizarProdutosDestaque() {
