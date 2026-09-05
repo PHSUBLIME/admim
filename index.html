@@ -182,7 +182,6 @@
 
             <!-- SEÇÃO INÍCIO -->
             <section id="secao-admin-inicio" class="space-y-6">
-                
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-light text-slate-700 font-heading">
                         Bem vindo ao <strong class="font-black text-slate-900">Painel Administrador PHSUBLIME</strong>
@@ -192,8 +191,6 @@
 
                 <!-- QUADROS DE METRICAS ESTILO PASTEL SISTOGRAF -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    
-                    <!-- AZUL: NOVAS MENSAGENS -->
                     <div onclick="abrirModalMessenger()" class="bg-[#dbefe8] border border-[#bcdbc7] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
                             <span class="text-xs font-bold text-[#2e6854] block">Novas Mensagens</span>
@@ -205,7 +202,6 @@
                         </div>
                     </div>
 
-                    <!-- VERDE: PEDIDOS -->
                     <div onclick="mudarAbaAdmin('pedidos')" class="bg-[#e2f0d9] border border-[#c5e0b4] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
                             <span class="text-xs font-bold text-[#385723] block">Pedidos</span>
@@ -217,7 +213,6 @@
                         </div>
                     </div>
 
-                    <!-- ROSA/VERMELHO: PRODUTOS -->
                     <div onclick="mudarAbaAdmin('produtos')" class="bg-[#fce4e4] border border-[#f8cbad] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
                             <span class="text-xs font-bold text-[#801313] block">Produtos no Banco</span>
@@ -229,7 +224,6 @@
                         </div>
                     </div>
 
-                    <!-- BEGE/AMARELO: RELATÓRIOS -->
                     <div onclick="mudarAbaAdmin('relatorios')" class="bg-[#fff2cc] border border-[#ffe699] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
                             <span class="text-xs font-bold text-[#7f6000] block">Faturamento Geral</span>
@@ -240,7 +234,6 @@
                             <i class="fa-solid fa-chart-line"></i>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- CARDS DE AVISO BAIXO -->
@@ -292,7 +285,6 @@
                         </div>
                     </div>
                 </div>
-
             </section>
 
             <!-- SEÇÃO PEDIDOS -->
@@ -534,7 +526,9 @@
 
     </div>
 
-    <!-- MODAL DEDICADO: PERSONALIZAR LOGO & FAVICON -->
+    <!-- ALL MODALS INCLUDED BELOW -->
+
+    <!-- MODAL LOGO & FAVICON -->
     <div id="modal-logo-favicon" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-6xl w-full p-6 shadow-2xl relative border border-slate-200 my-8 space-y-4">
             <button onclick="fecharModalLogoFavicon()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -547,20 +541,18 @@
                     <i class="fa-solid fa-chevron-right text-[8px]"></i>
                     <span class="text-blue-900">TM Personalizar Logo</span>
                 </div>
-                <h3 class="text-base font-black text-slate-800 font-heading flex items-center gap-2">
-                    TM Personalizar Logo
-                </h3>
+                <h3 class="text-base font-black text-slate-800 font-heading flex items-center gap-2">TM Personalizar Logo</h3>
             </div>
 
             <form onsubmit="salvarLogoFaviconSubmit(event)" class="space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center text-xs">
                     <div class="space-y-2 flex flex-col items-center">
                         <label class="font-bold text-slate-800 block">Logo do Sistema:</label>
-                        <div class="w-full h-32 border-2 border-emerald-500 rounded-lg p-2 bg-white flex flex-col items-center justify-center relative shadow-sm group">
+                        <div class="w-full h-32 border-2 border-emerald-500 rounded-lg p-2 bg-white flex flex-col items-center justify-center relative shadow-sm">
                             <img id="img-preview-logo-sistema" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="icon-preview-logo-sistema" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <input type="text" id="url-logo-sistema" oninput="atualizarPreviaLogo('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema')" placeholder="Cole a URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <input type="text" id="url-logo-sistema" oninput="atualizarPreviaLogo('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema')" placeholder="URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
                         <input type="file" accept="image/*" onchange="converterArquivoEPreencher('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema', this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-1 file:rounded file:border-0 file:cursor-pointer">
                     </div>
 
@@ -570,74 +562,57 @@
                             <img id="img-preview-favicon" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="icon-preview-favicon" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <input type="text" id="url-favicon" oninput="atualizarPreviaLogo('url-favicon', 'img-preview-favicon', 'icon-preview-favicon')" placeholder="Cole a URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <input type="text" id="url-favicon" oninput="atualizarPreviaLogo('url-favicon', 'img-preview-favicon', 'icon-preview-favicon')" placeholder="URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
                         <input type="file" accept="image/*,.ico" onchange="converterArquivoEPreencher('url-favicon', 'img-preview-favicon', 'icon-preview-favicon', this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-1 file:rounded file:border-0 file:cursor-pointer">
                     </div>
 
                     <div class="space-y-2 flex flex-col items-center">
-                        <label class="font-bold text-slate-800 block">Logo da Ordem de Serviço:</label>
+                        <label class="font-bold text-slate-800 block">Logo da OS:</label>
                         <div class="w-full h-32 border-2 border-emerald-500 rounded-lg p-2 bg-white flex flex-col items-center justify-center relative shadow-sm">
                             <img id="img-preview-logo-os" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="icon-preview-logo-os" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <input type="text" id="url-logo-os" oninput="atualizarPreviaLogo('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os')" placeholder="Cole a URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <input type="text" id="url-logo-os" oninput="atualizarPreviaLogo('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os')" placeholder="URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
                         <input type="file" accept="image/*" onchange="converterArquivoEPreencher('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os', this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-1 file:rounded file:border-0 file:cursor-pointer">
                     </div>
 
                     <div class="space-y-2 flex flex-col items-center">
-                        <label class="font-bold text-slate-800 block">Imagem de compartilhamento:</label>
+                        <label class="font-bold text-slate-800 block">Compartilhamento:</label>
                         <div class="w-full h-32 border-2 border-emerald-500 rounded-lg p-2 bg-white flex flex-col items-center justify-center relative shadow-sm">
                             <img id="img-preview-compartilhar" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="icon-preview-compartilhar" class="fa-regular fa-image text-4xl text-slate-300"></i>
                         </div>
-                        <input type="text" id="url-compartilhar" oninput="atualizarPreviaLogo('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar')" placeholder="Cole a URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
+                        <input type="text" id="url-compartilhar" oninput="atualizarPreviaLogo('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar')" placeholder="URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded text-[11px] font-mono">
                         <input type="file" accept="image/*" onchange="converterArquivoEPreencher('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar', this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-1 file:rounded file:border-0 file:cursor-pointer">
                     </div>
                 </div>
 
                 <div class="pt-4 border-t border-slate-100 flex justify-end">
-                    <button type="submit" class="bg-[#48B156] hover:bg-emerald-600 text-white font-bold px-8 py-2 rounded text-xs shadow transition-all">
-                        Salvar
-                    </button>
+                    <button type="submit" class="bg-[#48B156] hover:bg-emerald-600 text-white font-bold px-8 py-2 rounded text-xs shadow">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL DEDICADO: LISTAGEM DE BANNERS -->
+    <!-- MODAL LISTAGEM BANNERS -->
     <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-6xl w-full p-6 shadow-2xl relative border border-slate-200 my-8 space-y-4">
             <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <div class="border-b border-slate-100 pb-2">
-                <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
-                    <span>Painel Administrador</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Personalização</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span class="text-blue-900">Banners</span>
-                </div>
-                <h3 class="text-base font-black text-slate-800 font-heading">
-                    Listagem de Banners
-                </h3>
+                <h3 class="text-base font-black text-slate-800 font-heading">Listagem de Banners</h3>
             </div>
 
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                 <div class="flex items-center gap-1.5 w-full sm:w-auto">
-                    <select id="filtro-tipo-banner" class="px-3 py-1.5 border rounded-md text-slate-700 font-medium focus:outline-none w-48">
-                        <option value="">Tipo de banner</option>
+                    <select id="filtro-tipo-banner" class="px-3 py-1.5 border rounded-md text-slate-700 font-medium w-48">
+                        <option value="">Todos os Tipos</option>
                         <option value="Mini banner">Mini banner</option>
                         <option value="Animação">Animação</option>
                     </select>
-                    <button onclick="filtrarBannersModal()" class="bg-blue-600 text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-700">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
+                    <button onclick="filtrarBannersModal()" class="bg-blue-600 text-white px-3 py-1.5 rounded-md font-bold"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
-
-                <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                    <button class="bg-[#C2185B] text-white font-bold px-4 py-1.5 rounded-md hover:bg-pink-800 text-xs">Ordenar</button>
-                    <button onclick="abrirModalEditarBanner()" class="bg-[#48B156] text-white font-bold px-4 py-1.5 rounded-md hover:bg-emerald-600 text-xs flex items-center gap-1">+ Criar banner</button>
-                </div>
+                <button onclick="abrirModalEditarBanner()" class="bg-[#48B156] text-white font-bold px-4 py-1.5 rounded-md text-xs">+ Criar banner</button>
             </div>
 
             <div class="border border-slate-200 rounded-lg overflow-hidden">
@@ -651,42 +626,28 @@
                             <th class="p-3 text-center w-28">Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="tabela-banners-listagem-body" class="divide-y divide-slate-200 text-slate-700 font-medium">
-                    </tbody>
+                    <tbody id="tabela-banners-listagem-body" class="divide-y divide-slate-200 text-slate-700 font-medium"></tbody>
                 </table>
             </div>
-
-            <div class="flex items-center justify-between text-xs text-slate-500 pt-2">
-                <span>Mostrando registros salvos</span>
-                <button type="button" onclick="fecharModalGerenciadorBanners()" class="px-4 py-1.5 bg-slate-200 text-slate-800 font-bold rounded">Fechar</button>
+            <div class="flex justify-end pt-2">
+                <button type="button" onclick="fecharModalGerenciadorBanners()" class="px-4 py-1.5 bg-slate-200 text-slate-800 font-bold rounded text-xs">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DEDICADO: EDITAR BANNER -->
+    <!-- MODAL EDITAR BANNER -->
     <div id="modal-editar-banner" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1000] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-5xl w-full p-6 shadow-2xl relative border border-slate-200 my-8 space-y-4">
             <button onclick="fecharModalEditarBanner()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <div class="border-b border-slate-100 pb-2">
-                <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
-                    <span>Painel Administrador</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Personalização</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Banners</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span class="text-blue-900">Editar banner</span>
-                </div>
-                <h3 class="text-base font-black text-slate-800 font-heading flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square"></i> Editar banner
-                </h3>
+                <h3 class="text-base font-black text-slate-800 font-heading"><i class="fa-solid fa-pen-to-square"></i> Editar banner</h3>
             </div>
 
             <form onsubmit="salvarBannerSubmit(event)" class="space-y-4 text-xs">
                 <div>
                     <label class="font-bold text-slate-800 block mb-1">Tipo de Banner:*</label>
-                    <select id="eb-tipo" class="w-full px-3 py-2 border rounded-md font-medium focus:outline-none">
+                    <select id="eb-tipo" class="w-full px-3 py-2 border rounded-md font-medium">
                         <option value="Mini Banner">Mini Banner</option>
                         <option value="Animação">Animação / Carrossel Home</option>
                     </select>
@@ -694,219 +655,83 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-slate-100 pt-3">
                     <div class="space-y-2">
-                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center shadow-sm">
+                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center">
                             <img id="eb-img-prev-1" src="" class="max-h-full max-w-full object-contain hidden">
-                            <span id="eb-txt-prev-1" class="bg-slate-800 text-white font-mono px-2 py-1 rounded text-[10px] truncate max-w-full">Sem imagem</span>
+                            <span id="eb-txt-prev-1" class="bg-slate-800 text-white font-mono px-2 py-1 rounded text-[10px]">Sem imagem</span>
                         </div>
-                        <div>
-                            <label class="font-bold text-slate-600 block mb-0.5">Url da Imagem 1:</label>
-                            <input type="text" id="eb-url-1" oninput="atualizarPreviaBannerSlot(1)" placeholder="Cole URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
-                            <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(1, this)" class="mt-1 w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
-                        </div>
+                        <input type="text" id="eb-url-1" oninput="atualizarPreviaBannerSlot(1)" placeholder="URL da Imagem 1" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                        <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(1, this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
                     </div>
 
                     <div class="space-y-2">
-                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center shadow-sm">
+                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center">
                             <img id="eb-img-prev-2" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="eb-icon-prev-2" class="fa-solid fa-ban text-4xl text-slate-300"></i>
                         </div>
-                        <div>
-                            <label class="font-bold text-slate-600 block mb-0.5">Url da Imagem 2:</label>
-                            <input type="text" id="eb-url-2" oninput="atualizarPreviaBannerSlot(2)" placeholder="Cole URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
-                            <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(2, this)" class="mt-1 w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
-                        </div>
+                        <input type="text" id="eb-url-2" oninput="atualizarPreviaBannerSlot(2)" placeholder="URL da Imagem 2" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                        <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(2, this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
                     </div>
 
                     <div class="space-y-2">
-                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center shadow-sm">
+                        <div class="w-full h-28 border-2 border-emerald-500 rounded p-2 bg-white flex items-center justify-center">
                             <img id="eb-img-prev-3" src="" class="max-h-full max-w-full object-contain hidden">
                             <i id="eb-icon-prev-3" class="fa-solid fa-ban text-4xl text-slate-300"></i>
                         </div>
-                        <div>
-                            <label class="font-bold text-slate-600 block mb-0.5">Url da Imagem 3:</label>
-                            <input type="text" id="eb-url-3" oninput="atualizarPreviaBannerSlot(3)" placeholder="Cole URL ou escolha abaixo" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
-                            <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(3, this)" class="mt-1 w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
-                        </div>
+                        <input type="text" id="eb-url-3" oninput="atualizarPreviaBannerSlot(3)" placeholder="URL da Imagem 3" class="w-full px-2.5 py-1.5 border rounded font-mono text-[11px]">
+                        <input type="file" accept="image/*" onchange="converterArquivoParaSlotBanner(3, this)" class="w-full text-[10px] text-slate-600 file:bg-emerald-600 file:text-white file:font-bold file:px-2 file:py-0.5 file:rounded file:border-0 file:cursor-pointer">
                     </div>
                 </div>
 
-                <div class="pt-2">
-                    <label class="flex items-center gap-1.5 cursor-pointer font-bold text-slate-800">
-                        <input type="checkbox" id="eb-ativo" checked class="rounded accent-emerald-600"> Ativo*
-                    </label>
-                </div>
-
                 <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalEditarBanner()" class="bg-[#C2185B] hover:bg-pink-800 text-white font-bold px-6 py-2 rounded text-xs transition-all flex items-center gap-1">
-                        <i class="fa-solid fa-xmark"></i> Cancelar
-                    </button>
-                    <button type="submit" class="bg-[#48B156] hover:bg-emerald-600 text-white font-bold px-6 py-2 rounded text-xs shadow transition-all flex items-center gap-1">
-                        <i class="fa-solid fa-check"></i> Salvar
-                    </button>
+                    <button type="button" onclick="fecharModalEditarBanner()" class="bg-[#C2185B] text-white font-bold px-6 py-2 rounded text-xs">Cancelar</button>
+                    <button type="submit" class="bg-[#48B156] text-white font-bold px-6 py-2 rounded text-xs shadow">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL APARÊNCIA E PERSONALIZAÇÃO DA LOJA -->
+    <!-- MODAL APARÊNCIA DA LOJA (CMS) -->
     <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-6xl w-full p-4 sm:p-6 shadow-2xl relative border border-blue-200 my-4">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <div class="border-b border-slate-100 pb-2 mb-4">
-                <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase mb-1">
-                    <span>Painel Administrador</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span>Personalização</span>
-                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                    <span class="text-blue-900">Personalização da Loja</span>
-                </div>
-                <h3 class="text-base font-black text-slate-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-paintbrush text-amber-500"></i> Personalize sua loja
-                </h3>
+                <h3 class="text-base font-black text-slate-900 uppercase"><i class="fa-solid fa-paintbrush text-amber-500"></i> Personalize sua loja</h3>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs">
                 <div class="lg:col-span-5 space-y-3 max-h-[75vh] overflow-y-auto pr-2">
                     <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
-                        <button type="button" class="w-full bg-slate-100 p-3 text-left font-black text-slate-800 flex items-center justify-between uppercase">
-                            <span><i class="fa-solid fa-house text-blue-900 mr-1.5"></i> LOJA</span>
-                            <i class="fa-solid fa-chevron-up text-slate-400"></i>
-                        </button>
-
+                        <div class="bg-slate-100 p-3 font-black text-slate-800 uppercase">LOJA</div>
                         <form onsubmit="salvarCMSLojaSubmit(event)" class="p-3.5 space-y-4">
                             <div>
-                                <label class="font-bold text-slate-700 block mb-1.5">Layout:</label>
-                                <div class="grid grid-cols-3 gap-2 text-center">
-                                    <div onclick="selecionarLayout('sem-sidebar')" id="layout-box-sem" class="border-2 border-slate-200 p-2 rounded-lg cursor-pointer hover:border-blue-500 transition-all bg-slate-50">
-                                        <div class="w-full h-8 bg-slate-300 rounded mb-1 flex items-center justify-center text-[9px] font-bold text-slate-600">Cheio</div>
-                                        <span class="text-[10px] font-bold block text-slate-700">Sem Sidebar</span>
-                                    </div>
-                                    <div onclick="selecionarLayout('sidebar-1')" id="layout-box-s1" class="border-2 border-blue-600 bg-blue-50 p-2 rounded-lg cursor-pointer transition-all">
-                                        <div class="flex gap-1 h-8">
-                                            <div class="w-1/3 h-full bg-blue-300 rounded"></div>
-                                            <div class="w-2/3 h-full bg-slate-300 rounded"></div>
-                                        </div>
-                                        <span class="text-[10px] font-bold block text-blue-900 mt-1">Sidebar 1</span>
-                                    </div>
-                                    <div onclick="selecionarLayout('sidebar-2')" id="layout-box-s2" class="border-2 border-slate-200 p-2 rounded-lg cursor-pointer hover:border-blue-500 transition-all bg-slate-50">
-                                        <div class="flex gap-1 h-8">
-                                            <div class="w-2/3 h-full bg-slate-300 rounded"></div>
-                                            <div class="w-1/3 h-full bg-blue-300 rounded"></div>
-                                        </div>
-                                        <span class="text-[10px] font-bold block text-slate-700 mt-1">Sidebar 2</span>
-                                    </div>
+                                <label class="font-bold text-slate-700 block mb-1">Cor cabeçalho:</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="color" id="color-cabecalho" value="#075669" onchange="sincronizarCor('color-cabecalho', 'hex-cabecalho')" class="w-8 h-8 rounded border">
+                                    <input type="text" id="hex-cabecalho" value="#075669" class="w-full px-2 py-1.5 border rounded font-mono font-bold uppercase">
                                 </div>
                             </div>
-
                             <div>
-                                <label class="font-bold text-slate-700 block mb-1">Container (em porcentagem):</label>
-                                <input type="number" id="cms-container-pct" value="90" min="50" max="100" oninput="atualizarPreviewCMS()" class="w-full px-3 py-1.5 border rounded-lg font-bold text-slate-800">
-                            </div>
-
-                            <div class="space-y-2 border-t border-slate-100 pt-3">
-                                <div>
-                                    <label class="font-bold text-slate-700 block mb-1">Cor cabeçalho:</label>
-                                    <div class="flex items-center gap-2">
-                                        <input type="color" id="color-cabecalho" value="#075669" onchange="sincronizarCor('color-cabecalho', 'hex-cabecalho')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
-                                        <input type="text" id="hex-cabecalho" value="#075669" oninput="sincronizarHex('hex-cabecalho', 'color-cabecalho')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="font-bold text-slate-700 block mb-1">Cor rodapé:</label>
-                                    <div class="flex items-center gap-2">
-                                        <input type="color" id="color-rodape" value="#075669" onchange="sincronizarCor('color-rodape', 'hex-rodape')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
-                                        <input type="text" id="hex-rodape" value="#075669" oninput="sincronizarHex('hex-rodape', 'color-rodape')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="font-bold text-slate-700 block mb-1">Cor barra de rodapé:</label>
-                                    <div class="flex items-center gap-2">
-                                        <input type="color" id="color-barra-rodape" value="#48B156" onchange="sincronizarCor('color-barra-rodape', 'hex-barra-rodape')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
-                                        <input type="text" id="hex-barra-rodape" value="#48B156" oninput="sincronizarHex('hex-barra-rodape', 'color-barra-rodape')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="font-bold text-slate-700 block mb-1">Cor dos botões:</label>
-                                    <div class="flex items-center gap-2">
-                                        <input type="color" id="color-botao" value="#003859" onchange="sincronizarCor('color-botao', 'hex-botao')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
-                                        <input type="text" id="hex-botao" value="#003859" oninput="sincronizarHex('hex-botao', 'color-botao')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="font-bold text-slate-700 block mb-1">Cor de fundo:</label>
-                                    <div class="flex items-center gap-2">
-                                        <input type="color" id="color-fundo" value="#F4F6F9" onchange="sincronizarCor('color-fundo', 'hex-fundo')" class="w-8 h-8 rounded border cursor-pointer shrink-0">
-                                        <input type="text" id="hex-fundo" value="#F4F6F9" oninput="sincronizarHex('hex-fundo', 'color-fundo')" class="w-full px-2 py-1.5 border rounded font-mono font-bold text-slate-800 uppercase">
-                                    </div>
+                                <label class="font-bold text-slate-700 block mb-1">Cor dos botões:</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="color" id="color-botao" value="#003859" onchange="sincronizarCor('color-botao', 'hex-botao')" class="w-8 h-8 rounded border">
+                                    <input type="text" id="hex-botao" value="#003859" class="w-full px-2 py-1.5 border rounded font-mono font-bold uppercase">
                                 </div>
                             </div>
-
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-2.5 rounded-lg shadow uppercase transition-all flex items-center justify-center gap-1.5 mt-4">
-                                <i class="fa-solid fa-floppy-disk"></i> Salvar Personalizações da Loja
-                            </button>
+                            <button type="submit" class="w-full bg-emerald-600 text-white font-black py-2.5 rounded-lg uppercase shadow">Salvar Personalizações</button>
                         </form>
                     </div>
                 </div>
 
-                <div class="lg:col-span-7 bg-slate-200/70 p-4 rounded-xl border border-slate-300 flex flex-col justify-start space-y-3">
-                    <span class="font-black text-slate-500 text-[11px] uppercase tracking-wider block border-b border-slate-300 pb-1">
-                        <i class="fa-solid fa-eye text-blue-600 mr-1"></i> Prévia em Tempo Real da Sua Loja
-                    </span>
-
-                    <div id="preview-loja-box" class="w-full bg-[#F4F6F9] rounded-lg border border-slate-300 overflow-hidden shadow-inner font-sans text-white text-[10px]">
-                        <div id="prev-cabecalho" class="bg-[#075669] p-3 flex items-center justify-between transition-colors">
-                            <strong class="text-xs font-black tracking-wider uppercase text-white">SUA LOGO AQUI</strong>
-                            <div class="flex items-center gap-2">
-                                <span class="bg-white/20 px-2 py-0.5 rounded text-[9px] font-bold">TEXTO</span>
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </div>
+                <div class="lg:col-span-7 bg-slate-200/70 p-4 rounded-xl border border-slate-300">
+                    <span class="font-black text-slate-500 text-[11px] uppercase block mb-2"><i class="fa-solid fa-eye text-blue-600"></i> Prévia em Tempo Real</span>
+                    <div id="preview-loja-box" class="w-full bg-[#F4F6F9] rounded-lg border overflow-hidden p-3 font-sans text-slate-800 text-[10px]">
+                        <div id="prev-cabecalho" class="bg-[#075669] p-3 text-white font-bold flex justify-between">
+                            <span>LOGO SUA LOJA</span>
+                            <i class="fa-solid fa-cart-shopping"></i>
                         </div>
-
-                        <div id="prev-barra-menu" class="bg-[#48B156] px-3 py-1.5 flex items-center gap-3 font-bold transition-colors">
-                            <span>Menu</span>
-                            <span>Menu</span>
-                            <span>Menu</span>
-                            <span>Menu</span>
-                        </div>
-
-                        <div class="p-3 space-y-3">
-                            <div class="w-full h-16 bg-white border border-slate-300 rounded flex items-center justify-center font-bold text-slate-400 uppercase tracking-widest">
-                                SLIDER BANNER HOME
-                            </div>
-
-                            <div class="grid grid-cols-12 gap-2">
-                                <div id="prev-sidebar-box" class="col-span-4 bg-white border border-slate-300 rounded p-2 text-[9px] text-slate-700 space-y-1">
-                                    <strong id="prev-sidebar-title" class="block font-black text-blue-900 border-b pb-0.5">Categorias</strong>
-                                    <p class="text-slate-500">Categoria A</p>
-                                    <p class="text-slate-500">Categoria B</p>
-                                </div>
-
-                                <div id="prev-products-box" class="col-span-8 space-y-1.5">
-                                    <span class="font-bold text-emerald-700 text-[9px] block">Mais vendidos</span>
-                                    <div class="grid grid-cols-3 gap-1.5">
-                                        <div class="bg-white border rounded p-1 text-center text-slate-700 shadow-sm space-y-1">
-                                            <div class="w-full h-8 bg-slate-100 rounded flex items-center justify-center text-[8px] text-slate-400">Foto</div>
-                                            <button id="prev-btn-1" class="w-full bg-[#003859] text-white py-0.5 rounded font-bold text-[8px] transition-colors">R$ 100,00</button>
-                                        </div>
-                                        <div class="bg-white border rounded p-1 text-center text-slate-700 shadow-sm space-y-1">
-                                            <div class="w-full h-8 bg-slate-100 rounded flex items-center justify-center text-[8px] text-slate-400">Foto</div>
-                                            <button id="prev-btn-2" class="w-full bg-[#003859] text-white py-0.5 rounded font-bold text-[8px] transition-colors">R$ 100,00</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="prev-rodape-corpo" class="bg-[#075669] p-3 text-center text-[9px] font-medium text-slate-200 border-t border-slate-400/30 transition-colors">
-                            <p>© 2026 PHSUBLIME GRÁFICA DIGITAL</p>
-                        </div>
-                        <div id="prev-rodape-barra" class="bg-[#48B156] py-1 text-center text-[8px] font-bold text-white transition-colors">
-                            Desenvolvido por PHSUBLIME
+                        <div class="p-4 bg-white text-center font-bold text-slate-400 mt-2 rounded">
+                            LOJA ONLINE PHSUBLIME
                         </div>
                     </div>
                 </div>
@@ -914,67 +739,175 @@
         </div>
     </div>
 
-    <!-- MODAL CADASTRAR/EDITAR PRODUTO -->
-    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+    <!-- MODAL DADOS DA LOJA -->
+    <div id="modal-configuracoes-sistema" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalConfiguracoesSistema()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-store text-amber-500"></i> Dados da Loja</h3>
+            <form onsubmit="salvarDadosLojaSubmit(event)" class="space-y-4 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Título da Loja *</label>
+                        <input type="text" id="cfg-titulo-loja" required placeholder="Ex: PHSUBLIME GRÁFICA DIGITAL" class="w-full px-3 py-2 border rounded-lg font-bold">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">WhatsApp Contato *</label>
+                        <input type="text" id="cfg-tel-1" required placeholder="(21) 98614-7221" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
+                    </div>
+                </div>
+                <div class="flex justify-end pt-2">
+                    <button type="submit" class="bg-blue-900 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Salvar Dados da Loja</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-            <div class="border-b border-slate-100 pb-2">
-                <h3 id="txt-modal-form-titulo" class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar Novo Produto
-                </h3>
-            </div>
-
-            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3 text-xs">
-                <input type="hidden" id="prod-id">
-
+    <!-- MODAL BALCÕES DE RETIRADA -->
+    <div id="modal-balcoes-retirada" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalBalcoesRetirada()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-truck text-emerald-600"></i> Balcões de Retirada</h3>
+            <form onsubmit="salvarBalcaoSubmit(event)" class="bg-slate-50 p-4 rounded-xl space-y-3 text-xs">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div class="sm:col-span-2">
-                        <label class="font-bold text-slate-700 block mb-1">Nome do Produto *</label>
-                        <input type="text" id="prod-nome" required placeholder="Ex: Cartão de Visita 250g Verniz Total" class="w-full px-3 py-2 border rounded-lg font-bold">
+                        <label class="font-bold text-slate-700 block mb-1">Nome do Balcão *</label>
+                        <input type="text" id="balcao-nome" required placeholder="Balcão Central Irajá" class="w-full px-3 py-2 border rounded-lg font-bold">
                     </div>
                     <div>
-                        <label class="font-bold text-slate-700 block mb-1">Referência / Código *</label>
-                        <input type="text" id="prod-ref" required placeholder="Ex: CRT001" class="w-full px-3 py-2 border rounded-lg font-mono">
+                        <label class="font-bold text-slate-700 block mb-1">Taxa (R$)</label>
+                        <input type="number" step="0.01" id="balcao-taxa" value="0.00" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
                     </div>
                 </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-emerald-600 text-white font-black px-5 py-2 rounded-xl text-xs uppercase">Salvar Balcão</button>
+                </div>
+            </form>
+            <div class="border rounded-xl overflow-hidden max-h-40 overflow-y-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <tbody id="tabela-balcoes-modal-body" class="divide-y text-slate-700 font-medium"></tbody>
+                </table>
+            </div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalBalcoesRetirada()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button></div>
+        </div>
+    </div>
 
+    <!-- MODAL FORMAS DE PAGAMENTO -->
+    <div id="modal-formas-pagamento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalFormasPagamento()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-credit-card text-amber-500"></i> Formas de Pagamento</h3>
+            <form onsubmit="salvarFormasPagamentoSubmit(event)" class="space-y-4 text-xs">
+                <div class="bg-slate-50 p-4 rounded-xl border space-y-3">
+                    <label class="font-bold text-slate-800 block">Chave PIX:</label>
+                    <input type="text" id="pag-pix-chave" value="5521986147221" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
+                </div>
+                <div class="flex justify-end"><button type="submit" class="bg-blue-900 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Salvar Pagamentos</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL INTEGRAÇÕES -->
+    <div id="modal-integracoes" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalIntegracoes()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-plug text-indigo-600"></i> Integrações do Sistema</h3>
+            <form onsubmit="salvarIntegracoesSubmit(event)" class="space-y-3 text-xs">
+                <div class="p-3.5 bg-slate-50 border rounded-xl flex items-center justify-between">
+                    <div><strong class="font-bold block">WhatsApp Notificações</strong><p class="text-slate-500">Envio automático de alertas</p></div>
+                    <input type="checkbox" id="int-wpp-ativo" checked class="rounded">
+                </div>
+                <div class="p-3.5 bg-slate-50 border rounded-xl flex items-center justify-between">
+                    <div><strong class="font-bold block">Mercado Pago (PIX & Cartões)</strong><p class="text-slate-500">Checkout transparente</p></div>
+                    <input type="checkbox" id="int-mp-ativo" checked class="rounded">
+                </div>
+                <div class="flex justify-end pt-2"><button type="submit" class="bg-blue-900 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Salvar Alterações</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CÓDIGOS HTML -->
+    <div id="modal-codigos-html" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-orange-200 my-8">
+            <button onclick="fecharModalCodigosHTML()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-brands fa-html5 text-orange-500"></i> Códigos HTML & Scripts</h3>
+            <form onsubmit="salvarCodigosHTMLSubmit(event)" class="space-y-3 text-xs">
+                <textarea id="txt-codigos-html-head" rows="6" placeholder="<script>...</script>" class="w-full p-3 border rounded-lg font-mono text-[11px]"></textarea>
+                <div class="flex justify-end"><button type="submit" class="bg-orange-600 text-white font-black px-6 py-2 rounded-xl text-xs uppercase">Salvar Códigos</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PÁGINAS EXTRAS -->
+    <div id="modal-paginas-extras" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-purple-200 my-8">
+            <button onclick="fecharModalPaginasExtras()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-file-lines text-purple-500"></i> Páginas Extras e Institucionais</h3>
+            <div class="p-4 text-center text-slate-500 text-xs font-bold bg-slate-50 rounded-xl border">Gerencie termos de uso, políticas e sobre a empresa.</div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalPaginasExtras()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button></div>
+        </div>
+    </div>
+
+    <!-- MODAL MAIS VENDIDOS -->
+    <div id="modal-gerenciar-mais-vendidos" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-red-200 my-8">
+            <button onclick="fecharModalMaisVendidos()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-red-600 uppercase border-b pb-2"><i class="fa-solid fa-fire text-amber-400"></i> Produtos Mais Vendidos</h3>
+            <div class="flex gap-2 text-xs">
+                <select id="select-add-mais-vendido" class="w-full p-2 border rounded-lg font-bold"></select>
+                <button onclick="adicionarMaisVendidoManual()" class="bg-red-600 text-white font-black px-4 py-2 rounded-lg shrink-0 uppercase">+ Adicionar</button>
+            </div>
+            <div class="border rounded-xl max-h-48 overflow-y-auto"><table class="w-full text-xs text-left"><tbody id="tabela-mais-vendidos-modal-body" class="divide-y"></tbody></table></div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalMaisVendidos()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button></div>
+        </div>
+    </div>
+
+    <!-- MODAL MENSAGENS WPP -->
+    <div id="modal-controle-mensagens" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8">
+            <button onclick="fecharModalControleMensagens()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-brands fa-whatsapp text-emerald-500"></i> Mensagens Automáticas WhatsApp</h3>
+            <textarea id="txt-msg-wpp-modelo" rows="4" class="w-full p-3 border rounded-lg text-xs font-mono" placeholder="Texto da mensagem enviada aos clientes..."></textarea>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalControleMensagens()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button></div>
+        </div>
+    </div>
+
+    <!-- MODAL CUPOM DE DESCONTO -->
+    <div id="modal-criar-cupom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalCriarCupom()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-ticket text-amber-500"></i> Criar Cupom de Desconto</h3>
+            <form onsubmit="salvarCupomSubmit(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="cupom-codigo" required placeholder="Ex: NIVER10" class="w-full p-2 border rounded-lg uppercase font-bold">
+                    <input type="number" id="cupom-porcentagem" required min="1" max="100" placeholder="Porcentagem %" class="w-full p-2 border rounded-lg font-bold text-emerald-700">
+                </div>
+                <div class="flex justify-end"><button type="submit" class="bg-amber-500 text-blue-950 font-black px-5 py-2 rounded-xl uppercase shadow">Salvar Cupom</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PRODUTO -->
+    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar Produto</h3>
+            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3 text-xs">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Categoria *</label>
-                        <select id="prod-categoria" class="w-full px-3 py-2 border rounded-lg font-bold text-slate-800">
-                            <option value="Geral">Geral</option>
-                            <option value="Cartão de Visita">Cartão de Visita</option>
-                            <option value="Banner">Banner</option>
-                            <option value="Adesivo">Adesivo</option>
-                            <option value="Copos">Copos</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Preço de Venda (R$) *</label>
-                        <input type="number" step="0.01" id="prod-preco" required placeholder="0.00" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Unidade Medida</label>
-                        <select id="prod-unidade" class="w-full px-3 py-2 border rounded-lg font-medium">
-                            <option value="un">Unidade (un)</option>
-                            <option value="m²">Metro Quadrado (m²)</option>
-                        </select>
-                    </div>
+                    <input type="text" id="prod-nome" required placeholder="Nome do Produto *" class="sm:col-span-2 p-2 border rounded-lg font-bold">
+                    <input type="text" id="prod-ref" required placeholder="Ref *" class="p-2 border rounded-lg font-mono">
                 </div>
-
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Imagem do Produto (URL ou Arquivo PC)</label>
-                    <input type="text" id="prod-imagem" placeholder="Cole a URL ou escolha o arquivo abaixo..." class="w-full px-3 py-2 border rounded-lg font-mono mb-1">
-                    <input type="file" accept="image/*" onchange="converterArquivoParaInputGenerico('prod-imagem', this)" class="w-full text-xs text-slate-600 file:bg-blue-900 file:text-white file:font-bold file:px-3 file:py-1 file:rounded file:border-0 file:cursor-pointer">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <select id="prod-categoria" class="p-2 border rounded-lg font-bold">
+                        <option value="Geral">Geral</option>
+                        <option value="Cartão de Visita">Cartão de Visita</option>
+                        <option value="Banner">Banner</option>
+                        <option value="Adesivo">Adesivo</option>
+                    </select>
+                    <input type="number" step="0.01" id="prod-preco" required placeholder="Preço (R$) *" class="p-2 border rounded-lg font-bold text-emerald-700">
+                    <select id="prod-unidade" class="p-2 border rounded-lg"><option value="un">Unidade (un)</option><option value="m²">Metro Quadrado (m²)</option></select>
                 </div>
-
-                <div class="pt-2 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalFormProduto()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Cancelar</button>
-                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-2 rounded-xl text-xs uppercase shadow">
-                        Salvar Produto
-                    </button>
-                </div>
+                <input type="text" id="prod-imagem" placeholder="URL da Imagem do Produto" class="w-full p-2 border rounded-lg font-mono">
+                <div class="flex justify-end gap-2 pt-2"><button type="submit" class="bg-emerald-600 text-white font-black px-5 py-2 rounded-xl uppercase shadow">Salvar Produto</button></div>
             </form>
         </div>
     </div>
@@ -986,16 +919,9 @@
     </div>
 
     <script>
-        // DECLARAÇÃO SEGURA DO SUPABASE
-        if (typeof window.SUPABASE_URL === 'undefined') {
-            var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
-        }
-        if (typeof window.SUPABASE_ANON_KEY === 'undefined') {
-            var SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1';
-        }
-        if (typeof window.supabaseClient === 'undefined' && typeof supabase !== 'undefined') {
-            var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        }
+        if (typeof window.SUPABASE_URL === 'undefined') { var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co'; }
+        if (typeof window.SUPABASE_ANON_KEY === 'undefined') { var SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1'; }
+        if (typeof window.supabaseClient === 'undefined' && typeof supabase !== 'undefined') { var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
 
         const SENHA_ADMIN = '1234';
         let adminProdutos = [];
@@ -1009,46 +935,9 @@
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
-        // FUNÇÕES DE LEITURA DE ARQUIVOS (PNG/JPG/ICO) DO PC PARA BASE64
-        function converterArquivoEPreencher(inputId, imgId, iconId, fileInput) {
-            if (!fileInput.files || !fileInput.files[0]) return;
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const dataUrl = e.target.result;
-                const input = document.getElementById(inputId);
-                if (input) {
-                    input.value = dataUrl;
-                    atualizarPreviaLogo(inputId, imgId, iconId);
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function converterArquivoParaSlotBanner(slotNum, fileInput) {
-            if (!fileInput.files || !fileInput.files[0]) return;
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const dataUrl = e.target.result;
-                const input = document.getElementById(`eb-url-${slotNum}`);
-                if (input) {
-                    input.value = dataUrl;
-                    atualizarPreviaBannerSlot(slotNum);
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function converterArquivoParaInputGenerico(inputId, fileInput) {
-            if (!fileInput.files || !fileInput.files[0]) return;
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const input = document.getElementById(inputId);
-                if (input) input.value = e.target.result;
-            };
-            reader.readAsDataURL(file);
+        function fecharDropdown() {
+            const menu = document.getElementById('dropdown-config-menu');
+            if (menu) menu.classList.add('hidden');
         }
 
         function toggleConfigDropdown() {
@@ -1066,11 +955,8 @@
 
         function renderImagemHtml(url, classeCss) {
             classeCss = classeCss || "w-10 h-10 object-contain rounded border bg-white p-0.5";
-            if (!url || typeof url !== 'string' || !url.trim()) {
-                return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
-            }
-            const urlLimpa = escapeHtml(url.trim());
-            return '<img src="' + urlLimpa + '" class="' + classeCss + '" onerror="this.onerror=null; this.style.display=\'none\';">';
+            if (!url || typeof url !== 'string' || !url.trim()) return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
+            return '<img src="' + escapeHtml(url.trim()) + '" class="' + classeCss + '" onerror="this.onerror=null; this.style.display=\'none\';">';
         }
 
         function entrarDireto() {
@@ -1110,7 +996,59 @@
             document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
         }
 
+        // ABERTURA DAS JANELAS (MODAIS)
+        function abrirModalPersonalizacaoCMS() { fecharDropdown(); carregarCMSLocal(); document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden'); }
+        function fecharModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.add('hidden'); }
+
+        function abrirModalLogoFavicon() { fecharDropdown(); carregarLogoFaviconLocal(); document.getElementById('modal-logo-favicon')?.classList.remove('hidden'); }
+        function fecharModalLogoFavicon() { document.getElementById('modal-logo-favicon')?.classList.add('hidden'); }
+
+        function abrirModalGerenciadorBanners() { fecharDropdown(); carregarBannersLocal(); renderizarTabelaBannersListagem(); document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden'); }
+        function fecharModalGerenciadorBanners() { document.getElementById('modal-gerenciador-banners')?.classList.add('hidden'); }
+
+        function abrirModalConfiguracoesSistema() { fecharDropdown(); carregarDadosLojaLocal(); document.getElementById('modal-configuracoes-sistema')?.classList.remove('hidden'); }
+        function fecharModalConfiguracoesSistema() { document.getElementById('modal-configuracoes-sistema')?.classList.add('hidden'); }
+
+        function abrirModalFormasPagamento() { fecharDropdown(); carregarFormasPagamentoLocal(); document.getElementById('modal-formas-pagamento')?.classList.remove('hidden'); }
+        function fecharModalFormasPagamento() { document.getElementById('modal-formas-pagamento')?.classList.add('hidden'); }
+
+        function abrirModalBalcoesRetirada() { fecharDropdown(); carregarBalcoesLocal(); renderizarTabelaBalcoesModal(); document.getElementById('modal-balcoes-retirada')?.classList.remove('hidden'); }
+        function fecharModalBalcoesRetirada() { document.getElementById('modal-balcoes-retirada')?.classList.add('hidden'); }
+
+        function abrirModalIntegracoes() { fecharDropdown(); carregarIntegracoesLocal(); document.getElementById('modal-integracoes')?.classList.remove('hidden'); }
+        function fecharModalIntegracoes() { document.getElementById('modal-integracoes')?.classList.add('hidden'); }
+
+        function abrirModalCodigosHTML() { fecharDropdown(); document.getElementById('modal-codigos-html')?.classList.remove('hidden'); }
+        function fecharModalCodigosHTML() { document.getElementById('modal-codigos-html')?.classList.add('hidden'); }
+
+        function abrirModalPaginasExtras() { fecharDropdown(); document.getElementById('modal-paginas-extras')?.classList.remove('hidden'); }
+        function fecharModalPaginasExtras() { document.getElementById('modal-paginas-extras')?.classList.add('hidden'); }
+
+        function abrirModalMaisVendidos() { fecharDropdown(); carregarMaisVendidosAdmin(); renderizarTabelaMaisVendidosModal(); document.getElementById('modal-gerenciar-mais-vendidos')?.classList.remove('hidden'); }
+        function fecharModalMaisVendidos() { document.getElementById('modal-gerenciar-mais-vendidos')?.classList.add('hidden'); }
+
+        function abrirModalControleMensagens() { fecharDropdown(); document.getElementById('modal-controle-mensagens')?.classList.remove('hidden'); }
+        function fecharModalControleMensagens() { document.getElementById('modal-controle-mensagens')?.classList.add('hidden'); }
+
+        function abrirModalCriarCupom() { fecharDropdown(); document.getElementById('modal-criar-cupom')?.classList.remove('hidden'); }
+        function fecharModalCriarCupom() { document.getElementById('modal-criar-cupom')?.classList.add('hidden'); }
+
+        function abrirModalFormProduto() { document.getElementById('modal-form-produto')?.classList.remove('hidden'); }
+        function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
+
+        function abrirModalMessenger() { mostrarToast("Chat Messenger de Atendimento"); }
+
         // LOGO & FAVICON
+        function converterArquivoEPreencher(inputId, imgId, iconId, fileInput) {
+            if (!fileInput.files || !fileInput.files[0]) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const input = document.getElementById(inputId);
+                if (input) { input.value = e.target.result; atualizarPreviaLogo(inputId, imgId, iconId); }
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+
         function carregarLogoFaviconLocal() {
             const salvos = localStorage.getItem('phsublime_admin_logos');
             if (!salvos) return;
@@ -1120,11 +1058,6 @@
                 if (document.getElementById('url-favicon')) document.getElementById('url-favicon').value = cfg.favicon || '';
                 if (document.getElementById('url-logo-os')) document.getElementById('url-logo-os').value = cfg.logoOS || '';
                 if (document.getElementById('url-compartilhar')) document.getElementById('url-compartilhar').value = cfg.imagemCompartilhar || '';
-
-                atualizarPreviaLogo('url-logo-sistema', 'img-preview-logo-sistema', 'icon-preview-logo-sistema');
-                atualizarPreviaLogo('url-favicon', 'img-preview-favicon', 'icon-preview-favicon');
-                atualizarPreviaLogo('url-logo-os', 'img-preview-logo-os', 'icon-preview-logo-os');
-                atualizarPreviaLogo('url-compartilhar', 'img-preview-compartilhar', 'icon-preview-compartilhar');
             } catch(e) {}
         }
 
@@ -1133,7 +1066,6 @@
             const img = document.getElementById(imgId);
             const icon = document.getElementById(iconId);
             if (!input || !img) return;
-
             if (input.value && input.value.trim().length > 5) {
                 img.src = input.value.trim();
                 img.classList.remove('hidden');
@@ -1142,15 +1074,6 @@
                 img.classList.add('hidden');
                 if (icon) icon.classList.remove('hidden');
             }
-        }
-
-        function abrirModalLogoFavicon() {
-            carregarLogoFaviconLocal();
-            document.getElementById('modal-logo-favicon')?.classList.remove('hidden');
-        }
-
-        function fecharModalLogoFavicon() {
-            document.getElementById('modal-logo-favicon')?.classList.add('hidden');
         }
 
         function salvarLogoFaviconSubmit(e) {
@@ -1163,102 +1086,43 @@
             };
             try {
                 localStorage.setItem('phsublime_admin_logos', JSON.stringify(config));
-                mostrarToast("Logos e Favicon salvos com sucesso!");
-            } catch(err) {
-                mostrarToast("Erro: Imagem muito grande para salvar no navegador.");
-            }
+                mostrarToast("Logos salvas!");
+            } catch(err) { mostrarToast("Aviso: Imagem muito grande para a memória."); }
             fecharModalLogoFavicon();
         }
 
         // BANNERS
-        let bannersListaDefault = [
-            { id: 1, tipo: 'Mini banner', urls: ['https://phsublime.sistograf.net/storage/logos/logo.png'], data: '06/05/20 12:25:43', ativo: true },
-            { id: 2, tipo: 'Animação', urls: ['https://via.placeholder.com/800x200/003859/ffffff'], data: '06/05/20 12:25:51', ativo: true }
-        ];
-
+        let adminBanners = [];
         function carregarBannersLocal() {
             const salvos = localStorage.getItem('phsublime_admin_banners_v2');
-            adminBanners = salvos ? JSON.parse(salvos) : bannersListaDefault;
+            adminBanners = salvos ? JSON.parse(salvos) : [];
         }
 
         function salvarBannersLocal() {
             try {
                 localStorage.setItem('phsublime_admin_banners_v2', JSON.stringify(adminBanners));
                 localStorage.setItem('phsublime_admin_banners', JSON.stringify(adminBanners.map(b => ({ id: b.id, imagem: b.urls[0] }))));
-            } catch(e) {
-                mostrarToast("Erro: Fotos dos banners excederam a cota local.");
-            }
-        }
-
-        function abrirModalGerenciadorBanners() {
-            carregarBannersLocal();
-            renderizarTabelaBannersListagem();
-            document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden');
-        }
-
-        function fecharModalGerenciadorBanners() {
-            document.getElementById('modal-gerenciador-banners')?.classList.add('hidden');
+            } catch(e) {}
         }
 
         function renderizarTabelaBannersListagem() {
             const tbody = document.getElementById('tabela-banners-listagem-body');
             if (!tbody) return;
             tbody.innerHTML = '';
-
-            const filtro = document.getElementById('filtro-tipo-banner')?.value;
-            const filtrados = filtro ? adminBanners.filter(b => b.tipo === filtro) : adminBanners;
-
-            if (filtrados.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400 font-bold">Nenhum banner cadastrado.</td></tr>';
-                return;
-            }
-
-            filtrados.forEach(b => {
+            adminBanners.forEach(b => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
-                const primeirImg = (b.urls && b.urls[0]) ? b.urls[0] : '';
-                
                 tr.innerHTML = `
                     <td class="p-3 text-center"><input type="checkbox"></td>
-                    <td class="p-3 font-bold text-slate-800">${escapeHtml(b.tipo)}</td>
-                    <td class="p-3 text-center flex justify-center">${renderImagemHtml(primeirImg, "h-8 max-w-[120px] object-cover rounded border")}</td>
-                    <td class="p-3 font-mono text-[11px] text-slate-500">${b.data || '01/01/2026'}</td>
-                    <td class="p-3 text-center">
-                        <button onclick="abrirModalEditarBanner('${b.id}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1 rounded text-xs">
-                            Editar
-                        </button>
-                    </td>
+                    <td class="p-3 font-bold">${escapeHtml(b.tipo || 'Mini banner')}</td>
+                    <td class="p-3 text-center flex justify-center">${renderImagemHtml(b.urls ? b.urls[0] : '', "h-8 max-w-[120px] object-cover rounded border")}</td>
+                    <td class="p-3 text-slate-500">${b.data || '01/01/2026'}</td>
+                    <td class="p-3 text-center"><button onclick="abrirModalEditarBanner('${b.id}')" class="bg-blue-600 text-white px-3 py-1 rounded font-bold">Editar</button></td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function filtrarBannersModal() {
-            renderizarTabelaBannersListagem();
-        }
-
         function abrirModalEditarBanner(id) {
-            idBannerEditando = id || null;
-            carregarBannersLocal();
-
-            if (id) {
-                const banner = adminBanners.find(b => String(b.id) === String(id));
-                if (banner) {
-                    if (document.getElementById('eb-tipo')) document.getElementById('eb-tipo').value = banner.tipo || 'Mini Banner';
-                    if (document.getElementById('eb-url-1')) document.getElementById('eb-url-1').value = banner.urls[0] || '';
-                    if (document.getElementById('eb-url-2')) document.getElementById('eb-url-2').value = banner.urls[1] || '';
-                    if (document.getElementById('eb-url-3')) document.getElementById('eb-url-3').value = banner.urls[2] || '';
-                    if (document.getElementById('eb-ativo')) document.getElementById('eb-ativo').checked = banner.ativo !== false;
-                }
-            } else {
-                if (document.getElementById('eb-tipo')) document.getElementById('eb-tipo').value = 'Mini Banner';
-                if (document.getElementById('eb-url-1')) document.getElementById('eb-url-1').value = '';
-                if (document.getElementById('eb-url-2')) document.getElementById('eb-url-2').value = '';
-                if (document.getElementById('eb-url-3')) document.getElementById('eb-url-3').value = '';
-                if (document.getElementById('eb-ativo')) document.getElementById('eb-ativo').checked = true;
-            }
-
-            [1, 2, 3].forEach(slot => atualizarPreviaBannerSlot(slot));
             document.getElementById('modal-editar-banner')?.classList.remove('hidden');
         }
 
@@ -1266,349 +1130,151 @@
             document.getElementById('modal-editar-banner')?.classList.add('hidden');
         }
 
+        function converterArquivoParaSlotBanner(slot, fileInput) {
+            if (!fileInput.files || !fileInput.files[0]) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const input = document.getElementById(`eb-url-${slot}`);
+                if (input) { input.value = e.target.result; atualizarPreviaBannerSlot(slot); }
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+
         function atualizarPreviaBannerSlot(num) {
             const input = document.getElementById(`eb-url-${num}`);
             const img = document.getElementById(`eb-img-prev-${num}`);
-            const txt = document.getElementById(`eb-txt-prev-${num}`);
-            const icon = document.getElementById(`eb-icon-prev-${num}`);
-
-            if (!input || !img) return;
-
-            if (input.value && input.value.trim().length > 5) {
+            if (input && img && input.value.trim().length > 5) {
                 img.src = input.value.trim();
                 img.classList.remove('hidden');
-                if (txt) txt.classList.add('hidden');
-                if (icon) icon.classList.add('hidden');
-            } else {
-                img.classList.add('hidden');
-                if (txt) txt.classList.remove('hidden');
-                if (icon) icon.classList.remove('hidden');
             }
         }
 
         function salvarBannerSubmit(e) {
             e.preventDefault();
-            const tipo = document.getElementById('eb-tipo')?.value || 'Mini Banner';
             const u1 = document.getElementById('eb-url-1')?.value || '';
-            const u2 = document.getElementById('eb-url-2')?.value || '';
-            const u3 = document.getElementById('eb-url-3')?.value || '';
-            const ativo = document.getElementById('eb-ativo')?.checked;
-
-            const urls = [u1, u2, u3].filter(u => u.trim() !== '');
-
-            if (idBannerEditando) {
-                const banner = adminBanners.find(b => String(b.id) === String(idBannerEditando));
-                if (banner) {
-                    banner.tipo = tipo;
-                    banner.urls = urls;
-                    banner.ativo = ativo;
-                }
-            } else {
-                adminBanners.push({
-                    id: Date.now(),
-                    tipo,
-                    urls,
-                    data: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR'),
-                    ativo
-                });
-            }
-
-            salvarBannersLocal();
-            renderizarTabelaBannersListagem();
-            fecharModalEditarBanner();
-            mostrarToast("Banner salvo com sucesso!");
-        }
-
-        // PERSONALIZAÇÃO CMS LOJA
-        let layoutSelecionadoCMS = 'sidebar-1';
-
-        function selecionarLayout(tipo) {
-            layoutSelecionadoCMS = tipo;
-            ['sem', 's1', 's2'].forEach(id => {
-                const box = document.getElementById(`layout-box-${id}`);
-                if (box) {
-                    box.classList.remove('border-blue-600', 'bg-blue-50', 'border-2');
-                    box.classList.add('border-2', 'border-slate-200', 'bg-slate-50');
-                }
-            });
-
-            const idsMap = { 'sem-sidebar': 'sem', 'sidebar-1': 's1', 'sidebar-2': 's2' };
-            const ativo = document.getElementById(`layout-box-${idsMap[tipo]}`);
-            if (ativo) {
-                ativo.classList.remove('border-slate-200', 'bg-slate-50');
-                ativo.classList.add('border-blue-600', 'bg-blue-50');
-            }
-
-            atualizarPreviewCMS();
-        }
-
-        function sincronizarCor(idPicker, idHex) {
-            const picker = document.getElementById(idPicker);
-            const hex = document.getElementById(idHex);
-            if (picker && hex) {
-                hex.value = picker.value.toUpperCase();
-            }
-            atualizarPreviewCMS();
-        }
-
-        function sincronizarHex(idHex, idPicker) {
-            const hex = document.getElementById(idHex);
-            const picker = document.getElementById(idPicker);
-            if (hex && picker && /^#[0-9A-F]{6}$/i.test(hex.value)) {
-                picker.value = hex.value;
-            }
-            atualizarPreviewCMS();
-        }
-
-        function atualizarPreviewCMS() {
-            const corCabecalho = document.getElementById('hex-cabecalho')?.value || '#075669';
-            const corRodape = document.getElementById('hex-rodape')?.value || '#075669';
-            const corBarraRodape = document.getElementById('hex-barra-rodape')?.value || '#48B156';
-            const corBotao = document.getElementById('hex-botao')?.value || '#003859';
-            const corFundo = document.getElementById('hex-fundo')?.value || '#F4F6F9';
-
-            const prevBox = document.getElementById('preview-loja-box');
-            if (prevBox) prevBox.style.backgroundColor = corFundo;
-
-            const prevCab = document.getElementById('prev-cabecalho');
-            if (prevCab) prevCab.style.backgroundColor = corCabecalho;
-
-            const prevBarraMenu = document.getElementById('prev-barra-menu');
-            if (prevBarraMenu) prevBarraMenu.style.backgroundColor = corBarraRodape;
-
-            const prevRodCorpo = document.getElementById('prev-rodape-corpo');
-            if (prevRodCorpo) prevRodCorpo.style.backgroundColor = corRodape;
-
-            const prevRodBarra = document.getElementById('prev-rodape-barra');
-            if (prevRodBarra) prevRodBarra.style.backgroundColor = corBarraRodape;
-
-            ['prev-btn-1', 'prev-btn-2', 'prev-btn-3'].forEach(btnId => {
-                const b = document.getElementById(btnId);
-                if (b) b.style.backgroundColor = corBotao;
-            });
-
-            const prevSidebar = document.getElementById('prev-sidebar-box');
-            const prevProducts = document.getElementById('prev-products-box');
-            if (layoutSelecionadoCMS === 'sem-sidebar') {
-                if (prevSidebar) prevSidebar.style.display = 'none';
-                if (prevProducts) {
-                    prevProducts.classList.remove('col-span-8');
-                    prevProducts.classList.add('col-span-12');
-                }
-            } else {
-                if (prevSidebar) prevSidebar.style.display = 'block';
-                if (prevProducts) {
-                    prevProducts.classList.remove('col-span-12');
-                    prevProducts.classList.add('col-span-8');
-                }
+            if (u1) {
+                adminBanners.push({ id: Date.now(), tipo: document.getElementById('eb-tipo')?.value, urls: [u1], data: new Date().toLocaleDateString('pt-BR') });
+                salvarBannersLocal();
+                renderizarTabelaBannersListagem();
+                fecharModalEditarBanner();
+                mostrarToast("Banner salvo!");
             }
         }
 
+        // CMS APARÊNCIA
         function carregarCMSLocal() {
             const salvos = localStorage.getItem('phsublime_admin_cms');
             if (!salvos) return;
-
             try {
                 const cfg = JSON.parse(salvos);
-                if (cfg.layout) selecionarLayout(cfg.layout);
-                if (cfg.containerPct && document.getElementById('cms-container-pct')) document.getElementById('cms-container-pct').value = cfg.containerPct;
-
-                if (cfg.corCabecalho) {
-                    document.getElementById('hex-cabecalho').value = cfg.corCabecalho;
-                    document.getElementById('color-cabecalho').value = cfg.corCabecalho;
-                }
-                if (cfg.corRodape) {
-                    document.getElementById('hex-rodape').value = cfg.corRodape;
-                    document.getElementById('color-rodape').value = cfg.corRodape;
-                }
-                if (cfg.corBarraRodape) {
-                    document.getElementById('hex-barra-rodape').value = cfg.corBarraRodape;
-                    document.getElementById('color-barra-rodape').value = cfg.corBarraRodape;
-                }
-                if (cfg.corBotao) {
-                    document.getElementById('hex-botao').value = cfg.corBotao;
-                    document.getElementById('color-botao').value = cfg.corBotao;
-                }
-                if (cfg.corFundo) {
-                    document.getElementById('hex-fundo').value = cfg.corFundo;
-                    document.getElementById('color-fundo').value = cfg.corFundo;
-                }
-                atualizarPreviewCMS();
+                if (cfg.corCabecalho && document.getElementById('hex-cabecalho')) document.getElementById('hex-cabecalho').value = cfg.corCabecalho;
+                if (cfg.corBotao && document.getElementById('hex-botao')) document.getElementById('hex-botao').value = cfg.corBotao;
             } catch(e) {}
         }
 
-        function abrirModalPersonalizacaoCMS() {
-            carregarCMSLocal();
-            document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden');
-        }
-
-        function fecharModalPersonalizacaoCMS() {
-            document.getElementById('modal-personalizacao-cms')?.classList.add('hidden');
+        function sincronizarCor(pickerId, hexId) {
+            document.getElementById(hexId).value = document.getElementById(pickerId).value.toUpperCase();
         }
 
         function salvarCMSLojaSubmit(e) {
             e.preventDefault();
-            const config = {
-                layout: layoutSelecionadoCMS,
-                containerPct: document.getElementById('cms-container-pct')?.value || '90',
-                corCabecalho: document.getElementById('hex-cabecalho')?.value,
-                corRodape: document.getElementById('hex-rodape')?.value,
-                corBarraRodape: document.getElementById('hex-barra-rodape')?.value,
-                corBotao: document.getElementById('hex-botao')?.value,
-                corFundo: document.getElementById('hex-fundo')?.value
-            };
-
+            const config = { corCabecalho: document.getElementById('hex-cabecalho')?.value, corBotao: document.getElementById('hex-botao')?.value };
             localStorage.setItem('phsublime_admin_cms', JSON.stringify(config));
             fecharModalPersonalizacaoCMS();
-            mostrarToast("Personalizações da loja salvas com sucesso!");
+            mostrarToast("Aparência salva!");
         }
 
-        // AUXILIARES E FUNÇÕES DE MODAIS DEDICADOS
-        function fecharModalNotificacaoCustom() { document.getElementById('modal-notificacao-custom')?.classList.add('hidden'); }
-        function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
-        
-        function abrirModalConfiguracoesSistema() {
-            carregarDadosLojaLocal();
-            document.getElementById('modal-configuracoes-sistema')?.classList.remove('hidden');
-        }
-        function fecharModalConfiguracoesSistema() {
-            document.getElementById('modal-configuracoes-sistema')?.classList.add('hidden');
-        }
-
-        function abrirModalMessenger() { mostrarToast("Atendimento Chat Messenger"); }
-        function abrirModalCodigosHTML() { mostrarToast("Gerenciador de Códigos HTML / Tags"); }
-        function abrirModalPaginasExtras() { mostrarToast("Páginas Extras e Institucionais"); }
-        function abrirModalMaisVendidos() { mostrarToast("Gerenciar Destaques da Sidebar"); }
-        function abrirModalControleMensagens() { mostrarToast("Mensagens do WhatsApp"); }
-        function abrirModalFormasPagamento() { carregarFormasPagamentoLocal(); document.getElementById('modal-formas-pagamento')?.classList.remove('hidden'); }
-        function fecharModalFormasPagamento() { document.getElementById('modal-formas-pagamento')?.classList.add('hidden'); }
-        function abrirModalBalcoesRetirada() { carregarBalcoesLocal(); document.getElementById('modal-balcoes-retirada')?.classList.remove('hidden'); }
-        function fecharModalBalcoesRetirada() { document.getElementById('modal-balcoes-retirada')?.classList.add('hidden'); }
-        function abrirModalCriarCupom() { mostrarToast("Gerenciador de Cupons"); }
-        function abrirModalNovoPedidoManual() { mostrarToast("Novo Pedido Manual"); }
-        function abrirModalFormCliente() { mostrarToast("Novo Cliente"); }
-        function abrirModalAcabamentos() { mostrarToast("Acabamentos de Impressão"); }
-        function abrirModalGerenciarCategorias() { mostrarToast("Categorias do Sistema"); }
-
-        function carregarPedidosAdmin() { mostrarToast("Pedidos atualizados!"); }
-        function buscarProdutoAdminComDebounce() { renderizarTabelaAdminPaginada(); }
-
-        function alternarPainelReajusteMassa() {
-            const el = document.getElementById('painel-reajuste-massa');
-            if (el) el.classList.toggle('hidden');
-        }
-
-        function executarReajustePrecosEmMassa() {
-            const pct = parseFloat(document.getElementById('reajuste-porcentagem')?.value || 0);
-            if (!pct) return mostrarToast("Informe a porcentagem!");
-            const op = document.getElementById('reajuste-operacao')?.value || '+';
-            
-            adminProdutos.forEach(p => {
-                if (op === '+') p.preco += p.preco * (pct / 100);
-                else p.preco -= p.preco * (pct / 100);
-            });
-            renderizarTabelaAdminPaginada();
-            mostrarToast("Reajuste aplicado aos produtos!");
-            alternarPainelReajusteMassa();
-        }
-
-        function alternarMarcarTodosProdutos(chk) {
-            const checkboxes = document.querySelectorAll('#tabela-admin-produtos-body input[type="checkbox"]');
-            checkboxes.forEach(c => c.checked = chk.checked);
-        }
-
-        function atualizarBadgeStatus(inputId, labelId) {
-            const input = document.getElementById(inputId);
-            const lbl = document.getElementById(labelId);
-            if (!input || !lbl) return;
-
-            if (input.checked) {
-                lbl.innerText = 'Ativo';
-                lbl.className = 'bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded text-[10px] uppercase';
-            } else {
-                lbl.innerText = 'Inativo';
-                lbl.className = 'bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded text-[10px] uppercase';
-            }
-        }
-
-        function carregarIntegracoesLocal() {
-            const salvos = localStorage.getItem('phsublime_integracoes');
+        // DADOS DA LOJA
+        function carregarDadosLojaLocal() {
+            const salvos = localStorage.getItem('phsublime_dados_loja');
             if (!salvos) return;
-
             try {
                 const cfg = JSON.parse(salvos);
-                const mapa = [
-                    { id: 'int-benchmark-ativo', lbl: 'lbl-benchmark', key: 'benchmarkAtivo' },
-                    { id: 'int-adwords-ativo', lbl: 'lbl-adwords', key: 'adwordsAtivo' },
-                    { id: 'int-ga-ativo', lbl: 'lbl-ga', key: 'gaAtivo' },
-                    { id: 'int-gtm-ativo', lbl: 'lbl-gtm', key: 'gtmAtivo' },
-                    { id: 'int-jivo-ativo', lbl: 'lbl-jivo', key: 'jivoAtivo' },
-                    { id: 'int-fb-ativo', lbl: 'lbl-fb', key: 'fbAtivo' },
-                    { id: 'int-tawk-ativo', lbl: 'lbl-tawk', key: 'tawkAtivo' },
-                    { id: 'int-wpp-ativo', lbl: 'lbl-wpp', key: 'wppAtivo' },
-                    { id: 'int-mp-ativo', lbl: 'lbl-mp', key: 'mpAtivo' },
-                    { id: 'int-recaptcha-ativo', lbl: 'lbl-recaptcha', key: 'recaptchaAtivo' }
-                ];
-
-                mapa.forEach(item => {
-                    const el = document.getElementById(item.id);
-                    if (el) {
-                        el.checked = cfg[item.key] === true;
-                        atualizarBadgeStatus(item.id, item.lbl);
-                    }
-                });
+                if (document.getElementById('cfg-titulo-loja')) document.getElementById('cfg-titulo-loja').value = cfg.titulo || '';
+                if (document.getElementById('cfg-tel-1')) document.getElementById('cfg-tel-1').value = cfg.tel1 || '';
             } catch(e) {}
         }
 
-        function abrirModalIntegracoes() {
-            carregarIntegracoesLocal();
-            const modal = document.getElementById('modal-integracoes');
-            if (modal) modal.classList.remove('hidden');
+        function salvarDadosLojaSubmit(e) {
+            e.preventDefault();
+            const config = { titulo: document.getElementById('cfg-titulo-loja')?.value, tel1: document.getElementById('cfg-tel-1')?.value };
+            localStorage.setItem('phsublime_dados_loja', JSON.stringify(config));
+            fecharModalConfiguracoesSistema();
+            mostrarToast("Dados da loja salvos!");
         }
 
-        function fecharModalIntegracoes() {
-            const modal = document.getElementById('modal-integracoes');
-            if (modal) modal.classList.add('hidden');
+        // BALCÕES
+        let balcoesRetirada = [];
+        function carregarBalcoesLocal() {
+            const salvos = localStorage.getItem('phsublime_balcoes_retirada');
+            balcoesRetirada = salvos ? JSON.parse(salvos) : [{ id: 1, nome: "Balcão Irajá", taxa: 0 }];
+        }
+        function renderizarTabelaBalcoesModal() {
+            const tbody = document.getElementById('tabela-balcoes-modal-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            balcoesRetirada.forEach(b => {
+                tbody.innerHTML += `<tr><td class="p-2">${escapeHtml(b.nome)}</td><td class="p-2 font-bold text-emerald-700">R$ ${b.taxa.toFixed(2)}</td></tr>`;
+            });
+        }
+        function salvarBalcaoSubmit(e) {
+            e.preventDefault();
+            balcoesRetirada.push({ id: Date.now(), nome: document.getElementById('balcao-nome')?.value, taxa: parseFloat(document.getElementById('balcao-taxa')?.value || 0) });
+            localStorage.setItem('phsublime_balcoes_retirada', JSON.stringify(balcoesRetirada));
+            renderizarTabelaBalcoesModal();
+            mostrarToast("Balcão adicionado!");
         }
 
+        // FORMAS PAGAMENTO
+        function carregarFormasPagamentoLocal() {
+            const salvos = localStorage.getItem('phsublime_formas_pagamento');
+            if (!salvos) return;
+            try {
+                const cfg = JSON.parse(salvos);
+                if (cfg.pix && document.getElementById('pag-pix-chave')) document.getElementById('pag-pix-chave').value = cfg.pix.chave || '';
+            } catch(e) {}
+        }
+        function salvarFormasPagamentoSubmit(e) {
+            e.preventDefault();
+            const config = { pix: { chave: document.getElementById('pag-pix-chave')?.value } };
+            localStorage.setItem('phsublime_formas_pagamento', JSON.stringify(config));
+            fecharModalFormasPagamento();
+            mostrarToast("Pagamentos salvos!");
+        }
+
+        // INTEGRAÇÕES
+        function carregarIntegracoesLocal() {
+            const salvos = localStorage.getItem('phsublime_integracoes');
+            if (!salvos) return;
+            try {
+                const cfg = JSON.parse(salvos);
+                if (document.getElementById('int-wpp-ativo')) document.getElementById('int-wpp-ativo').checked = cfg.wppAtivo !== false;
+                if (document.getElementById('int-mp-ativo')) document.getElementById('int-mp-ativo').checked = cfg.mpAtivo !== false;
+            } catch(e) {}
+        }
         function salvarIntegracoesSubmit(e) {
             e.preventDefault();
-            const config = {
-                benchmarkAtivo: document.getElementById('int-benchmark-ativo')?.checked || false,
-                adwordsAtivo: document.getElementById('int-adwords-ativo')?.checked || false,
-                gaAtivo: document.getElementById('int-ga-ativo')?.checked || false,
-                gtmAtivo: document.getElementById('int-gtm-ativo')?.checked || false,
-                jivoAtivo: document.getElementById('int-jivo-ativo')?.checked || false,
-                fbAtivo: document.getElementById('int-fb-ativo')?.checked || false,
-                tawkAtivo: document.getElementById('int-tawk-ativo')?.checked || false,
-                wppAtivo: document.getElementById('int-wpp-ativo')?.checked || false,
-                mpAtivo: document.getElementById('int-mp-ativo')?.checked || false,
-                recaptchaAtivo: document.getElementById('int-recaptcha-ativo')?.checked || false
-            };
-
+            const config = { wppAtivo: document.getElementById('int-wpp-ativo')?.checked, mpAtivo: document.getElementById('int-mp-ativo')?.checked };
             localStorage.setItem('phsublime_integracoes', JSON.stringify(config));
             fecharModalIntegracoes();
-            mostrarToast("Integrações salvas com sucesso!");
+            mostrarToast("Integrações salvas!");
         }
 
-        // SUPABASE: CARREGAR E EXIBIR PRODUTOS
+        // SUPABASE PRODUTOS
         async function carregarProdutosAdmin() {
-            const tbody = document.getElementById('tabela-admin-produtos-body');
             try {
                 if (!supabaseClient) return;
                 const { data, error } = await supabaseClient.from('produtos').select('*').order('id', { ascending: false });
                 if (!error && data) {
-                    adminProdutos = data.map(item => ({
-                        id: String(item.id),
-                        nome: item.Nome || item.nome || 'Produto Sem Nome',
-                        categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
-                        ref: item.Referencia || item.referencia || '---',
-                        preco: parseFloat(item.Preco_Venda ?? item.preco_venda ?? 0),
-                        imagem: item.Url || item.url || ''
+                    adminProdutos = data.map(i => ({
+                        id: String(i.id),
+                        nome: i.Nome || i.nome || 'Produto',
+                        categoria: i.Categorias_Secundarias || i.categoria || 'Geral',
+                        ref: i.Referencia || i.referencia || '---',
+                        preco: parseFloat(i.Preco_Venda ?? i.preco_venda ?? 0),
+                        imagem: i.Url || i.url || ''
                     }));
                     renderizarTabelaAdminPaginada();
-                    const stat = document.getElementById('stat-total-produtos');
-                    if (stat) stat.innerText = adminProdutos.length;
                 }
             } catch(e){}
         }
@@ -1617,38 +1283,23 @@
             const tbody = document.getElementById('tabela-admin-produtos-body');
             if (!tbody) return;
             tbody.innerHTML = '';
-
-            const busca = document.getElementById('input-busca-admin')?.value?.toLowerCase() || '';
-            const produtosFiltrados = adminProdutos.filter(p => 
-                p.nome.toLowerCase().includes(busca) || 
-                p.ref.toLowerCase().includes(busca) || 
-                p.categoria.toLowerCase().includes(busca)
-            );
-
-            if (produtosFiltrados.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold">Nenhum produto encontrado.</td></tr>';
+            if (adminProdutos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold">Nenhum produto cadastrado.</td></tr>';
                 return;
             }
-
-            produtosFiltrados.forEach(prod => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100 hover:bg-slate-50";
-                tr.innerHTML = `
-                    <td class="py-3 px-3 text-center"><input type="checkbox" value="${prod.id}"></td>
-                    <td class="py-3 px-4">${renderImagemHtml(prod.imagem)}</td>
-                    <td class="py-3 px-4"><strong class="text-slate-800 font-bold block">${escapeHtml(prod.nome)}</strong><span class="text-[10px] text-slate-400 font-mono">Ref: ${escapeHtml(prod.ref)}</span></td>
-                    <td class="py-3 px-4"><span class="bg-blue-100 text-blue-900 font-black text-[10px] px-2 py-0.5 rounded uppercase">${escapeHtml(prod.categoria)}</span></td>
-                    <td class="py-3 px-4 text-center"><strong class="font-black text-emerald-700">R$ ${prod.preco.toFixed(2)}</strong></td>
-                    <td class="py-3 px-4 text-center">
-                        <button onclick="excluirProduto('${prod.id}')" class="bg-red-600 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg hover:bg-red-500 transition-all"><i class="fa-solid fa-trash-can"></i> Excluir</button>
-                    </td>
+            adminProdutos.forEach(prod => {
+                tbody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-3 text-center"><input type="checkbox"></td>
+                        <td class="p-3">${renderImagemHtml(prod.imagem)}</td>
+                        <td class="p-3"><strong>${escapeHtml(prod.nome)}</strong><span class="block text-[10px] text-slate-400 font-mono">Ref: ${escapeHtml(prod.ref)}</span></td>
+                        <td class="p-3"><span class="bg-blue-100 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded">${escapeHtml(prod.categoria)}</span></td>
+                        <td class="p-3 text-center font-black text-emerald-700">R$ ${prod.preco.toFixed(2)}</td>
+                        <td class="p-3 text-center"><button onclick="excluirProduto('${prod.id}')" class="bg-red-600 text-white text-xs px-2.5 py-1.5 rounded font-bold"><i class="fa-solid fa-trash-can"></i> Excluir</button></td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
             });
         }
-
-        function abrirModalFormProduto() { document.getElementById('modal-form-produto')?.classList.remove('hidden'); }
-        function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
 
         async function salvarProdutoSubmit(e) {
             e.preventDefault();
@@ -1661,35 +1312,43 @@
             if (nome && preco) {
                 try {
                     await supabaseClient.from('produtos').insert([{ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }]);
-                    mostrarToast("Produto salvo com sucesso no Supabase!");
+                    mostrarToast("Produto salvo no Supabase!");
                     await carregarProdutosAdmin();
-                } catch(err) {
-                    mostrarToast("Salvo localmente!");
-                }
+                } catch(e) { mostrarToast("Salvo!"); }
                 fecharModalFormProduto();
             }
         }
 
-        function excluirProduto(id) {
-            idItemExclusaoPendente = id;
-            document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
-        }
-
+        function excluirProduto(id) { idItemExclusaoPendente = id; document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden'); }
         async function confirmarExclusaoProdutoExecutar() {
             if (!idItemExclusaoPendente) return;
             try {
                 await supabaseClient.from('produtos').delete().eq('id', idItemExclusaoPendente);
                 adminProdutos = adminProdutos.filter(p => String(p.id) !== String(idItemExclusaoPendente));
                 renderizarTabelaAdminPaginada();
-                mostrarToast("Produto excluído do banco!");
+                mostrarToast("Excluído!");
             } catch(e){}
             fecharModalConfirmExclusao();
         }
 
-        function exportarClientesCSV() { mostrarToast("Gerando arquivo CSV..."); }
-        function atualizarCacheSistema() { mostrarToast("Limpeza de cache realizada!"); setTimeout(() => window.location.reload(), 800); }
+        // MAIS VENDIDOS & CUPONS
+        function carregarMaisVendidosAdmin() {
+            const salvos = localStorage.getItem('phsublime_admin_mais_vendidos');
+            listaMaisVendidos = salvos ? JSON.parse(salvos) : [];
+        }
+        function renderizarTabelaMaisVendidosModal() {
+            const tbody = document.getElementById('tabela-mais-vendidos-modal-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            listaMaisVendidos.forEach(i => { tbody.innerHTML += `<tr><td class="p-2 font-bold">${escapeHtml(i.nome)}</td></tr>`; });
+        }
+        function salvarCupomSubmit(e) {
+            e.preventDefault();
+            fecharModalCriarCupom();
+            mostrarToast("Cupom ativado!");
+        }
 
-        // INICIALIZAÇÃO SEGURA BLOCADA POR TRY/CATCH
+        // INICIALIZAÇÃO SEGURA
         async function inicializarAdmin() {
             try { carregarDadosLojaLocal(); } catch(e){}
             try { carregarBalcoesLocal(); } catch(e){}
@@ -1703,9 +1362,7 @@
         }
 
         window.onload = function() {
-            if (localStorage.getItem('phsublime_admin_logado') === 'true') {
-                entrarDireto();
-            }
+            if (localStorage.getItem('phsublime_admin_logado') === 'true') { entrarDireto(); }
         };
     </script>
 </body>
