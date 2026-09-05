@@ -668,9 +668,9 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL (TOTALMENTE ORDENADO E SEM ERROS DE INICIALIZAÇÃO) -->
+    <!-- SCRIPT JS PRINCIPAL -->
     <script>
-        // --- 1. VARIÁVEIS DE ESTADO GLOBAL (DECLARADAS NO TOPO DO SCRIPT) ---
+        // --- 1. VARIÁVEIS DE ESTADO GLOBAL ---
         let catalogoEstoque = [];
         let categoriaFiltro = '';
         let paginaAtual = 1;
@@ -680,6 +680,19 @@
         let whatsappAtendimentoLoja = '5521986147221';
         let timerDebounce = null;
         let bannerIndiceAtual = 0;
+
+        let bannersCarrossel = [
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260118_banner_promo_dtf.png', link: 'https://wa.me/5521986147221' },
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260118_banner_promo_dtf_metro_linear.png', link: 'https://wa.me/5521986147221' },
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260120_banner_promo_camiseta_polo.png', link: 'https://wa.me/5521986147221' },
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20251120_Camiseta Branca.png', link: 'https://wa.me/5521986147221' }
+        ];
+
+        let miniBannersParados = [
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/mini_banner/20250228_mini-banner-indique-e-ganhe.png', link: 'https://wa.me/5521986147221' },
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/mini_banner/20250228_mini-banner-GANHE DESCONTOS EXTRAS.png', link: 'https://wa.me/5521986147221' },
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/mini_banner/20260120_mini_banner_camisa_polo_500x200.png', link: 'https://wa.me/5521986147221' }
+        ];
 
         // CLIENTE SUPABASE
         if (typeof window.SUPABASE_URL === 'undefined') {
@@ -695,7 +708,7 @@
         const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
-        // --- 2. LISTA FIXA DE CATEGORIAS DA GRAFICONALTA ---
+        // --- 2. LISTA FIXA DE CATEGORIAS DA GRAFICONAUTA ---
         const CATEGORIAS_FIXAS_GRAFICONALTA = [
             "Abadá", "Acrílico", "Adesivo", "Agendas, Cadernos e Planners", "Avental",
             "Banner, Faixa, Lona e Painel", "Bermuda & Short", "Blocos e Comandas", "Bolsa em Tecido",
@@ -713,53 +726,289 @@
             "Timbrado e Receituários", "Ventarola, Abanador e Leque", "Wind Banner", "Álbum de Figurinhas Fotográfico", "Ímã de Geladeira"
         ];
 
-        // --- 3. CATÁLOGO COMPLETO DE PRODUTOS PADRÃO GRAFICONALTA ---
+        // --- 3. CATÁLOGO COMPLETO EXTRAÍDO INTEGRALMENTE DA GRAFICONAUTA ---
         const CATALOGO_GRAFICONALTA_PADRAO = [
+            // DESTAQUES E BANNERS REAIS DA GRAFICONAUTA
+            { 
+                id: 'gn-2561', 
+                nome: "Banner | Lona Fosca 240g", 
+                categoria: "Banner, Faixa, Lona e Painel", 
+                precoVenda: 24.00, 
+                ref: "sign19p8", 
+                producao: "12 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2561/img/20190315_imprimir_banner_personalizado_05.jpg", 
+                descricao: "<p>Banner impresso em Lona Fosca 240g de alta definição e alta resistência, ideal para eventos, comércios e divulgação.</p>" 
+            },
+            { 
+                id: 'gn-2562', 
+                nome: "Faixa | Lona Fosca 240g", 
+                categoria: "Banner, Faixa, Lona e Painel", 
+                precoVenda: 24.00, 
+                ref: "sign50p8", 
+                producao: "24 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2562/img/20190318_imprimir_faixa_personalizada_03.jpg", 
+                descricao: "<p>Faixa promocional personalizada em Lona Fosca 240g com acabamento resistente para ambientes externos.</p>" 
+            },
+            { 
+                id: 'gn-2564', 
+                nome: "Lona Fosca 240g | Bainha e Ilhós", 
+                categoria: "Banner, Faixa, Lona e Painel", 
+                precoVenda: 24.00, 
+                ref: "sign20p8", 
+                producao: "12 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", 
+                descricao: "<p>Lona fosca 240g finalizada com reforço de bainha e ilhós metalizado distribuído ao redor para fixação perfeita.</p>" 
+            },
+            { 
+                id: 'gn-2565', 
+                nome: "Lona Fosca 240g | Sem Ilhós", 
+                categoria: "Banner, Faixa, Lona e Painel", 
+                precoVenda: 21.12, 
+                ref: "sign21p8", 
+                producao: "12 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2565/img/20190629_0_20190316_imprimir_lona_personalizada_brilho_sem_acabamento_01.jpg", 
+                descricao: "<p>Lona fosca 240g sem acabamento de ilhós, pronta para aplicação em quadros, cavaletes ou estruturas de madeira.</p>" 
+            },
+            { 
+                id: 'gn-2579', 
+                nome: "Lona Fosca 240g | Bainha e Ilhós | Formato Especial", 
+                categoria: "Banner, Faixa, Lona e Painel", 
+                precoVenda: 28.80, 
+                ref: "sign22p8", 
+                producao: "12 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2579/img/20250831_0_lona_corte_especial.jpeg", 
+                descricao: "<p>Lona fosca 240g com corte contorno especial, bainha reforçada e ilhós. Ideal para painéis de aniversário e cenários.</p>" 
+            },
+
             // ADESIVOS
-            { id: 'gn-1', nome: "Adesivo Vinil Brilho 0,10 M²", categoria: "Adesivo", precoVenda: 28.80, ref: "sign01", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/3/img/20190313_imprimir_adesivo_personalizado.jpg", descricao: "<p>Adesivo vinil brilho de alta resolução e durabilidade.</p>" },
-            { id: 'gn-2', nome: "Adesivo Brilho + Corte Contorno 5cm", categoria: "Adesivo", precoVenda: 33.60, ref: "sign03", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/5/img/20190313_imprimir_adesivo_personalizado_com_corte_especial_brilho.jpg", descricao: "<p>Adesivo recortado eletronicamente para rótulos e etiquetas.</p>" },
-            { id: 'gn-3', nome: "Adesivo Microperfurado M²", categoria: "Adesivo", precoVenda: 45.00, ref: "sign120", producao: "24 horas", imagem: "", descricao: "<p>Adesivo para vidros de carros e vitrines comerciais.</p>" },
-            
-            // BANNERS E LONAS
-            { id: 'gn-4', nome: "Banner Lona Brilho 440g", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 26.88, ref: "sign22", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/24/img/20190316_imprimir_banner_personalizado_03.jpg", descricao: "<p>Banner impresso em lona 440g reforçada com bastão e cordinha.</p>" },
-            { id: 'gn-5', nome: "Lona Fosca 240g | Bainha e Ilhós", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 24.00, ref: "sign20p8", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", descricao: "<p>Lona fosca ideal para painéis de festa e fachadas sem reflexo.</p>" },
-            { id: 'gn-6', nome: "Roll Up de Alumínio Completo", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 180.00, ref: "sign487", producao: "24 horas", imagem: "", descricao: "<p>Estrutura de roll-up retrátil com lona impressa.</p>" },
+            { 
+                id: 'gn-3', 
+                nome: "Adesivo Brilho 0,10 M²", 
+                categoria: "Adesivo", 
+                precoVenda: 28.80, 
+                ref: "sign01", 
+                producao: "12 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/3/img/20190313_imprimir_adesivo_personalizado.jpg", 
+                descricao: "<p>Adesivo brilho vinil 0,10 M² em impressão digital eco-solvente de alta resolução e longa durabilidade.</p>" 
+            },
+            { 
+                id: 'gn-5', 
+                nome: "Adesivo Brilho 0,08 M² + Corte Contorno - Tamanho Mínimo 5cm", 
+                categoria: "Adesivo", 
+                precoVenda: 33.60, 
+                ref: "sign03", 
+                producao: "24 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/5/img/20190313_imprimir_adesivo_personalizado_com_corte_especial_brilho.jpg", 
+                descricao: "<p>Adesivo brilho vinil 0,08 M² com corte especial em plotter de precisão para rótulos e stickers personalizados.</p>" 
+            },
+            { 
+                id: 'gn-120', 
+                nome: "Adesivo Microperfurado M²", 
+                categoria: "Adesivo", 
+                precoVenda: 45.00, 
+                ref: "sign120", 
+                producao: "24 horas", 
+                imagem: "", 
+                descricao: "<p>Adesivo microperfurado para aplicação em vidros automotivos e vitrines de lojas com visibilidade interna.</p>" 
+            },
 
-            // CARTÕES DE VISITA & PAPELARIA
-            { id: 'gn-7', nome: "Cartão 250g | 4/4 | Verniz UV 1/0", categoria: "Cartão de Visita", precoVenda: 21.12, ref: "crt003", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", descricao: "<p>Cartão de visita com frente e verso coloridos e brilho UV.</p>" },
-            { id: 'gn-8', nome: "Cartão 300g | Lam. Fosca + UV Local 1/1", categoria: "Cartão de Visita", precoVenda: 72.00, ref: "crt012", producao: "5 dias", imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", descricao: "<p>Cartão nobre com toque aveludado e verniz em relevo.</p>" },
-            { id: 'gn-9', nome: "Cartão Duplo 300g Verniz UV", categoria: "Cartão Duplo", precoVenda: 89.00, ref: "crt154", producao: "3 dias", imagem: "", descricao: "<p>Cartão duplo dobrável para convites e fidelidade.</p>" },
+            // CARTÕES DE VISITA
+            { 
+                id: 'gn-72', 
+                nome: "Cartão 250g | 4/4 | UV 1/0", 
+                categoria: "Cartão de Visita", 
+                precoVenda: 21.12, 
+                ref: "crt003", 
+                producao: "24 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", 
+                descricao: "<p>Cartão DuoDesign 250g/m² com impressão colorida frente e verso (4/4) e acabamento em Verniz UV total na frente.</p>" 
+            },
+            { 
+                id: 'gn-81', 
+                nome: "Cartão 300g | 4/4 | Lamin. Fosca + UV Local 1/1", 
+                categoria: "Cartão de Visita", 
+                precoVenda: 72.00, 
+                ref: "crt012", 
+                producao: "5 dias", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", 
+                descricao: "<p>Cartão DuoDesign 300g/m² com Laminação Fosca 1/1 sofisticada e aplicação de Verniz UV Localizado em relevo frente e verso.</p>" 
+            },
 
-            // DTF & VESTUÁRIO
-            { id: 'gn-10', nome: "DTF Têxtil por Metro Linear (57x100cm)", categoria: "DTF Transfer Digital", precoVenda: 55.00, ref: "dtf001", producao: "24 horas", imagem: "", descricao: "<p>Impressão DTF têxtil de altíssima qualidade pronta para aplicar em tecidos.</p>" },
-            { id: 'gn-11', nome: "DTF UV Cartela A4", categoria: "DTF Transfer Digital", precoVenda: 25.00, ref: "dtfuv01", producao: "24 horas", imagem: "", descricao: "<p>DTF UV para aplicação direta em rígidos (copos, vidros, canetas).</p>" },
-            { id: 'gn-12', nome: "Camisa Com Manga Adulto Sublimada", categoria: "Camisa, Camiseta e Blusa", precoVenda: 24.00, ref: "cam002", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", descricao: "<p>Camisa personalizada em tecido 100% poliéster.</p>" },
-            { id: 'gn-13', nome: "Camisa Babylook Feminina", categoria: "Camisa, Camiseta e Blusa", precoVenda: 22.08, ref: "cam004", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/573/img/20230410_0_6.png", descricao: "<p>Babylook com corte acinturado e estampa total.</p>" },
-            { id: 'gn-14', nome: "Moletom Canguru com Capuz", categoria: "Moletons", precoVenda: 110.00, ref: "mlt001", producao: "4 dias", imagem: "", descricao: "<p>Moletom flanelado com bolso canguru e capuz ajustável.</p>" },
-            { id: 'gn-15', nome: "Abadá Personalizado em Poliéster", categoria: "Abadá", precoVenda: 18.50, ref: "abd001", producao: "3 dias", imagem: "", descricao: "<p>Abadá leve e fresco para blocos e eventos festivos.</p>" },
+            // BANNERS E LONAS ADICIONAIS
+            { 
+                id: 'gn-24', 
+                nome: "Banner | Lona Brilho 440g", 
+                categoria: "Banner, Faixa, Lona e Painel", 
+                precoVenda: 26.88, 
+                ref: "sign22", 
+                producao: "12 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/24/img/20190316_imprimir_banner_personalizado_03.jpg", 
+                descricao: "<p>Banner impresso em lona brilho 440g super resistente, acompanhando madeira, ponteiras e cordinha para pendurar.</p>" 
+            },
+            { 
+                id: 'gn-25', 
+                nome: "Lona Brilho 440g | Bainha e Ilhós", 
+                categoria: "Banner, Faixa, Lona e Painel", 
+                precoVenda: 26.88, 
+                ref: "sign23", 
+                producao: "12 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/25/img/20190316_imprimir_lona_personalizada_03.jpg", 
+                descricao: "<p>Lona brilho 440g com acabamento duplo em reforço de bainha e anéis de ilhós metálicos nas pontas.</p>" 
+            },
 
-            // FOLHETOS & EMBALAGENS
-            { id: 'gn-16', nome: "Folheto Couchê 80g | 10x14cm | 4/0", categoria: "Folheto, Folder e Flyer", precoVenda: 71.04, ref: "flt001", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", descricao: "<p>Panfletos em papel couchê brilhante para panfletagem.</p>" },
-            { id: 'gn-17', nome: "Embalagem Batata Frita Média (500 un)", categoria: "Embalagens Fast Food", precoVenda: 120.00, ref: "emb001", producao: "5 dias", imagem: "", descricao: "<p>Caixinha de papel cartão para batata frita e porções.</p>" },
-            { id: 'gn-18', nome: "Box Yakissoba 500ml (500 un)", categoria: "Embalagens Fast Food", precoVenda: 145.00, ref: "emb002", producao: "5 dias", imagem: "", descricao: "<p>Embalagem anti-vazamento para refeições delivery.</p>" },
+            // FOLHETOS
+            { 
+                id: 'gn-207', 
+                nome: "Folheto 80g | 10x14cm | 4/0", 
+                categoria: "Folheto, Folder e Flyer", 
+                precoVenda: 71.04, 
+                ref: "flt001", 
+                producao: "24 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", 
+                descricao: "<p>Panfletos em papel couchê brilho 80g tamanho 10x14cm colorido frente (4/0) para divulgação comercial ostensiva.</p>" 
+            },
 
-            // COPOS, CANECAS E TAÇAS
-            { id: 'gn-19', nome: "Caneca de Alumínio 500ml", categoria: "Canecas, Copos e Taças", precoVenda: 14.50, ref: "cop001", producao: "48 horas", imagem: "", descricao: "<p>Caneca de alumínio para festas e eventos com tirante.</p>" },
-            { id: 'gn-20', nome: "Copo Long Drink 350ml Sólido", categoria: "Canecas, Copos e Taças", precoVenda: 3.20, ref: "cop002", producao: "48 horas", imagem: "", descricao: "<p>Copo acrílico rígido para personalização.</p>" },
-            { id: 'gn-21', nome: "Taça de Gin Degradê 580ml", categoria: "Canecas, Copos e Taças", precoVenda: 12.00, ref: "cop320", producao: "48 horas", imagem: "", descricao: "<p>Taça de gin em acrílico com acabamento degradê brilhante.</p>" },
+            // VESTUÁRIO E CAMISAS
+            { 
+                id: 'gn-571', 
+                nome: "Camisa Com Manga Adulto", 
+                categoria: "Camisa, Camiseta e Blusa", 
+                precoVenda: 24.00, 
+                ref: "cam002", 
+                producao: "72 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", 
+                descricao: "<p>Camisa personalizada masculina/unissex com manga, confeccionada em tecido confortável com estampa nítida.</p>" 
+            },
+            { 
+                id: 'gn-573', 
+                nome: "Camisa Babylook", 
+                categoria: "Camisa, Camiseta e Blusa", 
+                precoVenda: 22.08, 
+                ref: "cam004", 
+                producao: "72 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/573/img/20230410_0_6.png", 
+                descricao: "<p>Camisa modelo Babylook feminina personalizada com caimento justo e acabamento reforçado.</p>" 
+            },
 
-            // ACRÍLICO, BRINDES & ELEIÇÕES
-            { id: 'gn-22', nome: "Placa de Acrílico 2mm Personalizada", categoria: "Acrílico", precoVenda: 48.00, ref: "acr001", producao: "48 horas", imagem: "", descricao: "<p>Placa de acrílico transparente impressa com alta definição UV.</p>" },
-            { id: 'gn-23', nome: "Troféu em Acrílico Cortado a Laser", categoria: "Acrílico", precoVenda: 65.00, ref: "acr002", producao: "3 dias", imagem: "", descricao: "<p>Troféu personalizado para homenagens e premiações.</p>" },
-            { id: 'gn-24', nome: "Bandeira de Carro Eleitoral | 30x42cm", categoria: "Eleições 2026", precoVenda: 6.00, ref: "ELE26-610", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2204/img/20260808_0_bandeira_para_carro_campanha_eleitoral_26.png", descricao: "<p>Bandeira automotiva com suporte para janela.</p>" },
-            { id: 'gn-25', nome: "Adesivo Praguinha Eleitoral (1000 un)", categoria: "Eleições 2026", precoVenda: 85.00, ref: "ELE26-428", producao: "24 horas", imagem: "", descricao: "<p>Adesivo redondo para campanha eleitoral.</p>" },
-            { id: 'gn-26', nome: "Cartão Retrovisor 3D Eleitoral", categoria: "Eleições 2026", precoVenda: 95.00, ref: "ELE26-415", producao: "24 horas", imagem: "", descricao: "<p>Pragão para retrovisor interno de veículos.</p>" },
+            // WINDBANNER E ESTRUTURAS
+            { 
+                id: 'gn-1277', 
+                nome: "Wind Banner | Modelo Faca | 260x70cm", 
+                categoria: "Wind Banner", 
+                precoVenda: 105.60, 
+                ref: "sub007", 
+                producao: "12 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", 
+                descricao: "<p>Wind Banner impresso em tecido Microfibra dupla face modelo faca 260x70cm completo para bandeira promocional.</p>" 
+            },
 
-            // BLOCOS, AGENDAS & OUTROS
-            { id: 'gn-27', nome: "Bloco Autocopiativo Com 2 Vias (50x2)", categoria: "Blocos e Comandas", precoVenda: 18.00, ref: "blc344", producao: "3 dias", imagem: "", descricao: "<p>Talão de nota/pedidos com cópia automática sem carbono.</p>" },
-            { id: 'gn-28', nome: "Agenda 1 Dia por Página 2026 Capa Dura", categoria: "Agendas, Cadernos e Planners", precoVenda: 28.00, ref: "agd001", producao: "4 dias", imagem: "", descricao: "<p>Agenda anual capa dura personalizada.</p>" },
-            { id: 'gn-29', nome: "Wind Banner Modelo Faca | 260x70cm", categoria: "Wind Banner", precoVenda: 105.60, ref: "sub007", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", descricao: "<p>Wind banner completo com haste e base para bandeira de calçada.</p>" },
-            { id: 'gn-30', nome: "Raspadinha Promocional (1000 un)", categoria: "Raspadinha", precoVenda: 110.00, ref: "rsp512", producao: "4 dias", imagem: "", descricao: "<p>Cartão interativo com tinta raspável para sorteios e cupons.</p>" }
+            // ELEIÇÕES E BANDEIRAS
+            { 
+                id: 'gn-2204', 
+                nome: "Bandeira de Carro | 30x42cm", 
+                categoria: "Eleições 2026", 
+                precoVenda: 6.00, 
+                ref: "ELE26-610", 
+                producao: "24 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2204/img/20260808_0_bandeira_para_carro_campanha_eleitoral_26.png", 
+                descricao: "<p>Bandeira para veículo em tecido Microfibra 30x42cm com suporte para fixação na janela do carro.</p>" 
+            },
+            { 
+                id: 'gn-2205', 
+                nome: "Bandeira | P | 47x70cm", 
+                categoria: "Eleições 2026", 
+                precoVenda: 8.00, 
+                ref: "ELE26-611", 
+                producao: "24 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2205/img/20260808_0_bandeirra_pequena_para_campanha_47x70cm.png", 
+                descricao: "<p>Bandeira tamanho pequeno (P) confeccionada em tecido Tafetá 47x70cm com cores vibrantes.</p>" 
+            },
+            { 
+                id: 'gn-2207', 
+                nome: "Bandeira | G | 90x140cm", 
+                categoria: "Eleições 2026", 
+                precoVenda: 14.00, 
+                ref: "ELE26-613", 
+                producao: "24 horas", 
+                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2207/img/20260808_0_bandeira_grande_para_campanha_90x140cm.png", 
+                descricao: "<p>Bandeira tamanho grande (G) em tecido Tafetá 90x140cm com bainha e costura de suporte.</p>" 
+            },
+
+            // DTF & SUBLIMAÇÃO
+            { 
+                id: 'gn-406', 
+                nome: "DTF Têxtil por Metro Linear (57x100cm)", 
+                categoria: "DTF Transfer Digital", 
+                precoVenda: 55.00, 
+                ref: "dtf001", 
+                producao: "24 horas", 
+                imagem: "", 
+                descricao: "<p>Impressão DTF têxtil por metro linear pronta para estampagem térmica em algodão, poliéster e jeans.</p>" 
+            },
+            { 
+                id: 'gn-405', 
+                nome: "DTF UV Cartela A4 (21x29cm)", 
+                categoria: "DTF Transfer Digital", 
+                precoVenda: 25.00, 
+                ref: "dtfuv01", 
+                producao: "24 horas", 
+                imagem: "", 
+                descricao: "<p>DTF UV em cartela A4 para aplicação direta em superfícies rígidas (vidro, acrílico, plástico e metal).</p>" 
+            },
+
+            // COPOS E COPO TAÇA
+            { 
+                id: 'gn-326', 
+                nome: "Caneca de Alumínio 350ml", 
+                categoria: "Canecas, Copos e Taças", 
+                precoVenda: 14.50, 
+                ref: "cop326", 
+                producao: "48 horas", 
+                imagem: "", 
+                descricao: "<p>Caneca de alumínio 350ml pronta para aplicação de tirante para faculdades e choppadas.</p>" 
+            },
+            { 
+                id: 'gn-320', 
+                nome: "Taça de Gin Degradê 580ml", 
+                categoria: "Canecas, Copos e Taças", 
+                precoVenda: 12.00, 
+                ref: "cop320", 
+                producao: "48 horas", 
+                imagem: "", 
+                descricao: "<p>Taça de gin em acrílico 580ml com acabamento degradê e alto brilho.</p>" 
+            },
+
+            // BLOCOS E DIVERSOS
+            { 
+                id: 'gn-344', 
+                nome: "Bloco Autocopiativo Com 2 Vias - 50x2", 
+                categoria: "Blocos e Comandas", 
+                precoVenda: 18.00, 
+                ref: "blc344", 
+                producao: "3 dias", 
+                imagem: "", 
+                descricao: "<p>Bloco de notas e comandas autocopiativo com 2 vias coloridas 50x2.</p>" 
+            },
+            { 
+                id: 'gn-399', 
+                nome: "Agenda 1 Dia por Página 2026 Capa Dura", 
+                categoria: "Agendas, Cadernos e Planners", 
+                precoVenda: 28.00, 
+                ref: "agd399", 
+                producao: "4 dias", 
+                imagem: "", 
+                descricao: "<p>Agenda escolar/executiva 2026 datada com 1 dia por página e capa dura personalizada.</p>" 
+            },
+            { 
+                id: 'gn-512', 
+                nome: "Raspadinha Promocional (1000 un)", 
+                categoria: "Raspadinha", 
+                precoVenda: 110.00, 
+                ref: "rsp512", 
+                producao: "4 dias", 
+                imagem: "", 
+                descricao: "<p>Cartão interativo com tinta raspável especial para promoções e prêmios instantâneos.</p>" 
+            }
         ];
 
         // --- 4. FUNÇÕES DE UTILIDADE ---
@@ -783,6 +1032,25 @@
             if (u.match(/^#?[0-9a-fA-F]{3,6}$/) || u.includes('sistograf.net')) return '';
             if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) return u;
             return u;
+        }
+
+        function mostrarToast(mensagem, tipo = 'sucesso') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+            if (!toast || !toastMsg) return;
+
+            toastMsg.innerText = mensagem;
+            if (tipo === 'erro') {
+                toastIcon.className = "fa-solid fa-circle-exclamation text-red-400 text-lg";
+            } else {
+                toastIcon.className = "fa-solid fa-circle-check text-amber-400 text-lg";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
         }
 
         // --- 5. PERFIL E MENSAGENS DO CLIENTE ---
@@ -1112,7 +1380,6 @@
             }
 
             catalogoEstoque = [...produtosSupabase, ...CATALOGO_GRAFICONALTA_PADRAO];
-            catalogoEstoque = embaralharArray(catalogoEstoque);
 
             renderizarMenusCategorias();
             renderizarProdutosDestaque();
@@ -1396,6 +1663,19 @@
 
         function fecharModalDetalhes() {
             document.getElementById('modal-detalhes-produto').classList.add('hidden');
+        }
+
+        function salvarCarrinho() {
+            localStorage.setItem('phsublime_carrinho', JSON.stringify(carrinho));
+            atualizarBadgeCarrinho();
+        }
+
+        function atualizarBadgeCarrinho() {
+            const badge = document.getElementById('badge-carrinho-qtd');
+            if (badge) {
+                const totalQtd = carrinho.reduce((s, i) => s + (i.qtd || 1), 0);
+                badge.innerText = totalQtd;
+            }
         }
 
         function adicionarAoCarrinho(id) {
