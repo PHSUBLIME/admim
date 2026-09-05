@@ -66,7 +66,7 @@
 
     <div id="container-scripts-admin-head"></div>
 
-    <!-- GAVETA DO CARRINHO LATERAL (SLIDE-OVER DRAWER CASCA IGUAL GRAFICONALTA) -->
+    <!-- GAVETA DO CARRINHO LATERAL (SLIDE-OVER DRAWER) -->
     <div id="aba-lateral-carrinho" class="fixed top-0 right-0 w-80 sm:w-96 h-full bg-slate-900/95 backdrop-blur-md text-white z-[1000] shadow-2xl transition-transform duration-300 translate-x-full flex flex-col justify-between p-4 border-l border-blue-800">
         <div class="space-y-4 flex-1 flex flex-col overflow-hidden">
             <div class="flex items-center justify-between border-b border-slate-700 pb-3">
@@ -78,7 +78,6 @@
                 </button>
             </div>
 
-            <!-- ITENS DO CARRINHO LATERAL -->
             <div id="conteudo-carrinho-lateral" class="flex-1 overflow-y-auto space-y-3 pr-1 text-xs divide-y divide-slate-800">
                 <!-- Injetado via JS -->
             </div>
@@ -124,10 +123,9 @@
                 </div>
             </div>
 
-            <!-- ÁREA DE USUÁRIO / CARRINHO / WHATSAPP (ESTRUTURA COMPLETA) -->
+            <!-- PERFIL / CARRINHO / WHATSAPP -->
             <div class="flex items-center gap-2 sm:gap-3 shrink-0 flex-wrap justify-center">
                 
-                <!-- CASCA DO LOGIN / PERFIL -->
                 <div id="box-user-header" class="relative">
                     <button onclick="toggleModalLogin()" class="flex items-center gap-2 bg-blue-950/70 hover:bg-blue-950 text-white px-3 py-2 rounded-xl text-xs font-semibold border border-blue-800 transition-all">
                         <i class="fa-regular fa-user text-amber-400"></i>
@@ -139,14 +137,12 @@
                     </button>
                 </div>
 
-                <!-- BOTAO DO CARRINHO LATERAL -->
                 <button onclick="alternarCarrinhoLateral(true)" class="relative bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
                     <i class="fa-solid fa-cart-shopping text-base"></i>
                     <span class="hidden sm:inline">CARRINHO</span>
                     <span id="badge-carrinho-qtd" class="bg-blue-900 text-white font-bold px-2 py-0.5 rounded-full text-[10px] border border-blue-950">0</span>
                 </button>
 
-                <!-- ATALHO WHATSAPP -->
                 <a id="btn-wpp-topo" href="https://wa.me/5521986147221" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-white font-black text-xs px-3 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-1.5">
                     <i class="fa-brands fa-whatsapp text-base"></i>
                     <span id="txt-wpp-topo" class="hidden md:inline">(21) 98614-7221</span>
@@ -186,7 +182,7 @@
                 <!-- SIDEBAR ESQUERDA -->
                 <aside class="w-full lg:w-64 shrink-0 space-y-4">
                     
-                    <!-- FILTRO DE CATEGORIAS DA SIDEBAR -->
+                    <!-- 1. PESQUISA RÁPIDA DE CATEGORIAS DA SIDEBAR -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#316AC7] text-white font-black text-xs px-3 py-2 uppercase tracking-wider flex items-center justify-between">
                             <span>PESQUISAR CATEGORIAS</span>
@@ -197,7 +193,7 @@
                         </div>
                     </div>
 
-                    <!-- BLOCO MAIS VENDIDOS -->
+                    <!-- 2. BLOCO MAIS VENDIDOS -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-red-600 text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
                             <span>MAIS VENDIDOS</span>
@@ -207,7 +203,7 @@
                         </ul>
                     </div>
 
-                    <!-- BLOCO TODOS OS PRODUTOS (CATEGORIAS) -->
+                    <!-- 3. BLOCO TODOS OS PRODUTOS (COM AS CATEGORIAS DA GRAFICONALTA) -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider">
                             TODOS OS PRODUTOS
@@ -285,7 +281,7 @@
             </div>
         </div>
 
-        <!-- SEÇÃO CARRINHO (PÁGINA COMPLETA) -->
+        <!-- SEÇÃO CARRINHO -->
         <div id="secao-carrinho" class="hidden space-y-6">
             <div id="carrinho-vazio-msg" class="hidden bg-white border border-slate-200 p-12 rounded-xl text-center space-y-3 shadow-sm">
                 <i class="fa-solid fa-cart-flatbed text-5xl text-slate-300 block"></i>
@@ -477,7 +473,7 @@
         </div>
     </footer>
 
-    <!-- MODAL DE LOGIN / MINHA CONTA DO CLIENTE (CASCA FUNCIONAL) -->
+    <!-- MODAL DE LOGIN / MINHA CONTA DO CLIENTE -->
     <div id="modal-login-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="toggleModalLogin()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -662,7 +658,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL COM TODA A LÓGICA DE CASCA VISUAL E DADOS -->
+    <!-- SCRIPT JS PRINCIPAL -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
@@ -679,6 +675,38 @@
         const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
+        // CATÁLOGO NATIVO COMPLETO DAS CATEGORIAS DA GRAFICONALTA
+        const CATALOGO_GRAFICONALTA_PADRAO = [
+            { id: 1, nome: "Adesivo Vinil Brilho 0,10 M²", categoria: "Adesivo", precoVenda: 28.80, ref: "sign01", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/3/img/20190313_imprimir_adesivo_personalizado.jpg", descricao: "<p>Adesivo vinil brilho de alta resolução e durabilidade.</p>" },
+            { id: 2, nome: "Adesivo Brilho + Corte Contorno 5cm", categoria: "Adesivo", precoVenda: 33.60, ref: "sign03", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/5/img/20190313_imprimir_adesivo_personalizado_com_corte_especial_brilho.jpg", descricao: "<p>Adesivo recortado eletronicamente para rótulos e etiquetas.</p>" },
+            { id: 3, nome: "Adesivo Microperfurado M²", categoria: "Adesivo", precoVenda: 45.00, ref: "sign120", producao: "24 horas", imagem: "", descricao: "<p>Adesivo para vidros de carros e vitrines comerciais.</p>" },
+            
+            { id: 4, nome: "Banner Lona Brilho 440g", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 26.88, ref: "sign22", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/24/img/20190316_imprimir_banner_personalizado_03.jpg", descricao: "<p>Banner impresso em lona 440g reforçada com bastão e cordinha.</p>" },
+            { id: 5, nome: "Lona Fosca 240g | Bainha e Ilhós", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 24.00, ref: "sign20p8", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", descricao: "<p>Lona fosca ideal para painéis de festa e fachadas sem reflexo.</p>" },
+            { id: 6, nome: "Roll Up de Alumínio Completo", categoria: "Banner, Faixa, Lona e Painel", precoVenda: 180.00, ref: "sign487", producao: "24 horas", imagem: "", descricao: "<p>Estrutura de roll-up retrátil com lona impressa.</p>" },
+
+            { id: 7, nome: "Cartão 250g | 4/4 | Verniz UV 1/0", categoria: "Cartão de Visita", precoVenda: 21.12, ref: "crt003", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", descricao: "<p>Cartão de visita com frente e verso coloridos e brilho UV.</p>" },
+            { id: 8, nome: "Cartão 300g | Lam. Fosca + UV Local 1/1", categoria: "Cartão de Visita", precoVenda: 72.00, ref: "crt012", producao: "5 dias", imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", descricao: "<p>Cartão nobre com toque aveludado e verniz em relevo.</p>" },
+
+            { id: 9, nome: "DTF Têxtil por Metro Linear (57x100cm)", categoria: "DTF Transfer Digital", precoVenda: 55.00, ref: "dtf001", producao: "24 horas", imagem: "", descricao: "<p>Impressão DTF têxtil de altíssima qualidade pronta para aplicar em tecidos.</p>" },
+            { id: 10, nome: "DTF UV Cartela A4", categoria: "DTF Transfer Digital", precoVenda: 25.00, ref: "dtfuv01", producao: "24 horas", imagem: "", descricao: "<p>DTF UV para aplicação direta em rígidos (copos, vidros, canetas).</p>" },
+
+            { id: 11, nome: "Folheto Couchê 80g | 10x14cm | 4/0", categoria: "Folheto, Folder e Flyer", precoVenda: 71.04, ref: "flt001", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", descricao: "<p>Panfletos em papel couchê brilhante para panfletagem.</p>" },
+            
+            { id: 12, nome: "Camisa Com Manga Adulto Sublimada", categoria: "Camisa, Camiseta e Blusa", precoVenda: 24.00, ref: "cam002", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", descricao: "<p>Camisa personalizada em tecido 100% poliéster.</p>" },
+            { id: 13, nome: "Camisa Babylook Feminina", categoria: "Camisa, Camiseta e Blusa", precoVenda: 22.08, ref: "cam004", producao: "72 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/573/img/20230410_0_6.png", descricao: "<p>Babylook com corte acinturado e estampa total.</p>" },
+
+            { id: 14, nome: "Wind Banner Modelo Faca | 260x70cm", categoria: "Wind Banner", precoVenda: 105.60, ref: "sub007", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", descricao: "<p>Wind banner completo com haste e base para bandeira de calçada.</p>" },
+            { id: 15, nome: "Bandeira de Carro | 30x42cm", categoria: "Wind Banner", precoVenda: 6.00, ref: "ELE26-610", producao: "24 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/2204/img/20260808_0_bandeira_para_carro_campanha_eleitoral_26.png", descricao: "<p>Bandeira automotiva com suporte para janela.</p>" },
+
+            { id: 16, nome: "Caneca de Alumínio 500ml", categoria: "Canecas, Copos e Taças", precoVenda: 14.50, ref: "cop001", producao: "48 horas", imagem: "", descricao: "<p>Caneca de alumínio para festas e eventos com tirante.</p>" },
+            { id: 17, nome: "Copo Long Drink 350ml Sólido", categoria: "Canecas, Copos e Taças", precoVenda: 3.20, ref: "cop002", producao: "48 horas", imagem: "", descricao: "<p>Copo acrílico rígido para personalização.</p>" },
+
+            { id: 18, nome: "Calendário de Mesa com Wire-O 2026", categoria: "Calendários e Folhinha", precoVenda: 8.50, ref: "cal001", producao: "3 dias", imagem: "", descricao: "<p>Calendário de mesa corporativo personalizado.</p>" },
+            { id: 19, nome: "Agenda 1 Dia por Página 2026", categoria: "Agendas, Cadernos e Planners", precoVenda: 28.00, ref: "agd001", producao: "4 dias", imagem: "", descricao: "<p>Agenda anual capa dura personalizada.</p>" },
+            { id: 20, nome: "Embalagem Batata Frita Média (500 un)", categoria: "Embalagens Fast Food", precoVenda: 120.00, ref: "emb001", producao: "5 dias", imagem: "", descricao: "<p>Caixinha de papel cartão para batata frita e porções.</p>" }
+        ];
+
         function embaralharArray(arr) {
             let list = [...arr];
             for (let i = list.length - 1; i > 0; i--) {
@@ -688,27 +716,6 @@
             return list;
         }
 
-        function escapeAttr(str) {
-            if (str === null || str === undefined) return '';
-            return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
-
-        function formatarUrlImagem(url) {
-            if (!url || typeof url !== 'string' || !url.trim()) return '';
-            const u = url.trim();
-
-            if (u.match(/^#?[0-9a-fA-F]{3,6}$/) || u.includes('sistograf.net')) {
-                return '';
-            }
-
-            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) {
-                return u;
-            }
-
-            return u;
-        }
-
-        /* LÓGICA DE USUÁRIO / PERFIL LOCAL */
         function carregarPerfilCliente() {
             try {
                 const p = localStorage.getItem('phsublime_perfil_cliente');
@@ -723,7 +730,6 @@
                         document.getElementById('perfil-wpp').value = dados.wpp || '';
                         document.getElementById('perfil-endereco').value = dados.endereco || '';
 
-                        // Preenche também o checkout
                         document.getElementById('checkout-nome').value = dados.nome || '';
                         document.getElementById('checkout-doc').value = dados.doc || '';
                         document.getElementById('checkout-wpp').value = dados.wpp || '';
@@ -763,7 +769,6 @@
             mostrarToast("Você saiu da conta.");
         }
 
-        /* LÓGICA DA GAVETA DO CARRINHO LATERAL */
         function alternarCarrinhoLateral(abrir) {
             const drawer = document.getElementById('aba-lateral-carrinho');
             if (!drawer) return;
@@ -1113,12 +1118,9 @@
                 console.error("Erro ao conectar no Supabase:", err);
             }
 
+            // SE O SUPABASE NÃO TIVER OS PRODUTOS, CARREGA O CATÁLOGO COMPLETO DA GRAFICONALTA
             if (catalogoEstoque.length === 0) {
-                catalogoEstoque = [
-                    { id: 101, nome: "Cartão de Visita 4x0 Verniz Total", categoria: "Cartão de Visita", precoVenda: 45.00, ref: "crt001", producao: "24 horas", imagem: "", descricao: "<p>Cartão de visita com alta alvura e brilho incrível.</p>" },
-                    { id: 102, nome: "Banner em Lona 440g com Bastão", categoria: "Banner", precoVenda: 35.00, ref: "bn440", producao: "12 horas", imagem: "", descricao: "<p>Banner em lona resistente com acabamento em bastão e cordinha.</p>" },
-                    { id: 103, nome: "Adesivo em Vinil Brilho Recortado", categoria: "Adesivo", precoVenda: 25.00, ref: "adbr", producao: "24 horas", imagem: "", descricao: "<p>Adesivo vinil à prova d'água de alta durabilidade.</p>" }
-                ];
+                catalogoEstoque = [...CATALOGO_GRAFICONALTA_PADRAO];
             }
 
             catalogoEstoque = embaralharArray(catalogoEstoque);
@@ -1199,7 +1201,6 @@
             });
         }
 
-        /* RENDERIZAÇÃO DOS CARDS COM A CASCA DA GRAFICONALTA (REF + PRODUÇÃO) */
         function renderizarProdutosDestaque() {
             const container = document.getElementById('container-produtos-destaque-row');
             if (!container) return;
@@ -1266,7 +1267,6 @@
             timerDebounce = setTimeout(() => { paginaAtual = 1; renderizarCatalogo(); }, 300);
         }
 
-        /* RENDERIZAÇÃO DA GRADE PRINCIPAL COM A CASCA DOS CARDS DA GRAFICONALTA */
         function renderizarCatalogo() {
             const container = document.getElementById('container-catalogo-grid');
             const paginacaoBox = document.getElementById('container-paginacao');
