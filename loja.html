@@ -6,7 +6,7 @@
     <title>PHSUBLIME - Gráfica Digital Online</title>
 
     <!-- FAVICON DINÂMICO -->
-    <link id="site-favicon" rel="icon" type="image/x-icon" href="https://phsublime.sistograf.net/storage/logos/favicon.ico">
+    <link id="site-favicon" rel="icon" type="image/x-icon" href="https://placehold.co/32x32/08009C/FFFFFF?text=PH">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -71,7 +71,7 @@
             
             <a href="javascript:void(0)" onclick="filtrarCategoria('')" class="flex items-center gap-3 group shrink-0">
                 <div class="w-12 h-12 shrink-0 flex items-center justify-center bg-white rounded-xl p-1 shadow-md group-hover:scale-105 transition-all">
-                    <img id="logo-loja-img" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.onerror=null; this.style.display='none';">
+                    <img id="logo-loja-img" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/08009C/FFFFFF?text=PH';">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
@@ -162,7 +162,7 @@
                     <div class="space-y-4">
                         <!-- 1. BANNER GRANDE ROTATIVO -->
                         <div class="relative w-full overflow-hidden rounded-xl shadow-md bg-blue-950 group">
-                            <div id="banner-slider-container" class="flex transition-transform duration-500 ease-in-out w-full"></div>
+                            <div id="banner-slider-container" class="flex transition-transform duration-500 ease-in-out w-full min-h-[160px] sm:min-h-[260px] bg-blue-900"></div>
 
                             <button onclick="mudarBanner(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-amber-400 hover:text-blue-950 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all z-10">
                                 <i class="fa-solid fa-chevron-left text-xs"></i>
@@ -330,7 +330,7 @@
                     <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOSSO FACEBOOK</h4>
                     <div class="bg-white text-slate-800 p-3 rounded-xl shadow-md border border-slate-200 space-y-2">
                         <div class="flex items-center gap-3">
-                            <img id="footer-fb-logo-mini" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="w-10 h-10 object-contain rounded border p-0.5 bg-slate-50" onerror="this.onerror=null; this.style.display='none';">
+                            <img id="footer-fb-logo-mini" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="w-10 h-10 object-contain rounded border p-0.5 bg-slate-50" onerror="this.onerror=null; this.src='https://placehold.co/50x50/08009C/FFFFFF?text=PH';">
                             <div>
                                 <strong id="footer-fb-nome" class="font-bold text-xs text-blue-900 block leading-tight">PHSUBLIME GRÁFICA</strong>
                                 <span class="text-[10px] text-slate-500 font-medium">1.629 seguidores</span>
@@ -387,7 +387,7 @@
         <div class="bg-custom-barra-rodape text-white py-3 text-center text-xs font-semibold">
             <div class="max-w-[1536px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
-                    <img id="footer-logo-barra-final" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="h-6 object-contain" onerror="this.onerror=null; this.style.display='none';">
+                    <img id="footer-logo-barra-final" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="h-6 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x30/08009C/FFFFFF?text=PHSUBLIME';">
                     <span id="footer-copyright-txt">© Copyright 2026 PHSUBLIME - Todos os direitos reservados</span>
                 </div>
                 <a id="footer-wpp-link" href="https://wa.me/5521986147221" target="_blank" class="text-white hover:underline flex items-center gap-1 font-bold">
@@ -552,7 +552,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL COM EMBARALHAMENTO E BANNERS (1 GRANDE + 3 MINIS) -->
+    <!-- SCRIPT JS PRINCIPAL CORRIGIDO COM TRATAMENTO DE ERROS DE IMAGEM -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
@@ -566,7 +566,10 @@
 
         let whatsappAtendimentoLoja = '5521986147221';
 
-        // ALGORITMO FISHER-YATES PARA EMBARALHAR OS PRODUTOS A CADA F5
+        // IMAGENS PADRÃO CASO O SERVIDOR PRINCIPAL ESTEJA FORA DO AR
+        const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+OFERTAS+ESPECIAIS';
+        const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
+
         function embaralharArray(arr) {
             let list = [...arr];
             for (let i = list.length - 1; i > 0; i--) {
@@ -585,6 +588,11 @@
             if (!url || typeof url !== 'string' || !url.trim()) return '';
             const u = url.trim();
 
+            // Ignora entradas inválidas como cores "ffffff" ou "#ffffff"
+            if (u.match(/^#?[0-9a-fA-F]{3,6}$/)) {
+                return '';
+            }
+
             if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) {
                 return u;
             }
@@ -598,7 +606,6 @@
             return '';
         }
 
-        // SINCRONIZAÇÃO COMPLETA DO ADMIN COM A LOJA
         function carregarConfiguracoesAdminLocal() {
             try {
                 const dadosLojaStr = localStorage.getItem('phsublime_dados_loja');
@@ -716,16 +723,16 @@
             document.getElementById('modal-pagina-extra-loja').classList.add('hidden');
         }
 
-        // BANNERS: SLIDER ROTATIVO + 3 MINI BANNERS PARADOS
+        // BANNERS COM IMAGENS DE RESERVA DE ALTA DISPONIBILIDADE
         let bannersCarrossel = [
-            { img: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_OFERTAS ESPECIAIS.jpg', link: '' },
-            { img: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_sss.gif', link: '' }
+            { img: 'https://placehold.co/1200x400/08009C/FFED00?text=OFERTAS+ESPECIAIS+-+PHSUBLIME', link: '' },
+            { img: 'https://placehold.co/1200x400/316AC7/FFFFFF?text=QUALIDADE+E+RAPIDEZ+DIGITAL', link: '' }
         ];
 
         let miniBannersParados = [
-            { img: 'https://via.placeholder.com/600x200/1e1b4b/f59e0b?text=INDIQUE+E+GANHE', link: '' },
-            { img: 'https://via.placeholder.com/600x200/0284c7/ffffff?text=DESCONTO+EM+CRÉDITOS', link: '' },
-            { img: 'https://via.placeholder.com/600x200/7e22ce/ffffff?text=NOVIDADES+DTF+LOJA', link: '' }
+            { img: 'https://placehold.co/600x200/08009C/FFFFFF?text=INDIQUE+E+GANHE', link: '' },
+            { img: 'https://placehold.co/600x200/316AC7/FFFFFF?text=DESCONTO+EM+CREDITOS', link: '' },
+            { img: 'https://placehold.co/600x200/10b981/FFFFFF?text=NOVIDADES+DTF+LOJA', link: '' }
         ];
 
         function carregarBannersAdmin() {
@@ -759,7 +766,10 @@
             bannersCarrossel.forEach((b, i) => {
                 const item = document.createElement('div');
                 item.className = "min-w-full flex-shrink-0 cursor-pointer";
-                const htmlImg = `<img src="${formatarUrlImagem(b.img)}" alt="Banner ${i+1}" class="w-full h-auto object-cover max-h-[350px]" onerror="this.onerror=null; this.style.display='none';">`;
+                const srcImg = formatarUrlImagem(b.img) || BANNER_FALLBACK_GRANDE;
+                
+                // Trata o erro carregando o fallback ao invés de sumir com o banner
+                const htmlImg = `<img src="${srcImg}" alt="Banner ${i+1}" class="w-full h-auto object-cover max-h-[350px]" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_GRANDE}';">`;
                 
                 if (b.link) {
                     item.innerHTML = `<a href="${escapeAttr(b.link)}" target="_blank">${htmlImg}</a>`;
@@ -786,7 +796,9 @@
             miniBannersParados.forEach((m, idx) => {
                 const card = document.createElement('div');
                 card.className = "rounded-xl overflow-hidden shadow-md border border-slate-200 hover:shadow-lg transition-all group bg-blue-950";
-                const imgHtml = `<img src="${formatarUrlImagem(m.img)}" alt="Mini Banner ${idx+1}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 max-h-36" onerror="this.onerror=null; this.style.display='none';">`;
+                const srcImg = formatarUrlImagem(m.img) || BANNER_FALLBACK_MINI;
+
+                const imgHtml = `<img src="${srcImg}" alt="Mini Banner ${idx+1}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 max-h-36" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_MINI}';">`;
                 
                 if (m.link) {
                     card.innerHTML = `<a href="${escapeAttr(m.link)}" target="_blank">${imgHtml}</a>`;
@@ -837,7 +849,7 @@
         let catalogoEstoque = [];
         let categoriaFiltro = '';
         let paginaAtual = 1;
-        const ITENS_POR_PAGINA = 8; // EXATAMENTE 8 PRODUTOS POR PÁGINA
+        const ITENS_POR_PAGINA = 8;
         let carrinho = JSON.parse(localStorage.getItem('phsublime_carrinho') || '[]');
         let cupomAplicado = null;
 
@@ -861,7 +873,6 @@
             }
         }
 
-        // CARREGAMENTO DO SUPABASE + EMBARALHAMENTO DOS PRODUTOS
         async function carregarEstoqueSupabase() {
             try {
                 if (supabaseClient) {
@@ -889,7 +900,6 @@
                 console.error("Erro ao conectar no Supabase:", err);
             }
 
-            // MOCK DE RESERVA
             if (catalogoEstoque.length === 0) {
                 catalogoEstoque = [
                     { id: 101, nome: "Cartão de Visita 4x0 Verniz Total", categoria: "Cartão de Visita", precoVenda: 45.00, ref: "CV40", imagem: "", descricao: "<p>Cartão de visita com alta alvura e brilho incrível.</p>" },
@@ -898,7 +908,6 @@
                 ];
             }
 
-            // EMBARALHA O CATÁLOGO A CADA ATUALIZAÇÃO DA PÁGINA
             catalogoEstoque = embaralharArray(catalogoEstoque);
 
             renderizarMenusCategorias();
@@ -1039,7 +1048,7 @@
                 card.className = "bg-white border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm hover:shadow-md transition-all flex flex-col justify-between";
                 
                 const htmlImagem = item.imagem 
-                    ? `<img src="${escapeAttr(item.imagem)}" alt="${escapeAttr(item.nome)}" class="w-full h-full object-contain p-2" onerror="this.onerror=null; this.style.display='none';">`
+                    ? `<img src="${escapeAttr(item.imagem)}" alt="${escapeAttr(item.nome)}" class="w-full h-full object-contain p-2" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid fa-box-open text-4xl text-blue-900/30\\'></i>';">`
                     : `<i class="fa-solid fa-box-open text-4xl text-blue-900/30"></i>`;
 
                 const htmlBtnGabarito = item.gabaritoUrl 
@@ -1100,7 +1109,7 @@
 
             const boxImg = document.getElementById('box-imagem-modal');
             boxImg.innerHTML = item.imagem 
-                ? `<img src="${escapeAttr(item.imagem)}" class="w-full h-full object-contain p-2" onerror="this.onerror=null; this.style.display='none';">`
+                ? `<img src="${escapeAttr(item.imagem)}" class="w-full h-full object-contain p-2" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid fa-box-open text-4xl text-blue-900/30\\'></i>';">`
                 : `<i class="fa-solid fa-box-open text-4xl text-blue-900/30"></i>`;
 
             const btnGab = document.getElementById('btn-modal-gabarito');
@@ -1175,7 +1184,7 @@
                     if (encontrado) {
                         cupomAplicado = encontrado;
                         if (msgStatus) {
-                            msgStatus.innerText = `Cupom ${codigo} aplicado com sucesso!`;
+                            msgStatus.innerText = `Cupom ${codigo} applied com sucesso!`;
                             msgStatus.className = "text-[10px] font-bold block text-emerald-600";
                         }
                         renderizarCarrinho();
