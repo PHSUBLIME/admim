@@ -203,7 +203,7 @@
                         </ul>
                     </div>
 
-                    <!-- 3. BLOCO TODOS OS PRODUTOS (COM TODAS AS CATEGORIAS ATUALIZADAS) -->
+                    <!-- 3. BLOCO TODOS OS PRODUTOS -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider">
                             TODOS OS PRODUTOS
@@ -668,8 +668,20 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL COM TODAS AS CATEGORIAS E PRODUTOS COMPLEMENTARES DA GRAFICONALTA -->
+    <!-- SCRIPT JS PRINCIPAL (TOTALMENTE ORDENADO E SEM ERROS DE INICIALIZAÇÃO) -->
     <script>
+        // --- 1. VARIÁVEIS DE ESTADO GLOBAL (DECLARADAS NO TOPO DO SCRIPT) ---
+        let catalogoEstoque = [];
+        let categoriaFiltro = '';
+        let paginaAtual = 1;
+        const ITENS_POR_PAGINA = 8;
+        let carrinho = JSON.parse(localStorage.getItem('phsublime_carrinho') || '[]');
+        let cupomAplicado = null;
+        let whatsappAtendimentoLoja = '5521986147221';
+        let timerDebounce = null;
+        let bannerIndiceAtual = 0;
+
+        // CLIENTE SUPABASE
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
         }
@@ -680,84 +692,28 @@
             var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         }
 
-        let whatsappAtendimentoLoja = '5521986147221';
-
         const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
-        // LISTA COMPLETA DE CATEGORIAS (PHSUBLIME + GRAFICONALTA)
+        // --- 2. LISTA FIXA DE CATEGORIAS DA GRAFICONALTA ---
         const CATEGORIAS_FIXAS_GRAFICONALTA = [
-            "Abadá",
-            "Acrílico",
-            "Adesivo",
-            "Agendas, Cadernos e Planners",
-            "Avental",
-            "Banner, Faixa, Lona e Painel",
-            "Bermuda & Short",
-            "Blocos e Comandas",
-            "Bolsa em Tecido",
-            "Bonés e Viseiras",
-            "Brindes",
-            "Calendários e Folhinha",
-            "Camisa, Camiseta e Blusa",
-            "Canecas, Copos e Taças",
-            "Cangas",
-            "Capa de Carnê",
-            "Capa de Corte",
-            "Cardápio",
-            "Cartaz e Poster",
-            "Cartela Para Bijuteria",
-            "Cartão Duplo",
-            "Cartão Mini",
-            "Cartão Postal",
-            "Cartão de Visita",
-            "Casa & Decoração",
-            "Certificado e Diploma",
-            "Coroa de Papel",
-            "Credenciais",
-            "DTF Transfer Digital",
-            "Display",
-            "Eleições 2026",
-            "Embalagens Fast Food",
-            "Embalagens Presente",
-            "Envelope",
-            "Festas",
-            "Folheto Cupom de Desconto",
-            "Folheto, Folder e Flyer",
-            "Impressão Digital",
-            "Jogo Americano",
-            "Jogo de Tabuleiro",
-            "Marcador de Página",
-            "Mochila Pirulito",
-            "Mochila de Cordão",
-            "Moletons",
-            "Mouse Pad Personalizado",
-            "Máscara em Tecido",
-            "Móbile",
-            "PS | PVC com Impressão UV",
-            "Papel Bandeja",
-            "Papel Fotográfico",
-            "Papel Sublimático",
-            "Papel e Adesivo Para Impressão",
-            "Pastas",
-            "Photobook",
-            "Porta Copo",
-            "Quadro Decorativo Personalizado",
-            "Quadro Magnético",
-            "Quebra-Cabeça",
-            "Raspadinha",
-            "Revista de Colorir",
-            "Sublimação",
-            "Suprimentos",
-            "Tatuagem Temporária",
-            "Timbrado e Receituários",
-            "Ventarola, Abanador e Leque",
-            "Wind Banner",
-            "Álbum de Figurinhas Fotográfico",
-            "Ímã de Geladeira"
+            "Abadá", "Acrílico", "Adesivo", "Agendas, Cadernos e Planners", "Avental",
+            "Banner, Faixa, Lona e Painel", "Bermuda & Short", "Blocos e Comandas", "Bolsa em Tecido",
+            "Bonés e Viseiras", "Brindes", "Calendários e Folhinha", "Camisa, Camiseta e Blusa",
+            "Canecas, Copos e Taças", "Cangas", "Capa de Carnê", "Capa de Corte", "Cardápio",
+            "Cartaz e Poster", "Cartela Para Bijuteria", "Cartão Duplo", "Cartão Mini", "Cartão Postal",
+            "Cartão de Visita", "Casa & Decoração", "Certificado e Diploma", "Coroa de Papel", "Credenciais",
+            "DTF Transfer Digital", "Display", "Eleições 2026", "Embalagens Fast Food", "Embalagens Presente",
+            "Envelope", "Festas", "Folheto Cupom de Desconto", "Folheto, Folder e Flyer", "Impressão Digital",
+            "Jogo Americano", "Jogo de Tabuleiro", "Marcador de Página", "Mochila Pirulito", "Mochila de Cordão",
+            "Moletons", "Mouse Pad Personalizado", "Máscara em Tecido", "Móbile", "PS | PVC com Impressão UV",
+            "Papel Bandeja", "Papel Fotográfico", "Papel Sublimático", "Papel e Adesivo Para Impressão",
+            "Pastas", "Photobook", "Porta Copo", "Quadro Decorativo Personalizado", "Quadro Magnético",
+            "Quebra-Cabeça", "Raspadinha", "Revista de Colorir", "Sublimação", "Suprimentos", "Tatuagem Temporária",
+            "Timbrado e Receituários", "Ventarola, Abanador e Leque", "Wind Banner", "Álbum de Figurinhas Fotográfico", "Ímã de Geladeira"
         ];
 
-        // CATÁLOGO COMPLETO DE PRODUTOS PADRÃO (TODOS OS ITENS DA GRAFICONALTA QUE FALTAVAM NA PHSUBLIME)
+        // --- 3. CATÁLOGO COMPLETO DE PRODUTOS PADRÃO GRAFICONALTA ---
         const CATALOGO_GRAFICONALTA_PADRAO = [
             // ADESIVOS
             { id: 'gn-1', nome: "Adesivo Vinil Brilho 0,10 M²", categoria: "Adesivo", precoVenda: 28.80, ref: "sign01", producao: "12 horas", imagem: "https://sistema.graficonauta.com.br/storage/produtos/3/img/20190313_imprimir_adesivo_personalizado.jpg", descricao: "<p>Adesivo vinil brilho de alta resolução e durabilidade.</p>" },
@@ -806,6 +762,7 @@
             { id: 'gn-30', nome: "Raspadinha Promocional (1000 un)", categoria: "Raspadinha", precoVenda: 110.00, ref: "rsp512", producao: "4 dias", imagem: "", descricao: "<p>Cartão interativo com tinta raspável para sorteios e cupons.</p>" }
         ];
 
+        // --- 4. FUNÇÕES DE UTILIDADE ---
         function embaralharArray(arr) {
             let list = [...arr];
             for (let i = list.length - 1; i > 0; i--) {
@@ -815,6 +772,20 @@
             return list;
         }
 
+        function escapeAttr(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function formatarUrlImagem(url) {
+            if (!url || typeof url !== 'string' || !url.trim()) return '';
+            const u = url.trim();
+            if (u.match(/^#?[0-9a-fA-F]{3,6}$/) || u.includes('sistograf.net')) return '';
+            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) return u;
+            return u;
+        }
+
+        // --- 5. PERFIL E MENSAGENS DO CLIENTE ---
         function carregarPerfilCliente() {
             try {
                 const p = localStorage.getItem('phsublime_perfil_cliente');
@@ -868,6 +839,7 @@
             mostrarToast("Você saiu da conta.");
         }
 
+        // --- 6. GAVETA LATERAL DE CARRINHO (DRAWER) ---
         function alternarCarrinhoLateral(abrir) {
             const drawer = document.getElementById('aba-lateral-carrinho');
             if (!drawer) return;
@@ -921,6 +893,7 @@
             if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
         }
 
+        // --- 7. CONFIGURAÇÕES LOCAIS DE BANNER E HEADER ---
         function carregarConfiguracoesAdminLocal() {
             try {
                 const dadosLojaStr = localStorage.getItem('phsublime_dados_loja');
@@ -974,48 +947,6 @@
                     }
                 }
             } catch(e) { console.error("Erro ao ler dados da loja:", e); }
-
-            try {
-                const cmsData = localStorage.getItem('phsublime_admin_logos');
-                if (cmsData) {
-                    const config = JSON.parse(cmsData);
-                    if (config.favicon && !config.favicon.includes('sistograf.net')) {
-                        const favEl = document.getElementById('site-favicon');
-                        if (favEl) favEl.href = config.favicon;
-                    }
-                    if (config.logoSistema && !config.logoSistema.includes('sistograf.net')) {
-                        const logoImg = document.getElementById('logo-loja-img');
-                        if (logoImg) logoImg.src = config.logoSistema;
-
-                        const logoMiniFb = document.getElementById('footer-fb-logo-mini');
-                        if (logoMiniFb) logoMiniFb.src = config.logoSistema;
-
-                        const logoFinalBarra = document.getElementById('footer-logo-barra-final');
-                        if (logoFinalBarra) logoFinalBarra.src = config.logoSistema;
-                    }
-                    if (config.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', config.corCabecalho);
-                    if (config.corBotao) document.documentElement.style.setProperty('--cor-menu', config.corBotao);
-                    if (config.corBotaoGabarito) document.documentElement.style.setProperty('--cor-botao-gabarito', config.corBotaoGabarito);
-                }
-            } catch(e) {}
-
-            try {
-                const paginasExtrasSalvas = localStorage.getItem('phsublime_paginas_extras');
-                if (paginasExtrasSalvas) {
-                    const listaPags = JSON.parse(paginasExtrasSalvas);
-                    const colDuvidas = document.getElementById('footer-coluna-duvidas');
-                    if (colDuvidas && Array.isArray(listaPags) && listaPags.length > 0) {
-                        let htmlDuvidas = '';
-                        listaPags.forEach(pag => {
-                            if (pag && pag.titulo) {
-                                htmlDuvidas += `<li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('${escapeAttr(pag.titulo)}')" class="hover:text-amber-300 transition-all">${escapeAttr(pag.titulo)}</a></li>`;
-                            }
-                        });
-                        htmlDuvidas += `<li><a id="link-fale-conosco-footer" href="https://wa.me/${whatsappAtendimentoLoja}" target="_blank" class="hover:text-amber-300 transition-all">Fale Conosco</a></li>`;
-                        colDuvidas.innerHTML = htmlDuvidas;
-                    }
-                }
-            } catch(e){}
         }
 
         function mostrarModalPaginaExtra(titulo) {
@@ -1038,17 +969,6 @@
             document.getElementById('modal-pagina-extra-loja').classList.add('hidden');
         }
 
-        let bannersCarrossel = [
-            { img: 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE', link: '' },
-            { img: 'https://placehold.co/1200x400/316AC7/FFFFFF?text=QUALIDADE+E+RAPIDEZ+DIGITAL', link: '' }
-        ];
-
-        let miniBannersParados = [
-            { img: 'https://placehold.co/600x200/08009C/FFFFFF?text=INDIQUE+E+GANHE', link: '' },
-            { img: 'https://placehold.co/600x200/316AC7/FFFFFF?text=DESCONTO+EM+CREDITOS', link: '' },
-            { img: 'https://placehold.co/600x200/10b981/FFFFFF?text=NOVIDADES+DTF+LOJA', link: '' }
-        ];
-
         function carregarBannersAdmin() {
             try {
                 const bannersSalvos = localStorage.getItem('phsublime_admin_banners');
@@ -1066,8 +986,6 @@
             renderizarBanners();
             renderizarMiniBanners();
         }
-
-        let bannerIndiceAtual = 0;
 
         function renderizarBanners() {
             const container = document.getElementById('banner-slider-container');
@@ -1159,11 +1077,12 @@
             } catch(e) {}
         }
 
+        // --- 8. CARREGAMENTO DE PRODUTOS (SUPABASE + CATÁLOGO COMPLETO) ---
         async function carregarEstoqueSupabase() {
             let produtosSupabase = [];
 
             try {
-                if (supabaseClient) {
+                if (typeof supabase !== 'undefined' && supabaseClient) {
                     const { data, error } = await supabaseClient
                         .from('produtos')
                         .select('id, Nome, Categorias_Secundarias, Preco_Venda, Referencia, Url, Descricao, gabarito_url')
@@ -1189,7 +1108,7 @@
                     }
                 }
             } catch(err) {
-                console.error("Erro ao conectar no Supabase:", err);
+                console.warn("Supabase não carregou ou sem dados:", err);
             }
 
             catalogoEstoque = [...produtosSupabase, ...CATALOGO_GRAFICONALTA_PADRAO];
@@ -1252,7 +1171,7 @@
             if (sbTodas) {
                 let htmlTodas = `<li class="item-cat-sidebar"><a href="javascript:void(0)" onclick="filtrarCategoria('')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between font-bold text-blue-900 border-b"><span>Ver Todo o Catálogo</span> <i class="fa-solid fa-border-all text-[10px]"></i></a></li>`;
                 categorias.forEach(cat => {
-                    htmlTodas += `<li class="item-cat-sidebar" data-nome="${escapeAttr(cat.toLowerCase())}"><a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between"><span>${escapeAttr(cat)}</span></a></li>`;
+                    htmlTodas += `<li class="item-cat-sidebar" data-nome="${escapeAttr(cat.toLowerCase())}"><a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between font-semibold"><span>${escapeAttr(cat)}</span></a></li>`;
                 });
                 sbTodas.innerHTML = htmlTodas;
             }
@@ -1332,7 +1251,6 @@
             renderizarCatalogo();
         }
 
-        let timerDebounce = null;
         function buscarComDebounce() {
             clearTimeout(timerDebounce);
             timerDebounce = setTimeout(() => { paginaAtual = 1; renderizarCatalogo(); }, 300);
@@ -1350,7 +1268,8 @@
             let filtrados = catalogoEstoque.filter(item => {
                 const bateuBusca = !query || item.nome.toLowerCase().includes(query) || item.ref.toLowerCase().includes(query);
                 if (query) return bateuBusca;
-                return !categoriaFiltro || item.categoria.toLowerCase().trim() === categoriaFiltro;
+                const catItem = item.categoria.toLowerCase().trim();
+                return !categoriaFiltro || catItem === categoriaFiltro || catItem.includes(categoriaFiltro) || categoriaFiltro.includes(catItem);
             });
 
             if (txtContador) txtContador.innerText = `${filtrados.length} produtos disponíveis`;
@@ -1498,6 +1417,7 @@
 
             salvarCarrinho();
             mostrarToast(`${item.nome} adicionado ao carrinho!`);
+            alternarCarrinhoLateral(true);
         }
 
         function removerDoCarrinho(id) {
