@@ -301,7 +301,7 @@
                         <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">CENTRAL DE ATENDIMENTO</h4>
                         <p id="footer-tel-atendimento" class="text-slate-200 font-bold text-sm">(21) 98614-7221</p>
                         <p id="footer-tel-atendimento-2" class="text-slate-200 font-bold text-sm">(21) 97166-6349</p>
-                        <p id="footer-email-atendimento" class="text-slate-200 font-medium">contato@phsublime.com</p>
+                        <p id="footer-email-atendimento" class="text-slate-200 font-medium">phsublime5149@gmail.com</p>
                     </div>
                     <div class="space-y-2">
                         <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOS ACOMPANHE</h4>
@@ -539,7 +539,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL PROTEGIDO -->
+    <!-- SCRIPT JS PRINCIPAL COM EMBARALHAMENTO E 8 PRODUTOS POR PÁGINA -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
@@ -552,6 +552,16 @@
         }
 
         let whatsappAtendimentoLoja = '5521986147221';
+
+        // ALGORITMO FISHER-YATES PARA EMBARALHAR OS PRODUTOS A CADA F5
+        function embaralharArray(arr) {
+            let list = [...arr];
+            for (let i = list.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [list[i], list[j]] = [list[j], list[i]];
+            }
+            return list;
+        }
 
         function escapeAttr(str) {
             if (str === null || str === undefined) return '';
@@ -783,7 +793,7 @@
         let catalogoEstoque = [];
         let categoriaFiltro = '';
         let paginaAtual = 1;
-        const ITENS_POR_PAGINA = 24;
+        const ITENS_POR_PAGINA = 8; // EXATAMENTE 8 PRODUTOS POR PÁGINA
         let carrinho = JSON.parse(localStorage.getItem('phsublime_carrinho') || '[]');
         let cupomAplicado = null;
 
@@ -807,11 +817,11 @@
             }
         }
 
-        // CARREGAMENTO PROTEGIDO DO SUPABASE COM PRODUTOS MOCK DE RESERVA
+        // CARREGAMENTO DO SUPABASE + EMBARALHAMENTO DOS PRODUTOS
         async function carregarEstoqueSupabase() {
             try {
                 if (supabaseClient) {
-                    const { data, error } = await supabaseClient.from('produtos').select('*').order('id', { ascending: false });
+                    const { data, error } = await supabaseClient.from('produtos').select('*');
 
                     if (!error && data && data.length > 0) {
                         catalogoEstoque = data.map(item => {
@@ -835,7 +845,7 @@
                 console.error("Erro ao conectar no Supabase:", err);
             }
 
-            // PRODUTOS DE RESERVA SE O BANCO ESTIVER VAZIO
+            // MOCK DE RESERVA
             if (catalogoEstoque.length === 0) {
                 catalogoEstoque = [
                     { id: 101, nome: "Cartão de Visita 4x0 Verniz Total", categoria: "Cartão de Visita", precoVenda: 45.00, ref: "CV40", imagem: "", descricao: "<p>Cartão de visita com alta alvura e brilho incrível.</p>" },
@@ -843,6 +853,9 @@
                     { id: 103, nome: "Adesivo em Vinil Brilho Recortado", categoria: "Adesivo", precoVenda: 25.00, ref: "ADBR", imagem: "", descricao: "<p>Adesivo vinil à prova d'água de alta durabilidade.</p>" }
                 ];
             }
+
+            // EMBARALHA O CATÁLOGO A CADA ATUALIZAÇÃO DA PÁGINA
+            catalogoEstoque = embaralharArray(catalogoEstoque);
 
             renderizarMenusCategorias();
             renderizarCatalogo();
