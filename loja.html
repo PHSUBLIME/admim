@@ -62,9 +62,38 @@
         .conteudo-html-descricao p { font-size: 0.8rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem; }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-blue-900">
+<body class="bg-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-blue-900 relative">
 
     <div id="container-scripts-admin-head"></div>
+
+    <!-- GAVETA DO CARRINHO LATERAL (SLIDE-OVER DRAWER CASCA IGUAL GRAFICONALTA) -->
+    <div id="aba-lateral-carrinho" class="fixed top-0 right-0 w-80 sm:w-96 h-full bg-slate-900/95 backdrop-blur-md text-white z-[1000] shadow-2xl transition-transform duration-300 translate-x-full flex flex-col justify-between p-4 border-l border-blue-800">
+        <div class="space-y-4 flex-1 flex flex-col overflow-hidden">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                <span class="font-black text-sm uppercase flex items-center gap-2 text-amber-400">
+                    <i class="fa-solid fa-cart-shopping"></i> Seu Carrinho
+                </span>
+                <button onclick="alternarCarrinhoLateral(false)" class="text-slate-400 hover:text-white font-bold text-xs bg-slate-800 px-2.5 py-1 rounded-lg">
+                    ✕ Fechar
+                </button>
+            </div>
+
+            <!-- ITENS DO CARRINHO LATERAL -->
+            <div id="conteudo-carrinho-lateral" class="flex-1 overflow-y-auto space-y-3 pr-1 text-xs divide-y divide-slate-800">
+                <!-- Injetado via JS -->
+            </div>
+        </div>
+
+        <div class="border-t border-slate-700 pt-4 space-y-3 bg-slate-900/90">
+            <div class="flex justify-between items-center text-sm font-bold">
+                <span>Total do Pedido:</span>
+                <strong id="cart-drawer-total" class="text-emerald-400 text-lg">R$ 0,00</strong>
+            </div>
+            <button onclick="abrirModalCheckout()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl shadow-lg transition-all text-xs flex items-center justify-center gap-2 uppercase">
+                <i class="fa-brands fa-whatsapp text-base"></i> FINALIZAR NO WHATSAPP
+            </button>
+        </div>
+    </div>
 
     <!-- CABEÇALHO PRINCIPAL DA LOJA -->
     <header id="header-principal" class="bg-custom-cabecalho text-white shadow-xl relative z-30 border-b-4 border-amber-400">
@@ -88,20 +117,36 @@
             <!-- BUSCA PRINCIPAL DE PRODUTOS -->
             <div class="w-full md:w-1/3 relative">
                 <div class="flex items-center bg-white rounded-lg overflow-hidden shadow-inner border border-slate-300">
-                    <input type="text" id="input-busca-catalogo" onkeyup="buscarComDebounce()" placeholder="Buscar produtos, lonas, cartões, copos, DTF..." class="w-full px-4 py-2.5 text-slate-800 text-xs sm:text-sm focus:outline-none">
+                    <input type="text" id="input-busca-catalogo" onkeyup="buscarComDebounce()" placeholder="Buscar produtos, lonas, cartões, copos, DTF..." class="w-full px-4 py-2.5 text-slate-800 text-xs sm:text-sm focus:outline-none font-semibold">
                     <button onclick="buscarComDebounce()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 px-4 py-2.5 font-bold transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-                <button onclick="alternarAba('carrinho')" class="relative bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+            <!-- ÁREA DE USUÁRIO / CARRINHO / WHATSAPP (ESTRUTURA COMPLETA) -->
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0 flex-wrap justify-center">
+                
+                <!-- CASCA DO LOGIN / PERFIL -->
+                <div id="box-user-header" class="relative">
+                    <button onclick="toggleModalLogin()" class="flex items-center gap-2 bg-blue-950/70 hover:bg-blue-950 text-white px-3 py-2 rounded-xl text-xs font-semibold border border-blue-800 transition-all">
+                        <i class="fa-regular fa-user text-amber-400"></i>
+                        <div class="text-left leading-tight">
+                            <span id="txt-user-header-nome" class="block text-[11px] font-bold">Olá, Visitante</span>
+                            <span class="text-[9px] text-blue-200">Minha Conta / Entrar</span>
+                        </div>
+                        <i class="fa-solid fa-caret-down text-[10px] ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- BOTAO DO CARRINHO LATERAL -->
+                <button onclick="alternarCarrinhoLateral(true)" class="relative bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
                     <i class="fa-solid fa-cart-shopping text-base"></i>
                     <span class="hidden sm:inline">CARRINHO</span>
                     <span id="badge-carrinho-qtd" class="bg-blue-900 text-white font-bold px-2 py-0.5 rounded-full text-[10px] border border-blue-950">0</span>
                 </button>
 
+                <!-- ATALHO WHATSAPP -->
                 <a id="btn-wpp-topo" href="https://wa.me/5521986147221" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-white font-black text-xs px-3 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-1.5">
                     <i class="fa-brands fa-whatsapp text-base"></i>
                     <span id="txt-wpp-topo" class="hidden md:inline">(21) 98614-7221</span>
@@ -116,6 +161,7 @@
                 </div>
 
                 <div class="hidden lg:flex items-center gap-2 text-[11px] text-amber-300 font-semibold px-2">
+                    <i class="fa-regular fa-clock"></i>
                     <span>Atendimento Segunda a Sexta 8h às 18h</span>
                 </div>
             </div>
@@ -130,17 +176,17 @@
         </div>
     </div>
 
-    <!-- CONTEÚDO PRINCIPAL (ESTRUTURA IDENTICA À IMAGEM) -->
+    <!-- CONTEÚDO PRINCIPAL DA PÁGINA -->
     <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
 
         <div id="secao-catalogo" class="space-y-6">
 
             <div class="flex flex-col lg:flex-row gap-6 pt-2">
                 
-                <!-- SIDEBAR ESQUERDA (ESTRUTURA GRAFICONALTA) -->
+                <!-- SIDEBAR ESQUERDA -->
                 <aside class="w-full lg:w-64 shrink-0 space-y-4">
                     
-                    <!-- 1. PESQUISA RÁPIDA DE CATEGORIAS DA SIDEBAR -->
+                    <!-- FILTRO DE CATEGORIAS DA SIDEBAR -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#316AC7] text-white font-black text-xs px-3 py-2 uppercase tracking-wider flex items-center justify-between">
                             <span>PESQUISAR CATEGORIAS</span>
@@ -151,7 +197,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. BLOCO MAIS VENDIDOS -->
+                    <!-- BLOCO MAIS VENDIDOS -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-red-600 text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
                             <span>MAIS VENDIDOS</span>
@@ -161,7 +207,7 @@
                         </ul>
                     </div>
 
-                    <!-- 3. BLOCO TODOS OS PRODUTOS (CATEGORIAS) -->
+                    <!-- BLOCO TODOS OS PRODUTOS (CATEGORIAS) -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider">
                             TODOS OS PRODUTOS
@@ -171,10 +217,10 @@
                     </div>
                 </aside>
 
-                <!-- ÁREA CENTRAL (DIREITA) -->
+                <!-- ÁREA CENTRAL DA LOJA -->
                 <div class="flex-1 space-y-8">
                     
-                    <!-- 1. BANNER PRINCIPAL GRANDE ROTATIVO -->
+                    <!-- BANNER PRINCIPAL GRANDE -->
                     <div class="relative w-full overflow-hidden rounded-xl shadow-md bg-blue-950 group">
                         <div id="banner-slider-container" class="flex transition-transform duration-500 ease-in-out w-full min-h-[160px] sm:min-h-[280px] bg-blue-900"></div>
 
@@ -189,10 +235,10 @@
                         <div id="banner-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10"></div>
                     </div>
 
-                    <!-- 2. TRÊS MINI BANNERS PARADOS -->
+                    <!-- TRÊS MINI BANNERS PARADOS -->
                     <div id="container-mini-banners" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
 
-                    <!-- 3. PRODUTOS EM DESTAQUE (SESSÃO SUPERIOR DA IMAGEM) -->
+                    <!-- PRODUTOS EM DESTAQUE -->
                     <div class="bg-slate-200/60 p-4 rounded-2xl border border-slate-300/80 space-y-4 shadow-inner">
                         <div class="text-center">
                             <h3 class="text-sm font-black text-blue-950 uppercase tracking-wide font-heading">
@@ -200,11 +246,11 @@
                             </h3>
                         </div>
                         <div id="container-produtos-destaque-row" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                            <!-- Preenchido via Script -->
+                            <!-- Injetado via JS -->
                         </div>
                     </div>
 
-                    <!-- 4. PRODUTOS MAIS VENDIDOS (GRADE PRINCIPAL) -->
+                    <!-- PRODUTOS MAIS VENDIDOS (GRADE PRINCIPAL) -->
                     <div class="space-y-4 pt-2">
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-2">
                             <h3 id="txt-titulo-categoria-atual" class="text-base font-black text-blue-900 uppercase font-heading flex items-center gap-2">
@@ -213,14 +259,14 @@
                             <span id="txt-contador-produtos" class="text-xs text-slate-500 font-bold bg-slate-100 px-3 py-1 rounded-full">Carregando estoque...</span>
                         </div>
 
-                        <!-- GRID DE PRODUTOS MAIS VENDIDOS -->
+                        <!-- GRID DE PRODUTOS DA GRÁFICA -->
                         <div id="container-catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
 
                         <!-- PAGINAÇÃO -->
                         <div id="container-paginacao" class="flex justify-center items-center gap-2 pt-4"></div>
                     </div>
 
-                    <!-- 5. FAIXA DE NEWSLETTER (IGUAL À IMAGEM) -->
+                    <!-- FAIXA DE NEWSLETTER -->
                     <div class="bg-custom-cabecalho text-white p-6 rounded-2xl shadow-md text-center space-y-3">
                         <label class="text-xs sm:text-sm font-bold block text-blue-100">
                             Assine nossa newsletter e fique sempre por dentro das novidades
@@ -239,7 +285,7 @@
             </div>
         </div>
 
-        <!-- SEÇÃO CARRINHO -->
+        <!-- SEÇÃO CARRINHO (PÁGINA COMPLETA) -->
         <div id="secao-carrinho" class="hidden space-y-6">
             <div id="carrinho-vazio-msg" class="hidden bg-white border border-slate-200 p-12 rounded-xl text-center space-y-3 shadow-sm">
                 <i class="fa-solid fa-cart-flatbed text-5xl text-slate-300 block"></i>
@@ -303,8 +349,6 @@
     </main>
 
     <!-- RODAPÉ DA LOJA -->
-
-    <!-- 1. BARRA DE AVALIAÇÃO DO GOOGLE -->
     <div class="bg-slate-100 border-t border-b border-slate-200 py-3 text-center text-xs">
         <div class="max-w-[1536px] mx-auto px-4 flex items-center justify-center gap-3 flex-wrap">
             <span class="font-semibold text-slate-700">Nossa avaliação do</span>
@@ -323,12 +367,10 @@
         </div>
     </div>
 
-    <!-- 2. CORPO DO RODAPÉ (AZUL ESCURO) -->
     <footer id="footer-principal" class="bg-custom-rodape text-white text-xs border-t-4 border-amber-400">
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 
-                <!-- COLUNA 1: DÚVIDAS E PÁGINAS EXTRAS -->
                 <div class="space-y-3">
                     <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">DÚVIDAS</h4>
                     <ul id="footer-coluna-duvidas" class="space-y-2 text-slate-200 font-medium">
@@ -339,7 +381,6 @@
                     </ul>
                 </div>
 
-                <!-- COLUNA 2: ENDEREÇO & HORÁRIO -->
                 <div class="space-y-4">
                     <div class="space-y-2">
                         <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOSSO ENDEREÇO</h4>
@@ -351,7 +392,6 @@
                     </div>
                 </div>
 
-                <!-- COLUNA 3: CENTRAL DE ATENDIMENTO & REDES -->
                 <div class="space-y-4">
                     <div class="space-y-2">
                         <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">CENTRAL DE ATENDIMENTO</h4>
@@ -368,7 +408,6 @@
                     </div>
                 </div>
 
-                <!-- COLUNA 4: CAIXA DO FACEBOOK -->
                 <div class="space-y-3">
                     <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOSSO FACEBOOK</h4>
                     <div class="bg-white text-slate-800 p-3 rounded-xl shadow-md border border-slate-200 space-y-2">
@@ -388,7 +427,6 @@
             </div>
         </div>
 
-        <!-- 3. BARRA BRANCA DE BANDEIRAS -->
         <div class="bg-white text-slate-700 py-6 border-t border-slate-200 text-xs">
             <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center text-center md:text-left">
                 
@@ -426,7 +464,6 @@
             </div>
         </div>
 
-        <!-- 4. FAIXA VERDE INFERIOR -->
         <div class="bg-custom-barra-rodape text-white py-3 text-center text-xs font-semibold">
             <div class="max-w-[1536px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
@@ -440,13 +477,43 @@
         </div>
     </footer>
 
-    <!-- MODAL DE EXIBIÇÃO DE PÁGINAS EXTRAS -->
-    <div id="modal-pagina-extra-loja" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalPaginaExtraLoja()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 id="txt-modal-extra-titulo" class="text-lg font-black text-blue-900 font-heading uppercase border-b pb-2">Página Extra</h3>
-            <div id="txt-modal-extra-conteudo" class="text-xs text-slate-700 leading-relaxed max-h-96 overflow-y-auto space-y-2 pr-1"></div>
-            <div class="flex justify-end pt-2 border-t"><button onclick="fecharModalPaginaExtraLoja()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs">Fechar</button></div>
+    <!-- MODAL DE LOGIN / MINHA CONTA DO CLIENTE (CASCA FUNCIONAL) -->
+    <div id="modal-login-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="toggleModalLogin()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b pb-3">
+                <h3 class="text-base font-black text-blue-900 uppercase font-heading flex items-center gap-2">
+                    <i class="fa-regular fa-user text-amber-500"></i> Minha Conta / Cadastro
+                </h3>
+                <p class="text-slate-500 text-[11px]">Salve seus dados para agilizar seus pedidos pelo WhatsApp.</p>
+            </div>
+
+            <form onsubmit="salvarPerfilClienteLocal(event)" class="space-y-3">
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Seu Nome / Razão Social *</label>
+                    <input type="text" id="perfil-nome" required placeholder="Digite seu nome completo" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">CPF ou CNPJ *</label>
+                        <input type="text" id="perfil-doc" required placeholder="000.000.000-00" class="w-full px-3 py-2 border rounded-lg font-mono">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">WhatsApp *</label>
+                        <input type="text" id="perfil-wpp" required placeholder="(21) 99999-9999" class="w-full px-3 py-2 border rounded-lg font-bold text-emerald-700">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Endereço Principal</label>
+                    <input type="text" id="perfil-endereco" placeholder="Rua, Número, Bairro, Cidade" class="w-full px-3 py-2 border rounded-lg">
+                </div>
+
+                <div class="pt-2 border-t flex justify-end gap-2">
+                    <button type="button" onclick="limparPerfilCliente()" class="px-4 py-2 bg-red-100 text-red-700 font-bold rounded-lg hover:bg-red-200 transition-all">Sair / Limpar</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-900 text-white font-black rounded-lg hover:bg-blue-800 transition-all uppercase">Salvar Dados</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -595,7 +662,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL -->
+    <!-- SCRIPT JS PRINCIPAL COM TODA A LÓGICA DE CASCA VISUAL E DADOS -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
@@ -639,6 +706,115 @@
             }
 
             return u;
+        }
+
+        /* LÓGICA DE USUÁRIO / PERFIL LOCAL */
+        function carregarPerfilCliente() {
+            try {
+                const p = localStorage.getItem('phsublime_perfil_cliente');
+                if (p) {
+                    const dados = JSON.parse(p);
+                    if (dados.nome) {
+                        const txtUser = document.getElementById('txt-user-header-nome');
+                        if (txtUser) txtUser.innerText = `Olá, ${dados.nome.split(' ')[0]}`;
+
+                        document.getElementById('perfil-nome').value = dados.nome || '';
+                        document.getElementById('perfil-doc').value = dados.doc || '';
+                        document.getElementById('perfil-wpp').value = dados.wpp || '';
+                        document.getElementById('perfil-endereco').value = dados.endereco || '';
+
+                        // Preenche também o checkout
+                        document.getElementById('checkout-nome').value = dados.nome || '';
+                        document.getElementById('checkout-doc').value = dados.doc || '';
+                        document.getElementById('checkout-wpp').value = dados.wpp || '';
+                        document.getElementById('checkout-rua').value = dados.endereco || '';
+                    }
+                }
+            } catch(e){}
+        }
+
+        function toggleModalLogin() {
+            document.getElementById('modal-login-cliente').classList.toggle('hidden');
+        }
+
+        function salvarPerfilClienteLocal(e) {
+            e.preventDefault();
+            const dados = {
+                nome: document.getElementById('perfil-nome').value,
+                doc: document.getElementById('perfil-doc').value,
+                wpp: document.getElementById('perfil-wpp').value,
+                endereco: document.getElementById('perfil-endereco').value
+            };
+
+            localStorage.setItem('phsublime_perfil_cliente', JSON.stringify(dados));
+            carregarPerfilCliente();
+            toggleModalLogin();
+            mostrarToast("Perfil atualizado com sucesso!");
+        }
+
+        function limparPerfilCliente() {
+            localStorage.removeItem('phsublime_perfil_cliente');
+            document.getElementById('txt-user-header-nome').innerText = "Olá, Visitante";
+            document.getElementById('perfil-nome').value = '';
+            document.getElementById('perfil-doc').value = '';
+            document.getElementById('perfil-wpp').value = '';
+            document.getElementById('perfil-endereco').value = '';
+            toggleModalLogin();
+            mostrarToast("Você saiu da conta.");
+        }
+
+        /* LÓGICA DA GAVETA DO CARRINHO LATERAL */
+        function alternarCarrinhoLateral(abrir) {
+            const drawer = document.getElementById('aba-lateral-carrinho');
+            if (!drawer) return;
+
+            if (abrir) {
+                renderizarCarrinhoLateral();
+                drawer.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function renderizarCarrinhoLateral() {
+            const container = document.getElementById('conteudo-carrinho-lateral');
+            const totalEl = document.getElementById('cart-drawer-total');
+            if (!container) return;
+
+            if (carrinho.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-400 py-8">Seu carrinho está vazio.</p>`;
+                if (totalEl) totalEl.innerText = "R$ 0,00";
+                return;
+            }
+
+            container.innerHTML = '';
+            let total = 0;
+
+            carrinho.forEach(item => {
+                const sub = item.preco * item.qtd;
+                total += sub;
+
+                const div = document.createElement('div');
+                div.className = "py-3 flex items-center justify-between gap-2";
+                div.innerHTML = `
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <img src="${item.imagem}" class="w-10 h-10 object-contain rounded border bg-white p-0.5 shrink-0" onerror="this.onerror=null; this.style.display='none';">
+                        <div class="overflow-hidden">
+                            <strong class="block truncate text-slate-200 text-[11px]">${escapeAttr(item.nome)}</strong>
+                            <span class="text-[10px] text-slate-400">${item.qtd}x R$ ${item.preco.toFixed(2)}</span>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0 space-y-1">
+                        <strong class="block text-emerald-400 text-xs">R$ ${sub.toFixed(2)}</strong>
+                        <button onclick="removerDoCarrinho('${item.id}'); renderizarCarrinhoLateral();" class="text-red-400 text-[10px] hover:underline">
+                            Remover
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
         }
 
         function carregarConfiguracoesAdminLocal() {
@@ -924,7 +1100,8 @@
                                 nome: item.Nome || item.nome || 'Produto Sem Nome',
                                 categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
                                 precoVenda: isNaN(preco) ? 0 : preco,
-                                ref: item.Referencia || item.referencia || '---',
+                                ref: item.Referencia || item.referencia || 'ref-001',
+                                producao: '24 horas',
                                 imagem: formatarUrlImagem(item.Url || item.url || ''),
                                 descricao: item.Descricao || item.descricao || '<p>Produto de alta qualidade da PHSUBLIME GRÁFICA.</p>',
                                 gabaritoUrl: item.gabarito_url || ''
@@ -938,9 +1115,9 @@
 
             if (catalogoEstoque.length === 0) {
                 catalogoEstoque = [
-                    { id: 101, nome: "Cartão de Visita 4x0 Verniz Total", categoria: "Cartão de Visita", precoVenda: 45.00, ref: "CV40", imagem: "", descricao: "<p>Cartão de visita com alta alvura e brilho incrível.</p>" },
-                    { id: 102, nome: "Banner em Lona 440g com Bastão", categoria: "Banner", precoVenda: 35.00, ref: "BN440", imagem: "", descricao: "<p>Banner em lona resistente com acabamento em bastão e cordinha.</p>" },
-                    { id: 103, nome: "Adesivo em Vinil Brilho Recortado", categoria: "Adesivo", precoVenda: 25.00, ref: "ADBR", imagem: "", descricao: "<p>Adesivo vinil à prova d'água de alta durabilidade.</p>" }
+                    { id: 101, nome: "Cartão de Visita 4x0 Verniz Total", categoria: "Cartão de Visita", precoVenda: 45.00, ref: "crt001", producao: "24 horas", imagem: "", descricao: "<p>Cartão de visita com alta alvura e brilho incrível.</p>" },
+                    { id: 102, nome: "Banner em Lona 440g com Bastão", categoria: "Banner", precoVenda: 35.00, ref: "bn440", producao: "12 horas", imagem: "", descricao: "<p>Banner em lona resistente com acabamento em bastão e cordinha.</p>" },
+                    { id: 103, nome: "Adesivo em Vinil Brilho Recortado", categoria: "Adesivo", precoVenda: 25.00, ref: "adbr", producao: "24 horas", imagem: "", descricao: "<p>Adesivo vinil à prova d'água de alta durabilidade.</p>" }
                 ];
             }
 
@@ -1022,6 +1199,7 @@
             });
         }
 
+        /* RENDERIZAÇÃO DOS CARDS COM A CASCA DA GRAFICONALTA (REF + PRODUÇÃO) */
         function renderizarProdutosDestaque() {
             const container = document.getElementById('container-produtos-destaque-row');
             if (!container) return;
@@ -1044,12 +1222,16 @@
                             ${htmlImagem}
                         </div>
                         <h4 class="text-[11px] font-black text-blue-900 leading-tight line-clamp-2 cursor-pointer text-center" onclick="abrirModalDetalhes('${item.id}')">${escapeAttr(item.nome)}</h4>
+                        <div class="flex items-center justify-between text-[9px] text-slate-500 border-t pt-1">
+                            <span><b>Ref.:</b> ${escapeAttr(item.ref)}</span>
+                            <span><b>Produção:</b> ${escapeAttr(item.producao || '24h')}</span>
+                        </div>
                     </div>
                     <div class="pt-2 border-t border-slate-100 text-center space-y-1">
                         <span class="text-[9px] text-slate-400 block">a partir de:</span>
                         <strong class="text-red-600 font-black text-sm block">R$ ${preco.toFixed(2)}</strong>
-                        <button onclick="adicionarAoCarrinho('${item.id}')" class="w-full btn-comprar-custom text-white font-black text-[10px] py-1.5 rounded-lg shadow uppercase">
-                            COMPRAR
+                        <button onclick="adicionarAoCarrinho('${item.id}')" class="w-full btn-comprar-custom text-white font-black text-[10px] py-1.5 rounded-lg shadow uppercase flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-bag-shopping text-[10px]"></i> COMPRAR
                         </button>
                     </div>
                 `;
@@ -1084,6 +1266,7 @@
             timerDebounce = setTimeout(() => { paginaAtual = 1; renderizarCatalogo(); }, 300);
         }
 
+        /* RENDERIZAÇÃO DA GRADE PRINCIPAL COM A CASCA DOS CARDS DA GRAFICONALTA */
         function renderizarCatalogo() {
             const container = document.getElementById('container-catalogo-grid');
             const paginacaoBox = document.getElementById('container-paginacao');
@@ -1142,19 +1325,25 @@
                     : `<button disabled class="bg-slate-200 text-slate-400 text-[11px] py-2 rounded-lg font-bold cursor-not-allowed">Sem Gabarito</button>`;
 
                 card.innerHTML = `
-                    <div class="space-y-3">
+                    <div class="space-y-2">
                         <div class="w-full h-44 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center text-slate-400 p-1 cursor-pointer overflow-hidden" onclick="abrirModalDetalhes('${item.id}')">
                             ${htmlImagem}
                         </div>
                         <h4 class="text-xs font-black text-blue-900 font-heading leading-snug line-clamp-2 cursor-pointer hover:text-blue-700 text-center" onclick="abrirModalDetalhes('${item.id}')">${escapeAttr(item.nome)}</h4>
-                        <div class="text-center"><span class="text-[10px] text-slate-400 block">A partir de:</span></div>
+                        <div class="flex items-center justify-between text-[10px] text-slate-500 border-t pt-1.5 px-1">
+                            <span><b>Ref.:</b> ${escapeAttr(item.ref)}</span>
+                            <span><b>Produção:</b> ${escapeAttr(item.producao || '24h')}</span>
+                        </div>
                     </div>
                     <div class="pt-2 border-t border-slate-100 space-y-2">
-                        <div class="text-center"><strong class="text-red-600 font-black text-lg">R$ ${preco.toFixed(2)}</strong></div>
+                        <div class="text-center">
+                            <span class="text-[10px] text-slate-400 block leading-none">a partir de:</span>
+                            <strong class="text-red-600 font-black text-lg">R$ ${preco.toFixed(2)}</strong>
+                        </div>
                         <div class="grid grid-cols-2 gap-2">
                             ${htmlBtnGabarito}
                             <button onclick="adicionarAoCarrinho('${item.id}')" class="btn-comprar-custom text-white font-black text-[11px] py-2 rounded-lg shadow uppercase flex items-center justify-center gap-1">
-                                ${escapeAttr(txtBtnComprar)}
+                                <i class="fa-solid fa-bag-shopping text-[10px]"></i> ${escapeAttr(txtBtnComprar)}
                             </button>
                         </div>
                     </div>
@@ -1370,6 +1559,7 @@
         function abrirModalCheckout() {
             if (carrinho.length === 0) return;
             document.getElementById('modal-checkout-cliente').classList.remove('hidden');
+            alternarCarrinhoLateral(false);
         }
 
         function fecharModalCheckout() {
@@ -1478,6 +1668,7 @@
 
         async function inicializarPortal() {
             carregarConfiguracoesAdminLocal();
+            carregarPerfilCliente();
             carregarBannersAdmin();
             carregarScriptsAdminHead();
             await carregarEstoqueSupabase();
