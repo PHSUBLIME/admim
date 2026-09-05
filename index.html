@@ -29,7 +29,7 @@
 </head>
 <body class="bg-[#f4f6f9] min-h-screen flex flex-col justify-between selection:bg-blue-200">
 
-    <!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
+    <!-- MODAL CONFIRMAÇÃO EXCLUSÃO GLOBAL -->
     <div id="modal-confirm-exclusao" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-red-200 relative">
             <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
@@ -446,47 +446,55 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- MODAIS DE GERENCIAMENTO COMPLETO (SISTOGRAF -> PHSUBLIME) -->
+    <!-- MODAIS DE GERENCIAMENTO COMPLETO COM TODAS AS 6 ABAS E BOTOES INTERATIVOS -->
     <!-- ========================================================================= -->
 
-    <!-- 1. PERSONALIZAÇÃO DA LOJA (CMS COM ABAS DUAL-VIEW) -->
+    <!-- 1. PERSONALIZAÇÃO DA LOJA (CMS COM AS 6 ABAS REAIS DAS FOTOS 8 E 9) -->
     <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
             <div class="border-b pb-2"><h3 class="text-base font-black text-slate-900 uppercase"><i class="fa-solid fa-paintbrush text-amber-500"></i> Personalização e Aparência da Loja</h3></div>
             
             <div class="grid grid-cols-1 md:grid-cols-12 gap-6 text-xs">
-                <!-- COLUNA ESQUERDA: NAVEGAÇÃO DE ABAS CMS -->
+                <!-- NAVEGAÇÃO COMPLETA DAS 6 ABAS SISTOGRAF -->
                 <div class="md:col-span-4 space-y-1.5">
-                    <button onclick="mudarAbaCMS('loja')" id="btn-cms-aba-loja" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-blue-900 text-white font-bold flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-house"></i> LOJA & TEMA</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    <button onclick="mudarAbaCMS('menus')" id="btn-cms-aba-menus" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-bars"></i> MENUS & SIDEBAR</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    <button onclick="mudarAbaCMS('card')" id="btn-cms-aba-card" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-box font-bold"></i> CARD DO PRODUTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    <button onclick="mudarAbaCMS('carrinho')" id="btn-cms-aba-carrinho" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> CARRINHO & TABELAS</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    <button onclick="mudarAbaCMS('pagamento')" id="btn-cms-aba-pagamento" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-credit-card"></i> TELA DE PAGAMENTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('loja')" id="btn-cms-aba-loja" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-blue-900 text-white font-bold flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-house"></i> 1. LOJA & TEMA</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('menus')" id="btn-cms-aba-menus" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-bars"></i> 2. MENUS & SIDEBAR</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('card')" id="btn-cms-aba-card" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-box font-bold"></i> 3. CARD DO PRODUTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('carrinho')" id="btn-cms-aba-carrinho" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> 4. CARRINHO & TABELAS</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('pagamento')" id="btn-cms-aba-pagamento" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-credit-card"></i> 5. TELA DE PAGAMENTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('produtos')" id="btn-cms-aba-produtos" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-boxes-stacked"></i> 6. PÁGINA DO PRODUTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
                 </div>
 
-                <!-- COLUNA DIREITA: FORMULÁRIO COMPLETO -->
+                <!-- FORMULÁRIOS DAS ABAS -->
                 <div class="md:col-span-8 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
                     <form onsubmit="salvarCMSCoresSubmit(event)" class="space-y-4">
                         
+                        <!-- ABA 1: LOJA -->
                         <div id="cms-secao-loja" class="space-y-3">
-                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Cores Globais da Loja</h4>
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">1. Layout & Cores Principais</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Layout da Loja:</label><select id="cms-layout-tipo" class="w-full p-2 border rounded font-bold"><option value="sidebar1">Com Sidebar Esquerda</option><option value="semsidebar">Sem Sidebar (Full)</option></select></div>
+                                <div><label class="font-bold block mb-1">Largura Container (%):</label><input type="number" id="cms-container-largura" value="90" class="w-full p-2 border rounded font-bold"></div>
+                            </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><label class="font-bold block mb-1">Cor Cabeçalho:</label><input type="color" id="cms-cor-cabecalho" value="#316AC7" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                                 <div><label class="font-bold block mb-1">Cor Menu Principal:</label><input type="color" id="cms-cor-menu" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                             </div>
                         </div>
 
+                        <!-- ABA 2: MENUS -->
                         <div id="cms-secao-menus" class="hidden space-y-3">
-                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Configuração de Menus e Borda</h4>
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">2. Menus & Borda</h4>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><label class="font-bold block mb-1">Cor Texto do Menu:</label><input type="color" id="cms-cor-texto-menu" value="#FFFFFF" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                                 <div><label class="font-bold block mb-1">Cor Borda do Menu:</label><input type="color" id="cms-cor-borda-menu" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                             </div>
                         </div>
 
+                        <!-- ABA 3: CARD PRODUTO -->
                         <div id="cms-secao-card" class="hidden space-y-3">
-                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Aparência do Card do Produto</h4>
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">3. Aparência dos Cards de Produto</h4>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><label class="font-bold block mb-1">Cor Botão Comprar:</label><input type="color" id="cms-cor-btn-comprar" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                                 <div><label class="font-bold block mb-1">Cor Botão Gabarito:</label><input type="color" id="cms-cor-btn-gabarito" value="#2563eb" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
@@ -497,25 +505,36 @@
                             </div>
                         </div>
 
+                        <!-- ABA 4: CARRINHO -->
                         <div id="cms-secao-carrinho" class="hidden space-y-3">
-                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Cores da Tabela do Carrinho</h4>
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">4. Tabela do Carrinho de Compras</h4>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><label class="font-bold block mb-1">Fundo Cabeçalho Tabela:</label><input type="color" id="cms-cor-carrinho-cab" value="#316AC7" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                                 <div><label class="font-bold block mb-1">Texto Cabeçalho Tabela:</label><input type="color" id="cms-cor-carrinho-txt" value="#FFFFFF" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                             </div>
                         </div>
 
+                        <!-- ABA 5: PAGAMENTO -->
                         <div id="cms-secao-pagamento" class="hidden space-y-3">
-                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Cores da Tela de Finalização</h4>
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">5. Tela de Confirmação & Pagamento</h4>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><label class="font-bold block mb-1">Fundo Destaque Pagamento:</label><input type="color" id="cms-cor-pag-destaque" value="#003859" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                                 <div><label class="font-bold block mb-1">Cor Borda de Confirmação:</label><input type="color" id="cms-cor-pag-borda" value="#002847" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                             </div>
                         </div>
 
+                        <!-- ABA 6: PRODUTOS -->
+                        <div id="cms-secao-produtos" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">6. Opções da Página do Produto</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Ordenação Padrão:</label><select id="cms-prod-ordenacao" class="w-full p-2 border rounded font-bold"><option value="az">A-Z</option><option value="preco">Menor Preço</option></select></div>
+                                <div><label class="font-bold block mb-1">Exibir Gabaritos:</label><select id="cms-prod-exibir-gab" class="w-full p-2 border rounded font-bold"><option value="sim">Sim</option><option value="nao">Não</option></select></div>
+                            </div>
+                        </div>
+
                         <div class="pt-3 border-t flex justify-end gap-2">
                             <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-4 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
-                            <button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Personalizações</button>
+                            <button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Aparência</button>
                         </div>
                     </form>
                 </div>
@@ -523,7 +542,66 @@
         </div>
     </div>
 
-    <!-- 2. LOGO & FAVICON CMS -->
+    <!-- 2. FORMAS DE PAGAMENTO INTERATIVAS (ATIVO / INATIVO CLICÁVEIS) -->
+    <div id="modal-formas-pagamento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalFormasPagamento()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-credit-card text-amber-500"></i> Formas de Pagamento</h3>
+            
+            <div id="container-lista-formas-pagamento" class="space-y-2.5 text-xs max-h-[60vh] overflow-y-auto pr-1">
+                <!-- RENDERIZADO DINAMICAMENTE COM BOTÕES CLICÁVEIS E ENGRENAGEM DE EDIÇÃO -->
+            </div>
+            
+            <div class="flex justify-end"><button type="button" onclick="fecharModalFormasPagamento()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <!-- 3. FORMAS DE ENVIO COMPLETO COM ALERTA FRETE E CRUD (FOTO 4) -->
+    <div id="modal-formas-envio" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-cyan-200 my-8">
+            <button onclick="fecharModalFormasEnvio()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paper-plane text-cyan-600"></i> Opções e Regras de Entrega</h3>
+            
+            <form onsubmit="salvarFormaEnvioSubmit(event)" class="bg-slate-50 p-4 rounded-xl border space-y-3 text-xs">
+                <input type="hidden" id="envio-edit-id" value="">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                    <div class="sm:col-span-2"><label class="font-bold block mb-1">Empresa / Nome do Frete: *</label><input type="text" id="envio-empresa" required placeholder="Transportadora Expressa / PH Entrega" class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">Prazo de Entrega (Dias): *</label><input type="number" id="envio-prazo" value="2" required class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">Valor Fixo (R$): *</label><input type="number" step="0.01" id="envio-valor" value="7.90" required class="w-full p-2 border rounded font-bold text-emerald-700"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div><label class="font-bold block mb-1">Observações do Frete (Exibido na loja):</label><textarea id="envio-obs" rows="2" class="w-full p-2 border rounded">Entregamos direto no endereço do cliente em até 2 dias úteis.</textarea></div>
+                    <div><label class="font-bold block mb-1">Informação de Alerta:</label><textarea id="envio-alerta-info" rows="2" class="w-full p-2 border rounded" placeholder="Informação especial de alerta sobre este frete"></textarea></div>
+                </div>
+
+                <!-- ALERTA DE FRETE GRÁTIS DA FOTO 4 -->
+                <div class="border-t pt-2 space-y-2 bg-amber-50/60 p-3 rounded-lg border border-amber-200">
+                    <h4 class="font-black text-amber-900 uppercase flex items-center gap-1.5"><i class="fa-solid fa-truck-fast text-amber-600"></i> Módulo de Alerta de Frete Grátis</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div><label class="font-bold block mb-1">Mensagem de Progresso:</label><input type="text" id="envio-alerta-msg-restante" value="Ainda faltam R$ {valor} para você GANHAR FRETE GRÁTIS!" class="w-full p-2 border rounded"></div>
+                        <div><label class="font-bold block mb-1">Mensagem de Sucesso:</label><input type="text" id="envio-alerta-msg-sucesso" value="Parabéns! Você ganhou FRETE GRÁTIS!" class="w-full p-2 border rounded font-bold text-emerald-700"></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-1">
+                    <label class="flex items-center gap-1.5 cursor-pointer font-bold"><input type="checkbox" id="envio-ativo" checked> Ativo</label>
+                    <button type="submit" id="btn-salvar-envio" class="bg-cyan-700 text-white font-black px-6 py-2 rounded uppercase shadow">+ Salvar Forma de Envio</button>
+                </div>
+            </form>
+
+            <div class="border rounded-xl overflow-hidden max-h-48 overflow-y-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead><tr class="bg-slate-100 border-b font-bold uppercase"><th class="p-2">EMPRESA</th><th class="p-2">VALOR</th><th class="p-2">PRAZO</th><th class="p-2 text-center">AÇÕES</th></tr></thead>
+                    <tbody id="tabela-formas-envio-body" class="divide-y text-slate-700"></tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end"><button type="button" onclick="fecharModalFormasEnvio()" class="px-5 py-2 bg-slate-200 font-bold rounded text-xs">Fechar</button></div>
+        </div>
+    </div>
+
+    <!-- 4. LOGO & FAVICON CMS -->
     <div id="modal-logo-favicon" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalLogoFavicon()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -547,7 +625,7 @@
         </div>
     </div>
 
-    <!-- 3. BANNERS (LISTAGEM + FORMULÁRIO EDITE/CRIE) -->
+    <!-- 5. BANNERS (CRIAR, EDITAR, SALVAR E EXCLUIR) -->
     <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8">
             <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -581,7 +659,7 @@
         </div>
     </div>
 
-    <!-- 4. DADOS DA LOJA & SEO -->
+    <!-- 6. DADOS DA LOJA & SEO -->
     <div id="modal-configuracoes-sistema" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalConfiguracoesSistema()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -620,7 +698,7 @@
         </div>
     </div>
 
-    <!-- 5. CONFIGURAÇÕES GERAIS DA LOJA -->
+    <!-- 7. CONFIGURAÇÕES GERAIS DA LOJA -->
     <div id="modal-configuracoes-gerais" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-indigo-200 my-8">
             <button onclick="fecharModalConfiguracoesGerais()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -637,35 +715,7 @@
         </div>
     </div>
 
-    <!-- 6. FORMAS DE PAGAMENTO -->
-    <div id="modal-formas-pagamento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalFormasPagamento()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-credit-card text-amber-500"></i> Formas de Pagamento</h3>
-            <div class="space-y-2 text-xs max-h-[60vh] overflow-y-auto pr-1">
-                <div class="p-3 bg-slate-50 border rounded-lg flex items-center justify-between"><strong>Mercado Pago (Cartão e PIX)</strong><button onclick="alternarFormaPagamento('mp')" id="btn-pag-mp" class="bg-emerald-600 text-white font-bold px-3 py-1 rounded">ATIVO</button></div>
-                <div class="p-3 bg-slate-50 border rounded-lg flex items-center justify-between"><strong>PIX Direct (Aprovação Imediata)</strong><button onclick="alternarFormaPagamento('pix')" id="btn-pag-pix" class="bg-emerald-600 text-white font-bold px-3 py-1 rounded">ATIVO</button></div>
-                <div class="p-3 bg-slate-50 border rounded-lg flex items-center justify-between"><strong>Depósito / Transferência Bancária</strong><button onclick="alternarFormaPagamento('deposito')" id="btn-pag-deposito" class="bg-red-600 text-white font-bold px-3 py-1 rounded">INATIVO</button></div>
-                <div class="p-3 bg-slate-50 border rounded-lg flex items-center justify-between"><strong>Pagamento na Entrega / Retirada</strong><button onclick="alternarFormaPagamento('entrega')" id="btn-pag-entrega" class="bg-emerald-600 text-white font-bold px-3 py-1 rounded">ATIVO</button></div>
-            </div>
-            <div class="flex justify-end"><button type="button" onclick="fecharModalFormasPagamento()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
-        </div>
-    </div>
-
-    <!-- 7. FORMAS DE ENVIO -->
-    <div id="modal-formas-envio" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-cyan-200 my-8">
-            <button onclick="fecharModalFormasEnvio()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paper-plane text-cyan-600"></i> Opções e Regras de Entrega</h3>
-            <div class="p-3 bg-slate-50 border rounded-lg text-xs space-y-2">
-                <div class="flex justify-between items-center font-bold"><span>Transportadora Expressa / PH Entrega</span><span class="text-emerald-700 font-mono">Taxa Fixa R$ 7,90</span></div>
-                <p class="text-slate-500 text-[11px]">Entregamos direto no endereço do cliente em até 2 dias úteis.</p>
-            </div>
-            <div class="flex justify-end"><button type="button" onclick="fecharModalFormasEnvio()" class="px-5 py-2 bg-slate-200 font-bold rounded text-xs">Fechar</button></div>
-        </div>
-    </div>
-
-    <!-- 8. BALCÕES DE RETIRADA (LISTAGEM + FORMULÁRIO DE EDIÇÃO) -->
+    <!-- 8. BALCÕES DE RETIRADA (CRIAR, EDITAR, SALVAR E EXCLUIR) -->
     <div id="modal-balcoes-retirada" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalBalcoesRetirada()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -721,7 +771,7 @@
         </div>
     </div>
 
-    <!-- 11. CONTROLE DE MENSAGENS WHATSAPP (LISTAGEM + FORMULÁRIO) -->
+    <!-- 11. CONTROLE DE MENSAGENS WHATSAPP -->
     <div id="modal-controle-mensagens" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8">
             <button onclick="fecharModalControleMensagens()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -758,7 +808,7 @@
         </div>
     </div>
 
-    <!-- 13. PÁGINAS EXTRAS (LISTAGEM + FORMULÁRIO DE EDIÇÃO) -->
+    <!-- 13. PÁGINAS EXTRAS (CRIAR, EDITAR, SALVAR E EXCLUIR) -->
     <div id="modal-paginas-extras" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-purple-200 my-8">
             <button onclick="fecharModalPaginasExtras()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -860,11 +910,21 @@
         if (typeof window.supabaseClient === 'undefined' && typeof supabase !== 'undefined') { var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
 
         const SENHA_ADMIN = '1234';
+        let formasPagamentoLista = [
+            { id: 'mp', nome: 'Mercado Pago (Cartão e PIX)', ativo: true },
+            { id: 'pix', nome: 'PIX Direct (Aprovação Imediata)', ativo: true },
+            { id: 'deposito', nome: 'Depósito / Transferência Bancária', ativo: false },
+            { id: 'entrega', nome: 'Pagamento na Entrega / Retirada', ativo: true }
+        ];
+
+        let formasEnvioLista = [
+            { id: 1, empresa: 'Transportadora Expressa / PH Entrega', valor: 7.90, prazo: 2, obs: 'Entregamos direto no endereço do cliente.' }
+        ];
+
         let adminProdutos = [];
         let balcoesRetirada = [];
         let paginasExtras = [];
         let bannersLista = [];
-        let idItemExclusaoPendente = null;
         let funcaoExclusaoExecutar = null;
 
         // PERSISTÊNCIA NUVEM (SUPABASE) + LOCALSTORAGE
@@ -882,15 +942,8 @@
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
-        function fecharDropdown() {
-            const menu = document.getElementById('dropdown-config-menu');
-            if (menu) menu.classList.add('hidden');
-        }
-
-        function toggleConfigDropdown() {
-            const menu = document.getElementById('dropdown-config-menu');
-            if (menu) menu.classList.toggle('hidden');
-        }
+        function fecharDropdown() { document.getElementById('dropdown-config-menu')?.classList.add('hidden'); }
+        function toggleConfigDropdown() { document.getElementById('dropdown-config-menu')?.classList.toggle('hidden'); }
 
         window.addEventListener('click', function(e) {
             const btn = e.target.closest('button[onclick="toggleConfigDropdown()"]');
@@ -916,9 +969,8 @@
         function autenticarAdmin(e) {
             if (e && e.preventDefault) e.preventDefault();
             const senhaInput = document.getElementById('input-senha-admin')?.value;
-            if (!senhaInput || senhaInput === SENHA_ADMIN || senhaInput === 'admin') {
-                entrarDireto();
-            } else { mostrarToast("Senha incorreta!"); }
+            if (!senhaInput || senhaInput === SENHA_ADMIN || senhaInput === 'admin') { entrarDireto(); } 
+            else { mostrarToast("Senha incorreta!"); }
         }
 
         function sairAdmin() {
@@ -938,7 +990,7 @@
 
         function atualizarCacheSistema() {
             fecharDropdown();
-            mostrarToast("Cache da loja e do banco atualizados com sucesso!");
+            mostrarToast("Cache da loja e do banco atualizados!");
         }
 
         function mudarAbaAdmin(aba) {
@@ -962,10 +1014,10 @@
         function abrirModalConfiguracoesGerais() { fecharDropdown(); document.getElementById('modal-configuracoes-gerais')?.classList.remove('hidden'); }
         function fecharModalConfiguracoesGerais() { document.getElementById('modal-configuracoes-gerais')?.classList.add('hidden'); }
 
-        function abrirModalFormasPagamento() { fecharDropdown(); document.getElementById('modal-formas-pagamento')?.classList.remove('hidden'); }
+        function abrirModalFormasPagamento() { fecharDropdown(); renderizarListaFormasPagamento(); document.getElementById('modal-formas-pagamento')?.classList.remove('hidden'); }
         function fecharModalFormasPagamento() { document.getElementById('modal-formas-pagamento')?.classList.add('hidden'); }
 
-        function abrirModalFormasEnvio() { fecharDropdown(); document.getElementById('modal-formas-envio')?.classList.remove('hidden'); }
+        function abrirModalFormasEnvio() { fecharDropdown(); renderizarTabelaFormasEnvio(); document.getElementById('modal-formas-envio')?.classList.remove('hidden'); }
         function fecharModalFormasEnvio() { document.getElementById('modal-formas-envio')?.classList.add('hidden'); }
 
         function abrirModalBalcoesRetirada() { fecharDropdown(); carregarBalcoesLocal(); renderizarTabelaBalcoesModal(); document.getElementById('modal-balcoes-retirada')?.classList.remove('hidden'); }
@@ -1006,11 +1058,9 @@
         }
         function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
 
-        function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
-
-        // ABAS INTERATIVAS DO MODAL CMS (FOTOS 3 A 8)
+        // ABAS INTERATIVAS DO MODAL CMS (FOTOS 8 E 9)
         function mudarAbaCMS(aba) {
-            ['loja', 'menus', 'card', 'carrinho', 'pagamento'].forEach(a => {
+            ['loja', 'menus', 'card', 'carrinho', 'pagamento', 'produtos'].forEach(a => {
                 document.getElementById(`cms-secao-${a}`)?.classList.add('hidden');
                 document.getElementById(`btn-cms-aba-${a}`)?.classList.remove('bg-blue-900', 'text-white');
                 document.getElementById(`btn-cms-aba-${a}`)?.classList.add('bg-slate-100', 'text-slate-800');
@@ -1035,7 +1085,7 @@
             };
             await salvarConfiguracaoNuvem('phsublime_admin_logos', configCores);
             fecharModalPersonalizacaoCMS();
-            mostrarToast("Personalizações da Loja salvas com sucesso!");
+            mostrarToast("Personalizações salvas com sucesso!");
         }
 
         // LOGO E FAVICON
@@ -1109,7 +1159,6 @@
         }
 
         function solicitarExclusaoBanner(idx) {
-            idItemExclusaoPendente = idx;
             funcaoExclusaoExecutar = async function() {
                 bannersLista.splice(idx, 1);
                 await salvarConfiguracaoNuvem('phsublime_admin_banners', bannersLista);
@@ -1269,7 +1318,95 @@
             document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
         }
 
-        // PRODUTOS (SUPABASE / BANCO DE DADOS - CRIE, EDITE, EXCLUA)
+        // FORMAS DE PAGAMENTO (INTERATIVO)
+        function renderizarListaFormasPagamento() {
+            const container = document.getElementById('container-lista-formas-pagamento');
+            if (!container) return;
+            container.innerHTML = '';
+            formasPagamentoLista.forEach(item => {
+                const btnClass = item.ativo ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-red-600 hover:bg-red-500';
+                const txtStatus = item.ativo ? 'ATIVO' : 'INATIVO';
+                container.innerHTML += `
+                    <div class="p-3 bg-slate-50 border rounded-lg flex items-center justify-between">
+                        <strong>${escapeHtml(item.nome)}</strong>
+                        <button onclick="alternarStatusPagamento('${item.id}')" class="${btnClass} text-white font-bold px-4 py-1.5 rounded transition-all">${txtStatus}</button>
+                    </div>`;
+            });
+        }
+
+        async function alternarStatusPagamento(id) {
+            const item = formasPagamentoLista.find(x => x.id === id);
+            if (item) {
+                item.ativo = !item.ativo;
+                await salvarConfiguracaoNuvem('phsublime_formas_pagamento', formasPagamentoLista);
+                renderizarListaFormasPagamento();
+                mostrarToast(`${item.nome} agora está ${item.ativo ? 'ATIVO' : 'INATIVO'}!`);
+            }
+        }
+
+        // FORMAS DE ENVIO (CRUD COMPLETO)
+        function renderizarTabelaFormasEnvio() {
+            const tbody = document.getElementById('tabela-formas-envio-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            formasEnvioLista.forEach(e => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-2 font-bold">${escapeHtml(e.empresa)}</td>
+                        <td class="p-2 font-bold text-emerald-700">R$ ${parseFloat(e.valor).toFixed(2)}</td>
+                        <td class="p-2">${e.prazo} dias</td>
+                        <td class="p-2 text-center flex items-center justify-center gap-2">
+                            <button onclick="editarFormaEnvio(${e.id})" class="text-blue-700 font-bold hover:underline"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                            <button onclick="excluirFormaEnvio(${e.id})" class="text-red-600 font-bold hover:underline"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function editarFormaEnvio(id) {
+            const item = formasEnvioLista.find(x => x.id === id);
+            if (!item) return;
+            document.getElementById('envio-edit-id').value = item.id;
+            document.getElementById('envio-empresa').value = item.empresa;
+            document.getElementById('envio-prazo').value = item.prazo;
+            document.getElementById('envio-valor').value = item.valor;
+            document.getElementById('envio-obs').value = item.obs || '';
+            document.getElementById('btn-salvar-envio').innerText = 'Atualizar Forma de Envio';
+        }
+
+        async function salvarFormaEnvioSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('envio-edit-id')?.value;
+            const obj = {
+                id: editId ? parseInt(editId) : Date.now(),
+                empresa: document.getElementById('envio-empresa')?.value,
+                prazo: parseInt(document.getElementById('envio-prazo')?.value || 2),
+                valor: parseFloat(document.getElementById('envio-valor')?.value || 0),
+                obs: document.getElementById('envio-obs')?.value
+            };
+
+            if (editId) {
+                const idx = formasEnvioLista.findIndex(x => x.id === parseInt(editId));
+                if (idx >= 0) formasEnvioLista[idx] = obj;
+            } else {
+                formasEnvioLista.push(obj);
+            }
+
+            await salvarConfiguracaoNuvem('phsublime_formas_envio', formasEnvioLista);
+            document.getElementById('envio-edit-id').value = '';
+            document.getElementById('btn-salvar-envio').innerText = '+ Salvar Forma de Envio';
+            renderizarTabelaFormasEnvio();
+            mostrarToast("Opção de envio salva com sucesso!");
+        }
+
+        async function excluirFormaEnvio(id) {
+            formasEnvioLista = formasEnvioLista.filter(x => x.id !== id);
+            await salvarConfiguracaoNuvem('phsublime_formas_envio', formasEnvioLista);
+            renderizarTabelaFormasEnvio();
+            mostrarToast("Forma de envio removida!");
+        }
+
+        // PRODUTOS (SUPABASE / BANCO DE DADOS)
         async function carregarProdutosAdmin() {
             try {
                 if (!supabaseClient) return;
@@ -1367,6 +1504,8 @@
             document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
         }
 
+        fecharModalConfirmExclusao = function() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); };
+
         async function executarExclusaoConfirmada() {
             if (typeof funcaoExclusaoExecutar === 'function') {
                 await funcaoExclusaoExecutar();
@@ -1375,7 +1514,6 @@
             fecharModalConfirmExclusao();
         }
 
-        // OUTROS FORMULÁRIOS DE CONFIGURAÇÃO
         function carregarDadosLojaLocal() {
             const salvos = localStorage.getItem('phsublime_dados_loja');
             if (!salvos) return;
@@ -1478,12 +1616,14 @@
             lista.forEach(i => { tbody.innerHTML += `<tr><td class="p-2 font-bold">${escapeHtml(i.nome)}</td></tr>`; });
         }
 
-        // INICIALIZAÇÃO
+        // INICIALIZAÇÃO COMPLETA
         async function inicializarAdmin() {
             try { carregarDadosLojaLocal(); } catch(e){}
             try { carregarBalcoesLocal(); } catch(e){}
             try { carregarPaginasExtrasLocal(); } catch(e){}
             try { carregarBannersLocal(); } catch(e){}
+            try { renderizarListaFormasPagamento(); } catch(e){}
+            try { renderizarTabelaFormasEnvio(); } catch(e){}
             try { await carregarProdutosAdmin(); } catch(e){}
         }
 
