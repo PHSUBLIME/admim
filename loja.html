@@ -71,7 +71,7 @@
             
             <a href="javascript:void(0)" onclick="filtrarCategoria('')" class="flex items-center gap-3 group shrink-0">
                 <div class="w-12 h-12 shrink-0 flex items-center justify-center bg-white rounded-xl p-1 shadow-md group-hover:scale-105 transition-all">
-                    <img id="logo-loja-img" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" alt="PHSUBLIME" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/08009C/FFFFFF?text=PH';">
+                    <img id="logo-loja-img" src="https://placehold.co/100x100/08009C/FFFFFF?text=PH" alt="PHSUBLIME" class="w-full h-full object-contain">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
@@ -187,7 +187,7 @@
                         <span id="txt-contador-produtos" class="text-xs text-slate-500 font-bold bg-slate-100 px-3 py-1 rounded-full">Carregando estoque...</span>
                     </div>
 
-                    <!-- GRID DE 8 PRODUTOS POR PÁGINA -->
+                    <!-- GRID DE PRODUTOS -->
                     <div id="container-catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
 
                     <!-- PAGINAÇÃO -->
@@ -330,7 +330,7 @@
                     <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOSSO FACEBOOK</h4>
                     <div class="bg-white text-slate-800 p-3 rounded-xl shadow-md border border-slate-200 space-y-2">
                         <div class="flex items-center gap-3">
-                            <img id="footer-fb-logo-mini" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="w-10 h-10 object-contain rounded border p-0.5 bg-slate-50" onerror="this.onerror=null; this.src='https://placehold.co/50x50/08009C/FFFFFF?text=PH';">
+                            <img id="footer-fb-logo-mini" src="https://placehold.co/50x50/08009C/FFFFFF?text=PH" class="w-10 h-10 object-contain rounded border p-0.5 bg-slate-50">
                             <div>
                                 <strong id="footer-fb-nome" class="font-bold text-xs text-blue-900 block leading-tight">PHSUBLIME GRÁFICA</strong>
                                 <span class="text-[10px] text-slate-500 font-medium">1.629 seguidores</span>
@@ -387,7 +387,7 @@
         <div class="bg-custom-barra-rodape text-white py-3 text-center text-xs font-semibold">
             <div class="max-w-[1536px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
-                    <img id="footer-logo-barra-final" src="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="h-6 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x30/08009C/FFFFFF?text=PHSUBLIME';">
+                    <img id="footer-logo-barra-final" src="https://placehold.co/100x30/08009C/FFFFFF?text=PHSUBLIME" class="h-6 object-contain">
                     <span id="footer-copyright-txt">© Copyright 2026 PHSUBLIME - Todos os direitos reservados</span>
                 </div>
                 <a id="footer-wpp-link" href="https://wa.me/5521986147221" target="_blank" class="text-white hover:underline flex items-center gap-1 font-bold">
@@ -552,7 +552,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL CORRIGIDO COM TRATAMENTO DE ERROS DE IMAGEM -->
+    <!-- SCRIPT JS PRINCIPAL - TOTALMENTE INDEPENDENTE -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') {
             var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
@@ -566,8 +566,8 @@
 
         let whatsappAtendimentoLoja = '5521986147221';
 
-        // IMAGENS PADRÃO CASO O SERVIDOR PRINCIPAL ESTEJA FORA DO AR
-        const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+OFERTAS+ESPECIAIS';
+        // PLACEHOLDERS NEUTROS
+        const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
         function embaralharArray(arr) {
@@ -584,12 +584,12 @@
             return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
 
+        // LIMPA QUALQUER LINK ANTIGO DA SISTOGRAF
         function formatarUrlImagem(url) {
             if (!url || typeof url !== 'string' || !url.trim()) return '';
             const u = url.trim();
 
-            // Ignora entradas inválidas como cores "ffffff" ou "#ffffff"
-            if (u.match(/^#?[0-9a-fA-F]{3,6}$/)) {
+            if (u.match(/^#?[0-9a-fA-F]{3,6}$/) || u.includes('sistograf.net')) {
                 return '';
             }
 
@@ -597,13 +597,7 @@
                 return u;
             }
 
-            const temExtensaoImagem = /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(u);
-            if (temExtensaoImagem) {
-                const caminho = u.startsWith('/') ? u.slice(1) : u;
-                return `https://phsublime.sistograf.net/${caminho}`;
-            }
-
-            return '';
+            return u;
         }
 
         function carregarConfiguracoesAdminLocal() {
@@ -664,11 +658,11 @@
                 const cmsData = localStorage.getItem('phsublime_admin_logos');
                 if (cmsData) {
                     const config = JSON.parse(cmsData);
-                    if (config.favicon) {
+                    if (config.favicon && !config.favicon.includes('sistograf.net')) {
                         const favEl = document.getElementById('site-favicon');
                         if (favEl) favEl.href = config.favicon;
                     }
-                    if (config.logoSistema) {
+                    if (config.logoSistema && !config.logoSistema.includes('sistograf.net')) {
                         const logoImg = document.getElementById('logo-loja-img');
                         if (logoImg) logoImg.src = config.logoSistema;
 
@@ -723,9 +717,9 @@
             document.getElementById('modal-pagina-extra-loja').classList.add('hidden');
         }
 
-        // BANNERS COM IMAGENS DE RESERVA DE ALTA DISPONIBILIDADE
+        // BANNERS PADRÃO 100% LIMPOS
         let bannersCarrossel = [
-            { img: 'https://placehold.co/1200x400/08009C/FFED00?text=OFERTAS+ESPECIAIS+-+PHSUBLIME', link: '' },
+            { img: 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE', link: '' },
             { img: 'https://placehold.co/1200x400/316AC7/FFFFFF?text=QUALIDADE+E+RAPIDEZ+DIGITAL', link: '' }
         ];
 
@@ -741,8 +735,8 @@
                 if (bannersSalvos) {
                     const lista = JSON.parse(bannersSalvos);
                     if (Array.isArray(lista) && lista.length > 0) {
-                        const slider = lista.filter(b => !b.tipo || b.tipo === 'Animação' || b.tipo.includes('Slider'));
-                        const minis = lista.filter(b => b.tipo === 'Mini Banner');
+                        const slider = lista.filter(b => (!b.tipo || b.tipo === 'Animação' || b.tipo.includes('Slider')) && !b.img?.includes('sistograf.net'));
+                        const minis = lista.filter(b => b.tipo === 'Mini Banner' && !b.img?.includes('sistograf.net'));
                         
                         if (slider.length > 0) bannersCarrossel = slider;
                         if (minis.length > 0) miniBannersParados = minis.slice(0, 3);
@@ -768,7 +762,6 @@
                 item.className = "min-w-full flex-shrink-0 cursor-pointer";
                 const srcImg = formatarUrlImagem(b.img) || BANNER_FALLBACK_GRANDE;
                 
-                // Trata o erro carregando o fallback ao invés de sumir com o banner
                 const htmlImg = `<img src="${srcImg}" alt="Banner ${i+1}" class="w-full h-auto object-cover max-h-[350px]" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_GRANDE}';">`;
                 
                 if (b.link) {
@@ -873,10 +866,14 @@
             }
         }
 
+        // CARREGAMENTO OTIMIZADO RÁPIDO DO SUPABASE
         async function carregarEstoqueSupabase() {
             try {
                 if (supabaseClient) {
-                    const { data, error } = await supabaseClient.from('produtos').select('*');
+                    const { data, error } = await supabaseClient
+                        .from('produtos')
+                        .select('id, Nome, Categorias_Secundarias, Preco_Venda, Referencia, Url, Descricao, gabarito_url')
+                        .limit(100);
 
                     if (!error && data && data.length > 0) {
                         catalogoEstoque = data.map(item => {
@@ -1184,7 +1181,7 @@
                     if (encontrado) {
                         cupomAplicado = encontrado;
                         if (msgStatus) {
-                            msgStatus.innerText = `Cupom ${codigo} applied com sucesso!`;
+                            msgStatus.innerText = `Cupom ${codigo} aplicado com sucesso!`;
                             msgStatus.className = "text-[10px] font-bold block text-emerald-600";
                         }
                         renderizarCarrinho();
