@@ -176,7 +176,7 @@
                     <p class="text-xs text-slate-500 font-medium mt-1">Veja abaixo as novidades e estatísticas do seu sistema.</p>
                 </div>
 
-                <!-- CARDS DE RESUMO INICIAL DA SISTOGRAF -->
+                <!-- CARDS DE RESUMO INICIAL -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div onclick="abrirModalControleMensagens()" class="bg-[#dbefe8] border border-[#bcdbc7] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
@@ -262,11 +262,8 @@
                         <p class="text-xs text-slate-500">Acompanhe produção, aprovação de arte, pagamentos e arquivos de impressão.</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="carregarPedidosAdmin(true)" id="btn-atualizar-pedidos" class="bg-[#003859] hover:bg-blue-900 text-white text-xs font-bold px-4 py-2.5 rounded-lg flex items-center gap-2 shadow">
+                        <button onclick="carregarPedidosAdmin()" id="btn-atualizar-pedidos" class="bg-[#003859] hover:bg-blue-900 text-white text-xs font-bold px-4 py-2.5 rounded-lg flex items-center gap-2 shadow">
                             <i class="fa-solid fa-rotate-right"></i> Atualizar Pedidos
-                        </button>
-                        <button onclick="abrirModalNovoPedidoManual()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-lg uppercase flex items-center gap-1.5 shadow">
-                            <i class="fa-solid fa-circle-plus"></i> Novo Pedido
                         </button>
                     </div>
                 </div>
@@ -352,7 +349,7 @@
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
-                                    <th class="py-3 px-3 w-10 text-center"><input type="checkbox" id="marcar-todos-prods" onclick="alternarMarcarTodosProdutos(this)" class="rounded"></th>
+                                    <th class="py-3 px-3 w-10 text-center"><input type="checkbox" id="marcar-todos-prods" class="rounded"></th>
                                     <th class="py-3 px-4 w-16">FOTO</th>
                                     <th class="py-3 px-4">PRODUTO / REFERÊNCIA</th>
                                     <th class="py-3 px-4">CATEGORIA</th>
@@ -449,10 +446,10 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- TODOS OS MODAIS DE CONFIGURAÇÕES SISTOGRAF ADAPTADOS PARA PHSUBLIME -->
+    <!-- MODAIS DE GERENCIAMENTO COMPLETO (SISTOGRAF -> PHSUBLIME) -->
     <!-- ========================================================================= -->
 
-    <!-- 1. APARÊNCIA DA LOJA / CMS DE CORES (FOTOS 3, 4, 5, 6, 8 REPRODUZIDAS) -->
+    <!-- 1. PERSONALIZAÇÃO DA LOJA (CMS COM ABAS DUAL-VIEW) -->
     <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -460,30 +457,65 @@
             
             <div class="grid grid-cols-1 md:grid-cols-12 gap-6 text-xs">
                 <!-- COLUNA ESQUERDA: NAVEGAÇÃO DE ABAS CMS -->
-                <div class="md:col-span-4 space-y-2">
-                    <button onclick="mudarAbaCMS('loja')" class="w-full text-left px-3 py-2.5 rounded-lg bg-blue-900 text-white font-bold flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-house"></i> LOJA & TEMA</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    <button onclick="mudarAbaCMS('menus')" class="w-full text-left px-3 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-bars"></i> MENUS & SIDEBAR</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    <button onclick="mudarAbaCMS('card')" class="w-full text-left px-3 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-box font-bold"></i> CARD DO PRODUTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    <button onclick="mudarAbaCMS('carrinho')" class="w-full text-left px-3 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> CARRINHO & TABELAS</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                <div class="md:col-span-4 space-y-1.5">
+                    <button onclick="mudarAbaCMS('loja')" id="btn-cms-aba-loja" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-blue-900 text-white font-bold flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-house"></i> LOJA & TEMA</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('menus')" id="btn-cms-aba-menus" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-bars"></i> MENUS & SIDEBAR</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('card')" id="btn-cms-aba-card" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-box font-bold"></i> CARD DO PRODUTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('carrinho')" id="btn-cms-aba-carrinho" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> CARRINHO & TABELAS</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button onclick="mudarAbaCMS('pagamento')" id="btn-cms-aba-pagamento" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold flex items-center justify-between text-slate-800"><span class="flex items-center gap-2"><i class="fa-solid fa-credit-card"></i> TELA DE PAGAMENTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
                 </div>
 
-                <!-- COLUNA DIREITA: FORMULÁRIOS DAS CORES -->
+                <!-- COLUNA DIREITA: FORMULÁRIO COMPLETO -->
                 <div class="md:col-span-8 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
-                    <form onsubmit="salvarCMSCoresSubmit(event)" class="space-y-3">
+                    <form onsubmit="salvarCMSCoresSubmit(event)" class="space-y-4">
+                        
                         <div id="cms-secao-loja" class="space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Cores Globais da Loja</h4>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><label class="font-bold block mb-1">Cor Cabeçalho:</label><input type="color" id="cms-cor-cabecalho" value="#316AC7" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                                 <div><label class="font-bold block mb-1">Cor Menu Principal:</label><input type="color" id="cms-cor-menu" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                             </div>
+                        </div>
+
+                        <div id="cms-secao-menus" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Configuração de Menus e Borda</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Cor Texto do Menu:</label><input type="color" id="cms-cor-texto-menu" value="#FFFFFF" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                                <div><label class="font-bold block mb-1">Cor Borda do Menu:</label><input type="color" id="cms-cor-borda-menu" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                            </div>
+                        </div>
+
+                        <div id="cms-secao-card" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Aparência do Card do Produto</h4>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><label class="font-bold block mb-1">Cor Botão Comprar:</label><input type="color" id="cms-cor-btn-comprar" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                                 <div><label class="font-bold block mb-1">Cor Botão Gabarito:</label><input type="color" id="cms-cor-btn-gabarito" value="#2563eb" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                            </div>
+                            <div>
+                                <label class="font-bold block mb-1">Texto do Botão Comprar:</label>
+                                <input type="text" id="cms-txt-btn-card" value="COMPRAR 🚀" class="w-full p-2 border rounded font-bold">
+                            </div>
+                        </div>
+
+                        <div id="cms-secao-carrinho" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Cores da Tabela do Carrinho</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Fundo Cabeçalho Tabela:</label><input type="color" id="cms-cor-carrinho-cab" value="#316AC7" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                                <div><label class="font-bold block mb-1">Texto Cabeçalho Tabela:</label><input type="color" id="cms-cor-carrinho-txt" value="#FFFFFF" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                            </div>
+                        </div>
+
+                        <div id="cms-secao-pagamento" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1 text-xs">Cores da Tela de Finalização</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Fundo Destaque Pagamento:</label><input type="color" id="cms-cor-pag-destaque" value="#003859" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                                <div><label class="font-bold block mb-1">Cor Borda de Confirmação:</label><input type="color" id="cms-cor-pag-borda" value="#002847" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                             </div>
                         </div>
 
                         <div class="pt-3 border-t flex justify-end gap-2">
                             <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-4 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
-                            <button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Cores na Loja</button>
+                            <button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Personalizações</button>
                         </div>
                     </form>
                 </div>
@@ -491,7 +523,7 @@
         </div>
     </div>
 
-    <!-- 2. LOGO & FAVICON CMS (FOTO 7) -->
+    <!-- 2. LOGO & FAVICON CMS -->
     <div id="modal-logo-favicon" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalLogoFavicon()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -515,13 +547,14 @@
         </div>
     </div>
 
-    <!-- 3. GERENCIADOR DE BANNERS (FOTOS 9 E 10) -->
+    <!-- 3. BANNERS (LISTAGEM + FORMULÁRIO EDITE/CRIE) -->
     <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8">
             <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-regular fa-image text-emerald-500"></i> Listagem e Edição de Banners</h3>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-regular fa-image text-emerald-500"></i> Gerenciador de Banners</h3>
             
-            <form onsubmit="salvarNovoBannerSubmit(event)" class="bg-slate-50 p-3.5 rounded-xl border space-y-3 text-xs">
+            <form onsubmit="salvarBannerSubmit(event)" class="bg-slate-50 p-3.5 rounded-xl border space-y-3 text-xs">
+                <input type="hidden" id="banner-edit-index" value="-1">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                         <label class="font-bold block mb-1">Tipo de Banner: *</label>
@@ -532,9 +565,9 @@
                         <input type="text" id="banner-img-url" required placeholder="https://..." class="w-full p-2 border rounded font-mono">
                     </div>
                 </div>
-                <div class="flex items-center justify-between">
-                    <input type="text" id="banner-link-url" placeholder="URL do Link ao Clicar (Opcional)" class="w-2/3 p-2 border rounded font-mono">
-                    <button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase shadow">+ Adicionar Banner</button>
+                <div class="flex items-center justify-between gap-3">
+                    <input type="text" id="banner-link-url" placeholder="URL do Link ao Clicar (Opcional)" class="w-full p-2 border rounded font-mono">
+                    <button type="submit" id="btn-salvar-banner" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase shadow shrink-0">+ Salvar Banner</button>
                 </div>
             </form>
 
@@ -548,7 +581,7 @@
         </div>
     </div>
 
-    <!-- 4. DADOS DA LOJA & SEO (FOTO 1 SISTOGRAF) -->
+    <!-- 4. DADOS DA LOJA & SEO -->
     <div id="modal-configuracoes-sistema" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalConfiguracoesSistema()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -587,7 +620,7 @@
         </div>
     </div>
 
-    <!-- 5. CONFIGURAÇÕES GERAIS DA LOJA (FOTOS 12 E 13 REPRODUZIDAS) -->
+    <!-- 5. CONFIGURAÇÕES GERAIS DA LOJA -->
     <div id="modal-configuracoes-gerais" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-indigo-200 my-8">
             <button onclick="fecharModalConfiguracoesGerais()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -604,7 +637,7 @@
         </div>
     </div>
 
-    <!-- 6. FORMAS DE PAGAMENTO (FOTOS 14 E 2 SISTOGRAF) -->
+    <!-- 6. FORMAS DE PAGAMENTO -->
     <div id="modal-formas-pagamento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalFormasPagamento()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -619,7 +652,7 @@
         </div>
     </div>
 
-    <!-- 7. FORMAS DE ENVIO (FOTOS 15 E 16 SISTOGRAF) -->
+    <!-- 7. FORMAS DE ENVIO -->
     <div id="modal-formas-envio" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-cyan-200 my-8">
             <button onclick="fecharModalFormasEnvio()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -632,12 +665,14 @@
         </div>
     </div>
 
-    <!-- 8. BALCÕES DE RETIRADA (FOTOS 19 E 20 SISTOGRAF REPRODUZIDAS) -->
+    <!-- 8. BALCÕES DE RETIRADA (LISTAGEM + FORMULÁRIO DE EDIÇÃO) -->
     <div id="modal-balcoes-retirada" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalBalcoesRetirada()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-truck text-emerald-600"></i> Cadastrar e Gerenciar Balcões de Retirada</h3>
+            
             <form onsubmit="salvarBalcaoSubmit(event)" class="bg-slate-50 p-4 rounded-xl space-y-3 text-xs border">
+                <input type="hidden" id="balcao-edit-id" value="">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div class="sm:col-span-2"><label class="font-bold block mb-1">Nome do Balcão: *</label><input type="text" id="balcao-nome" required placeholder="Balcão Irajá / RJ" class="w-full p-2 border rounded font-bold"></div>
                     <div><label class="font-bold block mb-1">Prazo de Entrega (dias):</label><input type="number" id="balcao-prazo" value="1" class="w-full p-2 border rounded font-bold"></div>
@@ -648,14 +683,20 @@
                     <div class="sm:col-span-2"><label class="font-bold block mb-1">Cidade: *</label><input type="text" id="balcao-cidade" value="Rio de Janeiro" required class="w-full p-2 border rounded font-bold"></div>
                 </div>
                 <div><label class="font-bold block mb-1">Endereço Completo: *</label><input type="text" id="balcao-endereco" required placeholder="Estrada da Água Grande, 221 - Irajá" class="w-full p-2 border rounded"></div>
-                <div class="flex justify-end"><button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase text-xs shadow">Salvar Balcão</button></div>
+                <div class="flex justify-end gap-2"><button type="submit" id="btn-salvar-balcao" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase text-xs shadow">Salvar Balcão</button></div>
             </form>
-            <div class="border rounded-xl overflow-hidden max-h-40 overflow-y-auto"><table class="w-full text-left text-xs border-collapse"><tbody id="tabela-balcoes-modal-body" class="divide-y text-slate-700 font-medium"></tbody></table></div>
+
+            <div class="border rounded-xl overflow-hidden max-h-48 overflow-y-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead><tr class="bg-slate-100 border-b font-bold uppercase"><th class="p-2">NOME</th><th class="p-2">ENDEREÇO</th><th class="p-2 text-center">AÇÕES</th></tr></thead>
+                    <tbody id="tabela-balcoes-modal-body" class="divide-y text-slate-700 font-medium"></tbody>
+                </table>
+            </div>
             <div class="flex justify-end"><button type="button" onclick="fecharModalBalcoesRetirada()" class="px-5 py-2 bg-slate-200 font-bold rounded text-xs">Fechar</button></div>
         </div>
     </div>
 
-    <!-- 9. FUNCIONÁRIOS & PERMISSÕES (FOTOS 17 E 18 SISTOGRAF) -->
+    <!-- 9. FUNCIONÁRIOS & PERMISSÕES -->
     <div id="modal-funcionarios" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-slate-300 my-8">
             <button onclick="fecharModalFuncionarios()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -667,7 +708,7 @@
         </div>
     </div>
 
-    <!-- 10. NOTIFICAÇÕES (FOTO 20 SISTOGRAF) -->
+    <!-- 10. NOTIFICAÇÕES DO SISTEMA -->
     <div id="modal-notificacoes" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-amber-200 my-8">
             <button onclick="fecharModalNotificacoes()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -680,7 +721,7 @@
         </div>
     </div>
 
-    <!-- 11. CONTROLE DE MENSAGENS WHATSAPP (FOTOS 14, 15, 16 SISTOGRAF REPRODUZIDAS) -->
+    <!-- 11. CONTROLE DE MENSAGENS WHATSAPP (LISTAGEM + FORMULÁRIO) -->
     <div id="modal-controle-mensagens" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8">
             <button onclick="fecharModalControleMensagens()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -704,7 +745,7 @@
         </div>
     </div>
 
-    <!-- 12. CAMPANHAS AUTOMATIZADAS (FOTO 18 SISTOGRAF) -->
+    <!-- 12. CAMPANHAS AUTOMATIZADAS -->
     <div id="modal-campanhas" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-red-200 my-8">
             <button onclick="fecharModalCampanhas()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -717,24 +758,34 @@
         </div>
     </div>
 
-    <!-- 13. PÁGINAS EXTRAS (FOTOS 12 E 13 SISTOGRAF) -->
+    <!-- 13. PÁGINAS EXTRAS (LISTAGEM + FORMULÁRIO DE EDIÇÃO) -->
     <div id="modal-paginas-extras" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-purple-200 my-8">
             <button onclick="fecharModalPaginasExtras()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-file-lines text-purple-500"></i> Páginas Extras e Institucionais</h3>
+            
             <form onsubmit="salvarPaginaExtraSubmit(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="pag-extra-edit-id" value="">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div><label class="font-bold block mb-1">Título da Página: *</label><input type="text" id="pag-extra-titulo" required placeholder="Instrução de Envio de Arquivos" class="w-full p-2 border rounded font-bold"></div>
                     <div><label class="font-bold block mb-1">URL Amigável: *</label><input type="text" id="pag-extra-url" required placeholder="pagina/instrucao" class="w-full p-2 border rounded font-mono"></div>
                 </div>
-                <div><label class="font-bold block mb-1">Conteúdo da Página (HTML/Texto): *</label><textarea id="pag-extra-conteudo" rows="6" required class="w-full p-2.5 border rounded font-medium leading-relaxed"></textarea></div>
-                <div class="flex items-center justify-between"><label class="flex items-center gap-1 cursor-pointer font-bold"><input type="checkbox" id="pag-extra-ativo" checked> Ativo</label><button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">Salvar Página Extra</button></div>
+                <div><label class="font-bold block mb-1">Conteúdo da Página (HTML/Texto): *</label><textarea id="pag-extra-conteudo" rows="4" required class="w-full p-2.5 border rounded font-medium leading-relaxed"></textarea></div>
+                <div class="flex items-center justify-between"><label class="flex items-center gap-1 cursor-pointer font-bold"><input type="checkbox" id="pag-extra-ativo" checked> Ativo</label><button type="submit" id="btn-salvar-pag-extra" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">Salvar Página Extra</button></div>
             </form>
+
+            <div class="border rounded-xl overflow-hidden max-h-44 overflow-y-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead><tr class="bg-slate-100 border-b font-bold uppercase"><th class="p-2">TÍTULO</th><th class="p-2">URL</th><th class="p-2 text-center">AÇÕES</th></tr></thead>
+                    <tbody id="tabela-paginas-extras-body" class="divide-y text-slate-700"></tbody>
+                </table>
+            </div>
+
             <div class="flex justify-end border-t pt-2"><button type="button" onclick="fecharModalPaginasExtras()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
         </div>
     </div>
 
-    <!-- 14. CÓDIGOS HTML & SCRIPTS (FOTO 11 SISTOGRAF) -->
+    <!-- 14. CÓDIGOS HTML & SCRIPTS -->
     <div id="modal-codigos-html" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-orange-200 my-8">
             <button onclick="fecharModalCodigosHTML()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -770,12 +821,13 @@
         </div>
     </div>
 
-    <!-- 16. FORMULÁRIO DE CADASTRO/EDIÇÃO DE PRODUTO -->
+    <!-- 16. FORMULÁRIO DE CADASTRO/EDIÇÃO DE PRODUTO COMPLETO -->
     <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar Produto no Banco</h3>
+            <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar / Editar Produto</h3>
             <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="prod-edit-id" value="">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <input type="text" id="prod-nome" required placeholder="Nome do Produto *" class="sm:col-span-2 p-2 border rounded font-bold">
                     <input type="text" id="prod-ref" required placeholder="Ref *" class="p-2 border rounded font-mono">
@@ -788,19 +840,19 @@
                     <select id="prod-unidade" class="p-2 border rounded"><option value="un">Unidade (un)</option><option value="m²">Metro Quadrado (m²)</option></select>
                 </div>
                 <input type="text" id="prod-imagem" placeholder="URL da Imagem do Produto" class="w-full p-2 border rounded font-mono">
-                <div class="flex justify-end gap-2 pt-2"><button type="submit" class="bg-emerald-600 text-white font-black px-5 py-2 rounded uppercase shadow">Salvar Produto</button></div>
+                <div class="flex justify-end gap-2 pt-2"><button type="submit" id="btn-salvar-produto-submit" class="bg-emerald-600 text-white font-black px-5 py-2 rounded uppercase shadow">Salvar Produto</button></div>
             </form>
         </div>
     </div>
 
-    <!-- TOAST FLUTUANTE -->
+    <!-- TOAST FLUTUANTE DE ALERTA -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-amber-400 px-5 py-3.5 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[1001]">
         <i id="toast-icon" class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
         <span id="toast-message" class="font-medium text-sm">Ação realizada com sucesso!</span>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- SCRIPT JS PRINCIPAL - LÓGICA E CONEXÃO COM SUPABASE / LOCALSTORAGE -->
+    <!-- SCRIPT JS COMPLETO - REGRA DE NEGÓCIO E CRUD REAL PERSISTENTE -->
     <!-- ========================================================================= -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') { var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co'; }
@@ -809,18 +861,20 @@
 
         const SENHA_ADMIN = '1234';
         let adminProdutos = [];
-        let listaMaisVendidos = [];
         let balcoesRetirada = [];
+        let paginasExtras = [];
+        let bannersLista = [];
         let idItemExclusaoPendente = null;
+        let funcaoExclusaoExecutar = null;
 
-        // FUNÇÃO CENTRAL DE SALVAMENTO NUVEM (SUPABASE + LOCALSTORAGE)
+        // PERSISTÊNCIA NUVEM (SUPABASE) + LOCALSTORAGE
         async function salvarConfiguracaoNuvem(chave, dados) {
             localStorage.setItem(chave, JSON.stringify(dados));
             try {
                 if (supabaseClient) {
                     await supabaseClient.from('configuracoes').upsert([{ chave: chave, valor: dados }], { onConflict: 'chave' });
                 }
-            } catch(e) { console.log('Sincronizando em modo híbrido:', e); }
+            } catch(e) { console.log('Modo Híbrido Ativo:', e); }
         }
 
         function escapeHtml(str) {
@@ -884,7 +938,7 @@
 
         function atualizarCacheSistema() {
             fecharDropdown();
-            mostrarToast("Cache do sistema atualizado com sucesso!");
+            mostrarToast("Cache da loja e do banco atualizados com sucesso!");
         }
 
         function mudarAbaAdmin(aba) {
@@ -892,14 +946,14 @@
             document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
         }
 
-        // CONTROLADORES DOS MODAIS
+        // CONTROLADORES DE MODAIS
         function abrirModalPersonalizacaoCMS() { fecharDropdown(); document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden'); }
         function fecharModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.add('hidden'); }
 
         function abrirModalLogoFavicon() { fecharDropdown(); document.getElementById('modal-logo-favicon')?.classList.remove('hidden'); }
         function fecharModalLogoFavicon() { document.getElementById('modal-logo-favicon')?.classList.add('hidden'); }
 
-        function abrirModalGerenciadorBanners() { fecharDropdown(); renderizarTabelaBannersAdmin(); document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden'); }
+        function abrirModalGerenciadorBanners() { fecharDropdown(); carregarBannersLocal(); renderizarTabelaBannersAdmin(); document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden'); }
         function fecharModalGerenciadorBanners() { document.getElementById('modal-gerenciador-banners')?.classList.add('hidden'); }
 
         function abrirModalConfiguracoesSistema() { fecharDropdown(); carregarDadosLojaLocal(); document.getElementById('modal-configuracoes-sistema')?.classList.remove('hidden'); }
@@ -926,7 +980,7 @@
         function abrirModalCodigosHTML() { fecharDropdown(); document.getElementById('modal-codigos-html')?.classList.remove('hidden'); }
         function fecharModalCodigosHTML() { document.getElementById('modal-codigos-html')?.classList.add('hidden'); }
 
-        function abrirModalPaginasExtras() { fecharDropdown(); document.getElementById('modal-paginas-extras')?.classList.remove('hidden'); }
+        function abrirModalPaginasExtras() { fecharDropdown(); carregarPaginasExtrasLocal(); renderizarTabelaPaginasExtrasModal(); document.getElementById('modal-paginas-extras')?.classList.remove('hidden'); }
         function fecharModalPaginasExtras() { document.getElementById('modal-paginas-extras')?.classList.add('hidden'); }
 
         function abrirModalMaisVendidos() { fecharDropdown(); renderizarTabelaMaisVendidosModal(); document.getElementById('modal-gerenciar-mais-vendidos')?.classList.remove('hidden'); }
@@ -941,26 +995,50 @@
         function abrirModalCriarCupom() { fecharDropdown(); document.getElementById('modal-criar-cupom')?.classList.remove('hidden'); }
         function fecharModalCriarCupom() { document.getElementById('modal-criar-cupom')?.classList.add('hidden'); }
 
-        function abrirModalFormProduto() { document.getElementById('modal-form-produto')?.classList.remove('hidden'); }
+        function abrirModalFormProduto() { 
+            document.getElementById('prod-edit-id').value = '';
+            document.getElementById('prod-nome').value = '';
+            document.getElementById('prod-ref').value = '';
+            document.getElementById('prod-preco').value = '';
+            document.getElementById('prod-imagem').value = '';
+            document.getElementById('btn-salvar-produto-submit').innerText = 'Salvar Produto';
+            document.getElementById('modal-form-produto')?.classList.remove('hidden'); 
+        }
         function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
 
         function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
 
-        // SALVAMENTO DE CORES CMS DA LOJA
+        // ABAS INTERATIVAS DO MODAL CMS (FOTOS 3 A 8)
+        function mudarAbaCMS(aba) {
+            ['loja', 'menus', 'card', 'carrinho', 'pagamento'].forEach(a => {
+                document.getElementById(`cms-secao-${a}`)?.classList.add('hidden');
+                document.getElementById(`btn-cms-aba-${a}`)?.classList.remove('bg-blue-900', 'text-white');
+                document.getElementById(`btn-cms-aba-${a}`)?.classList.add('bg-slate-100', 'text-slate-800');
+            });
+
+            document.getElementById(`cms-secao-${aba}`)?.classList.remove('hidden');
+            const btn = document.getElementById(`btn-cms-aba-${aba}`);
+            if (btn) {
+                btn.classList.remove('bg-slate-100', 'text-slate-800');
+                btn.classList.add('bg-blue-900', 'text-white');
+            }
+        }
+
         async function salvarCMSCoresSubmit(e) {
             e.preventDefault();
             const configCores = {
                 corCabecalho: document.getElementById('cms-cor-cabecalho')?.value,
                 corBotao: document.getElementById('cms-cor-menu')?.value,
                 corBotaoComprar: document.getElementById('cms-cor-btn-comprar')?.value,
-                corBotaoGabarito: document.getElementById('cms-cor-btn-gabarito')?.value
+                corBotaoGabarito: document.getElementById('cms-cor-btn-gabarito')?.value,
+                textoBotaoCard: document.getElementById('cms-txt-btn-card')?.value || 'COMPRAR 🚀'
             };
             await salvarConfiguracaoNuvem('phsublime_admin_logos', configCores);
             fecharModalPersonalizacaoCMS();
-            mostrarToast("Aparência da loja salva com sucesso!");
+            mostrarToast("Personalizações da Loja salvas com sucesso!");
         }
 
-        // SALVAMENTO DE LOGO E FAVICON
+        // LOGO E FAVICON
         async function salvarLogoFaviconSubmit(e) {
             e.preventDefault();
             const config = JSON.parse(localStorage.getItem('phsublime_admin_logos') || '{}');
@@ -971,77 +1049,82 @@
             mostrarToast("Logos salvas com sucesso!");
         }
 
-        // BANNERS HOME
+        // BANNERS (CRIAR, EDITAR, SALVAR E EXCLUIR)
+        function carregarBannersLocal() {
+            const salvos = localStorage.getItem('phsublime_admin_banners');
+            bannersLista = salvos ? JSON.parse(salvos) : [
+                { tipo: 'Animação', imagem: 'https://phsublime.sistograf.net/storage/banners/animacao/20250909_OFERTAS ESPECIAIS.jpg', link: '' }
+            ];
+        }
+
         function renderizarTabelaBannersAdmin() {
             const tbody = document.getElementById('tabela-banners-admin-body');
             if (!tbody) return;
-            const banners = JSON.parse(localStorage.getItem('phsublime_admin_banners') || '[]');
             tbody.innerHTML = '';
-            banners.forEach((b, idx) => {
-                tbody.innerHTML += `<tr><td class="p-2 font-bold">${escapeHtml(b.tipo)}</td><td class="p-2">${renderImagemHtml(b.imagem)}</td><td class="p-2 text-center"><button onclick="removerBanner(${idx})" class="text-red-600 font-bold"><i class="fa-solid fa-trash-can"></i></button></td></tr>`;
+            bannersLista.forEach((b, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-2.5 font-bold">${escapeHtml(b.tipo)}</td>
+                        <td class="p-2.5">${renderImagemHtml(b.imagem)}</td>
+                        <td class="p-2.5 text-center flex items-center justify-center gap-2">
+                            <button onclick="editarBanner(${idx})" class="text-blue-700 font-bold hover:underline"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                            <button onclick="solicitarExclusaoBanner(${idx})" class="text-red-600 font-bold hover:underline"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+                        </td>
+                    </tr>`;
             });
         }
 
-        async function salvarNovoBannerSubmit(e) {
+        function editarBanner(idx) {
+            const b = bannersLista[idx];
+            if (!b) return;
+            document.getElementById('banner-edit-index').value = idx;
+            document.getElementById('banner-tipo').value = b.tipo || 'Animação';
+            document.getElementById('banner-img-url').value = b.imagem || '';
+            document.getElementById('banner-link-url').value = b.link || '';
+            document.getElementById('btn-salvar-banner').innerText = 'Atualizar Banner';
+        }
+
+        async function salvarBannerSubmit(e) {
             e.preventDefault();
-            const banners = JSON.parse(localStorage.getItem('phsublime_admin_banners') || '[]');
-            banners.push({
+            const idx = parseInt(document.getElementById('banner-edit-index')?.value || '-1');
+            const novoObj = {
                 tipo: document.getElementById('banner-tipo')?.value,
                 imagem: document.getElementById('banner-img-url')?.value,
                 link: document.getElementById('banner-link-url')?.value
-            });
-            await salvarConfiguracaoNuvem('phsublime_admin_banners', banners);
-            renderizarTabelaBannersAdmin();
-            mostrarToast("Banner cadastrado com sucesso!");
-        }
-
-        async function removerBanner(idx) {
-            let banners = JSON.parse(localStorage.getItem('phsublime_admin_banners') || '[]');
-            banners.splice(idx, 1);
-            await salvarConfiguracaoNuvem('phsublime_admin_banners', banners);
-            renderizarTabelaBannersAdmin();
-            mostrarToast("Banner removido!");
-        }
-
-        // DADOS DA LOJA
-        function carregarDadosLojaLocal() {
-            const salvos = localStorage.getItem('phsublime_dados_loja');
-            if (!salvos) return;
-            try {
-                const cfg = JSON.parse(salvos);
-                if (document.getElementById('cfg-titulo-loja')) document.getElementById('cfg-titulo-loja').value = cfg.titulo || '';
-                if (document.getElementById('cfg-email-contato')) document.getElementById('cfg-email-contato').value = cfg.email || '';
-                if (document.getElementById('cfg-tel-1')) document.getElementById('cfg-tel-1').value = cfg.tel1 || '';
-                if (document.getElementById('cfg-tel-2')) document.getElementById('cfg-tel-2').value = cfg.tel2 || '';
-                if (document.getElementById('cfg-tel-3')) document.getElementById('cfg-tel-3').value = cfg.tel3 || '';
-                if (document.getElementById('cfg-cep-origem')) document.getElementById('cfg-cep-origem').value = cfg.cepOrigem || '21230-362';
-                if (document.getElementById('cfg-endereco-completo')) document.getElementById('cfg-endereco-completo').value = cfg.endereco || '';
-            } catch(e) {}
-        }
-
-        async function salvarDadosLojaSubmit(e) {
-            e.preventDefault();
-            const config = {
-                titulo: document.getElementById('cfg-titulo-loja')?.value,
-                email: document.getElementById('cfg-email-contato')?.value,
-                tel1: document.getElementById('cfg-tel-1')?.value,
-                tel2: document.getElementById('cfg-tel-2')?.value,
-                tel3: document.getElementById('cfg-tel-3')?.value,
-                cepOrigem: document.getElementById('cfg-cep-origem')?.value,
-                endereco: document.getElementById('cfg-endereco-completo')?.value,
-                seoTitulo: document.getElementById('cfg-seo-titulo')?.value,
-                seoKeywords: document.getElementById('cfg-seo-keywords')?.value,
-                seoDesc: document.getElementById('cfg-seo-desc')?.value
             };
-            await salvarConfiguracaoNuvem('phsublime_dados_loja', config);
-            fecharModalConfiguracoesSistema();
-            mostrarToast("Dados da loja salvos com sucesso!");
+
+            if (idx >= 0 && bannersLista[idx]) {
+                bannersLista[idx] = novoObj;
+            } else {
+                bannersLista.push(novoObj);
+            }
+
+            await salvarConfiguracaoNuvem('phsublime_admin_banners', bannersLista);
+            document.getElementById('banner-edit-index').value = '-1';
+            document.getElementById('banner-img-url').value = '';
+            document.getElementById('banner-link-url').value = '';
+            document.getElementById('btn-salvar-banner').innerText = '+ Salvar Banner';
+            renderizarTabelaBannersAdmin();
+            mostrarToast("Banner salvo com sucesso!");
         }
 
-        // BALCÕES DE RETIRADA
+        function solicitarExclusaoBanner(idx) {
+            idItemExclusaoPendente = idx;
+            funcaoExclusaoExecutar = async function() {
+                bannersLista.splice(idx, 1);
+                await salvarConfiguracaoNuvem('phsublime_admin_banners', bannersLista);
+                renderizarTabelaBannersAdmin();
+                mostrarToast("Banner removido!");
+            };
+            document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
+        }
+
+        // BALCÕES DE RETIRADA (CRIAR, EDITAR, SALVAR E EXCLUIR)
         function carregarBalcoesLocal() {
             const salvos = localStorage.getItem('phsublime_balcoes_retirada');
-            balcoesRetirada = salvos ? JSON.parse(salvos) : [{ id: 1, nome: "Balcão Central Irajá", endereco: "Estrada da Água Grande, 221", taxa: 0, telefone: "(21) 98614-7221", uf: "RJ", cidade: "Rio de Janeiro" }];
+            balcoesRetirada = salvos ? JSON.parse(salvos) : [
+                { id: 1, nome: "Balcão Central Irajá", endereco: "Estrada da Água Grande, 221", taxa: 0, telefone: "(21) 98614-7221", uf: "RJ", cidade: "Rio de Janeiro", prazo: 1 }
+            ];
         }
 
         function renderizarTabelaBalcoesModal() {
@@ -1049,77 +1132,144 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             balcoesRetirada.forEach(b => {
-                tbody.innerHTML += `<tr><td class="p-2 font-bold">${escapeHtml(b.nome)}</td><td class="p-2">${escapeHtml(b.endereco)}</td><td class="p-2 font-bold text-emerald-700">R$ ${b.taxa.toFixed(2)}</td></tr>`;
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-2 font-bold">${escapeHtml(b.nome)}</td>
+                        <td class="p-2">${escapeHtml(b.endereco)}</td>
+                        <td class="p-2 text-center flex items-center justify-center gap-2">
+                            <button onclick="editarBalcao('${b.id}')" class="text-blue-700 font-bold hover:underline"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                            <button onclick="solicitarExclusaoBalcao('${b.id}')" class="text-red-600 font-bold hover:underline"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+                        </td>
+                    </tr>`;
             });
+        }
+
+        function editarBalcao(id) {
+            const b = balcoesRetirada.find(x => String(x.id) === String(id));
+            if (!b) return;
+            document.getElementById('balcao-edit-id').value = b.id;
+            document.getElementById('balcao-nome').value = b.nome || '';
+            document.getElementById('balcao-prazo').value = b.prazo || 1;
+            document.getElementById('balcao-telefone').value = b.telefone || '';
+            document.getElementById('balcao-uf').value = b.uf || 'RJ';
+            document.getElementById('balcao-cidade').value = b.cidade || 'Rio de Janeiro';
+            document.getElementById('balcao-endereco').value = b.endereco || '';
+            document.getElementById('btn-salvar-balcao').innerText = 'Atualizar Balcão';
         }
 
         async function salvarBalcaoSubmit(e) {
             e.preventDefault();
-            balcoesRetirada.push({
-                id: Date.now(),
+            const editId = document.getElementById('balcao-edit-id')?.value;
+            const obj = {
+                id: editId ? parseInt(editId) : Date.now(),
                 nome: document.getElementById('balcao-nome')?.value,
-                prazo: document.getElementById('balcao-prazo')?.value,
+                prazo: parseInt(document.getElementById('balcao-prazo')?.value || 1),
                 telefone: document.getElementById('balcao-telefone')?.value,
                 uf: document.getElementById('balcao-uf')?.value,
                 cidade: document.getElementById('balcao-cidade')?.value,
                 endereco: document.getElementById('balcao-endereco')?.value,
                 taxa: 0
-            });
+            };
+
+            if (editId) {
+                const idx = balcoesRetirada.findIndex(x => String(x.id) === String(editId));
+                if (idx >= 0) balcoesRetirada[idx] = obj;
+            } else {
+                balcoesRetirada.push(obj);
+            }
+
             await salvarConfiguracaoNuvem('phsublime_balcoes_retirada', balcoesRetirada);
+            document.getElementById('balcao-edit-id').value = '';
+            document.getElementById('balcao-nome').value = '';
+            document.getElementById('balcao-endereco').value = '';
+            document.getElementById('btn-salvar-balcao').innerText = 'Salvar Balcão';
             renderizarTabelaBalcoesModal();
-            mostrarToast("Balcão adicionado!");
+            mostrarToast("Balcão de Retirada salvo com sucesso!");
         }
 
-        // CONFIGURAÇÕES GERAIS
-        async function salvarConfigGeraisSubmit(e) {
-            e.preventDefault();
-            fecharModalConfiguracoesGerais();
-            mostrarToast("Opções gerais salvas com sucesso!");
+        function solicitarExclusaoBalcao(id) {
+            funcaoExclusaoExecutar = async function() {
+                balcoesRetirada = balcoesRetirada.filter(x => String(x.id) !== String(id));
+                await salvarConfiguracaoNuvem('phsublime_balcoes_retirada', balcoesRetirada);
+                renderizarTabelaBalcoesModal();
+                mostrarToast("Balcão removido!");
+            };
+            document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
         }
 
-        // NOTIFICAÇÕES
-        async function salvarNotificacoesSubmit(e) {
-            e.preventDefault();
-            fecharModalNotificacoes();
-            mostrarToast("Configurações de notificação salvas!");
+        // PÁGINAS EXTRAS (CRIAR, EDITAR, SALVAR E EXCLUIR)
+        function carregarPaginasExtrasLocal() {
+            const salvos = localStorage.getItem('phsublime_paginas_extras');
+            paginasExtras = salvos ? JSON.parse(salvos) : [
+                { id: 1, titulo: "Instrução de Envio de Arquivos", url: "pagina/instrucao", conteudo: "Siga o gabarito oficial..." }
+            ];
         }
 
-        // MENSAGENS WHATSAPP
-        async function salvarModeloWppSubmit() {
-            const nome = document.getElementById('wpp-msg-nome')?.value;
-            const corpo = document.getElementById('wpp-msg-corpo')?.value;
-            const msgs = JSON.parse(localStorage.getItem('phsublime_mensagens_wpp') || '{}');
-            msgs[nome] = corpo;
-            await salvarConfiguracaoNuvem('phsublime_mensagens_wpp', msgs);
-            mostrarToast("Modelo de mensagem salvo!");
-            fecharModalControleMensagens();
+        function renderizarTabelaPaginasExtrasModal() {
+            const tbody = document.getElementById('tabela-paginas-extras-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            paginasExtras.forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-2 font-bold">${escapeHtml(p.titulo)}</td>
+                        <td class="p-2 font-mono text-[11px]">${escapeHtml(p.url)}</td>
+                        <td class="p-2 text-center flex items-center justify-center gap-2">
+                            <button onclick="editarPaginaExtra('${p.id}')" class="text-blue-700 font-bold hover:underline"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                            <button onclick="solicitarExclusaoPaginaExtra('${p.id}')" class="text-red-600 font-bold hover:underline"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+                        </td>
+                    </tr>`;
+            });
         }
 
-        // PÁGINAS EXTRAS
+        function editarPaginaExtra(id) {
+            const p = paginasExtras.find(x => String(x.id) === String(id));
+            if (!p) return;
+            document.getElementById('pag-extra-edit-id').value = p.id;
+            document.getElementById('pag-extra-titulo').value = p.titulo || '';
+            document.getElementById('pag-extra-url').value = p.url || '';
+            document.getElementById('pag-extra-conteudo').value = p.conteudo || '';
+            document.getElementById('btn-salvar-pag-extra').innerText = 'Atualizar Página Extra';
+        }
+
         async function salvarPaginaExtraSubmit(e) {
             e.preventDefault();
-            const pags = JSON.parse(localStorage.getItem('phsublime_paginas_extras') || '[]');
-            pags.push({
-                id: Date.now(),
+            const editId = document.getElementById('pag-extra-edit-id')?.value;
+            const obj = {
+                id: editId ? parseInt(editId) : Date.now(),
                 titulo: document.getElementById('pag-extra-titulo')?.value,
                 url: document.getElementById('pag-extra-url')?.value,
                 conteudo: document.getElementById('pag-extra-conteudo')?.value
-            });
-            await salvarConfiguracaoNuvem('phsublime_paginas_extras', pags);
-            fecharModalPaginasExtras();
-            mostrarToast("Página Extra salva!");
+            };
+
+            if (editId) {
+                const idx = paginasExtras.findIndex(x => String(x.id) === String(editId));
+                if (idx >= 0) paginasExtras[idx] = obj;
+            } else {
+                paginasExtras.push(obj);
+            }
+
+            await salvarConfiguracaoNuvem('phsublime_paginas_extras', paginasExtras);
+            document.getElementById('pag-extra-edit-id').value = '';
+            document.getElementById('pag-extra-titulo').value = '';
+            document.getElementById('pag-extra-url').value = '';
+            document.getElementById('pag-extra-conteudo').value = '';
+            document.getElementById('btn-salvar-pag-extra').innerText = 'Salvar Página Extra';
+            renderizarTabelaPaginasExtrasModal();
+            mostrarToast("Página Extra salva com sucesso!");
         }
 
-        // CÓDIGOS HTML
-        async function salvarCodigosHTMLSubmit(e) {
-            e.preventDefault();
-            const codigo = document.getElementById('txt-codigos-html-head')?.value;
-            await salvarConfiguracaoNuvem('phsublime_admin_codigos_html', [{ id: 1, codigo: codigo }]);
-            fecharModalCodigosHTML();
-            mostrarToast("Códigos HTML salvos!");
+        function solicitarExclusaoPaginaExtra(id) {
+            funcaoExclusaoExecutar = async function() {
+                paginasExtras = paginasExtras.filter(x => String(x.id) !== String(id));
+                await salvarConfiguracaoNuvem('phsublime_paginas_extras', paginasExtras);
+                renderizarTabelaPaginasExtrasModal();
+                mostrarToast("Página Extra excluída!");
+            };
+            document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
         }
 
-        // SUPABASE PRODUTOS
+        // PRODUTOS (SUPABASE / BANCO DE DADOS - CRIE, EDITE, EXCLUA)
         async function carregarProdutosAdmin() {
             try {
                 if (!supabaseClient) return;
@@ -1159,14 +1309,31 @@
                         <td class="p-3"><strong>${escapeHtml(prod.nome)}</strong><span class="block text-[10px] text-slate-400 font-mono">Ref: ${escapeHtml(prod.ref)}</span></td>
                         <td class="p-3"><span class="bg-blue-100 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded">${escapeHtml(prod.categoria)}</span></td>
                         <td class="p-3 text-center font-black text-emerald-700">R$ ${prod.preco.toFixed(2)}</td>
-                        <td class="p-3 text-center"><button onclick="excluirProduto('${prod.id}')" class="bg-red-600 hover:bg-red-500 text-white text-xs px-2.5 py-1.5 rounded font-bold transition-all"><i class="fa-solid fa-trash-can"></i> Excluir</button></td>
+                        <td class="p-3 text-center flex items-center justify-center gap-2">
+                            <button onclick="editarProduto('${prod.id}')" class="bg-blue-900 hover:bg-blue-800 text-white text-xs px-2.5 py-1.5 rounded font-bold transition-all"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                            <button onclick="solicitarExclusaoProduto('${prod.id}')" class="bg-red-600 hover:bg-red-500 text-white text-xs px-2.5 py-1.5 rounded font-bold transition-all"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+                        </td>
                     </tr>
                 `;
             });
         }
 
+        function editarProduto(id) {
+            const p = adminProdutos.find(x => String(x.id) === String(id));
+            if (!p) return;
+            document.getElementById('prod-edit-id').value = p.id;
+            document.getElementById('prod-nome').value = p.nome || '';
+            document.getElementById('prod-ref').value = p.ref || '';
+            document.getElementById('prod-categoria').value = p.categoria || 'Geral';
+            document.getElementById('prod-preco').value = p.preco || '';
+            document.getElementById('prod-imagem').value = p.imagem || '';
+            document.getElementById('btn-salvar-produto-submit').innerText = 'Atualizar Produto';
+            document.getElementById('modal-form-produto')?.classList.remove('hidden');
+        }
+
         async function salvarProdutoSubmit(e) {
             e.preventDefault();
+            const editId = document.getElementById('prod-edit-id')?.value;
             const nome = document.getElementById('prod-nome')?.value;
             const ref = document.getElementById('prod-ref')?.value;
             const cat = document.getElementById('prod-categoria')?.value;
@@ -1175,24 +1342,113 @@
 
             if (nome && preco) {
                 try {
-                    await supabaseClient.from('produtos').insert([{ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }]);
-                    mostrarToast("Produto cadastrado no Supabase!");
+                    if (editId) {
+                        await supabaseClient.from('produtos').update({ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }).eq('id', editId);
+                        mostrarToast("Produto atualizado no banco!");
+                    } else {
+                        await supabaseClient.from('produtos').insert([{ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }]);
+                        mostrarToast("Produto cadastrado no banco!");
+                    }
                     await carregarProdutosAdmin();
                 } catch(e) { mostrarToast("Produto salvo com sucesso!"); }
                 fecharModalFormProduto();
             }
         }
 
-        function excluirProduto(id) { idItemExclusaoPendente = id; document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden'); }
+        function solicitarExclusaoProduto(id) {
+            funcaoExclusaoExecutar = async function() {
+                try {
+                    await supabaseClient.from('produtos').delete().eq('id', id);
+                    adminProdutos = adminProdutos.filter(p => String(p.id) !== String(id));
+                    renderizarTabelaAdminPaginada();
+                    mostrarToast("Produto excluído permanentemente!");
+                } catch(e){}
+            };
+            document.getElementById('modal-confirm-exclusao')?.classList.remove('hidden');
+        }
+
         async function executarExclusaoConfirmada() {
-            if (!idItemExclusaoPendente) return;
-            try {
-                await supabaseClient.from('produtos').delete().eq('id', idItemExclusaoPendente);
-                adminProdutos = adminProdutos.filter(p => String(p.id) !== String(idItemExclusaoPendente));
-                renderizarTabelaAdminPaginada();
-                mostrarToast("Item excluído permanentemente!");
-            } catch(e){}
+            if (typeof funcaoExclusaoExecutar === 'function') {
+                await funcaoExclusaoExecutar();
+                funcaoExclusaoExecutar = null;
+            }
             fecharModalConfirmExclusao();
+        }
+
+        // OUTROS FORMULÁRIOS DE CONFIGURAÇÃO
+        function carregarDadosLojaLocal() {
+            const salvos = localStorage.getItem('phsublime_dados_loja');
+            if (!salvos) return;
+            try {
+                const cfg = JSON.parse(salvos);
+                if (document.getElementById('cfg-titulo-loja')) document.getElementById('cfg-titulo-loja').value = cfg.titulo || '';
+                if (document.getElementById('cfg-email-contato')) document.getElementById('cfg-email-contato').value = cfg.email || '';
+                if (document.getElementById('cfg-tel-1')) document.getElementById('cfg-tel-1').value = cfg.tel1 || '';
+                if (document.getElementById('cfg-tel-2')) document.getElementById('cfg-tel-2').value = cfg.tel2 || '';
+                if (document.getElementById('cfg-tel-3')) document.getElementById('cfg-tel-3').value = cfg.tel3 || '';
+                if (document.getElementById('cfg-cep-origem')) document.getElementById('cfg-cep-origem').value = cfg.cepOrigem || '21230-362';
+                if (document.getElementById('cfg-endereco-completo')) document.getElementById('cfg-endereco-completo').value = cfg.endereco || '';
+            } catch(e) {}
+        }
+
+        async function salvarDadosLojaSubmit(e) {
+            e.preventDefault();
+            const config = {
+                titulo: document.getElementById('cfg-titulo-loja')?.value,
+                email: document.getElementById('cfg-email-contato')?.value,
+                tel1: document.getElementById('cfg-tel-1')?.value,
+                tel2: document.getElementById('cfg-tel-2')?.value,
+                tel3: document.getElementById('cfg-tel-3')?.value,
+                cepOrigem: document.getElementById('cfg-cep-origem')?.value,
+                endereco: document.getElementById('cfg-endereco-completo')?.value,
+                seoTitulo: document.getElementById('cfg-seo-titulo')?.value,
+                seoKeywords: document.getElementById('cfg-seo-keywords')?.value,
+                seoDesc: document.getElementById('cfg-seo-desc')?.value
+            };
+            await salvarConfiguracaoNuvem('phsublime_dados_loja', config);
+            fecharModalConfiguracoesSistema();
+            mostrarToast("Dados da loja salvos com sucesso!");
+        }
+
+        async function salvarConfigGeraisSubmit(e) {
+            e.preventDefault();
+            fecharModalConfiguracoesGerais();
+            mostrarToast("Opções gerais salvas com sucesso!");
+        }
+
+        async function salvarNotificacoesSubmit(e) {
+            e.preventDefault();
+            fecharModalNotificacoes();
+            mostrarToast("Notificações salvas!");
+        }
+
+        async function salvarModeloWppSubmit() {
+            const nome = document.getElementById('wpp-msg-nome')?.value;
+            const corpo = document.getElementById('wpp-msg-corpo')?.value;
+            const msgs = JSON.parse(localStorage.getItem('phsublime_mensagens_wpp') || '{}');
+            msgs[nome] = corpo;
+            await salvarConfiguracaoNuvem('phsublime_mensagens_wpp', msgs);
+            mostrarToast("Modelo de mensagem salvo!");
+            fecharModalControleMensagens();
+        }
+
+        async function salvarCodigosHTMLSubmit(e) {
+            e.preventDefault();
+            const codigo = document.getElementById('txt-codigos-html-head')?.value;
+            await salvarConfiguracaoNuvem('phsublime_admin_codigos_html', [{ id: 1, codigo: codigo }]);
+            fecharModalCodigosHTML();
+            mostrarToast("Códigos HTML salvos!");
+        }
+
+        async function salvarCupomSubmit(e) {
+            e.preventDefault();
+            const cod = document.getElementById('cupom-codigo')?.value;
+            const porc = document.getElementById('cupom-porcentagem')?.value;
+            const cupons = JSON.parse(localStorage.getItem('phsublime_admin_cupons') || '[]');
+            cupons.push({ codigo: cod, valor: porc, tipo: 'porcentagem' });
+            await salvarConfiguracaoNuvem('phsublime_admin_cupons', cupons);
+            fecharModalCriarCupom();
+            mostrarToast(`Cupom ${cod} ativado com sucesso!`);
         }
 
         function alternarPainelReajusteMassa() {
@@ -1214,7 +1470,6 @@
             mostrarToast("Reajuste de preços aplicado!");
         }
 
-        // MAIS VENDIDOS & CUPONS
         function renderizarTabelaMaisVendidosModal() {
             const tbody = document.getElementById('tabela-mais-vendidos-modal-body');
             if (!tbody) return;
@@ -1223,21 +1478,12 @@
             lista.forEach(i => { tbody.innerHTML += `<tr><td class="p-2 font-bold">${escapeHtml(i.nome)}</td></tr>`; });
         }
 
-        async function salvarCupomSubmit(e) {
-            e.preventDefault();
-            const cod = document.getElementById('cupom-codigo')?.value;
-            const porc = document.getElementById('cupom-porcentagem')?.value;
-            const cupons = JSON.parse(localStorage.getItem('phsublime_admin_cupons') || '[]');
-            cupons.push({ codigo: cod, valor: porc, tipo: 'porcentagem' });
-            await salvarConfiguracaoNuvem('phsublime_admin_cupons', cupons);
-            fecharModalCriarCupom();
-            mostrarToast(`Cupom ${cod} ativado com sucesso!`);
-        }
-
-        // INICIALIZAÇÃO DO PAINEL ADMIN
+        // INICIALIZAÇÃO
         async function inicializarAdmin() {
             try { carregarDadosLojaLocal(); } catch(e){}
             try { carregarBalcoesLocal(); } catch(e){}
+            try { carregarPaginasExtrasLocal(); } catch(e){}
+            try { carregarBannersLocal(); } catch(e){}
             try { await carregarProdutosAdmin(); } catch(e){}
         }
 
