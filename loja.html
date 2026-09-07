@@ -58,6 +58,25 @@
         .tag-promocao { background-color: #1818FF; color: #FFED00; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
         .tag-novo { background-color: #1900A9; color: #FFFFFF; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
 
+        /* ESTILOS DA ABA DE FRETE/BALCÃO ESTILO GRAFICONAUTA */
+        .aba-frete-btn {
+            border: 2px solid #316AC7;
+            border-bottom: none;
+            padding: 8px 16px;
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+            border-radius: 8px 8px 0 0;
+            background-color: #f1f5f9;
+            color: #316AC7;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .aba-frete-btn.active {
+            background-color: #316AC7;
+            color: #ffffff;
+        }
+
         .conteudo-html-descricao h2 { font-size: 1.1rem; font-weight: 800; color: #3b0764; margin-top: 1rem; margin-bottom: 0.5rem; }
         .conteudo-html-descricao p { font-size: 0.8rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem; }
     </style>
@@ -66,7 +85,7 @@
 
     <div id="container-scripts-admin-head"></div>
 
-    <!-- GAVETA DO CARRINHO LATERAL (SLIDE-OVER DRAWER) -->
+    <!-- GAVETA LATERAL DE CARRINHO RÁPIDO (DRAWER) -->
     <div id="aba-lateral-carrinho" class="fixed top-0 right-0 w-80 sm:w-96 h-full bg-slate-900/95 backdrop-blur-md text-white z-[1000] shadow-2xl transition-transform duration-300 translate-x-full flex flex-col justify-between p-4 border-l border-blue-800">
         <div class="space-y-4 flex-1 flex flex-col overflow-hidden">
             <div class="flex items-center justify-between border-b border-slate-700 pb-3">
@@ -88,8 +107,8 @@
                 <span>Total do Pedido:</span>
                 <strong id="cart-drawer-total" class="text-emerald-400 text-lg">R$ 0,00</strong>
             </div>
-            <button onclick="abrirModalCheckout()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl shadow-lg transition-all text-xs flex items-center justify-center gap-2 uppercase">
-                <i class="fa-brands fa-whatsapp text-base"></i> FINALIZAR NO WHATSAPP
+            <button onclick="alternarAba('carrinho'); alternarCarrinhoLateral(false);" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl shadow-lg transition-all text-xs flex items-center justify-center gap-2 uppercase">
+                <i class="fa-solid fa-bag-shopping"></i> VER PÁGINA DO CARRINHO COMPLETA
             </button>
         </div>
     </div>
@@ -126,7 +145,7 @@
                     </button>
                 </div>
 
-                <button onclick="alternarCarrinhoLateral(true)" class="relative bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                <button onclick="alternarAba('carrinho')" class="relative bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
                     <i class="fa-solid fa-cart-shopping text-base"></i>
                     <span class="hidden sm:inline">CARRINHO</span>
                     <span id="badge-carrinho-qtd" class="bg-blue-900 text-white font-bold px-2 py-0.5 rounded-full text-[10px] border border-blue-950">0</span>
@@ -164,6 +183,7 @@
     <!-- CONTEÚDO PRINCIPAL DA PÁGINA -->
     <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
 
+        <!-- 1. SEÇÃO CATÁLOGO DE PRODUTOS -->
         <div id="secao-catalogo" class="space-y-6">
 
             <div class="flex flex-col lg:flex-row gap-6 pt-2">
@@ -171,7 +191,7 @@
                 <!-- SIDEBAR ESQUERDA -->
                 <aside class="w-full lg:w-72 shrink-0 space-y-4">
                     
-                    <!-- 1. PESQUISA RÁPIDA DE CATEGORIAS DA SIDEBAR -->
+                    <!-- PESQUISA RÁPIDA DE CATEGORIAS DA SIDEBAR -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#316AC7] text-white font-black text-xs px-3 py-2 uppercase tracking-wider flex items-center justify-between">
                             <span>PESQUISAR CATEGORIAS</span>
@@ -182,7 +202,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. BLOCO MAIS VENDIDOS -->
+                    <!-- BLOCO MAIS VENDIDOS -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-red-600 text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
                             <span>MAIS VENDIDOS</span>
@@ -192,7 +212,7 @@
                         </ul>
                     </div>
 
-                    <!-- 3. BLOCO TODOS OS PRODUTOS (ESTRUTURA SANFONADA MULTINÍVEL) -->
+                    <!-- BLOCO TODOS OS PRODUTOS (ESTRUTURA SANFONADA MULTINÍVEL) -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
                             <span>TODOS OS PRODUTOS</span>
@@ -271,64 +291,266 @@
             </div>
         </div>
 
-        <!-- SEÇÃO CARRINHO -->
+        <!-- 2. SEÇÃO CARRINHO E CHECKOUT COMPLETO ESTILO GRAFICONAUTA (EM TELA CHEIA) -->
         <div id="secao-carrinho" class="hidden space-y-6">
-            <div id="carrinho-vazio-msg" class="hidden bg-white border border-slate-200 p-12 rounded-xl text-center space-y-3 shadow-sm">
-                <i class="fa-solid fa-cart-flatbed text-5xl text-slate-300 block"></i>
-                <h3 class="text-lg font-black text-slate-800">Seu carrinho de compras está vazio.</h3>
-                <button onclick="alternarAba('catalogo')" class="px-6 py-2.5 bg-blue-900 text-white font-bold text-xs rounded-lg hover:bg-blue-800 transition-all shadow">
-                    VER PRODUTOS DISPONÍVEIS
+            
+            <div id="carrinho-vazio-msg" class="hidden bg-white border border-slate-200 p-12 rounded-2xl text-center space-y-3 shadow-sm">
+                <i class="fa-solid fa-cart-flatbed text-6xl text-slate-300 block"></i>
+                <h3 class="text-lg font-black text-slate-800 uppercase font-heading">Seu carrinho de compras está vazio.</h3>
+                <p class="text-xs text-slate-500">Navegue pelo nosso catálogo e adicione os produtos desejados.</p>
+                <button onclick="alternarAba('catalogo')" class="px-6 py-2.5 bg-blue-900 text-amber-300 font-black text-xs rounded-xl hover:bg-blue-800 transition-all shadow uppercase">
+                    <i class="fa-solid fa-store mr-1"></i> VER PRODUTOS DISPONÍVEIS
                 </button>
             </div>
 
             <div id="carrinho-conteudo-box" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- COLUNA DA ESQUERDA: TABELA, RESUMO, ENDEREÇO E FRETE/BALCÃO -->
                 <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                    
+                    <!-- 1. TABELA DE PRODUTOS COMPLETA COM ARQUIVOS E OBSERVAÇÕES -->
+                    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
                         <div class="bg-[#316AC7] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-boxes-packing text-amber-300"></i> Itens no Carrinho</span>
-                            <span id="txt-carrinho-count-badge" class="bg-amber-400 text-blue-950 font-black text-[10px] px-2 py-0.5 rounded">0 itens</span>
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-boxes-packing text-amber-300"></i> Produtos no Carrinho</span>
+                            <span id="txt-carrinho-count-badge" class="bg-amber-400 text-blue-950 font-black text-[10px] px-2.5 py-0.5 rounded-full">0 itens</span>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs border-collapse">
                                 <thead>
-                                    <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px]">
-                                        <th class="py-3 px-4 w-5/12">PRODUTO</th>
+                                    <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+                                        <th class="py-3 px-4 w-4/12">PRODUTO / DETALHES</th>
                                         <th class="py-3 px-4 text-center">QUANTIDADE</th>
-                                        <th class="py-3 px-4 text-center">AÇÕES</th>
-                                        <th class="py-3 px-4 text-right">VALOR</th>
+                                        <th class="py-3 px-4 text-center w-3/12">AÇÕES DE IMPRESSÃO</th>
+                                        <th class="py-3 px-4 text-right">VALOR TOTAL</th>
+                                        <th class="py-3 px-4 text-center w-12"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabela-itens-carrinho" class="divide-y divide-slate-100"></tbody>
                             </table>
                         </div>
                     </div>
-                </div>
 
-                <div class="lg:col-span-4 space-y-5">
-                    <div class="bg-white border-2 border-[#316AC7] rounded-xl shadow-lg p-5 space-y-4">
-                        <h3 class="text-sm font-black text-blue-900 uppercase font-heading border-b border-slate-100 pb-2.5">Resumo do Pedido</h3>
-                        
-                        <div class="space-y-1.5">
-                            <label class="text-[11px] font-bold text-slate-600 block">Tem um Cupom de Desconto?</label>
-                            <div class="flex gap-2">
-                                <input type="text" id="input-cupom-carrinho" placeholder="Ex: NIVER10" class="w-full px-3 py-1.5 border rounded-lg uppercase text-xs font-bold">
-                                <button onclick="aplicarCupomDesconto()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-3 py-1.5 rounded-lg shrink-0">Aplicar</button>
+                    <!-- 2. PAINEL DE CUPOM, SUB-TOTAL E PREVISÃO DE ENTREGA -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4 text-xs">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center border-b border-slate-100 pb-4">
+                            <div>
+                                <strong class="font-bold text-slate-800 block text-xs uppercase mb-1">Tem um Cupom de Desconto?</strong>
+                                <div class="flex gap-2">
+                                    <input type="text" id="input-cupom-carrinho" placeholder="Digite seu cupom ex: NIVER10" class="w-full px-3 py-2 border border-slate-300 rounded-lg uppercase font-bold focus:outline-none focus:border-blue-600">
+                                    <button onclick="aplicarCupomDesconto()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold px-4 py-2 rounded-lg shrink-0 transition-all uppercase">Aplicar</button>
+                                </div>
+                                <span id="msg-cupom-status" class="text-[10px] font-bold block mt-1"></span>
                             </div>
-                            <span id="msg-cupom-status" class="text-[10px] font-bold block"></span>
-                        </div>
 
-                        <div class="space-y-2.5 text-xs pt-2 border-t border-slate-100">
-                            <div class="flex justify-between text-slate-600"><span>Subtotal:</span><strong id="cart-resumo-subtotal" class="text-slate-800">R$ 0,00</strong></div>
-                            <div id="linha-desconto-cupom" class="hidden flex justify-between text-emerald-600 font-bold"><span>Desconto Cupom:</span><strong id="cart-resumo-desconto">- R$ 0,00</strong></div>
-                            <div class="border-t-2 border-slate-200 pt-3 flex justify-between items-center text-sm font-black text-slate-900">
-                                <span>TOTAL</span><strong id="cart-resumo-total" class="text-emerald-600 text-xl font-black">R$ 0,00</strong>
+                            <div class="space-y-1.5 text-right bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+                                <div class="flex justify-between text-slate-600"><span>Subtotal dos Produtos:</span><strong id="cart-resumo-subtotal" class="text-slate-800">R$ 0,00</strong></div>
+                                <div id="linha-desconto-cupom" class="hidden flex justify-between text-emerald-600 font-bold"><span>Desconto do Cupom:</span><strong id="cart-resumo-desconto">- R$ 0,00</strong></div>
+                                <div class="flex justify-between text-slate-600"><span>Valor do Frete / Envio:</span><strong id="cart-resumo-frete" class="text-blue-900">R$ 0,00</strong></div>
                             </div>
                         </div>
-                        <button onclick="abrirModalCheckout()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 uppercase">
-                            <i class="fa-brands fa-whatsapp text-xl"></i> FINALIZAR PEDIDO VIA WHATSAPP
-                        </button>
+
+                        <!-- PREVISÃO DE PRODUÇÃO E ENTREGA CALCULADA -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] bg-amber-50/80 p-3 rounded-xl border border-amber-200">
+                            <div>
+                                <span class="text-amber-900 font-bold block"><i class="fa-regular fa-calendar-check text-amber-600"></i> Previsão de Produção:</span>
+                                <strong id="txt-previsao-producao-data" class="text-amber-950 font-black text-xs">Calculando...</strong>
+                            </div>
+                            <div>
+                                <span class="text-amber-900 font-bold block"><i class="fa-solid fa-truck-ramp-box text-amber-600"></i> Previsão de Entrega:</span>
+                                <strong id="txt-previsao-entrega-data" class="text-amber-950 font-black text-xs">Calculando...</strong>
+                            </div>
+                            <p class="col-span-full text-[10px] text-red-600 font-semibold">* Previsão de entrega para pagamentos confirmados até as 18:00h do dia útil.</p>
+                        </div>
                     </div>
+
+                    <!-- 3. GESTÃO DO ENDEREÇO DE ENTREGA DO CLIENTE -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3 text-xs">
+                        <h4 class="font-black text-blue-900 uppercase font-heading flex items-center gap-2 border-b border-slate-100 pb-2">
+                            <i class="fa-solid fa-map-location-dot text-amber-500"></i> Endereço de Entrega
+                        </h4>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">CEP *</label>
+                                <input type="text" id="checkout-cep" required placeholder="00000-000" onkeyup="buscarCepAuto(this.value)" class="w-full px-3 py-2 border rounded-lg font-mono focus:outline-none focus:border-blue-600">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="font-bold text-slate-700 block mb-1">Rua / Logradouro *</label>
+                                <input type="text" id="checkout-rua" required placeholder="Rua, Avenida, Alameda..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">Número *</label>
+                                <input type="text" id="checkout-numero" required placeholder="Nº" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                            </div>
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">Complemento</label>
+                                <input type="text" id="checkout-complemento" placeholder="Apto, Bloco, Sala" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                            </div>
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">Bairro *</label>
+                                <input type="text" id="checkout-bairro" required placeholder="Bairro" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="col-span-2">
+                                <label class="font-bold text-slate-700 block mb-1">Cidade *</label>
+                                <input type="text" id="checkout-cidade" required placeholder="Rio de Janeiro" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                            </div>
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">UF *</label>
+                                <input type="text" id="checkout-uf" required placeholder="RJ" maxlength="2" class="w-full px-3 py-2 border rounded-lg uppercase text-center font-bold focus:outline-none focus:border-blue-600">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. ABAS INTERATIVAS: "ENTREGA" vs "BALCÃO DE RETIRADA" (ESTILO GRAFICONAUTA) -->
+                    <div class="space-y-0 text-xs">
+                        <div class="flex items-center gap-1 border-b-2 border-[#316AC7]">
+                            <button id="btn-aba-frete-entrega" onclick="alternarAbaFreteBalcao('entrega')" class="aba-frete-btn active">
+                                <i class="fa-solid fa-truck"></i> Entrega em Domicílio
+                            </button>
+                            <button id="btn-aba-frete-balcao" onclick="alternarAbaFreteBalcao('balcao')" class="aba-frete-btn">
+                                <i class="fa-solid fa-store"></i> Balcão de Retirada
+                            </button>
+                        </div>
+
+                        <div class="bg-white border border-t-0 border-slate-200 rounded-b-2xl p-5 shadow-sm space-y-4">
+                            
+                            <!-- CONTEÚDO DA ABA ENTREGA -->
+                            <div id="box-conteudo-aba-entrega" class="space-y-3">
+                                <span class="font-bold text-slate-700 block">Selecione o serviço de entrega preferido:</span>
+                                <div id="lista-opcoes-frete-entrega" class="space-y-2">
+                                    <!-- Injetado dinamicamente via JS (Transportadora, Correios, Dropshipping) -->
+                                </div>
+                            </div>
+
+                            <!-- CONTEÚDO DA ABA BALCÃO DE RETIRADA -->
+                            <div id="box-conteudo-aba-balcao" class="hidden space-y-3">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-3">
+                                    <span class="font-bold text-blue-900 block text-xs">Pesquisar Balcão de Retirada Credenciado:</span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                        <input type="text" id="input-busca-balcao-cep" placeholder="Digite o CEP..." class="px-3 py-2 border rounded-lg font-mono">
+                                        <select id="select-busca-balcao-uf" class="px-3 py-2 border rounded-lg font-bold">
+                                            <option value="RJ">Rio de Janeiro (RJ)</option>
+                                            <option value="SP">São Paulo (SP)</option>
+                                            <option value="MG">Minas Gerais (MG)</option>
+                                        </select>
+                                        <button onclick="filtrarBalcoesModalLoja()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 rounded-lg uppercase shadow">
+                                            <i class="fa-solid fa-magnifying-glass"></i> Buscar Balcões
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="lista-opcoes-balcoes-retirada" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                                    <!-- Injetado dinamicamente via JS das configurações do Admin -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
+
+                <!-- COLUNA DA DIREITA: FORMAS DE PAGAMENTO & BOTAO FINALIZAR -->
+                <div class="lg:col-span-4 space-y-5 sticky top-24">
+                    
+                    <div class="bg-white border-2 border-[#316AC7] rounded-2xl p-5 space-y-5 shadow-xl">
+                        
+                        <h3 class="text-sm font-black text-blue-900 uppercase font-heading border-b border-slate-100 pb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-credit-card text-amber-500"></i> Forma de Pagamento
+                        </h3>
+
+                        <!-- OPCÃO 1: PIX COM BADGE DE LIBERAÇÃO IMEDIATA -->
+                        <div class="border rounded-xl p-3 hover:border-emerald-500 transition-all cursor-pointer bg-emerald-50/40 border-emerald-300" onclick="selecionarFormaPagamentoLoja('PIX')">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="radio" name="radio_pagamento_loja" value="PIX" checked class="mt-1 accent-emerald-600">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <strong class="font-black text-slate-800 text-xs uppercase">PIX Direct</strong>
+                                        <span class="bg-emerald-600 text-white font-black text-[9px] px-2 py-0.5 rounded uppercase tracking-wider">LIBERAÇÃO IMEDIATA</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Aprovação instantânea do pedido e envio imediato para produção.</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- OPCÃO 2: CARTÃO DE CRÉDITO -->
+                        <div class="border rounded-xl p-3 hover:border-blue-500 transition-all cursor-pointer border-slate-200" onclick="selecionarFormaPagamentoLoja('Cartão de Crédito')">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="radio" name="radio_pagamento_loja" value="Cartão de Crédito" class="mt-1 accent-blue-900">
+                                <div class="w-full">
+                                    <strong class="font-black text-slate-800 text-xs uppercase block">Cartão de Crédito</strong>
+                                    <span class="text-[10px] text-slate-500">Parcele em até 12x no cartão.</span>
+
+                                    <!-- CAMPOS DO CARTÃO DE CRÉDITO -->
+                                    <div id="box-campos-cartao-credito" class="hidden space-y-2.5 mt-3 pt-3 border-t border-slate-200 text-[11px]">
+                                        <div>
+                                            <label class="font-bold text-slate-700 block mb-0.5">Número do Cartão *</label>
+                                            <input type="text" placeholder="•••• •••• •••• ••••" class="w-full px-2.5 py-1.5 border rounded-lg font-mono">
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <label class="font-bold text-slate-700 block mb-0.5">Validade *</label>
+                                                <input type="text" placeholder="MM/AA" class="w-full px-2.5 py-1.5 border rounded-lg text-center font-mono">
+                                            </div>
+                                            <div>
+                                                <label class="font-bold text-slate-700 block mb-0.5">CVV *</label>
+                                                <input type="text" placeholder="123" maxlength="4" class="w-full px-2.5 py-1.5 border rounded-lg text-center font-mono">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="font-bold text-slate-700 block mb-0.5">Nome do Titular *</label>
+                                            <input type="text" placeholder="Como impresso no cartão" class="w-full px-2.5 py-1.5 border rounded-lg font-bold">
+                                        </div>
+                                        <div>
+                                            <label class="font-bold text-slate-700 block mb-0.5">Parcelas *</label>
+                                            <select class="w-full px-2.5 py-1.5 border rounded-lg font-bold">
+                                                <option value="1">1x sem juros</option>
+                                                <option value="2">2x sem juros</option>
+                                                <option value="3">3x com acréscimo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- OPCÃO 3: PAGAMENTO NA RETIRADA -->
+                        <div class="border rounded-xl p-3 hover:border-amber-500 transition-all cursor-pointer border-slate-200" onclick="selecionarFormaPagamentoLoja('Pagamento na Retirada')">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="radio" name="radio_pagamento_loja" value="Pagamento na Retirada" class="mt-1 accent-amber-500">
+                                <div>
+                                    <strong class="font-black text-slate-800 text-xs uppercase block">Pagamento na Retirada / Crédito</strong>
+                                    <span class="text-[10px] text-slate-500">Pague direto no balcão presencial ou utilize saldo em conta.</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- RESUMO TOTAL DO CHECKOUT -->
+                        <div class="pt-3 border-t-2 border-slate-200 space-y-2">
+                            <div class="flex justify-between items-center text-sm font-black text-slate-900">
+                                <span>TOTAL DO PEDIDO</span>
+                                <strong id="cart-resumo-total" class="text-emerald-600 text-2xl font-black">R$ 0,00</strong>
+                            </div>
+                        </div>
+
+                        <!-- BOTÕES DE AÇÃO FINAL -->
+                        <button onclick="confirmarPedidoEEnviarWhatsapp(event)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm py-4 rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
+                            <i class="fa-brands fa-whatsapp text-xl"></i> FINALIZAR PEDIDO VIA WHATSAPP 🚀
+                        </button>
+
+                        <button onclick="alternarAba('catalogo')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-2.5 rounded-xl transition-all uppercase text-center block border border-slate-300">
+                            <i class="fa-solid fa-store mr-1"></i> Escolher mais produtos
+                        </button>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
@@ -463,6 +685,72 @@
         </div>
     </footer>
 
+    <!-- MODAL DE ANEXAR ARQUIVOS DE ARTE DE IMPRESSÃO (FRENTE, VERSO, MÁSCARA, ARQUIVO) -->
+    <div id="modal-anexar-arquivos-item" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1001] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalAnexarArquivos()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b pb-2">
+                <h3 class="text-base font-black text-blue-900 uppercase font-heading flex items-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up text-amber-500"></i> Anexar Arquivos da Arte
+                </h3>
+                <p id="txt-modal-anexar-produto-nome" class="text-slate-500 font-bold mt-0.5">Produto do Pedido</p>
+            </div>
+
+            <form onsubmit="salvarAnexosItemSubmit(event)" class="space-y-3">
+                <input type="hidden" id="anexo-item-id-corrente" value="">
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Arte Frente / Arquivo Principal (Link Drive/WeTransfer ou nome do arquivo):</label>
+                    <input type="text" id="anexo-input-frente" placeholder="Ex: https://drive.google.com/file/... ou arte_frente.pdf" class="w-full px-3 py-2 border rounded-lg font-mono">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Arte Verso (Opcional):</label>
+                    <input type="text" id="anexo-input-verso" placeholder="Ex: arte_verso.pdf" class="w-full px-3 py-2 border rounded-lg font-mono">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Máscara / Acabamento Especial (Opcional):</label>
+                    <input type="text" id="anexo-input-mascara" placeholder="Ex: mascara_verniz.pdf" class="w-full px-3 py-2 border rounded-lg font-mono">
+                </div>
+
+                <div class="pt-2 border-t flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalAnexarArquivos()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-lg hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-900 text-white font-black rounded-lg hover:bg-blue-800 transition-all uppercase">Salvar Anexos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE OBSERVAÇÕES DO ITEM DO CARRINHO (ATÉ 150 CARACTERES) -->
+    <div id="modal-observacoes-item" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1001] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalObservacoes()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b pb-2">
+                <h3 class="text-base font-black text-blue-900 uppercase font-heading flex items-center gap-2">
+                    <i class="fa-regular fa-comment-dots text-amber-500"></i> Observações da Produção
+                </h3>
+                <p id="txt-modal-obs-produto-nome" class="text-slate-500 font-bold mt-0.5">Produto do Pedido</p>
+            </div>
+
+            <form onsubmit="salvarObservacoesItemSubmit(event)" class="space-y-3">
+                <input type="hidden" id="obs-item-id-corrente" value="">
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Instruções para a Gráfica (máx 150 caracteres):</label>
+                    <textarea id="obs-input-texto" rows="4" maxlength="150" placeholder="Ex: Quero o fundo azul marinho. Favor enviar prévia no WhatsApp antes de rodar..." class="w-full p-2.5 border rounded-lg font-medium leading-relaxed focus:outline-none focus:border-blue-600"></textarea>
+                </div>
+
+                <div class="pt-2 border-t flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalObservacoes()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-lg hover:bg-slate-300 transition-all">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-900 text-white font-black rounded-lg hover:bg-blue-800 transition-all uppercase">Salvar Nota</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL DE LOGIN / MINHA CONTA DO CLIENTE -->
     <div id="modal-login-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
@@ -499,112 +787,6 @@
                     <button type="button" onclick="limparPerfilCliente()" class="px-4 py-2 bg-red-100 text-red-700 font-bold rounded-lg hover:bg-red-200 transition-all">Sair / Limpar</button>
                     <button type="submit" class="px-5 py-2 bg-blue-900 text-white font-black rounded-lg hover:bg-blue-800 transition-all uppercase">Salvar Dados</button>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL DE CHECKOUT DO CLIENTE -->
-    <div id="modal-checkout-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
-            <button onclick="fecharModalCheckout()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-
-            <div class="border-b border-slate-100 pb-3">
-                <h3 class="text-base font-black text-blue-900 font-heading uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-address-card text-amber-500"></i> Dados para Envio e Atendimento
-                </h3>
-                <p class="text-xs text-slate-500">Preencha seus dados abaixo para gerar o pedido formatado direto no WhatsApp.</p>
-            </div>
-
-            <form id="form-checkout-cliente" onsubmit="confirmarPedidoEEnviarWhatsapp(event)" class="space-y-4 text-xs">
-                <div class="flex items-center gap-4 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                    <label class="font-bold text-slate-700">Tipo de Cadastro:</label>
-                    <label class="flex items-center gap-1.5 cursor-pointer font-semibold">
-                        <input type="radio" name="checkout_tipo_pessoa" value="PF" checked onchange="toggleCamposPessoa('PF')" class="accent-blue-900"> Pessoa Física
-                    </label>
-                    <label class="flex items-center gap-1.5 cursor-pointer font-semibold">
-                        <input type="radio" name="checkout_tipo_pessoa" value="PJ" onchange="toggleCamposPessoa('PJ')" class="accent-blue-900"> Pessoa Jurídica
-                    </label>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1" id="lbl-checkout-nome">Nome Completo *</label>
-                        <input type="text" id="checkout-nome" required placeholder="Digite seu nome" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1" id="lbl-checkout-doc">CPF *</label>
-                        <input type="text" id="checkout-doc" required placeholder="000.000.000-00" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-mono">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">WhatsApp / Telefone *</label>
-                        <input type="text" id="checkout-wpp" required placeholder="(21) 99999-9999" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold text-emerald-700">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Forma de Pagamento Preferida</label>
-                        <select id="checkout-pagamento" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
-                            <option value="PIX">PIX (Aprovação Imediata)</option>
-                            <option value="Cartão de Crédito">Cartão de Crédito</option>
-                            <option value="Pagamento na Retirada/Entrega">Pagamento na Retirada / Entrega</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="border-t border-slate-100 pt-3 space-y-3">
-                    <h4 class="font-bold text-slate-800 uppercase text-[11px] flex items-center gap-1.5"><i class="fa-solid fa-truck text-blue-600"></i> Endereço de Entrega</h4>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">CEP *</label>
-                            <input type="text" id="checkout-cep" required placeholder="00000-000" onkeyup="buscarCepAuto(this.value)" class="w-full px-3 py-2 border rounded-lg font-mono">
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label class="font-bold text-slate-700 block mb-1">Rua / Logradouro *</label>
-                            <input type="text" id="checkout-rua" required placeholder="Ex: Rua Maria Flaviana" class="w-full px-3 py-2 border rounded-lg">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Número *</label>
-                            <input type="text" id="checkout-numero" required placeholder="Nº" class="w-full px-3 py-2 border rounded-lg">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Complemento</label>
-                            <input type="text" id="checkout-complemento" placeholder="Apto, Sala..." class="w-full px-3 py-2 border rounded-lg">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Bairro *</label>
-                            <input type="text" id="checkout-bairro" required placeholder="Bairro" class="w-full px-3 py-2 border rounded-lg">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="col-span-2">
-                            <label class="font-bold text-slate-700 block mb-1">Cidade *</label>
-                            <input type="text" id="checkout-cidade" required placeholder="Rio de Janeiro" class="w-full px-3 py-2 border rounded-lg">
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">UF *</label>
-                            <input type="text" id="checkout-uf" required placeholder="RJ" maxlength="2" class="w-full px-3 py-2 border rounded-lg uppercase text-center font-bold">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Ponto de Referência / Observações da Arte</label>
-                        <input type="text" id="checkout-obs" placeholder="Ex: Próximo à estação de trem. Quero alterar o texto da arte..." class="w-full px-3 py-2 border rounded-lg">
-                    </div>
-                </div>
-
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-3">
-                    <button type="button" onclick="fecharModalCheckout()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Cancelar</button>
-                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2 uppercase">
-                        <i class="fa-brands fa-whatsapp text-lg"></i> ENVIAR PEDIDO NO WHATSAPP 🚀
-                    </button>
-                </div>
-
             </form>
         </div>
     </div>
@@ -658,7 +840,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL -->
+    <!-- SCRIPT JS PRINCIPAL COM LÓGICA GRAFICONAUTA -->
     <script>
         // --- 1. VARIÁVEIS DE ESTADO GLOBAL ---
         let catalogoEstoque = [];
@@ -670,6 +852,11 @@
         let whatsappAtendimentoLoja = '5521986147221';
         let timerDebounce = null;
         let bannerIndiceAtual = 0;
+
+        // Estado do Frete e Pagamento da Loja
+        let opcaoFreteSelecionada = { tipo: 'entrega', nome: 'PH Entrega Expressa', valor: 7.90 };
+        let formaPagamentoSelecionadaLoja = 'PIX';
+        let balcoesRetiradaLista = [];
 
         let bannersCarrossel = [
             { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260118_banner_promo_dtf.png', link: 'https://wa.me/5521986147221' },
@@ -698,7 +885,7 @@
         const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
-        // --- 2. ESTRUTURA HIERÁRQUICA COMPLETA DE CATEGORIAS E SUB-BOTÕES DA GRAFICONAUTA ---
+        // --- 2. ESTRUTURA HIERÁRQUICA COMPLETA DE CATEGORIAS DA GRAFICONAUTA ---
         const ESTRUTURA_CATEGORIAS_GRAFICONAUTA = [
             {
                 nome: "Adesivo",
@@ -807,7 +994,7 @@
             "Abadá", "Acrílico", "Avental", "Bermuda & Short", "Bolsa em Tecido", "Brindes", "Calendários e Folhinha", "Cangas", "Capa de Carnê", "Capa de Corte", "Cardápio", "Cartaz e Poster", "Cartela Para Bijuteria", "Cartão Duplo", "Cartão Mini", "Cartão Postal", "Casa & Decoração", "Certificado e Diploma", "Coroa de Papel", "Credenciais", "Display", "Embalagens Presente", "Envelope", "Festas", "Folheto Cupom de Desconto", "Impressão Digital", "Jogo Americano", "Jogo de Tabuleiro", "Marcador de Página", "Mochila Pirulito", "Mochila de Cordão", "Moletons", "Mouse Pad Personalizado", "Máscara em Tecido", "Móbile", "PS | PVC com Impressão UV", "Papel Bandeja", "Papel Fotográfico", "Papel Sublimático", "Papel e Adesivo Para Impressão", "Pastas", "Photobook", "Porta Copo", "Quadro Decorativo Personalizado", "Quadro Magnético", "Quebra-Cabeça", "Raspadinha", "Revista de Colorir", "Sublimação", "Suprimentos", "Tatuagem Temporária", "Timbrado e Receituários", "Ventarola, Abanador e Leque", "Wind Banner", "Álbum de Figurinhas Fotográfico", "Ímã de Geladeira"
         ];
 
-        // --- 3. CATÁLOGO COMPLETO EXTRAÍDO INTEGRALMENTE DA GRAFICONAUTA ---
+        // --- 3. CATÁLOGO COMPLETO DE EXEMPLE DA GRAFICONAUTA ---
         const CATALOGO_GRAFICONALTA_PADRAO = [
             { 
                 id: 'gn-2561', 
@@ -817,7 +1004,7 @@
                 ref: "sign19p8", 
                 producao: "12 horas", 
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/2561/img/20190315_imprimir_banner_personalizado_05.jpg", 
-                descricao: "<p>Banner impresso em Lona Fosca 240g de alta definição e alta resistência, ideal para eventos, comércios e divulgação.</p>" 
+                descricao: "<p>Banner impresso em Lona Fosca 240g de alta definição e alta resistência.</p>" 
             },
             { 
                 id: 'gn-2562', 
@@ -827,7 +1014,7 @@
                 ref: "sign50p8", 
                 producao: "24 horas", 
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/2562/img/20190318_imprimir_faixa_personalizada_03.jpg", 
-                descricao: "<p>Faixa promocional personalizada em Lona Fosca 240g com acabamento resistente para ambientes externos.</p>" 
+                descricao: "<p>Faixa promocional personalizada em Lona Fosca 240g com acabamento resistente.</p>" 
             },
             { 
                 id: 'gn-2564', 
@@ -837,7 +1024,7 @@
                 ref: "sign20p8", 
                 producao: "12 horas", 
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", 
-                descricao: "<p>Lona fosca 240g finalizada com reforço de bainha e ilhós metalizado distribuído ao redor para fixação perfeita.</p>" 
+                descricao: "<p>Lona fosca 240g finalizada com reforço de bainha e ilhós metalizado.</p>" 
             },
             { 
                 id: 'gn-2565', 
@@ -847,47 +1034,7 @@
                 ref: "sign21p8", 
                 producao: "12 horas", 
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/2565/img/20190629_0_20190316_imprimir_lona_personalizada_brilho_sem_acabamento_01.jpg", 
-                descricao: "<p>Lona fosca 240g sem acabamento de ilhós, pronta para aplicação em quadros, cavaletes ou estruturas de madeira.</p>" 
-            },
-            { 
-                id: 'gn-2579', 
-                nome: "Lona Fosca 240g | Bainha e Ilhós | Formato Especial", 
-                categoria: "Banner, Faixa, Lona e Painel", 
-                precoVenda: 28.80, 
-                ref: "sign22p8", 
-                producao: "12 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2579/img/20250831_0_lona_corte_especial.jpeg", 
-                descricao: "<p>Lona fosca 240g com corte contorno especial, bainha reforçada e ilhós. Ideal para painéis de aniversário e cenários.</p>" 
-            },
-            { 
-                id: 'gn-3', 
-                nome: "Adesivo Brilho 0,10 M²", 
-                categoria: "Adesivo", 
-                precoVenda: 28.80, 
-                ref: "sign01", 
-                producao: "12 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/3/img/20190313_imprimir_adesivo_personalizado.jpg", 
-                descricao: "<p>Adesivo brilho vinil 0,10 M² em impressão digital eco-solvente de alta resolução e longa durabilidade.</p>" 
-            },
-            { 
-                id: 'gn-5', 
-                nome: "Adesivo Brilho 0,08 M² + Corte Contorno - Tamanho Mínimo 5cm", 
-                categoria: "Adesivo", 
-                precoVenda: 33.60, 
-                ref: "sign03", 
-                producao: "24 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/5/img/20190313_imprimir_adesivo_personalizado_com_corte_especial_brilho.jpg", 
-                descricao: "<p>Adesivo brilho vinil 0,08 M² com corte especial em plotter de precisão para rótulos e stickers personalizados.</p>" 
-            },
-            { 
-                id: 'gn-120', 
-                nome: "Adesivo Microperfurado M²", 
-                categoria: "Adesivo", 
-                precoVenda: 45.00, 
-                ref: "sign120", 
-                producao: "24 horas", 
-                imagem: "", 
-                descricao: "<p>Adesivo microperfurado para aplicação em vidros automotivos e vitrines de lojas com visibilidade interna.</p>" 
+                descricao: "<p>Lona fosca 240g sem acabamento de ilhós, pronta para aplicação em estruturas.</p>" 
             },
             { 
                 id: 'gn-72', 
@@ -897,7 +1044,7 @@
                 ref: "crt003", 
                 producao: "24 horas", 
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", 
-                descricao: "<p>Cartão DuoDesign 250g/m² com impressão colorida frente e verso (4/4) e acabamento em Verniz UV total na frente.</p>" 
+                descricao: "<p>Cartão DuoDesign 250g/m² com impressão colorida frente e verso (4/4).</p>" 
             },
             { 
                 id: 'gn-81', 
@@ -907,37 +1054,7 @@
                 ref: "crt012", 
                 producao: "5 dias", 
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", 
-                descricao: "<p>Cartão DuoDesign 300g/m² com Laminação Fosca 1/1 sofisticada e aplicação de Verniz UV Localizado em relevo frente e verso.</p>" 
-            },
-            { 
-                id: 'gn-24', 
-                nome: "Banner | Lona Brilho 440g", 
-                categoria: "Banner, Faixa, Lona e Painel", 
-                precoVenda: 26.88, 
-                ref: "sign22", 
-                producao: "12 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/24/img/20190316_imprimir_banner_personalizado_03.jpg", 
-                descricao: "<p>Banner impresso em lona brilho 440g super resistente, acompanhando madeira, ponteiras e cordinha para pendurar.</p>" 
-            },
-            { 
-                id: 'gn-25', 
-                nome: "Lona Brilho 440g | Bainha e Ilhós", 
-                categoria: "Banner, Faixa, Lona e Painel", 
-                precoVenda: 26.88, 
-                ref: "sign23", 
-                producao: "12 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/25/img/20190316_imprimir_lona_personalizada_03.jpg", 
-                descricao: "<p>Lona brilho 440g com acabamento duplo em reforço de bainha e anéis de ilhós metálicos nas pontas.</p>" 
-            },
-            { 
-                id: 'gn-207', 
-                nome: "Folheto 80g | 10x14cm | 4/0", 
-                categoria: "Folheto, Folder e Flyer", 
-                precoVenda: 71.04, 
-                ref: "flt001", 
-                producao: "24 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/207/img/20190326_imprimir-folheto-10x14-90g-01.jpg", 
-                descricao: "<p>Panfletos em papel couchê brilho 80g tamanho 10x14cm colorido frente (4/0) para divulgação comercial ostensiva.</p>" 
+                descricao: "<p>Cartão DuoDesign 300g/m² com Laminação Fosca 1/1 e Verniz UV Localizado.</p>" 
             },
             { 
                 id: 'gn-571', 
@@ -947,77 +1064,7 @@
                 ref: "cam002", 
                 producao: "72 horas", 
                 imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", 
-                descricao: "<p>Camisa personalizada masculina/unissex com manga, confeccionada em tecido confortável com estampa nítida.</p>" 
-            },
-            { 
-                id: 'gn-573', 
-                nome: "Camisa Babylook", 
-                categoria: "Camisa, Camiseta e Blusa", 
-                precoVenda: 22.08, 
-                ref: "cam004", 
-                producao: "72 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/573/img/20230410_0_6.png", 
-                descricao: "<p>Camisa modelo Babylook feminina personalizada com caimento justo e acabamento reforçado.</p>" 
-            },
-            { 
-                id: 'gn-1277', 
-                nome: "Wind Banner | Modelo Faca | 260x70cm", 
-                categoria: "Wind Banner", 
-                precoVenda: 105.60, 
-                ref: "sub007", 
-                producao: "12 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/1277/img/20220928_0_windbanner-mini-modelo-faca-1.png", 
-                descricao: "<p>Wind Banner impresso em tecido Microfibra dupla face modelo faca 260x70cm completo para bandeira promocional.</p>" 
-            },
-            { 
-                id: 'gn-2204', 
-                nome: "Bandeira de Carro | 30x42cm", 
-                categoria: "Eleições 2026", 
-                precoVenda: 6.00, 
-                ref: "ELE26-610", 
-                producao: "24 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2204/img/20260808_0_bandeira_para_carro_campanha_eleitoral_26.png", 
-                descricao: "<p>Bandeira para veículo em tecido Microfibra 30x42cm com suporte para fixação na janela do carro.</p>" 
-            },
-            { 
-                id: 'gn-2205', 
-                nome: "Bandeira | P | 47x70cm", 
-                categoria: "Eleições 2026", 
-                precoVenda: 8.00, 
-                ref: "ELE26-611", 
-                producao: "24 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2205/img/20260808_0_bandeirra_pequena_para_campanha_47x70cm.png", 
-                descricao: "<p>Bandeira tamanho pequeno (P) confeccionada em tecido Tafetá 47x70cm com cores vibrantes.</p>" 
-            },
-            { 
-                id: 'gn-2207', 
-                nome: "Bandeira | G | 90x140cm", 
-                categoria: "Eleições 2026", 
-                precoVenda: 14.00, 
-                ref: "ELE26-613", 
-                producao: "24 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2207/img/20260808_0_bandeira_grande_para_campanha_90x140cm.png", 
-                descricao: "<p>Bandeira tamanho grande (G) em tecido Tafetá 90x140cm com bainha e costura de suporte.</p>" 
-            },
-            { 
-                id: 'gn-406', 
-                nome: "DTF Têxtil por Metro Linear (57x100cm)", 
-                categoria: "DTF Transfer Digital", 
-                precoVenda: 55.00, 
-                ref: "dtf001", 
-                producao: "24 horas", 
-                imagem: "", 
-                descricao: "<p>Impressão DTF têxtil por metro linear pronta para estampagem térmica em algodão, poliéster e jeans.</p>" 
-            },
-            { 
-                id: 'gn-405', 
-                nome: "DTF UV Cartela A4 (21x29cm)", 
-                categoria: "DTF Transfer Digital", 
-                precoVenda: 25.00, 
-                ref: "dtfuv01", 
-                producao: "24 horas", 
-                imagem: "", 
-                descricao: "<p>DTF UV em cartela A4 para aplicação direta em superfícies rígidas (vidro, acrílico, plástico e metal).</p>" 
+                descricao: "<p>Camisa personalizada masculina/unissex com manga.</p>" 
             },
             { 
                 id: 'gn-326', 
@@ -1027,60 +1074,11 @@
                 ref: "cop326", 
                 producao: "48 horas", 
                 imagem: "", 
-                descricao: "<p>Caneca de alumínio 350ml pronta para aplicação de tirante para faculdades e choppadas.</p>" 
-            },
-            { 
-                id: 'gn-320', 
-                nome: "Taça de Gin Degradê 580ml", 
-                categoria: "Canecas, Copos e Taças", 
-                precoVenda: 12.00, 
-                ref: "cop320", 
-                producao: "48 horas", 
-                imagem: "", 
-                descricao: "<p>Taça de gin em acrílico 580ml com acabamento degradê e alto brilho.</p>" 
-            },
-            { 
-                id: 'gn-344', 
-                nome: "Bloco Autocopiativo Com 2 Vias - 50x2", 
-                categoria: "Blocos e Comandas", 
-                precoVenda: 18.00, 
-                ref: "blc344", 
-                producao: "3 dias", 
-                imagem: "", 
-                descricao: "<p>Bloco de notas e comandas autocopiativo com 2 vias coloridas 50x2.</p>" 
-            },
-            { 
-                id: 'gn-399', 
-                nome: "Agenda 1 Dia por Página 2026 Capa Dura", 
-                categoria: "Agendas, Cadernos e Planners", 
-                precoVenda: 28.00, 
-                ref: "agd399", 
-                producao: "4 dias", 
-                imagem: "", 
-                descricao: "<p>Agenda escolar/executiva 2026 datada com 1 dia por página e capa dura personalizada.</p>" 
-            },
-            { 
-                id: 'gn-512', 
-                nome: "Raspadinha Promocional (1000 un)", 
-                categoria: "Raspadinha", 
-                precoVenda: 110.00, 
-                ref: "rsp512", 
-                producao: "4 dias", 
-                imagem: "", 
-                descricao: "<p>Cartão interativo com tinta raspável especial para promoções e prêmios instantâneos.</p>" 
+                descricao: "<p>Caneca de alumínio 350ml pronta para aplicação de tirante.</p>" 
             }
         ];
 
-        // --- 4. FUNÇÕES DE UTILIDADE E NAVEGAÇÃO ---
-        function embaralharArray(arr) {
-            let list = [...arr];
-            for (let i = list.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [list[i], list[j]] = [list[j], list[i]];
-            }
-            return list;
-        }
-
+        // --- 4. FUNÇÕES DE UTILIDADE ---
         function escapeAttr(str) {
             if (str === null || str === undefined) return '';
             return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -1113,11 +1111,10 @@
             }, 3000);
         }
 
-        // --- 5. CARREGAMENTO DINÂMICO DE TODAS AS CONFIGURAÇÕES DO ADMIN (SUPABASE + LOCALSTORAGE) ---
+        // --- 5. CARREGAMENTO DINÂMICO DO SUPABASE & ADMIN ---
         async function carregarConfiguracoesCompletasAdmin() {
             let configsNuvem = {};
 
-            // 1. Tenta buscar todas as configurações salvas na tabela 'configuracoes' do Supabase
             try {
                 if (typeof supabaseClient !== 'undefined' && supabaseClient) {
                     const { data, error } = await supabaseClient.from('configuracoes').select('*');
@@ -1125,16 +1122,14 @@
                         data.forEach(item => {
                             if (item.chave && item.valor) {
                                 configsNuvem[item.chave] = item.valor;
-                                localStorage.setItem(item.chave, JSON.stringify(item.valor)); // Sincroniza localmente
+                                localStorage.setItem(item.chave, JSON.stringify(item.valor));
                             }
                         });
                     }
                 }
-            } catch(e) {
-                console.warn("Lendo configurações do cache local...");
-            }
+            } catch(e) {}
 
-            // 2. APLICA CORES E IDENTIDADE VISUAL (CMS)
+            // CMS Visuais
             const cms = configsNuvem['phsublime_admin_logos'] || JSON.parse(localStorage.getItem('phsublime_admin_logos') || '{}');
             if (cms) {
                 if (cms.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', cms.corCabecalho);
@@ -1156,14 +1151,11 @@
                 }
             }
 
-            // 3. APLICA DADOS DA LOJA (TÍTULO, TELEFONES, ENDEREÇO)
+            // Dados da Loja
             const dados = configsNuvem['phsublime_dados_loja'] || JSON.parse(localStorage.getItem('phsublime_dados_loja') || '{}');
             if (dados) {
                 if (dados.titulo) {
                     document.title = dados.titulo;
-                    const h1El = document.getElementById('txt-nome-loja-topo');
-                    if (h1El) h1El.innerText = dados.titulo.split(' - ')[0] || 'PHSUBLIME';
-                    
                     const fbNome = document.getElementById('footer-fb-nome');
                     if (fbNome) fbNome.innerText = (dados.titulo.split(' - ')[0] || 'PHSUBLIME') + ' GRÁFICA';
                 }
@@ -1206,7 +1198,18 @@
                 }
             }
 
-            // 4. APLICA BANNERS SLIDER E MINI BANNERS
+            // Balcões de Retirada do Admin
+            const balcoesSalvos = configsNuvem['phsublime_balcoes_retirada'] || JSON.parse(localStorage.getItem('phsublime_balcoes_retirada') || '[]');
+            if (Array.isArray(balcoesSalvos) && balcoesSalvos.length > 0) {
+                balcoesRetiradaLista = balcoesSalvos;
+            } else {
+                balcoesRetiradaLista = [
+                    { id: 1, nome: "Balcão Central Irajá", endereco: "Estrada da Água Grande, 221 - Irajá", cidade: "Rio de Janeiro", uf: "RJ", prazo: 1, taxa: 0 },
+                    { id: 2, nome: "Balcão Campo Lindo", endereco: "Rua Marcílio Dias - Seropédica", cidade: "Seropédica", uf: "RJ", prazo: 1, taxa: 0 }
+                ];
+            }
+
+            // Banners
             const bannersSalvos = configsNuvem['phsublime_admin_banners'] || JSON.parse(localStorage.getItem('phsublime_admin_banners') || '[]');
             if (Array.isArray(bannersSalvos) && bannersSalvos.length > 0) {
                 const slider = bannersSalvos.filter(b => (!b.tipo || b.tipo === 'Animação' || b.tipo.includes('Slider')) && b.imagem);
@@ -1219,14 +1222,14 @@
             renderizarMiniBanners();
         }
 
-        // --- 6. RENDERIZAÇÃO DA ÁRVORE DE CATEGORIAS E SUB-BOTÕES (RECURSIVA MULTINÍVEL) ---
+        // --- 6. RENDERIZAÇÃO DA ÁRVORE DE CATEGORIAS RECURSIVA MULTINÍVEL ---
         function gerarHtmlCategoriasTree(lista, nivel = 0) {
             if (!Array.isArray(lista)) return '';
             let html = '';
             
             lista.forEach((cat, idx) => {
                 const idUnico = `subcat-${nivel}-${idx}-${Math.random().toString(36).substr(2, 6)}`;
-                const indentacaoPx = nivel * 12 + 12; // Recuo dinâmico por nível
+                const indentacaoPx = nivel * 12 + 12;
 
                 if (typeof cat === 'string') {
                     html += `
@@ -1403,7 +1406,7 @@
             mostrarToast("Você saiu da conta.");
         }
 
-        // --- 8. GAVETA LATERAL DE CARRINHO (DRAWER) ---
+        // --- 8. GAVETA LATERAL DE CARRINHO RÁPIDO (DRAWER) ---
         function alternarCarrinhoLateral(abrir) {
             const drawer = document.getElementById('aba-lateral-carrinho');
             if (!drawer) return;
@@ -1477,40 +1480,39 @@
             document.getElementById('modal-pagina-extra-loja').classList.add('hidden');
         }
 
-       function renderizarBanners() {
-    const container = document.getElementById('banner-slider-container');
-    const dots = document.getElementById('banner-dots');
-    if (!container) return;
+        function renderizarBanners() {
+            const container = document.getElementById('banner-slider-container');
+            const dots = document.getElementById('banner-dots');
+            if (!container) return;
 
-    container.innerHTML = '';
-    if (dots) dots.innerHTML = '';
+            container.innerHTML = '';
+            if (dots) dots.innerHTML = '';
 
-    bannersCarrossel.forEach((b, i) => {
-        const item = document.createElement('div');
-        // Trava a largura de cada slide estritamente em 100%
-        item.className = "w-full min-w-full max-w-full shrink-0 cursor-pointer overflow-hidden flex items-center justify-center";
-        
-        const srcImg = formatarUrlImagem(b.img) || BANNER_FALLBACK_GRANDE;
-        
-        // object-fill encaixa 100% da imagem (de ponta a ponta) sem cortar o texto nem as bordas!
-        const htmlImg = `<img src="${srcImg}" alt="Banner ${i+1}" class="w-full h-[180px] sm:h-[280px] md:h-[350px] object-fill block" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_GRANDE}';">`;
-        
-        if (b.link) {
-            item.innerHTML = `<a href="${escapeAttr(b.link)}" target="_blank" class="block w-full h-full">${htmlImg}</a>`;
-        } else {
-            item.innerHTML = htmlImg;
+            bannersCarrossel.forEach((b, i) => {
+                const item = document.createElement('div');
+                item.className = "w-full min-w-full max-w-full shrink-0 cursor-pointer overflow-hidden flex items-center justify-center";
+                
+                const srcImg = formatarUrlImagem(b.img) || BANNER_FALLBACK_GRANDE;
+                
+                const htmlImg = `<img src="${srcImg}" alt="Banner ${i+1}" class="w-full h-[180px] sm:h-[280px] md:h-[350px] object-fill block" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_GRANDE}';">`;
+                
+                if (b.link) {
+                    item.innerHTML = `<a href="${escapeAttr(b.link)}" target="_blank" class="block w-full h-full">${htmlImg}</a>`;
+                } else {
+                    item.innerHTML = htmlImg;
+                }
+
+                container.appendChild(item);
+
+                if (dots) {
+                    const dot = document.createElement('button');
+                    dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? 'bg-amber-400 w-6' : 'bg-white/60'}`;
+                    dot.onclick = () => irParaBanner(i);
+                    dots.appendChild(dot);
+                }
+            });
         }
 
-        container.appendChild(item);
-
-        if (dots) {
-            const dot = document.createElement('button');
-            dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? 'bg-amber-400 w-6' : 'bg-white/60'}`;
-            dot.onclick = () => irParaBanner(i);
-            dots.appendChild(dot);
-        }
-    });
-}
         function renderizarMiniBanners() {
             const container = document.getElementById('container-mini-banners');
             if (!container) return;
@@ -1569,7 +1571,7 @@
             } catch(e) {}
         }
 
-        // --- 9. CARREGAMENTO DE PRODUTOS DA GRÁFICA DO SUPABASE ---
+        // --- 9. CARREGAMENTO DE PRODUTOS DA GRÁFICA ---
         async function carregarEstoqueSupabase() {
             let produtosSupabase = [];
 
@@ -1859,7 +1861,9 @@
                     nome: item.nome,
                     preco: item.precoVenda,
                     qtd: 1,
-                    imagem: item.imagem
+                    imagem: item.imagem,
+                    anexos: {},
+                    observacao: ''
                 });
             }
 
@@ -1872,6 +1876,20 @@
             carrinho = carrinho.filter(c => String(c.id) !== String(id));
             salvarCarrinho();
             renderizarCarrinho();
+        }
+
+        function duplicarItemCarrinho(id) {
+            const item = carrinho.find(c => String(c.id) === String(id));
+            if (item) {
+                carrinho.push({
+                    ...item,
+                    id: `${item.id}-dup-${Math.random().toString(36).substr(2, 4)}`,
+                    nome: `${item.nome} (Cópia)`
+                });
+                salvarCarrinho();
+                renderizarCarrinho();
+                mostrarToast("Item duplicado no carrinho!");
+            }
         }
 
         function alterarQtdCarrinho(id, qtd) {
@@ -1914,12 +1932,14 @@
             }
         }
 
+        // --- 10. RENDERIZAÇÃO DA PÁGINA DO CARRINHO COMPLETA (GRAFICONAUTA CHECKOUT) ---
         function renderizarCarrinho() {
             const tabela = document.getElementById('tabela-itens-carrinho');
             const msgVazio = document.getElementById('carrinho-vazio-msg');
             const boxConteudo = document.getElementById('carrinho-conteudo-box');
             const badge = document.getElementById('txt-carrinho-count-badge');
             const subtotalEl = document.getElementById('cart-resumo-subtotal');
+            const freteEl = document.getElementById('cart-resumo-frete');
             const totalEl = document.getElementById('cart-resumo-total');
             const linhaDesc = document.getElementById('linha-desconto-cupom');
             const descValEl = document.getElementById('cart-resumo-desconto');
@@ -1942,35 +1962,55 @@
                 const subtotal = item.preco * item.qtd;
                 subtotalGeral += subtotal;
 
+                const temAnexos = item.anexos && (item.anexos.frente || item.anexos.verso || item.anexos.mascara);
+                const temObs = item.observacao && item.observacao.trim().length > 0;
+
                 const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100 hover:bg-slate-50";
+                tr.className = "border-b border-slate-100 hover:bg-slate-50/80 transition-all";
                 tr.innerHTML = `
                     <td class="py-3 px-4 flex items-center gap-3">
-                        <img src="${item.imagem}" class="w-12 h-12 object-contain rounded border bg-white p-1" onerror="this.onerror=null; this.style.display='none';">
+                        <img src="${item.imagem}" class="w-12 h-12 object-contain rounded-lg border bg-white p-1 shrink-0" onerror="this.onerror=null; this.style.display='none';">
                         <div>
-                            <strong class="font-bold text-slate-800 block leading-tight">${escapeAttr(item.nome)}</strong>
-                            <span class="text-[10px] text-slate-400">R$ ${item.preco.toFixed(2)} un.</span>
+                            <strong class="font-bold text-slate-800 block leading-tight text-xs">${escapeAttr(item.nome)}</strong>
+                            <span class="text-[10px] text-slate-400 block font-mono">Ref: ${escapeAttr(item.id)} | Produção: 24h</span>
+                            ${temObs ? `<span class="bg-amber-100 text-amber-900 text-[9px] font-bold px-1.5 py-0.5 rounded mt-1 inline-block truncate max-w-[180px]">Obs: ${escapeAttr(item.observacao)}</span>` : ''}
                         </div>
                     </td>
                     <td class="py-3 px-4 text-center">
                         <div class="flex items-center justify-center gap-1">
-                            <button onclick="alterarQtdCarrinho('${item.id}', ${item.qtd - 1})" class="w-6 h-6 bg-slate-200 text-slate-700 rounded font-bold">-</button>
-                            <span class="w-8 text-center font-bold">${item.qtd}</span>
-                            <button onclick="alterarQtdCarrinho('${item.id}', ${item.qtd + 1})" class="w-6 h-6 bg-slate-200 text-slate-700 rounded font-bold">+</button>
+                            <button onclick="alterarQtdCarrinho('${item.id}', ${item.qtd - 1})" class="w-6 h-6 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded font-bold transition-all">-</button>
+                            <span class="w-7 text-center font-black">${item.qtd}</span>
+                            <button onclick="alterarQtdCarrinho('${item.id}', ${item.qtd + 1})" class="w-6 h-6 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded font-bold transition-all">+</button>
                         </div>
                     </td>
                     <td class="py-3 px-4 text-center">
-                        <button onclick="removerDoCarrinho('${item.id}')" class="text-red-500 hover:text-red-700 font-bold">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
+                        <div class="flex flex-col gap-1.5 items-center">
+                            <button onclick="abrirModalAnexarArquivos('${item.id}')" class="px-2.5 py-1 ${temAnexos ? 'bg-emerald-600 text-white' : 'bg-blue-900 text-amber-300'} text-[10px] font-bold rounded-md hover:brightness-110 transition-all w-full shadow-sm flex items-center justify-center gap-1">
+                                <i class="fa-solid ${temAnexos ? 'fa-check' : 'fa-paperclip'}"></i> ${temAnexos ? 'Artes Anexadas' : 'Anexar Arquivos'}
+                            </button>
+                            <button onclick="abrirModalObservacoes('${item.id}')" class="px-2.5 py-1 ${temObs ? 'bg-amber-500 text-blue-950' : 'bg-slate-200 text-slate-700'} text-[10px] font-bold rounded-md hover:bg-slate-300 transition-all w-full flex items-center justify-center gap-1">
+                                <i class="fa-regular fa-comment-dots"></i> ${temObs ? 'Ver Nota' : 'Observações'}
+                            </button>
+                        </div>
                     </td>
-                    <td class="py-3 px-4 text-right font-black text-slate-800">
+                    <td class="py-3 px-4 text-right font-black text-slate-800 text-xs">
                         R$ ${subtotal.toFixed(2)}
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="duplicarItemCarrinho('${item.id}')" title="Duplicar Item" class="text-blue-600 hover:text-blue-800 text-xs">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                            <button onclick="removerDoCarrinho('${item.id}')" title="Remover Item" class="text-red-500 hover:text-red-700 text-xs">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
                     </td>
                 `;
                 tabela.appendChild(tr);
             });
 
+            // Desconto do Cupom
             let descontoCalculado = 0;
             if (cupomAplicado) {
                 if (cupomAplicado.tipo === 'porcentagem') {
@@ -1980,10 +2020,12 @@
                 }
             }
 
-            const totalFinal = Math.max(0, subtotalGeral - descontoCalculado);
+            const valorFrete = opcaoFreteSelecionada ? parseFloat(opcaoFreteSelecionada.valor || 0) : 0;
+            const totalFinal = Math.max(0, subtotalGeral - descontoCalculado + valorFrete);
 
             if (badge) badge.innerText = `${carrinho.length} item(ns)`;
             if (subtotalEl) subtotalEl.innerText = `R$ ${subtotalGeral.toFixed(2)}`;
+            if (freteEl) freteEl.innerText = valorFrete > 0 ? `R$ ${valorFrete.toFixed(2)}` : 'GRÁTIS';
 
             if (descontoCalculado > 0) {
                 if (linhaDesc) linhaDesc.classList.remove('hidden');
@@ -1993,31 +2035,203 @@
             }
 
             if (totalEl) totalEl.innerText = `R$ ${totalFinal.toFixed(2)}`;
+
+            // Atualiza datas de previsão
+            calcularDatasPrevisaoProducao();
+
+            // Renderiza Opções de Entrega e Balcões
+            renderizarOpcoesFreteEntrega();
+            renderizarOpcoesBalcoesRetirada();
         }
 
-        function abrirModalCheckout() {
-            if (carrinho.length === 0) return;
-            document.getElementById('modal-checkout-cliente').classList.remove('hidden');
-            alternarCarrinhoLateral(false);
+        // --- 11. CÁLCULO DE DATAS ESTIMADAS DE PRODUÇÃO E ENTREGA ---
+        function calcularDatasPrevisaoProducao() {
+            const hoje = new Date();
+            
+            // Adiciona 1 a 2 dias úteis para produção
+            let dataProducao = new Date(hoje);
+            dataProducao.setDate(hoje.getDate() + 2);
+
+            let dataEntrega = new Date(dataProducao);
+            dataEntrega.setDate(dataProducao.getDate() + (opcaoFreteSelecionada?.prazo || 1));
+
+            const formatador = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            
+            const txtProd = document.getElementById('txt-previsao-producao-data');
+            const txtEntr = document.getElementById('txt-previsao-entrega-data');
+
+            if (txtProd) txtProd.innerText = formatador.format(dataProducao);
+            if (txtEntr) txtEntr.innerText = formatador.format(dataEntrega);
         }
 
-        function fecharModalCheckout() {
-            document.getElementById('modal-checkout-cliente').classList.add('hidden');
-        }
+        // --- 12. ABAS INTERATIVAS FRETE vs BALCÃO ---
+        function alternarAbaFreteBalcao(tipo) {
+            const btnEntrega = document.getElementById('btn-aba-frete-entrega');
+            const btnBalcao = document.getElementById('btn-aba-frete-balcao');
+            const boxEntrega = document.getElementById('box-conteudo-aba-entrega');
+            const boxBalcao = document.getElementById('box-conteudo-aba-balcao');
 
-        function toggleCamposPessoa(tipo) {
-            const lblNome = document.getElementById('lbl-checkout-nome');
-            const lblDoc = document.getElementById('lbl-checkout-doc');
-            const inputDoc = document.getElementById('checkout-doc');
-
-            if (tipo === 'PJ') {
-                if (lblNome) lblNome.innerText = 'Razão Social / Nome Fantasia *';
-                if (lblDoc) lblDoc.innerText = 'CNPJ *';
-                if (inputDoc) inputDoc.placeholder = '00.000.000/0001-00';
+            if (tipo === 'balcao') {
+                btnEntrega?.classList.remove('active');
+                btnBalcao?.classList.add('active');
+                boxEntrega?.classList.add('hidden');
+                boxBalcao?.classList.remove('hidden');
             } else {
-                if (lblNome) lblNome.innerText = 'Nome Completo *';
-                if (lblDoc) lblDoc.innerText = 'CPF *';
-                if (inputDoc) inputDoc.placeholder = '000.000.000-00';
+                btnBalcao?.classList.remove('active');
+                btnEntrega?.classList.add('active');
+                boxBalcao?.classList.add('hidden');
+                boxEntrega?.classList.remove('hidden');
+            }
+        }
+
+        function renderizarOpcoesFreteEntrega() {
+            const container = document.getElementById('lista-opcoes-frete-entrega');
+            if (!container) return;
+
+            const opcoes = [
+                { id: 'expressa', nome: 'PH Entrega Expressa (Transportadora)', prazo: 2, valor: 7.90 },
+                { id: 'sedex', nome: 'Correios SEDEX', prazo: 1, valor: 18.50 },
+                { id: 'pac', nome: 'Correios PAC', prazo: 4, valor: 11.20 }
+            ];
+
+            container.innerHTML = '';
+            opcoes.forEach((op, idx) => {
+                const checado = opcaoFreteSelecionada && opcaoFreteSelecionada.nome === op.nome;
+                const div = document.createElement('div');
+                div.className = `p-3 rounded-xl border ${checado ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200'} flex items-center justify-between cursor-pointer hover:border-blue-400 transition-all`;
+                div.onclick = () => {
+                    opcaoFreteSelecionada = { tipo: 'entrega', nome: op.nome, valor: op.valor, prazo: op.prazo };
+                    renderizarCarrinho();
+                };
+
+                div.innerHTML = `
+                    <label class="flex items-center gap-3 cursor-pointer w-full">
+                        <input type="radio" name="opcao_frete_loja" ${checado ? 'checked' : ''} class="accent-blue-900">
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">${escapeAttr(op.nome)}</strong>
+                            <span class="text-[10px] text-slate-500">Chega em até ${op.prazo} dia(s) útil/úteis</span>
+                        </div>
+                    </label>
+                    <strong class="text-blue-900 font-black text-xs shrink-0">R$ ${op.valor.toFixed(2)}</strong>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderizarOpcoesBalcoesRetirada() {
+            const container = document.getElementById('lista-opcoes-balcoes-retirada');
+            if (!container) return;
+
+            if (balcoesRetiradaLista.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-400 py-3">Nenhum balcão encontrado.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            balcoesRetiradaLista.forEach(b => {
+                const checado = opcaoFreteSelecionada && opcaoFreteSelecionada.nome === b.nome;
+                const div = document.createElement('div');
+                div.className = `p-3 rounded-xl border ${checado ? 'border-emerald-600 bg-emerald-50/50' : 'border-slate-200'} flex items-center justify-between cursor-pointer hover:border-emerald-400 transition-all`;
+                div.onclick = () => {
+                    opcaoFreteSelecionada = { tipo: 'balcao', nome: b.nome, valor: 0, prazo: b.prazo || 1, endereco: b.endereco };
+                    renderizarCarrinho();
+                };
+
+                div.innerHTML = `
+                    <label class="flex items-center gap-3 cursor-pointer w-full">
+                        <input type="radio" name="opcao_frete_loja" ${checado ? 'checked' : ''} class="accent-emerald-600">
+                        <div>
+                            <strong class="font-bold text-slate-800 text-xs block">${escapeAttr(b.nome)}</strong>
+                            <span class="text-[10px] text-slate-500 block">${escapeAttr(b.endereco)} - ${escapeAttr(b.cidade)}/${escapeAttr(b.uf)}</span>
+                            <span class="text-[9px] text-emerald-700 font-bold">Disponível em ${b.prazo || 1} dia(s)</span>
+                        </div>
+                    </label>
+                    <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2 py-0.5 rounded uppercase">GRÁTIS</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function filtrarBalcoesModalLoja() {
+            const cep = document.getElementById('input-busca-balcao-cep')?.value.trim();
+            mostrarToast("Balcões credenciados atualizados!");
+            renderizarOpcoesBalcoesRetirada();
+        }
+
+        function selecionarFormaPagamentoLoja(forma) {
+            formaPagamentoSelecionadaLoja = forma;
+            const boxCartao = document.getElementById('box-campos-cartao-credito');
+            if (boxCartao) {
+                if (forma === 'Cartão de Crédito') {
+                    boxCartao.classList.remove('hidden');
+                } else {
+                    boxCartao.classList.add('hidden');
+                }
+            }
+        }
+
+        // --- 13. MODAIS DE ANEXOS DE ARTE E OBSERVAÇÕES POR ITEM ---
+        function abrirModalAnexarArquivos(itemId) {
+            const item = carrinho.find(c => String(c.id) === String(itemId));
+            if (!item) return;
+
+            document.getElementById('anexo-item-id-corrente').value = itemId;
+            document.getElementById('txt-modal-anexar-produto-nome').innerText = item.nome;
+            document.getElementById('anexo-input-frente').value = item.anexos?.frente || '';
+            document.getElementById('anexo-input-verso').value = item.anexos?.verso || '';
+            document.getElementById('anexo-input-mascara').value = item.anexos?.mascara || '';
+
+            document.getElementById('modal-anexar-arquivos-item').classList.remove('hidden');
+        }
+
+        function fecharModalAnexarArquivos() {
+            document.getElementById('modal-anexar-arquivos-item').classList.add('hidden');
+        }
+
+        function salvarAnexosItemSubmit(e) {
+            e.preventDefault();
+            const itemId = document.getElementById('anexo-item-id-corrente').value;
+            const item = carrinho.find(c => String(c.id) === String(itemId));
+
+            if (item) {
+                item.anexos = {
+                    frente: document.getElementById('anexo-input-frente').value,
+                    verso: document.getElementById('anexo-input-verso').value,
+                    mascara: document.getElementById('anexo-input-mascara').value
+                };
+                salvarCarrinho();
+                renderizarCarrinho();
+                fecharModalAnexarArquivos();
+                mostrarToast("Arquivos de arte salvos para o item!");
+            }
+        }
+
+        function abrirModalObservacoes(itemId) {
+            const item = carrinho.find(c => String(c.id) === String(itemId));
+            if (!item) return;
+
+            document.getElementById('obs-item-id-corrente').value = itemId;
+            document.getElementById('txt-modal-obs-produto-nome').innerText = item.nome;
+            document.getElementById('obs-input-texto').value = item.observacao || '';
+
+            document.getElementById('modal-observacoes-item').classList.remove('hidden');
+        }
+
+        function fecharModalObservacoes() {
+            document.getElementById('modal-observacoes-item').classList.add('hidden');
+        }
+
+        function salvarObservacoesItemSubmit(e) {
+            e.preventDefault();
+            const itemId = document.getElementById('obs-item-id-corrente').value;
+            const item = carrinho.find(c => String(c.id) === String(itemId));
+
+            if (item) {
+                item.observacao = document.getElementById('obs-input-texto').value;
+                salvarCarrinho();
+                renderizarCarrinho();
+                fecharModalObservacoes();
+                mostrarToast("Observações salvas!");
             }
         }
 
@@ -2038,37 +2252,42 @@
             }
         }
 
+        // --- 14. FINALIZAÇÃO DO PEDIDO COMPLETO VIA WHATSAPP ---
         function confirmarPedidoEEnviarWhatsapp(e) {
-            e.preventDefault();
+            if (e && e.preventDefault) e.preventDefault();
             if (carrinho.length === 0) return;
 
-            const tipoPessoa = document.querySelector('input[name="checkout_tipo_pessoa"]:checked')?.value || 'PF';
-            const nome = document.getElementById('checkout-nome').value;
-            const doc = document.getElementById('checkout-doc').value;
-            const wpp = document.getElementById('checkout-wpp').value;
-            const pagamento = document.getElementById('checkout-pagamento').value;
+            const nome = document.getElementById('checkout-nome')?.value || document.getElementById('perfil-nome')?.value || 'Cliente Visitante';
+            const doc = document.getElementById('checkout-doc')?.value || document.getElementById('perfil-doc')?.value || '---';
+            const wpp = document.getElementById('checkout-wpp')?.value || document.getElementById('perfil-wpp')?.value || '---';
 
-            const cep = document.getElementById('checkout-cep').value;
-            const rua = document.getElementById('checkout-rua').value;
-            const numero = document.getElementById('checkout-numero').value;
-            const complemento = document.getElementById('checkout-complemento').value;
-            const bairro = document.getElementById('checkout-bairro').value;
-            const cidade = document.getElementById('checkout-cidade').value;
-            const uf = document.getElementById('checkout-uf').value;
-            const obs = document.getElementById('checkout-obs').value;
+            const cep = document.getElementById('checkout-cep')?.value || '';
+            const rua = document.getElementById('checkout-rua')?.value || '';
+            const numero = document.getElementById('checkout-numero')?.value || '';
+            const complemento = document.getElementById('checkout-complemento')?.value || '';
+            const bairro = document.getElementById('checkout-bairro')?.value || '';
+            const cidade = document.getElementById('checkout-cidade')?.value || '';
+            const uf = document.getElementById('checkout-uf')?.value || '';
 
-            let texto = `*NOVO PEDIDO - PHSUBLIME GRÁFICA*\n\n`;
-            texto += `👤 *DADOS DO CLIENTE (${tipoPessoa}):*\n`;
+            let texto = `*NOVO PEDIDO - PHSUBLIME GRÁFICA DIGITAL*\n\n`;
+            texto += `👤 *DADOS DO CLIENTE:*\n`;
             texto += `• Nome/Razão: ${nome}\n`;
             texto += `• Documento: ${doc}\n`;
             texto += `• WhatsApp: ${wpp}\n\n`;
 
-            texto += `📍 *ENDEREÇO DE ENTREGA:*\n`;
-            texto += `• CEP: ${cep}\n`;
-            texto += `• Logradouro: ${rua}, nº ${numero}${complemento ? ' (' + complemento + ')' : ''}\n`;
-            texto += `• Bairro: ${bairro} | Cidade: ${cidade}-${uf.toUpperCase()}\n`;
-            if (obs) texto += `• Obs/Ref: ${obs}\n`;
-            texto += `\n💳 *FORMA DE PAGAMENTO:* ${pagamento}\n\n`;
+            if (opcaoFreteSelecionada && opcaoFreteSelecionada.tipo === 'balcao') {
+                texto += `📍 *FORMA DE ENVIO:* Balcão de Retirada\n`;
+                texto += `• Unidade: ${opcaoFreteSelecionada.nome}\n`;
+                if (opcaoFreteSelecionada.endereco) texto += `• Endereço: ${opcaoFreteSelecionada.endereco}\n`;
+            } else {
+                texto += `📍 *ENDEREÇO DE ENTREGA:*\n`;
+                texto += `• CEP: ${cep}\n`;
+                texto += `• Logradouro: ${rua}, nº ${numero}${complemento ? ' (' + complemento + ')' : ''}\n`;
+                texto += `• Bairro: ${bairro} | Cidade: ${cidade}-${uf.toUpperCase()}\n`;
+                texto += `• Modalidade: ${opcaoFreteSelecionada?.nome || 'Entrega Expressa'}\n`;
+            }
+
+            texto += `\n💳 *FORMA DE PAGAMENTO:* ${formaPagamentoSelecionadaLoja}\n\n`;
 
             texto += `📦 *ITENS DO PEDIDO:*\n`;
             let subtotalGeral = 0;
@@ -2077,6 +2296,15 @@
                 const sub = item.preco * item.qtd;
                 subtotalGeral += sub;
                 texto += `${index + 1}. *${item.nome}*\n   Qtd: ${item.qtd}x | Subtotal: R$ ${sub.toFixed(2)}\n`;
+
+                if (item.anexos && (item.anexos.frente || item.anexos.verso)) {
+                    texto += `   📎 _Artes Anexadas:_\n`;
+                    if (item.anexos.frente) texto += `      - Frente: ${item.anexos.frente}\n`;
+                    if (item.anexos.verso) texto += `      - Verso: ${item.anexos.verso}\n`;
+                }
+                if (item.observacao) {
+                    texto += `   💬 _Obs: ${item.observacao}_\n`;
+                }
             });
 
             let descontoVal = 0;
@@ -2085,13 +2313,13 @@
                 texto += `\n🎟️ *CUPOM APLICADO:* ${cupomAplicado.codigo} (- R$ ${descontoVal.toFixed(2)})\n`;
             }
 
-            const totalFinal = Math.max(0, subtotalGeral - descontoVal);
+            const valorFrete = opcaoFreteSelecionada ? parseFloat(opcaoFreteSelecionada.valor || 0) : 0;
+            const totalFinal = Math.max(0, subtotalGeral - descontoVal + valorFrete);
 
             texto += `\n----------------------------------\n`;
             texto += `💰 *TOTAL DO PEDIDO: R$ ${totalFinal.toFixed(2)}*\n\n`;
-            texto += `Aguardo instruções para pagamento e envio do arquivo da arte!`;
+            texto += `Aguardo instruções para pagamento e aprovação do arquivo!`;
 
-            fecharModalCheckout();
             const link = `https://wa.me/${whatsappAtendimentoLoja}?text=${encodeURIComponent(texto)}`;
             window.open(link, '_blank');
         }
@@ -2102,6 +2330,7 @@
 
             if (aba === 'carrinho') {
                 renderizarCarrinho();
+                window.scrollTo({ top: 100, behavior: 'smooth' });
             }
         }
 
