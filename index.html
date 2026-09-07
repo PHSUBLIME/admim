@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrador - PHSUBLIME</title>
+    <title>Painel Administrador - PHSUBLIME (Sistograf Style)</title>
 
     <link id="admin-favicon" rel="icon" type="image/x-icon" href="https://phsublime.sistograf.net/storage/logos/favicon.ico">
     <!-- Tailwind CSS -->
@@ -85,7 +85,6 @@
                 </button>
             </form>
             <div class="pt-2 border-t border-slate-100 flex flex-col gap-1.5 text-center">
-                <p class="text-[11px] text-slate-400">Senha padrão: <strong>1234</strong> ou <strong>admin</strong></p>
                 <button type="button" onclick="entrarDireto()" class="text-xs text-blue-700 font-bold hover:underline cursor-pointer">
                     ⚡ Entrar Direto no Painel (Sem Senha)
                 </button>
@@ -102,16 +101,13 @@
                 
                 <!-- LADO ESQUERDO: TITULO & NAVEGAÇÃO -->
                 <div class="flex items-center gap-6">
-                    <div class="flex items-center gap-2 font-black tracking-wider text-sm">
-                        <i class="fa-solid fa-user-gear text-amber-400"></i>
+                    <a href="javascript:void(0)" onclick="mudarAbaAdmin('inicio')" class="flex items-center gap-2 font-black tracking-wider text-sm hover:opacity-90">
+                        <i class="fa-solid fa-circle-user text-amber-400 text-base"></i>
                         <span>Painel Administrador</span>
-                    </div>
+                    </a>
 
-                    <nav class="hidden md:flex items-center gap-4 font-semibold text-slate-200">
-                        <button onclick="mudarAbaAdmin('inicio')" class="hover:text-amber-300 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-house text-[10px]"></i> Início
-                        </button>
-
+                    <nav class="hidden md:flex items-center gap-5 font-semibold text-slate-100">
+                        
                         <!-- DROPDOWN VENDAS -->
                         <div class="relative group">
                             <button class="hover:text-amber-300 py-1 transition-all flex items-center gap-1 font-bold">
@@ -119,16 +115,16 @@
                             </button>
                             <div class="absolute left-0 top-full hidden group-hover:block bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 p-2 w-48 z-50 text-xs font-semibold space-y-1">
                                 <button onclick="mudarAbaAdmin('pedidos')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2 text-blue-900 font-bold">
-                                    <i class="fa-solid fa-cart-flatbed text-amber-500"></i> Pedidos
+                                    <i class="fa-solid fa-receipt text-amber-500"></i> Pedidos
                                 </button>
                                 <button onclick="mudarAbaAdmin('clientes')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
-                                    <i class="fa-solid fa-users text-blue-600"></i> Clientes
+                                    <i class="fa-solid fa-address-book text-blue-600"></i> Clientes
                                 </button>
                                 <button onclick="mudarAbaAdmin('creditos')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
                                     <i class="fa-solid fa-wallet text-emerald-600"></i> Créditos
                                 </button>
                                 <button onclick="mudarAbaAdmin('relatorios')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
-                                    <i class="fa-solid fa-chart-pie text-purple-600"></i> Relatórios
+                                    <i class="fa-solid fa-chart-line text-purple-600"></i> Relatórios
                                 </button>
                             </div>
                         </div>
@@ -136,7 +132,7 @@
                         <!-- DROPDOWN PRODUTOS -->
                         <div class="relative group">
                             <button class="hover:text-amber-300 py-1 transition-all flex items-center gap-1 font-bold">
-                                <i class="fa-solid fa-box text-[10px]"></i> Produtos <i class="fa-solid fa-caret-down text-[9px]"></i>
+                                <i class="fa-solid fa-basket-shopping text-[10px]"></i> Produtos <i class="fa-solid fa-caret-down text-[9px]"></i>
                             </button>
                             <div class="absolute left-0 top-full hidden group-hover:block bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 p-2 w-48 z-50 text-xs font-semibold space-y-1">
                                 <button onclick="mudarAbaAdmin('produtos')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2 text-blue-900 font-bold">
@@ -148,35 +144,56 @@
                             </div>
                         </div>
 
-                        <button onclick="mudarAbaAdmin('clientes')" class="hover:text-amber-300 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-users text-[10px]"></i> Clientes
-                        </button>
-                        <button onclick="mudarAbaAdmin('relatorios')" class="hover:text-amber-300 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-chart-pie text-[10px]"></i> Relatórios
-                        </button>
+                        <!-- DROPDOWN OUTROS -->
+                        <div class="relative group">
+                            <button class="hover:text-amber-300 py-1 transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-bullhorn text-[10px]"></i> Outros <i class="fa-solid fa-caret-down text-[9px]"></i>
+                            </button>
+                            <div class="absolute left-0 top-full hidden group-hover:block bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 p-2 w-48 z-50 text-xs font-semibold space-y-1">
+                                <button onclick="abrirModalControleMensagens()" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
+                                    <i class="fa-brands fa-whatsapp text-emerald-600"></i> Mensagens WhatsApp
+                                </button>
+                                <button onclick="abrirModalCampanhas()" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
+                                    <i class="fa-solid fa-paper-plane text-red-500"></i> Campanhas
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- DROPDOWN SOLUÇÕES -->
+                        <div class="relative group">
+                            <button class="hover:text-amber-300 py-1 transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-chart-area text-[10px]"></i> Soluções <i class="fa-solid fa-caret-down text-[9px]"></i>
+                            </button>
+                            <div class="absolute left-0 top-full hidden group-hover:block bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 p-2 w-48 z-50 text-xs font-semibold space-y-1">
+                                <button onclick="abrirModalConfiguracoesSistema()" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
+                                    <i class="fa-solid fa-gear text-slate-600"></i> Dados da Empresa
+                                </button>
+                            </div>
+                        </div>
+
                     </nav>
                 </div>
 
                 <!-- LADO DIREITO: OPERADOR, ICONES E ENGRENAGEM -->
                 <div class="flex items-center gap-3 relative">
-                    <span class="hidden sm:inline text-[11px] font-bold text-slate-300">PHSUBLIME</span>
+                    <span class="hidden sm:inline text-xs font-bold text-slate-200 tracking-wide">PHSUBLIME</span>
 
-                    <div class="flex items-center gap-1">
-                        <button onclick="mudarAbaAdmin('relatorios')" title="Financeiro" class="w-8 h-8 rounded-full bg-blue-900/60 hover:bg-amber-400 hover:text-blue-950 transition-all flex items-center justify-center text-xs">
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="mudarAbaAdmin('relatorios')" title="Financeiro" class="w-8 h-8 rounded-full bg-blue-900/80 hover:bg-amber-400 hover:text-blue-950 transition-all flex items-center justify-center text-xs border border-blue-700">
                             <i class="fa-solid fa-dollar-sign"></i>
                         </button>
-                        <button onclick="abrirModalControleMensagens()" title="Chat Atendimento" class="w-8 h-8 rounded-full bg-blue-900/60 hover:bg-amber-400 hover:text-blue-950 transition-all flex items-center justify-center text-xs">
+                        <button onclick="abrirModalControleMensagens()" title="Chat Atendimento" class="w-8 h-8 rounded-full bg-blue-900/80 hover:bg-amber-400 hover:text-blue-950 transition-all flex items-center justify-center text-xs border border-blue-700">
                             <i class="fa-solid fa-comments"></i>
                         </button>
-                        <button onclick="toggleConfigDropdown()" title="Configurações e CMS" class="w-8 h-8 rounded-full bg-blue-900/60 hover:bg-amber-400 hover:text-blue-950 transition-all flex items-center justify-center text-xs">
+                        <button onclick="toggleConfigDropdown()" title="Configurações e CMS" class="w-8 h-8 rounded-full bg-blue-900/80 hover:bg-amber-400 hover:text-blue-950 transition-all flex items-center justify-center text-xs border border-blue-700">
                             <i class="fa-solid fa-gear"></i>
                         </button>
-                        <button onclick="sairAdmin()" title="Sair do Painel" class="w-8 h-8 rounded-full bg-red-600/80 hover:bg-red-500 text-white transition-all flex items-center justify-center text-xs">
+                        <button onclick="sairAdmin()" title="Sair do Painel" class="w-8 h-8 rounded-full bg-blue-900/80 hover:bg-red-500 text-white transition-all flex items-center justify-center text-xs border border-blue-700">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </button>
                     </div>
 
-                    <!-- DROPDOWN DUAS COLUNAS ESTILO SISTOGRAF -->
+                    <!-- DROPDOWN CONFIGURAÇÕES ENGRENAGEM (2 COLUNAS - FOTO 1) -->
                     <div id="dropdown-config-menu" class="hidden absolute right-0 top-11 bg-white text-slate-800 rounded-2xl shadow-2xl border border-slate-200 p-5 z-50 w-80 sm:w-96">
                         <div class="grid grid-cols-2 gap-4 text-xs font-semibold">
                             <div class="space-y-2">
@@ -213,7 +230,7 @@
         <!-- CORPO DO PAINEL -->
         <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 space-y-6">
 
-            <!-- SEÇÃO INÍCIO -->
+            <!-- SEÇÃO INÍCIO (DASHBOARD - FOTO 2) -->
             <section id="secao-admin-inicio" class="space-y-6">
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-light text-slate-700 font-heading">
@@ -236,7 +253,7 @@
                     <div onclick="mudarAbaAdmin('pedidos')" class="bg-[#e2f0d9] border border-[#c5e0b4] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
                             <span class="text-xs font-bold text-[#385723] block">Pedidos</span>
-                            <strong id="card-home-pedidos-qtd" class="text-2xl font-black text-[#274015]">1</strong>
+                            <strong id="card-home-pedidos-qtd" class="text-2xl font-black text-[#274015]">0</strong>
                             <span class="text-[11px] font-bold text-[#385723] group-hover:underline block">Detalhes &gt;</span>
                         </div>
                         <div class="text-4xl text-[#548235]"><i class="fa-solid fa-cart-flatbed"></i></div>
@@ -254,7 +271,7 @@
                     <div onclick="mudarAbaAdmin('relatorios')" class="bg-[#fff2cc] border border-[#ffe699] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
                         <div class="space-y-1">
                             <span class="text-xs font-bold text-[#7f6000] block">Faturamento Geral</span>
-                            <strong id="card-home-faturamento-total" class="text-xl font-black text-[#543f00]">R$ 107,02</strong>
+                            <strong id="card-home-faturamento-total" class="text-xl font-black text-[#543f00]">R$ 0,00</strong>
                             <span class="text-[11px] font-bold text-[#7f6000] group-hover:underline block">Detalhes &gt;</span>
                         </div>
                         <div class="text-4xl text-[#bf9000]"><i class="fa-solid fa-chart-line"></i></div>
@@ -528,32 +545,114 @@
         </div>
     </div>
 
-    <!-- TODOS OS MODAIS DE CONFIGURAÇÕES -->
+    <!-- PERSONALIZAÇÃO CMS COMPLETA COM AS 6 ABAS REAIS -->
     <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paintbrush text-amber-500"></i> Aparência da Loja</h3>
-            <form onsubmit="salvarCMSCoresSubmit(event)" class="space-y-4 text-xs">
-                <div class="grid grid-cols-2 gap-3">
-                    <div><label class="font-bold block mb-1">Cor Cabeçalho:</label><input type="color" id="cms-cor-cabecalho" value="#316AC7" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
-                    <div><label class="font-bold block mb-1">Cor Menu Principal:</label><input type="color" id="cms-cor-menu" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+            <div class="border-b pb-2"><h3 class="text-base font-black text-slate-900 uppercase"><i class="fa-solid fa-paintbrush text-amber-500"></i> Personalização e Aparência da Loja</h3></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- NAVEGAÇÃO COMPLETA DAS 6 ABAS SISTOGRAF -->
+                <div class="md:col-span-4 space-y-1.5 font-bold">
+                    <button type="button" onclick="mudarAbaCMS('loja')" id="btn-cms-aba-loja" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-blue-900 text-white flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-house"></i> 1. LOJA & TEMA</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button type="button" onclick="mudarAbaCMS('menus')" id="btn-cms-aba-menus" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-bars"></i> 2. MENUS & SIDEBAR</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button type="button" onclick="mudarAbaCMS('card')" id="btn-cms-aba-card" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-box font-bold"></i> 3. CARD DO PRODUTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button type="button" onclick="mudarAbaCMS('carrinho')" id="btn-cms-aba-carrinho" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> 4. CARRINHO & TABELAS</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button type="button" onclick="mudarAbaCMS('pagamento')" id="btn-cms-aba-pagamento" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-credit-card"></i> 5. TELA DE PAGAMENTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    <button type="button" onclick="mudarAbaCMS('produtos')" id="btn-cms-aba-produtos" class="w-full text-left px-3.5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-between"><span class="flex items-center gap-2"><i class="fa-solid fa-boxes-stacked"></i> 6. PÁGINA DO PRODUTO</span> <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
                 </div>
-                <div class="pt-3 border-t flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-4 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
-                    <button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Aparência</button>
+
+                <!-- FORMULÁRIOS DAS ABAS -->
+                <div class="md:col-span-8 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
+                    <form onsubmit="salvarCMSCoresSubmit(event)" class="space-y-4">
+                        
+                        <!-- ABA 1: LOJA -->
+                        <div id="cms-secao-loja" class="space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1">1. Layout & Cores Principais</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Layout da Loja:</label><select id="cms-layout-tipo" class="w-full p-2 border rounded font-bold"><option value="sidebar1">Com Sidebar Esquerda</option><option value="semsidebar">Sem Sidebar (Full)</option></select></div>
+                                <div><label class="font-bold block mb-1">Largura Container (%):</label><input type="number" id="cms-container-largura" value="90" class="w-full p-2 border rounded font-bold"></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Cor Cabeçalho:</label><input type="color" id="cms-cor-cabecalho" value="#316AC7" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                                <div><label class="font-bold block mb-1">Cor Menu Principal:</label><input type="color" id="cms-cor-menu" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                            </div>
+                        </div>
+
+                        <!-- ABA 2: MENUS -->
+                        <div id="cms-secao-menus" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1">2. Menus & Borda</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Cor Texto do Menu:</label><input type="color" id="cms-cor-texto-menu" value="#FFFFFF" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                                <div><label class="font-bold block mb-1">Cor Borda do Menu:</label><input type="color" id="cms-cor-borda-menu" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                            </div>
+                        </div>
+
+                        <!-- ABA 3: CARD PRODUTO -->
+                        <div id="cms-secao-card" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1">3. Aparência dos Cards de Produto</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Cor Botão Comprar:</label><input type="color" id="cms-cor-btn-comprar" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                                <div><label class="font-bold block mb-1">Cor Botão Gabarito:</label><input type="color" id="cms-cor-btn-gabarito" value="#2563eb" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                            </div>
+                            <div>
+                                <label class="font-bold block mb-1">Texto do Botão Comprar:</label>
+                                <input type="text" id="cms-txt-btn-card" value="COMPRAR 🚀" class="w-full p-2 border rounded font-bold">
+                            </div>
+                        </div>
+
+                        <!-- ABA 4: CARRINHO -->
+                        <div id="cms-secao-carrinho" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1">4. Tabela do Carrinho de Compras</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Fundo Cabeçalho Tabela:</label><input type="color" id="cms-cor-carrinho-cab" value="#316AC7" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                                <div><label class="font-bold block mb-1">Texto Cabeçalho Tabela:</label><input type="color" id="cms-cor-carrinho-txt" value="#FFFFFF" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                            </div>
+                        </div>
+
+                        <!-- ABA 5: PAGAMENTO -->
+                        <div id="cms-secao-pagamento" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1">5. Tela de Confirmação & Pagamento</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Fundo Destaque Pagamento:</label><input type="color" id="cms-cor-pag-destaque" value="#003859" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                                <div><label class="font-bold block mb-1">Cor Borda de Confirmação:</label><input type="color" id="cms-cor-pag-borda" value="#002847" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
+                            </div>
+                        </div>
+
+                        <!-- ABA 6: PRODUTOS -->
+                        <div id="cms-secao-produtos" class="hidden space-y-3">
+                            <h4 class="font-black text-slate-800 uppercase border-b pb-1">6. Opções da Página do Produto</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="font-bold block mb-1">Ordenação Padrão:</label><select id="cms-prod-ordenacao" class="w-full p-2 border rounded font-bold"><option value="az">A-Z</option><option value="preco">Menor Preço</option></select></div>
+                                <div><label class="font-bold block mb-1">Exibir Gabaritos:</label><select id="cms-prod-exibir-gab" class="w-full p-2 border rounded font-bold"><option value="sim">Sim</option><option value="nao">Não</option></select></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t flex justify-end gap-2">
+                            <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-4 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
+                            <button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Aparência</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
+    <!-- LOGO & FAVICON CMS -->
     <div id="modal-logo-favicon" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalLogoFavicon()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-icons text-blue-500"></i> Personalizar Logos e Favicon</h3>
-            <form onsubmit="salvarLogoFaviconSubmit(event)" class="space-y-4 text-xs">
+            <form onsubmit="salvarLogoFaviconSubmit(event)" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div><label class="font-bold block mb-1">Logo Principal (PNG):</label><input type="text" id="cms-logo-url" value="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="w-full p-2 border rounded font-mono"></div>
-                    <div><label class="font-bold block mb-1">Favicon (.ICO):</label><input type="text" id="cms-favicon-url" value="https://phsublime.sistograf.net/storage/logos/favicon.ico" class="w-full p-2 border rounded font-mono"></div>
+                    <div>
+                        <label class="font-bold block mb-1">Logo Principal do Sistema (PNG):</label>
+                        <input type="text" id="cms-logo-url" placeholder="URL do Logo" value="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="w-full p-2 border rounded font-mono">
+                    </div>
+                    <div>
+                        <label class="font-bold block mb-1">Favicon (.ICO / Max 48x48):</label>
+                        <input type="text" id="cms-favicon-url" placeholder="URL do Favicon" value="https://phsublime.sistograf.net/storage/logos/favicon.ico" class="w-full p-2 border rounded font-mono">
+                    </div>
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="fecharModalLogoFavicon()" class="px-5 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
@@ -563,165 +662,269 @@
         </div>
     </div>
 
+    <!-- GERENCIADOR DE BANNERS -->
     <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8 text-xs">
             <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-regular fa-image text-emerald-500"></i> Banners Home</h3>
-            <form onsubmit="salvarBannerSubmit(event)" class="bg-slate-50 p-3.5 rounded-xl border space-y-3 text-xs">
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-regular fa-image text-emerald-500"></i> Gerenciador de Banners</h3>
+            
+            <form onsubmit="salvarBannerSubmit(event)" class="bg-slate-50 p-3.5 rounded-xl border space-y-3">
                 <input type="hidden" id="banner-edit-index" value="-1">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div><label class="font-bold block mb-1">Tipo:</label><select id="banner-tipo" class="w-full p-2 border rounded font-bold"><option value="Animação">Animação / Slider</option><option value="Mini Banner">Mini Banner</option></select></div>
-                    <div class="sm:col-span-2"><label class="font-bold block mb-1">URL da Imagem:</label><input type="text" id="banner-img-url" required placeholder="https://..." class="w-full p-2 border rounded font-mono"></div>
+                    <div>
+                        <label class="font-bold block mb-1">Tipo de Banner: *</label>
+                        <select id="banner-tipo" class="w-full p-2 border rounded font-bold"><option value="Animação">Animação / Slider Home</option><option value="Mini Banner">Mini Banner Sidebar</option></select>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="font-bold block mb-1">URL da Imagem: *</label>
+                        <input type="text" id="banner-img-url" required placeholder="https://..." class="w-full p-2 border rounded font-mono">
+                    </div>
                 </div>
-                <div class="flex justify-end"><button type="submit" id="btn-salvar-banner" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">+ Salvar Banner</button></div>
+                <div class="flex items-center justify-between gap-3">
+                    <input type="text" id="banner-link-url" placeholder="URL do Link ao Clicar (Opcional)" class="w-full p-2 border rounded font-mono">
+                    <button type="submit" id="btn-salvar-banner" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase shadow shrink-0">+ Salvar Banner</button>
+                </div>
             </form>
-            <div class="border rounded-xl overflow-hidden max-h-52 overflow-y-auto"><table class="w-full text-left text-xs"><tbody id="tabela-banners-admin-body" class="divide-y"></tbody></table></div>
+
+            <div class="border rounded-xl overflow-hidden max-h-52 overflow-y-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead><tr class="bg-slate-100 border-b font-bold uppercase"><th class="p-2.5">TIPO</th><th class="p-2.5">IMAGEM</th><th class="p-2.5 text-center">AÇÕES</th></tr></thead>
+                    <tbody id="tabela-banners-admin-body" class="divide-y text-slate-700"></tbody>
+                </table>
+            </div>
             <div class="flex justify-end"><button type="button" onclick="fecharModalGerenciadorBanners()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
         </div>
     </div>
 
-    <div id="modal-codigos-html" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-orange-200 my-8 text-xs">
-            <button onclick="fecharModalCodigosHTML()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-brands fa-html5 text-orange-500"></i> Códigos HTML & Scripts</h3>
-            <form onsubmit="salvarCodigosHTMLSubmit(event)" class="space-y-3">
-                <textarea id="txt-codigos-html-head" rows="6" placeholder="<script>...</script>" class="w-full p-3 border rounded-lg font-mono text-[11px]"></textarea>
-                <div class="flex justify-end"><button type="submit" class="bg-orange-600 text-white font-black px-6 py-2 rounded-xl uppercase">Salvar Códigos</button></div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modal-paginas-extras" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-purple-200 my-8 text-xs">
-            <button onclick="fecharModalPaginasExtras()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-file-lines text-purple-500"></i> Páginas Extras</h3>
-            <form onsubmit="salvarPaginaExtraSubmit(event)" class="space-y-3">
-                <input type="hidden" id="pag-extra-edit-id" value="">
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="pag-extra-titulo" required placeholder="Título" class="p-2 border rounded font-bold">
-                    <input type="text" id="pag-extra-url" required placeholder="URL amigável" class="p-2 border rounded font-mono">
-                </div>
-                <textarea id="pag-extra-conteudo" rows="3" placeholder="Conteúdo HTML" class="w-full p-2 border rounded"></textarea>
-                <div class="flex justify-end"><button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">Salvar Página</button></div>
-            </form>
-            <div class="border rounded-xl overflow-hidden max-h-44 overflow-y-auto"><table class="w-full text-left text-xs"><tbody id="tabela-paginas-extras-body" class="divide-y"></tbody></table></div>
-            <div class="flex justify-end"><button type="button" onclick="fecharModalPaginasExtras()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
-        </div>
-    </div>
-
-    <div id="modal-controle-mensagens" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8 text-xs">
-            <button onclick="fecharModalControleMensagens()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-brands fa-whatsapp text-emerald-500"></i> Controle Mensagens WhatsApp</h3>
-            <div class="space-y-3">
-                <input type="text" id="wpp-msg-nome" value="Aguardando Pagamento" class="w-full p-2 border rounded font-bold">
-                <textarea id="wpp-msg-corpo" rows="4" class="w-full p-2 border rounded font-mono">*PEDIDO AGUARDANDO PAGAMENTO*</textarea>
-                <button onclick="salvarModeloWppSubmit()" class="bg-blue-900 text-white font-black px-6 py-2 rounded uppercase">Salvar Mensagem</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-campanhas" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-red-200 my-8 text-xs">
-            <button onclick="fecharModalCampanhas()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-bullhorn text-red-500"></i> Campanhas</h3>
-            <p class="text-slate-600">Disparos automáticos configurados para a loja PHSUBLIME.</p>
-            <div class="flex justify-end"><button type="button" onclick="fecharModalCampanhas()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
-        </div>
-    </div>
-
+    <!-- DADOS DA LOJA & SEO -->
     <div id="modal-configuracoes-sistema" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalConfiguracoesSistema()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-store text-amber-500"></i> Dados da Loja</h3>
-            <form onsubmit="salvarDadosLojaSubmit(event)" class="space-y-3">
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="cfg-titulo-loja" value="PHSUBLIME GRÁFICA" class="p-2 border rounded font-bold">
-                    <input type="email" id="cfg-email-contato" value="phsublime5149@gmail.com" class="p-2 border rounded font-bold">
+            <div class="border-b pb-2"><h3 class="text-base font-black text-slate-900 uppercase"><i class="fa-solid fa-store text-amber-500"></i> Dados da Loja, Correios e SEO</h3></div>
+            <form onsubmit="salvarDadosLojaSubmit(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div><label class="font-bold block mb-1">Título da Loja: *</label><input type="text" id="cfg-titulo-loja" value="PHSUBLIME GRÁFICA" class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">E-mail para contato: *</label><input type="email" id="cfg-email-contato" value="phsublime5149@gmail.com" class="w-full p-2 border rounded font-bold"></div>
                 </div>
-                <div class="grid grid-cols-3 gap-3">
-                    <input type="text" id="cfg-tel-1" value="(21) 98614-7221" class="p-2 border rounded font-bold text-emerald-700">
-                    <input type="text" id="cfg-tel-2" value="(21) 97166-6349" class="p-2 border rounded font-bold">
-                    <input type="text" id="cfg-cep-origem" value="23894-818" class="p-2 border rounded font-bold">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div><label class="font-bold block mb-1">Telefone 1 (WhatsApp): *</label><input type="text" id="cfg-tel-1" value="(21) 98614-7221" class="w-full p-2 border rounded font-bold text-emerald-700"></div>
+                    <div><label class="font-bold block mb-1">Telefone 2:</label><input type="text" id="cfg-tel-2" value="(21) 97166-6349" class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">CEP de origem: *</label><input type="text" id="cfg-cep-origem" value="23894-818" class="w-full p-2 border rounded font-bold"></div>
                 </div>
-                <textarea id="cfg-endereco-completo" rows="2" class="w-full p-2 border rounded font-medium">Rua Marcílio Dias, nº 24 - Campo Lindo - Seropédica/RJ</textarea>
-                <div class="flex justify-end"><button type="submit" class="bg-blue-900 text-white font-black px-6 py-2 rounded uppercase">Salvar Dados</button></div>
+                <div class="border-t pt-3 space-y-3">
+                    <h4 class="font-bold text-slate-800 uppercase flex items-center gap-1.5"><i class="fa-solid fa-truck text-blue-600"></i> Integração dos Correios</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div><label class="font-bold block mb-1">Usuário (Meu Correios):</label><input type="text" id="cfg-correios-user" class="w-full p-2 border rounded font-mono"></div>
+                        <div><label class="font-bold block mb-1">Código API (CWS Correios):</label><input type="password" id="cfg-correios-cws" class="w-full p-2 border rounded font-mono"></div>
+                        <div><label class="font-bold block mb-1">Cartão de Postagem:</label><input type="text" id="cfg-correios-cartao" class="w-full p-2 border rounded font-mono"></div>
+                    </div>
+                    <div><label class="font-bold block mb-1">Endereço Completo: *</label><textarea id="cfg-endereco-completo" rows="2" class="w-full p-2 border rounded font-medium">Rua Marcílio Dias, nº 24 - Campo Lindo - Seropédica/RJ</textarea></div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="fecharModalConfiguracoesSistema()" class="px-5 py-2 bg-slate-200 font-bold rounded">Cancelar</button><button type="submit" class="bg-blue-900 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Dados</button></div>
             </form>
         </div>
     </div>
 
-    <div id="modal-configuracoes-gerais" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-indigo-200 my-8 text-xs">
-            <button onclick="fecharModalConfiguracoesGerais()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-sliders text-indigo-500"></i> Configurações Gerais</h3>
-            <p class="text-slate-600">Recursos ativos na loja PHSUBLIME.</p>
-            <div class="flex justify-end"><button type="button" onclick="fecharModalConfiguracoesGerais()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
-        </div>
-    </div>
-
-    <div id="modal-formas-pagamento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
-            <button onclick="fecharModalFormasPagamento()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-credit-card text-amber-500"></i> Formas de Pagamento</h3>
-            <div id="container-lista-formas-pagamento" class="space-y-2"></div>
-            <div class="flex justify-end"><button type="button" onclick="fecharModalFormasPagamento()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
-        </div>
-    </div>
-
+    <!-- FORMAS DE ENVIO COM ALERTA FRETE GRÁTIS -->
     <div id="modal-formas-envio" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-cyan-200 my-8 text-xs">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-cyan-200 my-8 text-xs">
             <button onclick="fecharModalFormasEnvio()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paper-plane text-cyan-600"></i> Formas de Envio</h3>
-            <form onsubmit="salvarFormaEnvioSubmit(event)" class="space-y-3 bg-slate-50 p-3 rounded-xl border">
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paper-plane text-cyan-600"></i> Opções e Regras de Entrega</h3>
+            
+            <form onsubmit="salvarFormaEnvioSubmit(event)" class="bg-slate-50 p-4 rounded-xl border space-y-3">
                 <input type="hidden" id="envio-edit-id" value="">
-                <div class="grid grid-cols-3 gap-3">
-                    <input type="text" id="envio-empresa" placeholder="Transportadora Expressa" class="p-2 border rounded font-bold">
-                    <input type="number" id="envio-prazo" value="4" class="p-2 border rounded font-bold">
-                    <input type="number" step="0.01" id="envio-valor" value="7.90" class="p-2 border rounded font-bold text-emerald-700">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                    <div class="sm:col-span-2"><label class="font-bold block mb-1">Empresa / Nome do Frete: *</label><input type="text" id="envio-empresa" required placeholder="Transportadora Expressa / PH Entrega" class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">Prazo de Entrega (Dias): *</label><input type="number" id="envio-prazo" value="2" required class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">Valor Fixo (R$): *</label><input type="number" step="0.01" id="envio-valor" value="7.90" required class="w-full p-2 border rounded font-bold text-emerald-700"></div>
                 </div>
-                <div class="flex justify-end"><button type="submit" id="btn-salvar-envio" class="bg-cyan-700 text-white font-black px-6 py-2 rounded uppercase">+ Salvar Envio</button></div>
+
+                <div class="border-t pt-2 space-y-2 bg-amber-50/60 p-3 rounded-lg border border-amber-200">
+                    <h4 class="font-black text-amber-900 uppercase flex items-center gap-1.5"><i class="fa-solid fa-truck-fast text-amber-600"></i> Módulo de Alerta de Frete Grátis</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div><label class="font-bold block mb-1">Mensagem de Progresso:</label><input type="text" id="envio-alerta-msg-restante" value="Ainda faltam R$ {valor} para você GANHAR FRETE GRÁTIS!" class="w-full p-2 border rounded"></div>
+                        <div><label class="font-bold block mb-1">Mensagem de Sucesso:</label><input type="text" id="envio-alerta-msg-sucesso" value="Parabéns! Você ganhou FRETE GRÁTIS!" class="w-full p-2 border rounded font-bold text-emerald-700"></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-1">
+                    <button type="submit" id="btn-salvar-envio" class="bg-cyan-700 text-white font-black px-6 py-2 rounded uppercase shadow ml-auto">+ Salvar Forma de Envio</button>
+                </div>
             </form>
-            <div class="border rounded-xl overflow-hidden max-h-48 overflow-y-auto"><table class="w-full text-left text-xs"><tbody id="tabela-formas-envio-body" class="divide-y"></tbody></table></div>
+
+            <div class="border rounded-xl overflow-hidden max-h-48 overflow-y-auto"><table class="w-full text-left"><tbody id="tabela-formas-envio-body" class="divide-y"></tbody></table></div>
             <div class="flex justify-end"><button type="button" onclick="fecharModalFormasEnvio()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
         </div>
     </div>
 
-    <div id="modal-funcionarios" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-slate-300 my-8 text-xs">
-            <button onclick="fecharModalFuncionarios()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-users-gear text-slate-600"></i> Funcionários</h3>
-            <p class="text-slate-600">Gerencie permissões de acesso ao painel.</p>
-            <div class="flex justify-end"><button type="button" onclick="fecharModalFuncionarios()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
-        </div>
-    </div>
-
-    <div id="modal-balcoes-retirada" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+    <!-- FORMAS DE PAGAMENTO INTERATIVAS -->
+    <div id="modal-formas-pagamento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalFormasPagamento()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-credit-card text-amber-500"></i> Formas de Pagamento</h3>
+            
+            <div id="container-lista-formas-pagamento" class="space-y-2.5 text-xs max-h-[60vh] overflow-y-auto pr-1"></div>
+            
+            <div class="flex justify-end"><button type="button" onclick="fecharModalFormasPagamento()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <!-- BALCÕES DE RETIRADA -->
+    <div id="modal-balcoes-retirada" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalBalcoesRetirada()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-truck text-emerald-600"></i> Balcões de Retirada</h3>
-            <form onsubmit="salvarBalcaoSubmit(event)" class="space-y-3 bg-slate-50 p-3 rounded-xl border">
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-truck text-emerald-600"></i> Cadastrar e Gerenciar Balcões de Retirada</h3>
+            
+            <form onsubmit="salvarBalcaoSubmit(event)" class="bg-slate-50 p-4 rounded-xl space-y-3 border">
                 <input type="hidden" id="balcao-edit-id" value="">
-                <input type="text" id="balcao-nome" placeholder="PHSUBLIME Canecas Henrique Vieira" class="w-full p-2 border rounded font-bold">
-                <input type="text" id="balcao-endereco" placeholder="Rua Marcílio Dias, nº 24 - Seropédica/RJ" class="w-full p-2 border rounded">
-                <div class="flex justify-end"><button type="submit" id="btn-salvar-balcao" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">Salvar Balcão</button></div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2"><label class="font-bold block mb-1">Nome do Balcão: *</label><input type="text" id="balcao-nome" required placeholder="Balcão Irajá / RJ" class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">Prazo de Entrega (dias):</label><input type="number" id="balcao-prazo" value="1" class="w-full p-2 border rounded font-bold"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                    <div><label class="font-bold block mb-1">Telefone: *</label><input type="text" id="balcao-telefone" required placeholder="(21) 98614-7221" class="w-full p-2 border rounded font-bold text-emerald-700"></div>
+                    <div><label class="font-bold block mb-1">UF: *</label><input type="text" id="balcao-uf" value="RJ" required class="w-full p-2 border rounded uppercase text-center font-bold"></div>
+                    <div class="sm:col-span-2"><label class="font-bold block mb-1">Cidade: *</label><input type="text" id="balcao-cidade" value="Rio de Janeiro" required class="w-full p-2 border rounded font-bold"></div>
+                </div>
+                <div><label class="font-bold block mb-1">Endereço Completo: *</label><input type="text" id="balcao-endereco" required placeholder="Estrada da Água Grande, 221 - Irajá" class="w-full p-2 border rounded"></div>
+                <div class="flex justify-end gap-2"><button type="submit" id="btn-salvar-balcao" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase text-xs shadow">Salvar Balcão</button></div>
             </form>
-            <div class="border rounded-xl overflow-hidden max-h-48 overflow-y-auto"><table class="w-full text-left text-xs"><tbody id="tabela-balcoes-modal-body" class="divide-y"></tbody></table></div>
-            <div class="flex justify-end"><button type="button" onclick="fecharModalBalcoesRetirada()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+
+            <div class="border rounded-xl overflow-hidden max-h-48 overflow-y-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead><tr class="bg-slate-100 border-b font-bold uppercase"><th class="p-2">NOME</th><th class="p-2">ENDEREÇO</th><th class="p-2 text-center">AÇÕES</th></tr></thead>
+                    <tbody id="tabela-balcoes-modal-body" class="divide-y text-slate-700 font-medium"></tbody>
+                </table>
+            </div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalBalcoesRetirada()" class="px-5 py-2 bg-slate-200 font-bold rounded text-xs">Fechar</button></div>
         </div>
     </div>
 
-    <div id="modal-notificacoes" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-amber-200 my-8 text-xs">
-            <button onclick="fecharModalNotificacoes()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-bell text-amber-500"></i> Notificações</h3>
-            <form onsubmit="salvarNotificacoesSubmit(event)" class="space-y-3">
-                <input type="email" id="notif-email-pedido" value="phsublime5149@gmail.com" class="w-full p-2 border rounded font-bold">
-                <input type="text" id="notif-wpp-vendas" value="(21) 98614-7221" class="w-full p-2 border rounded font-bold text-emerald-700">
-                <div class="flex justify-end"><button type="submit" class="bg-amber-500 text-blue-950 font-black px-6 py-2 rounded uppercase">Salvar</button></div>
+    <!-- PÁGINAS EXTRAS INSTITUCIONAIS -->
+    <div id="modal-paginas-extras" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-purple-200 my-8 text-xs">
+            <button onclick="fecharModalPaginasExtras()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-file-lines text-purple-500"></i> Páginas Extras e Institucionais</h3>
+            
+            <form onsubmit="salvarPaginaExtraSubmit(event)" class="space-y-3">
+                <input type="hidden" id="pag-extra-edit-id" value="">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div><label class="font-bold block mb-1">Título da Página: *</label><input type="text" id="pag-extra-titulo" required placeholder="Instrução de Envio de Arquivos" class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">URL Amigável: *</label><input type="text" id="pag-extra-url" required placeholder="pagina/instrucao" class="w-full p-2 border rounded font-mono"></div>
+                </div>
+                <div><label class="font-bold block mb-1">Conteúdo da Página (HTML/Texto): *</label><textarea id="pag-extra-conteudo" rows="4" required class="w-full p-2.5 border rounded font-medium leading-relaxed"></textarea></div>
+                <div class="flex items-center justify-between"><label class="flex items-center gap-1 cursor-pointer font-bold"><input type="checkbox" id="pag-extra-ativo" checked> Ativo</label><button type="submit" id="btn-salvar-pag-extra" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">Salvar Página Extra</button></div>
+            </form>
+
+            <div class="border rounded-xl overflow-hidden max-h-44 overflow-y-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead><tr class="bg-slate-100 border-b font-bold uppercase"><th class="p-2">TÍTULO</th><th class="p-2">URL</th><th class="p-2 text-center">AÇÕES</th></tr></thead>
+                    <tbody id="tabela-paginas-extras-body" class="divide-y text-slate-700"></tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end border-t pt-2"><button type="button" onclick="fecharModalPaginasExtras()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <!-- CONTROLE MENSAGENS WHATSAPP COM PLACEHOLDERS -->
+    <div id="modal-controle-mensagens" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8 text-xs">
+            <button onclick="fecharModalControleMensagens()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-brands fa-whatsapp text-emerald-500"></i> Controle de Mensagens WhatsApp</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                <div class="lg:col-span-8 space-y-3">
+                    <div><label class="font-bold block mb-1">Nome do Status/Ação: *</label><input type="text" id="wpp-msg-nome" value="Aguardando Pagamento" class="w-full p-2 border rounded font-bold"></div>
+                    <div><label class="font-bold block mb-1">Modelo da Mensagem do WhatsApp: *</label><textarea id="wpp-msg-corpo" rows="6" class="w-full p-2.5 border rounded font-mono leading-relaxed">*PEDIDO AGUARDANDO PAGAMENTO* 🔔&#10;&#10;Olá {nome}, o seu pedido *{cod_pedido}* está *Aguardando Pagamento*.</textarea></div>
+                    <div class="flex justify-end"><button onclick="salvarModeloWppSubmit()" class="bg-blue-900 text-white font-black px-6 py-2 rounded uppercase">Salvar Mensagem</button></div>
+                </div>
+                <div class="lg:col-span-4 bg-slate-50 p-3 rounded-xl border space-y-1.5">
+                    <strong class="font-bold text-slate-800 block border-b pb-1">Placeholders Disponíveis:</strong>
+                    <p class="font-mono text-[10px] text-blue-900"><strong>{cod_pedido}</strong> - Código do pedido</p>
+                    <p class="font-mono text-[10px] text-blue-900"><strong>{nome}</strong> - Nome do cliente</p>
+                    <p class="font-mono text-[10px] text-blue-900"><strong>{nome_do_site}</strong> - Nome da empresa</p>
+                    <p class="font-mono text-[10px] text-blue-900"><strong>{telefone1}</strong> - Telefone principal</p>
+                    <p class="font-mono text-[10px] text-blue-900"><strong>{url}</strong> - Link da loja</p>
+                </div>
+            </div>
+            <div class="flex justify-end border-t pt-2"><button type="button" onclick="fecharModalControleMensagens()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <!-- FORMULÁRIO DE PRODUTO COMPLETO (FOTO 8) -->
+    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-box-open text-amber-500 text-base"></i>
+                <h3 class="text-base font-black text-slate-900 uppercase font-heading">Informações do Produto</h3>
+            </div>
+
+            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-4">
+                <input type="hidden" id="prod-edit-id" value="">
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    <div class="md:col-span-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-center space-y-3">
+                        <div class="w-full h-36 bg-white border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2">
+                            <i class="fa-regular fa-image text-4xl text-slate-300 mb-1"></i>
+                            <span class="text-[10px] text-slate-400 font-bold">Foto Principal</span>
+                        </div>
+                        <p class="text-[10px] text-slate-500 leading-tight">Adicione até 4 imagens com o Tamanho máx. 1MB. Para maior qualidade envie imagens no formato JPG.</p>
+                        <div class="flex items-center justify-center gap-1">
+                            <button type="button" class="bg-slate-200 text-slate-700 font-bold text-[10px] px-2 py-1 rounded">.cdr</button>
+                            <button type="button" class="bg-slate-200 text-slate-700 font-bold text-[10px] px-2 py-1 rounded">.psd</button>
+                            <button type="button" class="bg-slate-200 text-slate-700 font-bold text-[10px] px-2 py-1 rounded">.ai</button>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-8 space-y-3">
+                        <div>
+                            <label class="font-bold block mb-1">Categoria *</label>
+                            <select id="prod-categoria" class="w-full p-2 border rounded font-bold"><option value="Geral">Geral</option></select>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="sm:col-span-2">
+                                <label class="font-bold block mb-1">Nome do Produto *</label>
+                                <input type="text" id="prod-nome" required placeholder="Nome do Produto" class="w-full p-2 border rounded font-bold">
+                            </div>
+                            <div>
+                                <label class="font-bold block mb-1">Referência *</label>
+                                <input type="text" id="prod-ref" required placeholder="Ref-001" class="w-full p-2 border rounded font-mono">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="font-bold block mb-1">Prazo de Produção (Dias)</label>
+                                <input type="number" id="prod-prazo" value="1" class="w-full p-2 border rounded font-bold">
+                            </div>
+                            <div>
+                                <label class="font-bold block mb-1">URL da Imagem</label>
+                                <input type="text" id="prod-imagem" placeholder="https://..." class="w-full p-2 border rounded font-mono">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t pt-3 space-y-3">
+                    <h4 class="font-bold text-slate-800 uppercase font-heading border-b pb-1">$ Preços e Tabela de Desconto</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div><label class="font-bold block mb-1">Preço de Custo (R$)</label><input type="number" step="0.01" placeholder="0.00" class="w-full p-2 border rounded font-bold"></div>
+                        <div><label class="font-bold block mb-1">Preço de Venda (R$) *</label><input type="number" step="0.01" id="prod-preco" required placeholder="0.00" class="w-full p-2 border rounded font-bold text-emerald-700"></div>
+                        <div><label class="font-bold block mb-1">Preço Promocional (R$)</label><input type="number" step="0.01" placeholder="0.00" class="w-full p-2 border rounded font-bold text-red-600"></div>
+                        <div><label class="font-bold block mb-1">Nível Bronze (3%)</label><input type="number" step="0.01" placeholder="0.00" class="w-full p-2 border rounded font-bold"></div>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalFormProduto()" class="px-5 py-2.5 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl uppercase">Cancelar</button>
+                    <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-xl uppercase shadow">Salvar</button>
+                </div>
             </form>
         </div>
     </div>
 
+    <!-- MODAL CLIENTE -->
     <div id="modal-form-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalFormCliente()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -744,24 +947,42 @@
         </div>
     </div>
 
-    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
-            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar / Editar Produto</h3>
-            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3">
-                <input type="hidden" id="prod-edit-id" value="">
-                <div class="grid grid-cols-3 gap-3">
-                    <input type="text" id="prod-nome" required placeholder="Nome do Produto *" class="col-span-2 p-2 border rounded font-bold">
-                    <input type="text" id="prod-ref" required placeholder="Ref *" class="p-2 border rounded font-mono">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <select id="prod-categoria" class="p-2 border rounded font-bold">
-                        <option value="Geral">Geral</option><option value="Cartão de Visita">Cartão de Visita</option><option value="Banner">Banner</option><option value="Adesivo">Adesivo</option>
-                    </select>
-                    <input type="number" step="0.01" id="prod-preco" required placeholder="Preço (R$) *" class="p-2 border rounded font-bold text-emerald-700">
-                </div>
-                <input type="text" id="prod-imagem" placeholder="URL da Imagem do Produto" class="w-full p-2 border rounded font-mono">
-                <div class="flex justify-end gap-2 pt-2"><button type="submit" id="btn-salvar-produto-submit" class="bg-emerald-600 text-white font-black px-5 py-2 rounded uppercase shadow">Salvar Produto</button></div>
+    <!-- DEMAIS MODAIS COMPLETOS -->
+    <div id="modal-campanhas" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-red-200 my-8 text-xs">
+            <button onclick="fecharModalCampanhas()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-bullhorn text-red-500"></i> Campanhas</h3>
+            <p class="text-slate-600">Disparos automáticos configurados para a loja PHSUBLIME.</p>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalCampanhas()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-configuracoes-gerais" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-indigo-200 my-8 text-xs">
+            <button onclick="fecharModalConfiguracoesGerais()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-sliders text-indigo-500"></i> Configurações Gerais</h3>
+            <p class="text-slate-600">Recursos ativos na loja PHSUBLIME.</p>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalConfiguracoesGerais()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-funcionarios" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-slate-300 my-8 text-xs">
+            <button onclick="fecharModalFuncionarios()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-users-gear text-slate-600"></i> Funcionários</h3>
+            <p class="text-slate-600">Gerencie permissões de acesso ao painel.</p>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalFuncionarios()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-notificacoes" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-amber-200 my-8 text-xs">
+            <button onclick="fecharModalNotificacoes()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-bell text-amber-500"></i> Notificações</h3>
+            <form onsubmit="salvarNotificacoesSubmit(event)" class="space-y-3">
+                <input type="email" id="notif-email-pedido" value="phsublime5149@gmail.com" class="w-full p-2 border rounded font-bold">
+                <input type="text" id="notif-wpp-vendas" value="(21) 98614-7221" class="w-full p-2 border rounded font-bold text-emerald-700">
+                <div class="flex justify-end"><button type="submit" class="bg-amber-500 text-blue-950 font-black px-6 py-2 rounded uppercase">Salvar</button></div>
             </form>
         </div>
     </div>
@@ -795,7 +1016,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada com sucesso!</span>
     </div>
 
-    <!-- SCRIPT JS COMPLETO E INTEGRADO (ZERO TRAVAMENTO DE REFLOW DOM) -->
+    <!-- SCRIPT JS COMPLETO INTEGRADO AO SUPABASE E ANTI-TRAVAMENTO -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') { var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co'; }
         if (typeof window.SUPABASE_ANON_KEY === 'undefined') { var SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1'; }
@@ -805,7 +1026,22 @@
         let adminProdutos = [];
         let adminPedidos = [];
         let adminClientes = [];
+        let balcoesRetirada = [];
+        let paginasExtras = [];
+        let bannersLista = [];
         let timerDebounceBusca = null;
+        let funcaoExclusaoExecutar = null;
+
+        let formasPagamentoLista = [
+            { id: 'mp', nome: 'Mercado Pago (Cartão e PIX)', ativo: true },
+            { id: 'pix', nome: 'PIX Direct (Aprovação Imediata)', ativo: true },
+            { id: 'deposito', nome: 'Depósito / Transferência Bancária', ativo: false },
+            { id: 'entrega', nome: 'Pagamento na Entrega / Retirada', ativo: true }
+        ];
+
+        let formasEnvioLista = [
+            { id: 1, empresa: 'Transportadora Expressa / PH Entrega', valor: 7.90, prazo: 4, obs: 'Entregamos direto no endereço do cliente.' }
+        ];
 
         function escapeHtml(str) {
             if (str === null || str === undefined) return '';
@@ -820,6 +1056,12 @@
             const menu = document.getElementById('dropdown-config-menu');
             if (!btn && menu && !menu.contains(e.target)) menu.classList.add('hidden');
         });
+
+        function renderImagemHtml(url, classeCss) {
+            classeCss = classeCss || "w-10 h-10 object-contain rounded border bg-white p-0.5";
+            if (!url || typeof url !== 'string' || !url.trim()) return '<i class="fa-solid fa-box text-slate-300 text-lg"></i>';
+            return '<img src="' + escapeHtml(url.trim()) + '" class="' + classeCss + '" onerror="this.onerror=null; this.style.display=\'none\';">';
+        }
 
         function entrarDireto() {
             localStorage.setItem('phsublime_admin_logado', 'true');
@@ -862,7 +1104,7 @@
             if (aba === 'relatorios') atualizarIndicadoresRelatorio();
         }
 
-        // CARREGAMENTO PEDIDOS
+        // CARREGAMENTO PEDIDOS (COM STRING AGREGADA)
         async function carregarPedidosAdminSupabase() {
             const tbody = document.getElementById('tabela-admin-pedidos-body');
             if (!tbody) return;
@@ -1083,7 +1325,7 @@
             }, 300);
         }
 
-        // CARREGAMENTO PRODUTOS OTIMIZADO (100 itens por página max para zero lag)
+        // CARREGAMENTO PRODUTOS OTIMIZADO (100 itens max por página para zero lag)
         async function carregarProdutosAdmin() {
             const tbody = document.getElementById('tabela-admin-produtos-body');
             const txtCount = document.getElementById('txt-count-tabela-admin');
@@ -1169,7 +1411,45 @@
             }
         }
 
-        // HANDLERS DE MODAIS DIVERSOS
+        // HANDLERS DE MODAIS
+        function abrirModalPersonalizacaoCMS() { fecharDropdown(); document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden'); }
+        function fecharModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.add('hidden'); }
+        function abrirModalLogoFavicon() { fecharDropdown(); document.getElementById('modal-logo-favicon')?.classList.remove('hidden'); }
+        function fecharModalLogoFavicon() { document.getElementById('modal-logo-favicon')?.classList.add('hidden'); }
+        function abrirModalGerenciadorBanners() { fecharDropdown(); document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden'); }
+        function fecharModalGerenciadorBanners() { document.getElementById('modal-gerenciador-banners')?.classList.add('hidden'); }
+        function abrirModalCodigosHTML() { fecharDropdown(); document.getElementById('modal-codigos-html')?.classList.remove('hidden'); }
+        function fecharModalCodigosHTML() { document.getElementById('modal-codigos-html')?.classList.add('hidden'); }
+        function abrirModalPaginasExtras() { fecharDropdown(); document.getElementById('modal-paginas-extras')?.classList.remove('hidden'); }
+        function fecharModalPaginasExtras() { document.getElementById('modal-paginas-extras')?.classList.add('hidden'); }
+        function abrirModalControleMensagens() { fecharDropdown(); document.getElementById('modal-controle-mensagens')?.classList.remove('hidden'); }
+        function fecharModalControleMensagens() { document.getElementById('modal-controle-mensagens')?.classList.add('hidden'); }
+        function abrirModalCampanhas() { fecharDropdown(); document.getElementById('modal-campanhas')?.classList.remove('hidden'); }
+        function fecharModalCampanhas() { document.getElementById('modal-campanhas')?.classList.add('hidden'); }
+        function abrirModalConfiguracoesSistema() { fecharDropdown(); document.getElementById('modal-configuracoes-sistema')?.classList.remove('hidden'); }
+        function fecharModalConfiguracoesSistema() { document.getElementById('modal-configuracoes-sistema')?.classList.add('hidden'); }
+        function abrirModalConfiguracoesGerais() { fecharDropdown(); document.getElementById('modal-configuracoes-gerais')?.classList.remove('hidden'); }
+        function fecharModalConfiguracoesGerais() { document.getElementById('modal-configuracoes-gerais')?.classList.add('hidden'); }
+        function abrirModalFormasPagamento() { fecharDropdown(); document.getElementById('modal-formas-pagamento')?.classList.remove('hidden'); }
+        function fecharModalFormasPagamento() { document.getElementById('modal-formas-pagamento')?.classList.add('hidden'); }
+        function abrirModalFormasEnvio() { fecharDropdown(); document.getElementById('modal-formas-envio')?.classList.remove('hidden'); }
+        function fecharModalFormasEnvio() { document.getElementById('modal-formas-envio')?.classList.add('hidden'); }
+        function abrirModalFuncionarios() { fecharDropdown(); document.getElementById('modal-funcionarios')?.classList.remove('hidden'); }
+        function fecharModalFuncionarios() { document.getElementById('modal-funcionarios')?.classList.add('hidden'); }
+        function abrirModalBalcoesRetirada() { fecharDropdown(); document.getElementById('modal-balcoes-retirada')?.classList.remove('hidden'); }
+        function fecharModalBalcoesRetirada() { document.getElementById('modal-balcoes-retirada')?.classList.add('hidden'); }
+        function abrirModalNotificacoes() { fecharDropdown(); document.getElementById('modal-notificacoes')?.classList.remove('hidden'); }
+        function fecharModalNotificacoes() { document.getElementById('modal-notificacoes')?.classList.add('hidden'); }
+        function abrirModalMaisVendidos() { fecharDropdown(); document.getElementById('modal-gerenciar-mais-vendidos')?.classList.remove('hidden'); }
+        function fecharModalMaisVendidos() { document.getElementById('modal-gerenciar-mais-vendidos')?.classList.add('hidden'); }
+        function abrirModalCriarCupom() { fecharDropdown(); document.getElementById('modal-criar-cupom')?.classList.remove('hidden'); }
+        function fecharModalCriarCupom() { document.getElementById('modal-criar-cupom')?.classList.add('hidden'); }
+        function abrirModalFormProduto() { document.getElementById('modal-form-produto')?.classList.remove('hidden'); }
+        function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
+        function abrirModalFormCliente() { document.getElementById('modal-form-cliente')?.classList.remove('hidden'); }
+        function fecharModalFormCliente() { document.getElementById('modal-form-cliente')?.classList.add('hidden'); }
+        function fecharModalConfirmExclusao() { document.getElementById('modal-confirm-exclusao')?.classList.add('hidden'); }
+
         function salvarCMSCoresSubmit(e) { e.preventDefault(); fecharModalPersonalizacaoCMS(); mostrarToast("Aparência salva!"); }
         function salvarLogoFaviconSubmit(e) { e.preventDefault(); fecharModalLogoFavicon(); mostrarToast("Logos salvas!"); }
         function salvarBannerSubmit(e) { e.preventDefault(); fecharModalGerenciadorBanners(); mostrarToast("Banner salvo!"); }
