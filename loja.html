@@ -17,9 +17,9 @@
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <style>
+    <style id="estilo-dinamico-loja">
         :root {
-            /* PALETA ORIGINAL PHSUBLIME */
+            /* PALETA DINÂMICA EDITÁVEL PELO ADMIN */
             --cor-cabecalho: #316AC7;
             --cor-menu: #08009C;
             --cor-rodape: #003859;
@@ -109,7 +109,7 @@
                             GRÁFICA
                         </span>
                     </div>
-                    <span class="text-xs text-blue-100 font-medium block">SUA GRÁFICA ONLINE DIGITAL</span>
+                    <span id="txt-slogan-loja" class="text-xs text-blue-100 font-medium block">SUA GRÁFICA ONLINE DIGITAL</span>
                 </div>
             </a>
 
@@ -158,7 +158,7 @@
 
                 <div class="hidden lg:flex items-center gap-2 text-[11px] text-amber-300 font-semibold px-2">
                     <i class="fa-regular fa-clock"></i>
-                    <span>Atendimento Segunda a Sexta 8h às 18h</span>
+                    <span id="txt-horario-topo">Atendimento Segunda a Sexta 8h às 18h</span>
                 </div>
             </div>
         </nav>
@@ -412,7 +412,7 @@
                             <img id="footer-fb-logo-mini" src="https://placehold.co/50x50/08009C/FFFFFF?text=PH" class="w-10 h-10 object-contain rounded border p-0.5 bg-slate-50">
                             <div>
                                 <strong id="footer-fb-nome" class="font-bold text-xs text-blue-900 block leading-tight">PHSUBLIME GRÁFICA</strong>
-                                <span class="text-[10px] text-slate-500 font-medium">1.629 seguidores</span>
+                                <span id="footer-fb-seguidores" class="text-[10px] text-slate-500 font-medium">1.629 seguidores</span>
                             </div>
                         </div>
                         <a id="footer-fb-btn-seguir" href="https://facebook.com" target="_blank" class="block w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1.5 rounded text-[11px] border border-slate-300 transition-all">
@@ -429,7 +429,7 @@
                 
                 <div class="space-y-2">
                     <span class="font-bold text-slate-500 block uppercase text-[11px]">Formas de Pagamento:</span>
-                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 text-xl text-slate-600">
+                    <div id="footer-icones-pagamento" class="flex flex-wrap items-center justify-center md:justify-start gap-2 text-xl text-slate-600">
                         <i class="fa-brands fa-cc-visa text-blue-900" title="VISA"></i>
                         <i class="fa-brands fa-cc-mastercard text-red-600" title="Mastercard"></i>
                         <i class="fa-solid fa-credit-card text-emerald-600" title="Elo / Hipercard"></i>
@@ -1124,7 +1124,113 @@
             }, 3000);
         }
 
-        // --- 5. RENDERIZAÇÃO DA ÁRVORE DE CATEGORIAS E SUB-BOTÕES (RECURSIVA MULTINÍVEL) ---
+        // --- 5. CARREGAMENTO DINÂMICO DE TODAS AS CONFIGURAÇÕES DO ADMIN (SUPABASE + LOCALSTORAGE) ---
+        async function carregarConfiguracoesCompletasAdmin() {
+            let configsNuvem = {};
+
+            // 1. Tenta buscar todas as configurações salvas na tabela 'configuracoes' do Supabase
+            try {
+                if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+                    const { data, error } = await supabaseClient.from('configuracoes').select('*');
+                    if (!error && data && data.length > 0) {
+                        data.forEach(item => {
+                            if (item.chave && item.valor) {
+                                configsNuvem[item.chave] = item.valor;
+                                localStorage.setItem(item.chave, JSON.stringify(item.valor)); // Sincroniza localmente
+                            }
+                        });
+                    }
+                }
+            } catch(e) {
+                console.warn("Lendo configurações do cache local...");
+            }
+
+            // 2. APLICA CORES E IDENTIDADE VISUAL (CMS)
+            const cms = configsNuvem['phsublime_admin_logos'] || JSON.parse(localStorage.getItem('phsublime_admin_logos') || '{}');
+            if (cms) {
+                if (cms.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', cms.corCabecalho);
+                if (cms.corBotao) document.documentElement.style.setProperty('--cor-menu', cms.corBotao);
+                if (cms.corBotaoComprar) document.documentElement.style.setProperty('--cor-botao-comprar', cms.corBotaoComprar);
+                if (cms.corBotaoGabarito) document.documentElement.style.setProperty('--cor-botao-gabarito', cms.corBotaoGabarito);
+                
+                if (cms.logoSistema) {
+                    const logoTopo = document.getElementById('logo-loja-img');
+                    if (logoTopo) logoTopo.src = cms.logoSistema;
+                    const logoFooter = document.getElementById('footer-logo-barra-final');
+                    if (logoFooter) logoFooter.src = cms.logoSistema;
+                    const logoFb = document.getElementById('footer-fb-logo-mini');
+                    if (logoFb) logoFb.src = cms.logoSistema;
+                }
+                if (cms.favicon) {
+                    const fav = document.getElementById('site-favicon');
+                    if (fav) fav.href = cms.favicon;
+                }
+            }
+
+            // 3. APLICA DADOS DA LOJA (TÍTULO, TELEFONES, ENDEREÇO)
+            const dados = configsNuvem['phsublime_dados_loja'] || JSON.parse(localStorage.getItem('phsublime_dados_loja') || '{}');
+            if (dados) {
+                if (dados.titulo) {
+                    document.title = dados.titulo;
+                    const h1El = document.getElementById('txt-nome-loja-topo');
+                    if (h1El) h1El.innerText = dados.titulo.split(' - ')[0] || 'PHSUBLIME';
+                    
+                    const fbNome = document.getElementById('footer-fb-nome');
+                    if (fbNome) fbNome.innerText = (dados.titulo.split(' - ')[0] || 'PHSUBLIME') + ' GRÁFICA';
+                }
+
+                if (dados.tel1) {
+                    const numApenasDigitos = dados.tel1.replace(/\D/g, '');
+                    if (numApenasDigitos) {
+                        whatsappAtendimentoLoja = numApenasDigitos.startsWith('55') ? numApenasDigitos : `55${numApenasDigitos}`;
+                        
+                        const btnWppTopo = document.getElementById('btn-wpp-topo');
+                        if (btnWppTopo) btnWppTopo.href = `https://wa.me/${whatsappAtendimentoLoja}`;
+                        
+                        const txtWppTopo = document.getElementById('txt-wpp-topo');
+                        if (txtWppTopo) txtWppTopo.innerText = dados.tel1;
+
+                        const telFooter = document.getElementById('footer-tel-atendimento');
+                        if (telFooter) telFooter.innerText = dados.tel1;
+
+                        const linkWppFooter = document.getElementById('footer-wpp-link');
+                        if (linkWppFooter) linkWppFooter.href = `https://wa.me/${whatsappAtendimentoLoja}`;
+
+                        const linkFaleConosco = document.getElementById('link-fale-conosco-footer');
+                        if (linkFaleConosco) linkFaleConosco.href = `https://wa.me/${whatsappAtendimentoLoja}`;
+                    }
+                }
+
+                if (dados.tel2) {
+                    const telFooter2 = document.getElementById('footer-tel-atendimento-2');
+                    if (telFooter2) telFooter2.innerText = dados.tel2;
+                }
+
+                if (dados.email) {
+                    const emailFooter = document.getElementById('footer-email-atendimento');
+                    if (emailFooter) emailFooter.innerText = dados.email;
+                }
+
+                if (dados.endereco) {
+                    const endFooter = document.getElementById('footer-endereco-txt');
+                    if (endFooter) endFooter.innerText = dados.endereco;
+                }
+            }
+
+            // 4. APLICA BANNERS SLIDER E MINI BANNERS
+            const bannersSalvos = configsNuvem['phsublime_admin_banners'] || JSON.parse(localStorage.getItem('phsublime_admin_banners') || '[]');
+            if (Array.isArray(bannersSalvos) && bannersSalvos.length > 0) {
+                const slider = bannersSalvos.filter(b => (!b.tipo || b.tipo === 'Animação' || b.tipo.includes('Slider')) && b.imagem);
+                const minis = bannersSalvos.filter(b => b.tipo === 'Mini Banner' && b.imagem);
+                
+                if (slider.length > 0) bannersCarrossel = slider.map(b => ({ img: b.imagem, link: b.link || '' }));
+                if (minis.length > 0) miniBannersParados = minis.map(b => ({ img: b.imagem, link: b.link || '' })).slice(0, 3);
+            }
+            renderizarBanners();
+            renderizarMiniBanners();
+        }
+
+        // --- 6. RENDERIZAÇÃO DA ÁRVORE DE CATEGORIAS E SUB-BOTÕES (RECURSIVA MULTINÍVEL) ---
         function gerarHtmlCategoriasTree(lista, nivel = 0) {
             if (!Array.isArray(lista)) return '';
             let html = '';
@@ -1254,7 +1360,7 @@
             });
         }
 
-        // --- 6. PERFIL E MENSAGENS DO CLIENTE ---
+        // --- 7. PERFIL E MENSAGENS DO CLIENTE ---
         function carregarPerfilCliente() {
             try {
                 const p = localStorage.getItem('phsublime_perfil_cliente');
@@ -1308,7 +1414,7 @@
             mostrarToast("Você saiu da conta.");
         }
 
-        // --- 7. GAVETA LATERAL DE CARRINHO (DRAWER) ---
+        // --- 8. GAVETA LATERAL DE CARRINHO (DRAWER) ---
         function alternarCarrinhoLateral(abrir) {
             const drawer = document.getElementById('aba-lateral-carrinho');
             if (!drawer) return;
@@ -1362,62 +1468,6 @@
             if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
         }
 
-        // --- 8. CONFIGURAÇÕES LOCAIS DE BANNER E HEADER ---
-        function carregarConfiguracoesAdminLocal() {
-            try {
-                const dadosLojaStr = localStorage.getItem('phsublime_dados_loja');
-                if (dadosLojaStr) {
-                    const dados = JSON.parse(dadosLojaStr);
-                    
-                    if (dados.titulo) {
-                        document.title = dados.titulo;
-                        const h1El = document.getElementById('txt-nome-loja-topo');
-                        if (h1El) h1El.innerText = dados.titulo.split(' - ')[0] || 'PHSUBLIME';
-                        
-                        const fbNome = document.getElementById('footer-fb-nome');
-                        if (fbNome) fbNome.innerText = dados.titulo.split(' - ')[0] || 'PHSUBLIME GRÁFICA';
-                    }
-
-                    if (dados.tel1) {
-                        const numApenasDigitos = dados.tel1.replace(/\D/g, '');
-                        if (numApenasDigitos) {
-                            whatsappAtendimentoLoja = numApenasDigitos.startsWith('55') ? numApenasDigitos : `55${numApenasDigitos}`;
-                            
-                            const btnWppTopo = document.getElementById('btn-wpp-topo');
-                            if (btnWppTopo) btnWppTopo.href = `https://wa.me/${whatsappAtendimentoLoja}`;
-                            
-                            const txtWppTopo = document.getElementById('txt-wpp-topo');
-                            if (txtWppTopo) txtWppTopo.innerText = dados.tel1;
-
-                            const telFooter = document.getElementById('footer-tel-atendimento');
-                            if (telFooter) telFooter.innerText = dados.tel1;
-
-                            const linkWppFooter = document.getElementById('footer-wpp-link');
-                            if (linkWppFooter) linkWppFooter.href = `https://wa.me/${whatsappAtendimentoLoja}`;
-
-                            const linkFaleConosco = document.getElementById('link-fale-conosco-footer');
-                            if (linkFaleConosco) linkFaleConosco.href = `https://wa.me/${whatsappAtendimentoLoja}`;
-                        }
-                    }
-
-                    if (dados.tel2) {
-                        const telFooter2 = document.getElementById('footer-tel-atendimento-2');
-                        if (telFooter2) telFooter2.innerText = dados.tel2;
-                    }
-
-                    if (dados.email) {
-                        const emailFooter = document.getElementById('footer-email-atendimento');
-                        if (emailFooter) emailFooter.innerText = dados.email;
-                    }
-
-                    if (dados.endereco) {
-                        const endFooter = document.getElementById('footer-endereco-txt');
-                        if (endFooter) endFooter.innerText = dados.endereco;
-                    }
-                }
-            } catch(e) { console.error("Erro ao ler dados da loja:", e); }
-        }
-
         function mostrarModalPaginaExtra(titulo) {
             let conteudo = "<p>Conteúdo em atualização.</p>";
             try {
@@ -1436,24 +1486,6 @@
 
         function fecharModalPaginaExtraLoja() {
             document.getElementById('modal-pagina-extra-loja').classList.add('hidden');
-        }
-
-        function carregarBannersAdmin() {
-            try {
-                const bannersSalvos = localStorage.getItem('phsublime_admin_banners');
-                if (bannersSalvos) {
-                    const lista = JSON.parse(bannersSalvos);
-                    if (Array.isArray(lista) && lista.length > 0) {
-                        const slider = lista.filter(b => (!b.tipo || b.tipo === 'Animação' || b.tipo.includes('Slider')) && !b.img?.includes('sistograf.net'));
-                        const minis = lista.filter(b => b.tipo === 'Mini Banner' && !b.img?.includes('sistograf.net'));
-                        
-                        if (slider.length > 0) bannersCarrossel = slider;
-                        if (minis.length > 0) miniBannersParados = minis.slice(0, 3);
-                    }
-                }
-            } catch(e) {}
-            renderizarBanners();
-            renderizarMiniBanners();
         }
 
         function renderizarBanners() {
@@ -1546,7 +1578,7 @@
             } catch(e) {}
         }
 
-        // --- 9. CARREGAMENTO DE PRODUTOS DA GRÁFICA ---
+        // --- 9. CARREGAMENTO DE PRODUTOS DA GRÁFICA DO SUPABASE ---
         async function carregarEstoqueSupabase() {
             let produtosSupabase = [];
 
@@ -1555,7 +1587,7 @@
                     const { data, error } = await supabaseClient
                         .from('produtos')
                         .select('id, Nome, Categorias_Secundarias, Preco_Venda, Referencia, Url, Descricao, gabarito_url')
-                        .limit(100);
+                        .limit(200);
 
                     if (!error && data && data.length > 0) {
                         produtosSupabase = data.map(item => {
@@ -2083,9 +2115,8 @@
         }
 
         async function inicializarPortal() {
-            carregarConfiguracoesAdminLocal();
+            await carregarConfiguracoesCompletasAdmin();
             carregarPerfilCliente();
-            carregarBannersAdmin();
             carregarScriptsAdminHead();
             await carregarEstoqueSupabase();
             atualizarBadgeCarrinho();
