@@ -58,7 +58,6 @@
         .tag-promocao { background-color: #1818FF; color: #FFED00; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
         .tag-novo { background-color: #1900A9; color: #FFFFFF; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
 
-        /* ESTILOS DA ABA DE FRETE/BALCÃO ESTILO GRAFICONAUTA */
         .aba-frete-btn {
             border: 2px solid #316AC7;
             border-bottom: none;
@@ -79,6 +78,27 @@
 
         .conteudo-html-descricao h2 { font-size: 1.1rem; font-weight: 800; color: #3b0764; margin-top: 1rem; margin-bottom: 0.5rem; }
         .conteudo-html-descricao p { font-size: 0.8rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem; }
+
+        /* ESTILOS DA RÉGUA DE FIDELIDADE (ESTILO GRAFICONAUTA) */
+        .regua-container {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 12px;
+            padding: 16px;
+            color: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .regua-marcador-linha {
+            height: 12px;
+            background: #334155;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .regua-marcador-progresso {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 50%, #f59e0b 100%);
+            transition: width 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-blue-900 relative">
@@ -97,9 +117,7 @@
                 </button>
             </div>
 
-            <div id="conteudo-carrinho-lateral" class="flex-1 overflow-y-auto space-y-3 pr-1 text-xs divide-y divide-slate-800">
-                <!-- Injetado via JS -->
-            </div>
+            <div id="conteudo-carrinho-lateral" class="flex-1 overflow-y-auto space-y-3 pr-1 text-xs divide-y divide-slate-800"></div>
         </div>
 
         <div class="border-t border-slate-700 pt-4 space-y-3 bg-slate-900/90">
@@ -135,11 +153,11 @@
             <div class="flex items-center gap-2 sm:gap-3 shrink-0 flex-wrap justify-center">
                 
                 <div id="box-user-header" class="relative">
-                    <button onclick="toggleModalLogin()" class="flex items-center gap-2 bg-blue-950/70 hover:bg-blue-950 text-white px-3 py-2 rounded-xl text-xs font-semibold border border-blue-800 transition-all">
+                    <button onclick="abrirMinhaContaOuLogin()" class="flex items-center gap-2 bg-blue-950/70 hover:bg-blue-950 text-white px-3 py-2 rounded-xl text-xs font-semibold border border-blue-800 transition-all">
                         <i class="fa-regular fa-user text-amber-400"></i>
                         <div class="text-left leading-tight">
                             <span id="txt-user-header-nome" class="block text-[11px] font-bold">Olá, Visitante</span>
-                            <span class="text-[9px] text-blue-200">Minha Conta / Entrar</span>
+                            <span id="txt-user-header-sub" class="text-[9px] text-blue-200">Minha Conta / Entrar</span>
                         </div>
                         <i class="fa-solid fa-caret-down text-[10px] ml-1"></i>
                     </button>
@@ -161,8 +179,7 @@
 
         <nav class="bg-custom-menu border-t border-blue-800 text-xs font-bold text-white">
             <div class="max-w-[1536px] mx-auto px-2 sm:px-4 flex items-center justify-between">
-                <div id="container-menu-categorias-topo" class="flex items-center text-[10px] sm:text-xs overflow-x-auto whitespace-nowrap">
-                </div>
+                <div id="container-menu-categorias-topo" class="flex items-center text-[10px] sm:text-xs overflow-x-auto whitespace-nowrap"></div>
 
                 <div class="hidden lg:flex items-center gap-2 text-[11px] text-amber-300 font-semibold px-2">
                     <i class="fa-regular fa-clock"></i>
@@ -208,18 +225,16 @@
                             <span>MAIS VENDIDOS</span>
                             <i class="fa-solid fa-fire text-amber-300"></i>
                         </div>
-                        <ul id="lista-mais-vendidos-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700">
-                        </ul>
+                        <ul id="lista-mais-vendidos-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700"></ul>
                     </div>
 
-                    <!-- BLOCO TODOS OS PRODUTOS (ESTRUTURA SANFONADA MULTINÍVEL) -->
+                    <!-- BLOCO TODOS OS PRODUTOS -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
                             <span>TODOS OS PRODUTOS</span>
                             <i class="fa-solid fa-layer-group text-amber-300"></i>
                         </div>
-                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[650px] overflow-y-auto">
-                        </ul>
+                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[650px] overflow-y-auto"></ul>
                     </div>
                 </aside>
 
@@ -251,9 +266,7 @@
                                 PRODUTOS EM DESTAQUE
                             </h3>
                         </div>
-                        <div id="container-produtos-destaque-row" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                            <!-- Injetado via JS -->
-                        </div>
+                        <div id="container-produtos-destaque-row" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4"></div>
                     </div>
 
                     <!-- PRODUTOS MAIS VENDIDOS (GRADE PRINCIPAL) -->
@@ -265,7 +278,7 @@
                             <span id="txt-contador-produtos" class="text-xs text-slate-500 font-bold bg-slate-100 px-3 py-1 rounded-full">Carregando estoque...</span>
                         </div>
 
-                        <!-- GRID DE PRODUTOS DA GRÁFICA -->
+                        <!-- GRID DE PRODUTOS -->
                         <div id="container-catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
 
                         <!-- PAGINAÇÃO -->
@@ -291,7 +304,193 @@
             </div>
         </div>
 
-        <!-- 2. SEÇÃO CARRINHO E CHECKOUT COMPLETO ESTILO GRAFICONAUTA (EM TELA CHEIA) -->
+        <!-- 2. SEÇÃO ÁREA DO CLIENTE / MINHA CONTA (ESTILO GRAFICONAUTA) -->
+        <div id="secao-minha-conta" class="hidden space-y-6">
+            
+            <!-- RÉGUA DE FIDELIDADE / GAMIFICAÇÃO MENSAL -->
+            <div class="regua-container space-y-4">
+                <div class="text-center space-y-1">
+                    <h3 class="text-xs sm:text-sm font-black uppercase text-amber-400 tracking-wider">
+                        ESTE MÊS VOCÊ JÁ COMPROU <span id="txt-regua-total-mes" class="text-emerald-400 text-base">R$ 0,00</span> E ESTÁ NO NÍVEL <span id="txt-regua-nivel-atual" class="text-amber-300 uppercase">START</span>
+                    </h3>
+                    <p id="txt-regua-msg-proximo" class="text-[11px] text-slate-300 font-medium">
+                        Comprando mais <strong id="txt-regua-valor-falta" class="text-amber-400">R$ 300,00</strong> até o final do mês, você garante o nível <strong id="txt-regua-proximo-nivel" class="text-amber-300">BRONZE (3% OFF)</strong> para o mês seguinte!
+                    </p>
+                </div>
+
+                <!-- LINHA DA RÉGUA VISUAL COM FAIXAS -->
+                <div class="space-y-1">
+                    <div class="regua-marcador-linha">
+                        <div id="regua-barra-progresso" class="regua-marcador-progresso" style="width: 0%;"></div>
+                    </div>
+                    <div class="grid grid-cols-5 text-[10px] font-black text-slate-400 text-center uppercase tracking-tighter pt-1">
+                        <div>START<br><span class="text-[8px] text-slate-500">0%</span></div>
+                        <div class="text-amber-600">BRONZE<br><span class="text-[8px] text-amber-500">3% OFF</span></div>
+                        <div class="text-slate-300">PRATA<br><span class="text-[8px] text-slate-400">6% OFF</span></div>
+                        <div class="text-amber-400">OURO<br><span class="text-[8px] text-amber-300">10% OFF</span></div>
+                        <div class="text-cyan-400">DIAMANTE<br><span class="text-[8px] text-cyan-300">15% OFF</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MENU SUB-NAVEGAÇÃO DA MINHA CONTA -->
+            <div class="bg-white border-b border-slate-200 rounded-xl p-2 flex items-center gap-2 overflow-x-auto text-xs font-bold text-slate-600 shadow-sm">
+                <button onclick="mudarSubAbaMinhaConta('pedidos')" id="btn-subaba-pedidos" class="px-4 py-2 bg-blue-900 text-amber-300 rounded-lg shadow uppercase shrink-0">
+                    <i class="fa-solid fa-cart-flatbed mr-1.5"></i> Meus Pedidos
+                </button>
+                <button onclick="mudarSubAbaMinhaConta('dados')" id="btn-subaba-dados" class="px-4 py-2 hover:bg-slate-100 rounded-lg uppercase shrink-0">
+                    <i class="fa-regular fa-id-card mr-1.5"></i> Meus Dados & Endereços
+                </button>
+            </div>
+
+            <!-- PAINEL SUB-ABA: MEUS PEDIDOS -->
+            <div id="subaba-conteudo-pedidos" class="space-y-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
+                    <div class="flex items-center gap-2 w-full md:w-auto">
+                        <label class="font-bold text-slate-700 shrink-0">Situação:</label>
+                        <select id="filtro-cliente-pedido-status" onchange="filtrarPedidosClienteLocal()" class="p-2 border rounded-lg font-bold w-full md:w-48 focus:outline-none">
+                            <option value="TODOS">Todos os Status</option>
+                            <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                            <option value="Análise de Arquivo">Análise de Arquivo</option>
+                            <option value="Em Fila de Impressão">Em Fila de Impressão</option>
+                            <option value="Em Produção">Em Produção</option>
+                            <option value="Em Transporte">Em Transporte</option>
+                            <option value="Concluído">Concluído</option>
+                        </select>
+                    </div>
+                    <span id="txt-contador-pedidos-cliente" class="font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">0 pedido(s) encontrado(s)</span>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+                                    <th class="py-3 px-4">Nº PEDIDO</th>
+                                    <th class="py-3 px-4">DATA DA COMPRA</th>
+                                    <th class="py-3 px-4 text-center">VALOR (R$)</th>
+                                    <th class="py-3 px-4 text-center">FINANCEIRO</th>
+                                    <th class="py-3 px-4 text-center">STATUS PRODUÇÃO</th>
+                                    <th class="py-3 px-4 text-center w-32">DETALHES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-meus-pedidos-cliente-body" class="divide-y divide-slate-100">
+                                <tr>
+                                    <td colspan="6" class="py-8 text-center text-slate-400 font-bold">
+                                        <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block"></i> Carregando seus pedidos...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAINEL SUB-ABA: MEUS DADOS E ENDEREÇOS -->
+            <div id="subaba-conteudo-dados" class="hidden space-y-6">
+                <form onsubmit="salvarMeusDadosClienteSubmit(event)" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 text-xs">
+                    <h4 class="font-black text-blue-900 uppercase font-heading border-b pb-2 flex items-center gap-2">
+                        <i class="fa-regular fa-user text-amber-500"></i> Meus Dados Cadastrais
+                    </h4>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">Nome Completo / Razão Social *</label>
+                            <input type="text" id="minha-conta-nome" required placeholder="Digite seu nome completo" class="w-full p-2.5 border rounded-lg font-bold focus:outline-none focus:border-blue-600">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">CPF ou CNPJ *</label>
+                            <input type="text" id="minha-conta-doc" required placeholder="000.000.000-00" class="w-full p-2.5 border rounded-lg font-mono focus:outline-none focus:border-blue-600">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">WhatsApp / Celular *</label>
+                            <input type="text" id="minha-conta-wpp" required placeholder="(21) 99999-9999" class="w-full p-2.5 border rounded-lg font-bold text-emerald-700 focus:outline-none focus:border-blue-600">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 block mb-1">E-mail *</label>
+                            <input type="email" id="minha-conta-email" required placeholder="seuemail@exemplo.com" class="w-full p-2.5 border rounded-lg focus:outline-none focus:border-blue-600">
+                        </div>
+                    </div>
+
+                    <!-- BLOCO DE ENDEREÇOS -->
+                    <div class="border-t pt-4 space-y-3">
+                        <h4 class="font-black text-blue-900 uppercase font-heading flex items-center gap-2">
+                            <i class="fa-solid fa-map-location-dot text-amber-500"></i> Endereço Principal de Entrega
+                        </h4>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">CEP *</label>
+                                <input type="text" id="minha-conta-cep" required placeholder="00000-000" onkeyup="buscarCepMinhaConta(this.value)" class="w-full p-2.5 border rounded-lg font-mono">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="font-bold text-slate-700 block mb-1">Rua / Logradouro *</label>
+                                <input type="text" id="minha-conta-rua" required placeholder="Rua..." class="w-full p-2.5 border rounded-lg">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">Número *</label>
+                                <input type="text" id="minha-conta-numero" required placeholder="Nº" class="w-full p-2.5 border rounded-lg">
+                            </div>
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">Complemento</label>
+                                <input type="text" id="minha-conta-complemento" placeholder="Apto, Sala" class="w-full p-2.5 border rounded-lg">
+                            </div>
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">Bairro *</label>
+                                <input type="text" id="minha-conta-bairro" required placeholder="Bairro" class="w-full p-2.5 border rounded-lg">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="col-span-2">
+                                <label class="font-bold text-slate-700 block mb-1">Cidade *</label>
+                                <input type="text" id="minha-conta-cidade" required placeholder="Cidade" class="w-full p-2.5 border rounded-lg">
+                            </div>
+                            <div>
+                                <label class="font-bold text-slate-700 block mb-1">UF *</label>
+                                <input type="text" id="minha-conta-uf" required placeholder="RJ" maxlength="2" class="w-full p-2.5 border rounded-lg uppercase text-center font-bold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ENDEREÇO SECUNDÁRIO / DROPSHIPPING -->
+                    <div class="border-t pt-4 space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h4 class="font-black text-blue-900 uppercase font-heading flex items-center justify-between">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-truck-ramp-box text-blue-600"></i> Endereço Alternativo / Dropshipping</span>
+                            <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                                <input type="checkbox" id="chk-usar-endereco-alt" onchange="toggleEnderecoAltMinhaConta()" class="rounded accent-blue-900"> Ativar este endereço
+                            </label>
+                        </h4>
+
+                        <div id="box-endereco-alt-campos" class="hidden space-y-3 pt-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div><label class="font-bold text-slate-700 block mb-1">CEP Alternativo</label><input type="text" id="minha-conta-alt-cep" placeholder="00000-000" class="w-full p-2 border rounded-lg font-mono"></div>
+                                <div class="sm:col-span-2"><label class="font-bold text-slate-700 block mb-1">Logradouro Alternativo</label><input type="text" id="minha-conta-alt-rua" placeholder="Rua..." class="w-full p-2 border rounded-lg"></div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div><label class="font-bold text-slate-700 block mb-1">Número</label><input type="text" id="minha-conta-alt-numero" class="w-full p-2 border rounded-lg"></div>
+                                <div><label class="font-bold text-slate-700 block mb-1">Complemento</label><input type="text" id="minha-conta-alt-complemento" class="w-full p-2 border rounded-lg"></div>
+                                <div><label class="font-bold text-slate-700 block mb-1">Bairro</label><input type="text" id="minha-conta-alt-bairro" class="w-full p-2 border rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex justify-end gap-2">
+                        <button type="button" onclick="limparPerfilCliente()" class="px-4 py-2.5 bg-red-100 text-red-700 font-bold rounded-xl hover:bg-red-200">Sair / Desconectar</button>
+                        <button type="submit" class="px-6 py-2.5 bg-blue-900 text-white font-black rounded-xl hover:bg-blue-800 uppercase shadow">Salvar Dados</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- 3. SEÇÃO CARRINHO E CHECKOUT COMPLETO ESTILO GRAFICONAUTA -->
         <div id="secao-carrinho" class="hidden space-y-6">
             
             <div id="carrinho-vazio-msg" class="hidden bg-white border border-slate-200 p-12 rounded-2xl text-center space-y-3 shadow-sm">
@@ -308,7 +507,7 @@
                 <!-- COLUNA DA ESQUERDA: TABELA, RESUMO, ENDEREÇO E FRETE/BALCÃO -->
                 <div class="lg:col-span-8 space-y-6">
                     
-                    <!-- 1. TABELA DE PRODUTOS COMPLETA COM ARQUIVOS E OBSERVAÇÕES -->
+                    <!-- 1. TABELA DE PRODUTOS COMPLETA -->
                     <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
                         <div class="bg-[#316AC7] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
                             <span class="flex items-center gap-2"><i class="fa-solid fa-boxes-packing text-amber-300"></i> Produtos no Carrinho</span>
@@ -330,7 +529,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. PAINEL DE CUPOM, SUB-TOTAL E PREVISÃO DE ENTREGA -->
+                    <!-- 2. PAINEL DE CUPOM, RESUMO E DESCONTO FIDELIDADE -->
                     <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4 text-xs">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center border-b border-slate-100 pb-4">
                             <div>
@@ -344,6 +543,7 @@
 
                             <div class="space-y-1.5 text-right bg-slate-50 p-3 rounded-xl border border-slate-200/80">
                                 <div class="flex justify-between text-slate-600"><span>Subtotal dos Produtos:</span><strong id="cart-resumo-subtotal" class="text-slate-800">R$ 0,00</strong></div>
+                                <div id="linha-desconto-fidelidade" class="hidden flex justify-between text-amber-600 font-bold"><span>Desconto Nível Fidelidade:</span><strong id="cart-resumo-desconto-fidelidade">- R$ 0,00</strong></div>
                                 <div id="linha-desconto-cupom" class="hidden flex justify-between text-emerald-600 font-bold"><span>Desconto do Cupom:</span><strong id="cart-resumo-desconto">- R$ 0,00</strong></div>
                                 <div class="flex justify-between text-slate-600"><span>Valor do Frete / Envio:</span><strong id="cart-resumo-frete" class="text-blue-900">R$ 0,00</strong></div>
                             </div>
@@ -364,11 +564,20 @@
                         </div>
                     </div>
 
-                    <!-- 3. GESTÃO DO ENDEREÇO DE ENTREGA DO CLIENTE -->
+                    <!-- 3. GESTÃO DO ENDEREÇO DE ENTREGA COM OPÇÃO DE SELEÇÃO -->
                     <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3 text-xs">
-                        <h4 class="font-black text-blue-900 uppercase font-heading flex items-center gap-2 border-b border-slate-100 pb-2">
-                            <i class="fa-solid fa-map-location-dot text-amber-500"></i> Endereço de Entrega
-                        </h4>
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <h4 class="font-black text-blue-900 uppercase font-heading flex items-center gap-2">
+                                <i class="fa-solid fa-map-location-dot text-amber-500"></i> Endereço de Entrega
+                            </h4>
+                            <div id="box-seletor-endereco-checkout" class="hidden flex items-center gap-2">
+                                <label class="font-bold text-slate-600">Usar:</label>
+                                <select id="sel-endereco-checkout-tipo" onchange="alternarEnderecoCheckoutSelecao()" class="p-1 border rounded font-bold text-blue-900">
+                                    <option value="principal">Endereço Principal</option>
+                                    <option value="alternativo">Endereço Alternativo / Dropshipping</option>
+                                </select>
+                            </div>
+                        </div>
                         
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div>
@@ -377,38 +586,38 @@
                             </div>
                             <div class="sm:col-span-2">
                                 <label class="font-bold text-slate-700 block mb-1">Rua / Logradouro *</label>
-                                <input type="text" id="checkout-rua" required placeholder="Rua, Avenida, Alameda..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                                <input type="text" id="checkout-rua" required placeholder="Rua, Avenida..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-3 gap-3">
                             <div>
                                 <label class="font-bold text-slate-700 block mb-1">Número *</label>
-                                <input type="text" id="checkout-numero" required placeholder="Nº" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                                <input type="text" id="checkout-numero" required placeholder="Nº" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
                             </div>
                             <div>
                                 <label class="font-bold text-slate-700 block mb-1">Complemento</label>
-                                <input type="text" id="checkout-complemento" placeholder="Apto, Bloco, Sala" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                                <input type="text" id="checkout-complemento" placeholder="Apto, Bloco" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
                             </div>
                             <div>
                                 <label class="font-bold text-slate-700 block mb-1">Bairro *</label>
-                                <input type="text" id="checkout-bairro" required placeholder="Bairro" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                                <input type="text" id="checkout-bairro" required placeholder="Bairro" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-3 gap-3">
                             <div class="col-span-2">
                                 <label class="font-bold text-slate-700 block mb-1">Cidade *</label>
-                                <input type="text" id="checkout-cidade" required placeholder="Rio de Janeiro" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600">
+                                <input type="text" id="checkout-cidade" required placeholder="Rio de Janeiro" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
                             </div>
                             <div>
                                 <label class="font-bold text-slate-700 block mb-1">UF *</label>
-                                <input type="text" id="checkout-uf" required placeholder="RJ" maxlength="2" class="w-full px-3 py-2 border rounded-lg uppercase text-center font-bold focus:outline-none focus:border-blue-600">
+                                <input type="text" id="checkout-uf" required placeholder="RJ" maxlength="2" class="w-full px-3 py-2 border rounded-lg uppercase text-center font-bold focus:outline-none">
                             </div>
                         </div>
                     </div>
 
-                    <!-- 4. ABAS INTERATIVAS: "ENTREGA" vs "BALCÃO DE RETIRADA" (Apenas PH Entrega Expressa) -->
+                    <!-- 4. ABAS INTERATIVAS FRETE vs BALCÃO -->
                     <div class="space-y-0 text-xs">
                         <div class="flex items-center gap-1 border-b-2 border-[#316AC7]">
                             <button id="btn-aba-frete-entrega" onclick="alternarAbaFreteBalcao('entrega')" class="aba-frete-btn active">
@@ -420,23 +629,15 @@
                         </div>
 
                         <div class="bg-white border border-t-0 border-slate-200 rounded-b-2xl p-5 shadow-sm space-y-4">
-                            
-                            <!-- CONTEÚDO DA ABA ENTREGA -->
                             <div id="box-conteudo-aba-entrega" class="space-y-3">
                                 <span class="font-bold text-slate-700 block">Selecione o serviço de entrega preferido:</span>
-                                <div id="lista-opcoes-frete-entrega" class="space-y-2">
-                                    <!-- Injetado dinamicamente via JS (Apenas PH Entrega Expressa) -->
-                                </div>
+                                <div id="lista-opcoes-frete-entrega" class="space-y-2"></div>
                             </div>
 
-                            <!-- CONTEÚDO DA ABA BALCÃO DE RETIRADA (ÚNICO Nº 24) -->
                             <div id="box-conteudo-aba-balcao" class="hidden space-y-3">
                                 <span class="font-bold text-blue-900 block text-xs">Balcão de Retirada Disponível:</span>
-                                <div id="lista-opcoes-balcoes-retirada" class="space-y-2">
-                                    <!-- Injetado dinamicamente via JS (Apenas 1 Balcão nº 24) -->
-                                </div>
+                                <div id="lista-opcoes-balcoes-retirada" class="space-y-2"></div>
                             </div>
-
                         </div>
                     </div>
 
@@ -451,7 +652,7 @@
                             <i class="fa-solid fa-credit-card text-amber-500"></i> Forma de Pagamento
                         </h3>
 
-                        <!-- OPCÃO 1: PIX COM QR CODE, CHAVE CNPJ E ANEXO DE COMPROVANTE -->
+                        <!-- PIX DIRECT -->
                         <div class="border rounded-xl p-3 hover:border-emerald-500 transition-all cursor-pointer bg-emerald-50/40 border-emerald-300" onclick="selecionarFormaPagamentoLoja('PIX')">
                             <label class="flex items-start gap-3 cursor-pointer">
                                 <input type="radio" name="radio_pagamento_loja" value="PIX" checked class="mt-1 accent-emerald-600">
@@ -462,11 +663,8 @@
                                     </div>
                                     <p class="text-[10px] text-slate-500 mt-0.5">Aprovação instantânea do pedido.</p>
 
-                                    <!-- CAIXA DE DETALHES DO PIX COM QR CODE -->
                                     <div id="box-detalhes-pix-pagamento" class="space-y-2.5 mt-3 pt-3 border-t border-emerald-200 text-[11px]">
                                         <div class="bg-white p-3 rounded-xl border border-emerald-300 text-center space-y-2 shadow-sm">
-                                            
-                                            <!-- QR CODE DO PIX -->
                                             <div class="w-32 h-32 mx-auto bg-white p-1 rounded-lg border border-slate-200 flex items-center justify-center shadow-inner">
                                                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126580014BR.GOV.BCB.PIX0114586586680001005204000053039865802BR5931DANIEL%20HENRIQUE%20VIEIRA%20DE%20SOUSA6009SEROPEDICA62070503***6304" alt="QR Code PIX" class="w-full h-full object-contain">
                                             </div>
@@ -481,15 +679,14 @@
 
                                         <div>
                                             <label class="font-bold text-slate-700 block mb-1">Anexar Comprovante do PIX (Foto ou PDF):</label>
-                                            <input type="file" id="input-comprovante-pix" accept="image/*,application/pdf" onchange="capturarComprovantePix(event)" class="w-full text-[10px] p-1 border rounded-lg bg-white">
-                                            <span id="txt-comprovante-pix-nome" class="text-[10px] text-emerald-700 font-bold block mt-0.5"></span>
+                                            <input type="file" id="input-comprovante-pix" accept="image/*,application/pdf" class="w-full text-[10px] p-1 border rounded-lg bg-white">
                                         </div>
                                     </div>
                                 </div>
                             </label>
                         </div>
 
-                        <!-- OPCÃO 2: CARTÃO DE CRÉDITO VIA MERCADO PAGO -->
+                        <!-- CARTÃO DE CRÉDITO -->
                         <div class="border rounded-xl p-3 hover:border-blue-500 transition-all cursor-pointer border-slate-200" onclick="selecionarFormaPagamentoLoja('Cartão de Crédito')">
                             <label class="flex items-start gap-3 cursor-pointer">
                                 <input type="radio" name="radio_pagamento_loja" value="Cartão de Crédito" class="mt-1 accent-blue-900">
@@ -497,18 +694,16 @@
                                     <strong class="font-black text-slate-800 text-xs uppercase block">Cartão de Crédito (Mercado Pago)</strong>
                                     <span class="text-[10px] text-slate-500">Pague pelo link direto com segurança no seu banco.</span>
 
-                                    <!-- BOTÃO LINK DO MERCADO PAGO -->
                                     <div id="box-detalhes-cartao-pagamento" class="hidden space-y-2 mt-3 pt-3 border-t border-slate-200 text-[11px]">
                                         <a href="https://link.mercadopago.com.br/graficaphsublime" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 rounded-xl shadow transition-all uppercase text-xs">
                                             <i class="fa-regular fa-credit-card mr-1"></i> Pagar via Mercado Pago 💳
                                         </a>
-                                        <p class="text-[9px] text-slate-500 text-center">O link de pagamento abrirá em uma nova aba para conclusão no Mercado Pago.</p>
                                     </div>
                                 </div>
                             </label>
                         </div>
 
-                        <!-- OPCÃO 3: PAGAMENTO NA RETIRADA -->
+                        <!-- RETIRADA BALCÃO -->
                         <div class="border rounded-xl p-3 hover:border-amber-500 transition-all cursor-pointer border-slate-200" onclick="selecionarFormaPagamentoLoja('Pagamento na Retirada')">
                             <label class="flex items-start gap-3 cursor-pointer">
                                 <input type="radio" name="radio_pagamento_loja" value="Pagamento na Retirada" class="mt-1 accent-amber-500">
@@ -527,8 +722,8 @@
                             </div>
                         </div>
 
-                        <!-- BOTÕES DE AÇÃO FINAL -->
-                        <button onclick="confirmarPedidoEEnviarWhatsapp(event)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm py-4 rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
+                        <!-- BOTÃO FINALIZAR -->
+                        <button id="btn-finalizar-pedido-submit" onclick="confirmarPedidoEEnviarWhatsapp(event)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm py-4 rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
                             <i class="fa-brands fa-whatsapp text-xl"></i> FINALIZAR PEDIDO VIA WHATSAPP 🚀
                         </button>
 
@@ -545,136 +740,46 @@
 
     </main>
 
-    <!-- RODAPÉ DA LOJA -->
-    <div class="bg-slate-100 border-t border-b border-slate-200 py-3 text-center text-xs">
-        <div class="max-w-[1536px] mx-auto px-4 flex items-center justify-center gap-3 flex-wrap">
-            <span class="font-semibold text-slate-700">Nossa avaliação do</span>
-            <span class="text-lg font-black tracking-tight"><span class="text-blue-600">G</span><span class="text-red-500">o</span><span class="text-amber-500">o</span><span class="text-blue-600">g</span><span class="text-emerald-600">l</span><span class="text-red-500">e</span></span>
-            <span class="font-black text-slate-800 text-sm">4,6</span>
-            <div class="flex items-center text-amber-400 text-sm gap-0.5">
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star-half-stroke"></i>
+    <!-- MODAL VER DETALHES DO PEDIDO NA ÁREA DO CLIENTE -->
+    <div id="modal-cliente-detalhes-pedido" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1001] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalClienteDetalhesPedido()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="border-b pb-3 flex items-center justify-between flex-wrap gap-2">
+                <div>
+                    <h3 id="detalhe-ped-codigo" class="text-base font-black text-blue-900 font-heading uppercase">PEDIDO #---</h3>
+                    <p id="detalhe-ped-data" class="text-slate-500 font-bold mt-0.5">Criado em: --/--/----</p>
+                </div>
+                <span id="detalhe-ped-status-badge" class="bg-emerald-100 text-emerald-800 font-black text-xs px-3 py-1 rounded-full uppercase">---</span>
             </div>
-            <a id="link-avaliar-loja-google" href="https://g.page/r/CQgTmqLSnep4EAE/review" target="_blank" class="border border-slate-400 hover:bg-white text-slate-800 font-bold px-3 py-1 rounded-lg transition-all text-[11px] uppercase ml-2">
-                avaliar loja
-            </a>
+
+            <!-- DADOS DE ENTREGA E PAGAMENTO -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div class="space-y-1">
+                    <strong class="font-black text-blue-900 uppercase block border-b pb-1"><i class="fa-solid fa-truck text-amber-500"></i> Informações de Entrega:</strong>
+                    <p id="detalhe-ped-endereco" class="text-slate-700 font-medium leading-relaxed">---</p>
+                    <p id="detalhe-ped-frete-nome" class="text-slate-500">Modalidade: <b>---</b></p>
+                </div>
+                <div class="space-y-1">
+                    <strong class="font-black text-blue-900 uppercase block border-b pb-1"><i class="fa-solid fa-credit-card text-amber-500"></i> Pagamento & Total:</strong>
+                    <p id="detalhe-ped-pagamento" class="text-slate-700 font-bold">Forma: ---</p>
+                    <p id="detalhe-ped-total" class="text-emerald-700 font-black text-base mt-1">Total: R$ 0,00</p>
+                </div>
+            </div>
+
+            <!-- ITENS DO PEDIDO COM PIPELINE DE PRODUÇÃO -->
+            <div class="space-y-3">
+                <h4 class="font-black text-slate-800 uppercase font-heading border-b pb-1">Itens do Pedido</h4>
+                <div id="container-itens-detalhe-cliente" class="space-y-3 max-h-80 overflow-y-auto pr-1"></div>
+            </div>
+
+            <div class="pt-2 border-t flex justify-end">
+                <button onclick="fecharModalClienteDetalhesPedido()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-300">Fechar</button>
+            </div>
         </div>
     </div>
 
-    <footer id="footer-principal" class="bg-custom-rodape text-white text-xs border-t-4 border-amber-400">
-        <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                
-                <div class="space-y-3">
-                    <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">DÚVIDAS</h4>
-                    <ul id="footer-coluna-duvidas" class="space-y-2 text-slate-200 font-medium">
-                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Instrução')" class="hover:text-amber-300 transition-all">Instrução</a></li>
-                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Missão')" class="hover:text-amber-300 transition-all">Missão</a></li>
-                        <li><a href="javascript:void(0)" onclick="mostrarModalPaginaExtra('Balcão de retirada')" class="hover:text-amber-300 transition-all">Balcão de retirada</a></li>
-                        <li><a id="link-fale-conosco-footer" href="https://wa.me/5521986147221" target="_blank" class="hover:text-amber-300 transition-all">Fale Conosco</a></li>
-                    </ul>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="space-y-2">
-                        <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOSSO ENDEREÇO</h4>
-                        <p id="footer-endereco-txt" class="text-slate-200 font-medium leading-relaxed">Rua Marcílio Dias - Campo Lindo - Seropédica - RJ</p>
-                    </div>
-                    <div class="space-y-2">
-                        <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">HORÁRIO DE ATENDIMENTO</h4>
-                        <p id="footer-horario-txt" class="text-slate-200 font-medium">- Seg. a Sex. das 8:00 às 18:00</p>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="space-y-2">
-                        <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">CENTRAL DE ATENDIMENTO</h4>
-                        <p id="footer-tel-atendimento" class="text-slate-200 font-bold text-sm">(21) 98614-7221</p>
-                        <p id="footer-tel-atendimento-2" class="text-slate-200 font-bold text-sm">(21) 97166-6349</p>
-                        <p id="footer-email-atendimento" class="text-slate-200 font-medium">phsublime5149@gmail.com</p>
-                    </div>
-                    <div class="space-y-2">
-                        <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOS ACOMPANHE</h4>
-                        <div class="flex items-center gap-3 text-lg text-slate-200">
-                            <a id="link-facebook-footer" href="https://facebook.com" target="_blank" class="hover:text-amber-400 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
-                            <a id="link-instagram-footer" href="https://instagram.com" target="_blank" class="hover:text-amber-400 transition-all"><i class="fa-brands fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-3">
-                    <h4 class="font-black text-amber-400 uppercase tracking-wider text-xs border-b border-blue-800/80 pb-1.5">NOSSO FACEBOOK</h4>
-                    <div class="bg-white text-slate-800 p-3 rounded-xl shadow-md border border-slate-200 space-y-2">
-                        <div class="flex items-center gap-3">
-                            <img id="footer-fb-logo-mini" src="https://placehold.co/50x50/08009C/FFFFFF?text=PH" class="w-10 h-10 object-contain rounded border p-0.5 bg-slate-50">
-                            <div>
-                                <strong id="footer-fb-nome" class="font-bold text-xs text-blue-900 block leading-tight">PHSUBLIME GRÁFICA</strong>
-                                <span id="footer-fb-seguidores" class="text-[10px] text-slate-500 font-medium">1.629 seguidores</span>
-                            </div>
-                        </div>
-                        <a id="footer-fb-btn-seguir" href="https://facebook.com" target="_blank" class="block w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1.5 rounded text-[11px] border border-slate-300 transition-all">
-                            <i class="fa-brands fa-facebook text-blue-600 mr-1"></i> Seguir Página
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="bg-white text-slate-700 py-6 border-t border-slate-200 text-xs">
-            <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center text-center md:text-left">
-                
-                <div class="space-y-2">
-                    <span class="font-bold text-slate-500 block uppercase text-[11px]">Formas de Pagamento:</span>
-                    <div id="footer-icones-pagamento" class="flex flex-wrap items-center justify-center md:justify-start gap-2 text-xl text-slate-600">
-                        <i class="fa-brands fa-cc-visa text-blue-900" title="VISA"></i>
-                        <i class="fa-brands fa-cc-mastercard text-red-600" title="Mastercard"></i>
-                        <i class="fa-solid fa-credit-card text-emerald-600" title="Elo / Hipercard"></i>
-                        <i class="fa-solid fa-barcode text-slate-800" title="Boleto Bancário"></i>
-                        <i class="fa-solid fa-pix text-teal-600 font-bold" title="PIX"></i>
-                    </div>
-                </div>
-
-                <div class="space-y-2 text-center">
-                    <span class="font-bold text-slate-500 block uppercase text-[11px]">Certificados de Segurança:</span>
-                    <div class="flex items-center justify-center gap-3 text-xs font-bold text-emerald-700">
-                        <span class="bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded flex items-center gap-1">
-                            <i class="fa-solid fa-shield-halved text-emerald-600"></i> Google Safe Browsing
-                        </span>
-                        <span class="bg-blue-50 border border-blue-200 text-blue-900 px-2.5 py-1 rounded flex items-center gap-1">
-                            <i class="fa-solid fa-lock text-blue-700"></i> Loja Protegida SSL
-                        </span>
-                    </div>
-                </div>
-
-                <div class="space-y-2 text-center md:text-right">
-                    <span class="font-bold text-slate-500 block uppercase text-[11px]">Formas de Envio:</span>
-                    <div class="flex items-center justify-center md:justify-end gap-3 text-xs font-bold text-slate-700">
-                        <span class="bg-amber-100 text-amber-950 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-box text-amber-700"></i> Correios PAC / SEDEX</span>
-                        <span class="bg-emerald-100 text-emerald-950 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-truck text-emerald-700"></i> Retirada no Local</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="bg-custom-barra-rodape text-white py-3 text-center text-xs font-semibold">
-            <div class="max-w-[1536px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-                <div class="flex items-center gap-2">
-                    <img id="footer-logo-barra-final" src="https://placehold.co/100x30/08009C/FFFFFF?text=PHSUBLIME" class="h-6 object-contain">
-                    <span id="footer-copyright-txt">© Copyright 2026 PHSUBLIME - Todos os direitos reservados</span>
-                </div>
-                <a id="footer-wpp-link" href="https://wa.me/5521986147221" target="_blank" class="text-white hover:underline flex items-center gap-1 font-bold">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> Fale Conosco pelo WhatsApp
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- MODAL DE ANEXAR ARQUIVOS DE ARTE COM UPLOAD REAL (PDF, JPG, PNG, CDR, ZIP) -->
+    <!-- MODAL DE ANEXAR ARQUIVOS DE ARTE COM UPLOAD REAL -->
     <div id="modal-anexar-arquivos-item" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1001] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalAnexarArquivos()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -715,7 +820,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE OBSERVAÇÕES DO ITEM DO CARRINHO (ATÉ 150 CARACTERES) -->
+    <!-- MODAL DE OBSERVAÇÕES DO ITEM DO CARRINHO -->
     <div id="modal-observacoes-item" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1001] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalObservacoes()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -732,33 +837,33 @@
 
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Instruções para a Gráfica (máx 150 caracteres):</label>
-                    <textarea id="obs-input-texto" rows="4" maxlength="150" placeholder="Ex: Quero o fundo azul marinho. Favor enviar prévia no WhatsApp antes de rodar..." class="w-full p-2.5 border rounded-lg font-medium leading-relaxed focus:outline-none focus:border-blue-600"></textarea>
+                    <textarea id="obs-input-texto" rows="4" maxlength="150" placeholder="Ex: Quero o fundo azul marinho..." class="w-full p-2.5 border rounded-lg font-medium leading-relaxed focus:outline-none focus:border-blue-600"></textarea>
                 </div>
 
                 <div class="pt-2 border-t flex justify-end gap-2">
-                    <button type="button" onclick="fecharModalObservacoes()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-lg hover:bg-slate-300 transition-all">Cancelar</button>
-                    <button type="submit" class="px-5 py-2 bg-blue-900 text-white font-black rounded-lg hover:bg-blue-800 transition-all uppercase">Salvar Nota</button>
+                    <button type="button" onclick="fecharModalObservacoes()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-lg hover:bg-slate-300">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-900 text-white font-black rounded-lg hover:bg-blue-800 uppercase">Salvar Nota</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL DE LOGIN / MINHA CONTA DO CLIENTE -->
+    <!-- MODAL DE LOGIN / CADASTRO DO CLIENTE -->
     <div id="modal-login-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="toggleModalLogin()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
 
             <div class="border-b pb-3">
                 <h3 class="text-base font-black text-blue-900 uppercase font-heading flex items-center gap-2">
-                    <i class="fa-regular fa-user text-amber-500"></i> Minha Conta / Cadastro
+                    <i class="fa-regular fa-user text-amber-500"></i> Entre na sua Conta
                 </h3>
-                <p class="text-slate-500 text-[11px]">Salve seus dados para agilizar seus pedidos pelo WhatsApp.</p>
+                <p class="text-slate-500 text-[11px]">Acesse seu histórico de pedidos e nível de desconto especial.</p>
             </div>
 
-            <form onsubmit="salvarPerfilClienteLocal(event)" class="space-y-3">
+            <form onsubmit="efetuarLoginOuCadastroClienteSubmit(event)" class="space-y-3">
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Seu Nome / Razão Social *</label>
-                    <input type="text" id="perfil-nome" required placeholder="Digite seu nome completo" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
+                    <label class="font-bold text-slate-700 block mb-1">Seu Nome Completo / Razão *</label>
+                    <input type="text" id="perfil-nome" required placeholder="Digite seu nome" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-600 font-bold">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
@@ -771,19 +876,19 @@
                     </div>
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Endereço Principal</label>
-                    <input type="text" id="perfil-endereco" placeholder="Rua, Número, Bairro, Cidade" class="w-full px-3 py-2 border rounded-lg">
+                    <label class="font-bold text-slate-700 block mb-1">E-mail *</label>
+                    <input type="email" id="perfil-email" required placeholder="seuemail@exemplo.com" class="w-full px-3 py-2 border rounded-lg">
                 </div>
 
                 <div class="pt-2 border-t flex justify-end gap-2">
-                    <button type="button" onclick="limparPerfilCliente()" class="px-4 py-2 bg-red-100 text-red-700 font-bold rounded-lg hover:bg-red-200 transition-all">Sair / Limpar</button>
-                    <button type="submit" class="px-5 py-2 bg-blue-900 text-white font-black rounded-lg hover:bg-blue-800 transition-all uppercase">Salvar Dados</button>
+                    <button type="button" onclick="limparPerfilCliente()" class="px-4 py-2 bg-red-100 text-red-700 font-bold rounded-lg hover:bg-red-200">Sair</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-900 text-white font-black rounded-lg hover:bg-blue-800 uppercase">Acessar Conta</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL DE DETALHES DO PRODUTO -->
+    <!-- MODAL DE DETALHES DO PRODUTO DO CATÁLOGO -->
     <div id="modal-detalhes-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[998] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalDetalhes()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -803,15 +908,9 @@
             <div id="txt-modal-descricao-html" class="conteudo-html-descricao max-h-72 overflow-y-auto pr-2 border-b border-slate-100 pb-4"></div>
 
             <div class="flex justify-end gap-3 pt-2">
-                <button onclick="fecharModalDetalhes()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">Fechar</button>
-                
-                <a id="btn-modal-gabarito" href="#" download target="_blank" class="btn-gabarito px-5 py-2.5 font-bold rounded-xl text-xs shadow flex items-center gap-1.5">
-                    <i class="fa-solid fa-download"></i> Baixar Gabarito
-                </a>
-                
-                <button id="btn-modal-adicionar-carrinho" onclick="" class="btn-comprar-custom text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2 uppercase">
-                    COMPRAR 🚀
-                </button>
+                <button onclick="fecharModalDetalhes()" class="px-5 py-2.5 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs hover:bg-slate-300">Fechar</button>
+                <a id="btn-modal-gabarito" href="#" download target="_blank" class="btn-gabarito px-5 py-2.5 font-bold rounded-xl text-xs shadow flex items-center gap-1.5"><i class="fa-solid fa-download"></i> Baixar Gabarito</a>
+                <button id="btn-modal-adicionar-carrinho" onclick="" class="btn-comprar-custom text-white font-black px-6 py-2.5 rounded-xl text-xs shadow-md flex items-center gap-2 uppercase">COMPRAR 🚀</button>
             </div>
         </div>
     </div>
@@ -832,7 +931,7 @@
         <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
     </div>
 
-    <!-- SCRIPT JS PRINCIPAL COM LÓGICA GRAFICONAUTA -->
+    <!-- SCRIPT JS PRINCIPAL -->
     <script>
         // --- 1. VARIÁVEIS DE ESTADO GLOBAL ---
         let catalogoEstoque = [];
@@ -845,1086 +944,577 @@
         let timerDebounce = null;
         let bannerIndiceAtual = 0;
 
-        // Estado do Frete, Pagamento e Comprovante do PIX
+        let clienteLogadoGlobal = null;
+        let pedidosClienteLista = [];
+
         let opcaoFreteSelecionada = { tipo: 'entrega', nome: 'PH Entrega Expressa (Transportadora)', valor: 7.90, prazo: 4 };
         let formaPagamentoSelecionadaLoja = 'PIX';
-        let comprovantePixNome = '';
-        
-        // APENAS 1 BALCÃO DE RETIRADA PADRÃO (Nº 24)
-        let balcoesRetiradaLista = [
-            { id: 1, nome: "PHSUBLIME Canecas Henrique Vieira Gráfica", endereco: "Rua Marcílio Dias, nº 24 - Campo Lindo", cidade: "Seropédica", uf: "RJ", prazo: 1, taxa: 0 }
-        ];
 
         let bannersCarrossel = [
             { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260118_banner_promo_dtf.png', link: 'https://wa.me/5521986147221' },
-            { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260118_banner_promo_dtf_metro_linear.png', link: 'https://wa.me/5521986147221' },
-            { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260120_banner_promo_camiseta_polo.png', link: 'https://wa.me/5521986147221' },
-            { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20251120_Camiseta Branca.png', link: 'https://wa.me/5521986147221' }
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260118_banner_promo_dtf_metro_linear.png', link: 'https://wa.me/5521986147221' }
         ];
 
         let miniBannersParados = [
-            { img: 'https://sistema.graficonauta.com.br/storage/banners/mini_banner/20250228_mini-banner-indique-e-ganhe.png', link: 'https://wa.me/5521986147221' },
-            { img: 'https://sistema.graficonauta.com.br/storage/banners/mini_banner/20250228_mini-banner-GANHE DESCONTOS EXTRAS.png', link: 'https://wa.me/5521986147221' },
-            { img: 'https://sistema.graficonauta.com.br/storage/banners/mini_banner/20260120_mini_banner_camisa_polo_500x200.png', link: 'https://wa.me/5521986147221' }
+            { img: 'https://sistema.graficonauta.com.br/storage/banners/mini_banner/20250228_mini-banner-indique-e-ganhe.png', link: 'https://wa.me/5521986147221' }
         ];
 
         // CLIENTE SUPABASE
-        if (typeof window.SUPABASE_URL === 'undefined') {
-            var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co';
-        }
-        if (typeof window.SUPABASE_ANON_KEY === 'undefined') {
-            var SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1';
-        }
-        if (typeof window.supabaseClient === 'undefined' && typeof supabase !== 'undefined') {
-            var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        }
+        if (typeof window.SUPABASE_URL === 'undefined') { var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co'; }
+        if (typeof window.SUPABASE_ANON_KEY === 'undefined') { var SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1'; }
+        if (typeof window.supabaseClient === 'undefined' && typeof supabase !== 'undefined') { var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
 
         const BANNER_FALLBACK_GRANDE = 'https://placehold.co/1200x400/08009C/FFED00?text=PHSUBLIME+-+GRÁFICA+ONLINE';
         const BANNER_FALLBACK_MINI = 'https://placehold.co/600x200/316AC7/FFFFFF?text=NOVIDADES+DA+LOJA';
 
-        // --- 2. ESTRUTURA HIERÁRQUICA COMPLETA DE CATEGORIAS DA GRAFICONAUTA ---
-        const ESTRUTURA_CATEGORIAS_GRAFICONAUTA = [
-            {
-                nome: "Adesivo",
-                subs: [
-                    {
-                        nome: "Adesivo em Folhas",
-                        subs: ["Couchê Adesivo Brilho", "Couchê Adesivo Fosco", "Kraft Adesivo", "Vinil Adesivo Brilho", "Vinil Adesivo Fosco", "Vinil Adesivo Metalizado", "Vinil Adesivo Retroverso", "Vinil Adesivo Transparente", "Vinil Destrutível - Casca de Ovo"]
-                    },
-                    {
-                        nome: "Adesivo em M²",
-                        subs: ["Adesivo Blackout", "Adesivo Brilho", "Adesivo Fosco", "Adesivo Microperfurado", "Adesivo Retroverso", "Adesivo Transparente"]
-                    }
-                ]
-            },
-            {
-                nome: "Agendas, Cadernos e Planners",
-                subs: [
-                    {
-                        nome: "Agendas 2026",
-                        subs: ["Agenda Creche Não Datado", "Agenda Escolar 1 Dia por Página", "Agenda Escolar 2 Dias por Página", "Agendas 1 Dia por Página", "Agendas 2 Dias por Página"]
-                    },
-                    "Cadernos Personalizados", "Planner Diário", "Planner Financeiro", "Planner Semanal"
-                ]
-            },
-            {
-                nome: "Banner, Faixa, Lona e Painel",
-                subs: ["Lona 240g", "Lona 300g", "Lona 440g", "Lona Backlight", "Lona Canvas", "Lona Sanet", "Mini Banner", "Roll Up", "X Banner"]
-            },
-            {
-                nome: "Blocos e Comandas",
-                subs: [
-                    {
-                        nome: "Colorido",
-                        subs: ["Bloco Autocopiativo Com 2 Vias - 50x2", "Bloco Autocopiativo Com 3 Vias - 25x3", "Bloco Autocopiativo Com 4 Vias - 25x4", "Bloco Com 1 Via - 100x1", "Bloco Com 1 Via - 50x1", "Bloco Com 2 Vias - 50x2", "Bloco Com 3 Vias - 25x3"]
-                    },
-                    {
-                        nome: "Preto e Branco",
-                        subs: ["Bloco Autocopiativo Com 2 Vias - 50x2", "Bloco Autocopiativo Com 3 Vias - 25x3", "Bloco Autocopiativo Com 4 Vias - 25x4", "Bloco Com 1 Via - 100x1", "Bloco Com 1 Via - 50x1", "Bloco Com 2 Vias - 50x2", "Bloco Com 3 Vias - 25x3"]
-                    }
-                ]
-            },
-            {
-                nome: "Bonés e Viseiras",
-                subs: [
-                    { nome: "Boné Básico", subs: ["Tecido", "Telado"] },
-                    { nome: "Boné Premium", subs: ["Tecido", "Telado"] },
-                    "Boné de Tactel", "Boné em Camurça", 
-                    { nome: "Bonés Promocionais", subs: ["Boné Telado", "Boné de Tecido"] },
-                    "Viseira", "Viseira de Papel"
-                ]
-            },
-            {
-                nome: "Camisa, Camiseta e Blusa",
-                subs: [
-                    "Camiseta Sem Impressão",
-                    { nome: "Camisetas de Algodão", subs: ["Algodão", "PROMOÇÃO 50% OFF"] },
-                    "Personalização Parcial", "Personalização Total"
-                ]
-            },
-            {
-                nome: "Canecas, Copos e Taças",
-                subs: [
-                    { nome: "Baldes", subs: ["Balde de Acrílico 5L", "Balde de Alumínio 6L", "Balde de Alumínio 9L", "Balde de Pipoca"] },
-                    { nome: "Caldereta", subs: ["Caldereta 320ml", "Caldereta 380ml", "Caldereta 520ml"] },
-                    { 
-                        nome: "Canecas", 
-                        subs: [
-                            { nome: "Caneca de Alumínio", subs: ["Caneca de Alumínio 350ml", "Caneca de Alumínio 500ml", "Caneca de Alumínio 800ml"] }, 
-                            "Caneca de Cerâmica 325ml", "Caneca de Chopp 500ml", "Caneca de Polímero"
-                        ] 
-                    },
-                    "Copo Duplo", "Copo Shot", "Copo de Café", "Copo de Whisky Personalizado", "Copão", "Coqueteleira", "Garrafa Slim Fit",
-                    { nome: "Long Drink", subs: ["Long Drink Borda Metalizada", "Long Drink Degradê", "Long Drink Degradê Borda Metalizada", "Long Drink Sólido"] },
-                    { nome: "Taça de Gin", subs: ["Taça de Gin Degradê", "Taça de Gin Premium"] },
-                    "Tornado", "Twister"
-                ]
-            },
-            {
-                nome: "Cartão de Visita",
-                subs: ["Cartão de Visita 250g", "Cartão de Visita 300g", "Cartão de Visita 300g + Lam. Fosca e UV Local", "Cartão de Visita 300g + Lam. Holográfica", "Cartão de Visita 350g + Lam. Fosca e Hotstamp", "Cartão de Visita Opaline", "Cartão de Visita PVC", "Cartão de Visita Reciclado", "Cartão de Visita em Papel Especial"]
-            },
-            {
-                nome: "DTF Transfer Digital",
-                subs: ["DTF Têxtil", "DTF UV", "DTF Paper"]
-            },
-            {
-                nome: "Eleições 2026",
-                subs: [
-                    "Adesivo Retangular", "Adesivo Praguinha e Pragão", "Adesivo Bola", "Adesivo Perfurado", "Bandeira", "Placa Pirulito",
-                    { nome: "Cartão de Visita Eleitoral", subs: ["Cartão Retrovisor 3D", "Card Eleitoral", "Cartão de Visita Econômico", "Cartão Caricatura", "Cartão com Verniz"] },
-                    "Painel Pantográfico Retrátil", "Folheto & Folder", "Revista", "Totem Polionda", "Orçamento Eleitoral", "Santinho e Santão", "Wind Banner"
-                ]
-            },
-            {
-                nome: "Embalagens Fast Food",
-                subs: [
-                    { nome: "Embalagens Genéricas", subs: ["Batata Frita Grande", "Batata Frita Média", "Batata Frita Pequena", "Box Yakissoba 500ml", "Box Yakissoba 850ml", "Cachorro Quente", "Combinado Sushi Extra Grande", "Combinado Sushi Grande", "Combinado Sushi Mini", "Combinado Sushi Médio", "Combinado Sushi Pequeno", "Cone Grande", "Cone Médio", "Cone Pequeno", "Hamburgueira", "Multiuso", "Pastel"] },
-                    { nome: "Embalagens Personalizadas", subs: ["Batata Frita Grande", "Batata Frita Média", "Batata Frita Pequena", "Cachorro Quente", "Cone Grande", "Cone Médio", "Cone Pequeno", "Hamburgueira", "Multiuso", "Pastel"] },
-                    "Papel Glassine"
-                ]
-            },
-            {
-                nome: "Folheto, Folder e Flyer",
-                subs: ["Folheto Couchê 115g", "Folheto Couchê 150g", "Folheto Couchê 150g + UV", "Folheto Couchê 80g", "Folheto Couchê 90g", "Folheto Offset 75g"]
-            },
-            "Abadá", "Acrílico", "Avental", "Bermuda & Short", "Bolsa em Tecido", "Brindes", "Calendários e Folhinha", "Cangas", "Capa de Carnê", "Capa de Corte", "Cardápio", "Cartaz e Poster", "Cartela Para Bijuteria", "Cartão Duplo", "Cartão Mini", "Cartão Postal", "Casa & Decoração", "Certificado e Diploma", "Coroa de Papel", "Credenciais", "Display", "Embalagens Presente", "Envelope", "Festas", "Folheto Cupom de Desconto", "Impressão Digital", "Jogo Americano", "Jogo de Tabuleiro", "Marcador de Página", "Mochila Pirulito", "Mochila de Cordão", "Moletons", "Mouse Pad Personalizado", "Máscara em Tecido", "Móbile", "PS | PVC com Impressão UV", "Papel Bandeja", "Papel Fotográfico", "Papel Sublimático", "Papel e Adesivo Para Impressão", "Pastas", "Photobook", "Porta Copo", "Quadro Decorativo Personalizado", "Quadro Magnético", "Quebra-Cabeça", "Raspadinha", "Revista de Colorir", "Sublimação", "Suprimentos", "Tatuagem Temporária", "Timbrado e Receituários", "Ventarola, Abanador e Leque", "Wind Banner", "Álbum de Figurinhas Fotográfico", "Ímã de Geladeira"
-        ];
+        // --- 2. UPLOAD REAL DE ARQUIVOS PARA O SUPABASE STORAGE ---
+        async function fazerUploadSupabase(file, pasta = 'artes') {
+            if (!file) return null;
+            try {
+                if (!supabaseClient) throw new Error("Supabase indisponível");
 
-        // --- 3. CATÁLOGO COMPLETO DE EXEMPLO DA GRAFICONAUTA ---
-        const CATALOGO_GRAFICONALTA_PADRAO = [
-            { 
-                id: 'gn-2561', 
-                nome: "Banner | Lona Fosca 240g", 
-                categoria: "Banner, Faixa, Lona e Painel", 
-                precoVenda: 24.00, 
-                ref: "sign19p8", 
-                producao: "12 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2561/img/20190315_imprimir_banner_personalizado_05.jpg", 
-                descricao: "<p>Banner impresso em Lona Fosca 240g de alta definição e alta resistência.</p>" 
-            },
-            { 
-                id: 'gn-2562', 
-                nome: "Faixa | Lona Fosca 240g", 
-                categoria: "Banner, Faixa, Lona e Painel", 
-                precoVenda: 24.00, 
-                ref: "sign50p8", 
-                producao: "24 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2562/img/20190318_imprimir_faixa_personalizada_03.jpg", 
-                descricao: "<p>Faixa promocional personalizada em Lona Fosca 240g com acabamento resistente.</p>" 
-            },
-            { 
-                id: 'gn-2564', 
-                nome: "Lona Fosca 240g | Bainha e Ilhós", 
-                categoria: "Banner, Faixa, Lona e Painel", 
-                precoVenda: 24.00, 
-                ref: "sign20p8", 
-                producao: "12 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2564/img/20190315_imprimir_lona_personalizada_01.jpg", 
-                descricao: "<p>Lona fosca 240g finalizada com reforço de bainha e ilhós metalizado.</p>" 
-            },
-            { 
-                id: 'gn-2565', 
-                nome: "Lona Fosca 240g | Sem Ilhós", 
-                categoria: "Banner, Faixa, Lona e Painel", 
-                precoVenda: 21.12, 
-                ref: "sign21p8", 
-                producao: "12 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/2565/img/20190629_0_20190316_imprimir_lona_personalizada_brilho_sem_acabamento_01.jpg", 
-                descricao: "<p>Lona fosca 240g sem acabamento de ilhós, pronta para aplicação em estruturas.</p>" 
-            },
-            { 
-                id: 'gn-72', 
-                nome: "Cartão 250g | 4/4 | UV 1/0", 
-                categoria: "Cartão de Visita", 
-                precoVenda: 21.12, 
-                ref: "crt003", 
-                producao: "24 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/72/img/20190318_imprimir_cartao_personalizado_250g_05.jpg", 
-                descricao: "<p>Cartão DuoDesign 250g/m² com impressão colorida frente e verso (4/4).</p>" 
-            },
-            { 
-                id: 'gn-81', 
-                nome: "Cartão 300g | 4/4 | Lamin. Fosca + UV Local 1/1", 
-                categoria: "Cartão de Visita", 
-                precoVenda: 72.00, 
-                ref: "crt012", 
-                producao: "5 dias", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/81/img/20190418_imprimir_cartão_de_visita_com_verniz_localizado_05.jpg", 
-                descricao: "<p>Cartão DuoDesign 300g/m² com Laminação Fosca 1/1 e Verniz UV Localizado.</p>" 
-            },
-            { 
-                id: 'gn-571', 
-                nome: "Camisa Com Manga Adulto", 
-                categoria: "Camisa, Camiseta e Blusa", 
-                precoVenda: 24.00, 
-                ref: "cam002", 
-                producao: "72 horas", 
-                imagem: "https://sistema.graficonauta.com.br/storage/produtos/571/img/20230410_0_8.png", 
-                descricao: "<p>Camisa personalizada masculina/unissex com manga.</p>" 
-            },
-            { 
-                id: 'gn-326', 
-                nome: "Caneca de Alumínio 350ml", 
-                categoria: "Canecas, Copos e Taças", 
-                precoVenda: 14.50, 
-                ref: "cop326", 
-                producao: "48 horas", 
-                imagem: "", 
-                descricao: "<p>Caneca de alumínio 350ml pronta para aplicação de tirante.</p>" 
+                const ext = file.name.split('.').pop();
+                const nomeUnico = `${pasta}/${Date.now()}_${Math.random().toString(36).substr(2, 6)}.${ext}`;
+
+                const { data, error } = await supabaseClient.storage
+                    .from('arquivos-loja')
+                    .upload(nomeUnico, file, { cacheControl: '3600', upsert: true });
+
+                if (error) throw error;
+
+                const { data: publicUrlData } = supabaseClient.storage
+                    .from('arquivos-loja')
+                    .getPublicUrl(nomeUnico);
+
+                return publicUrlData ? publicUrlData.publicUrl : null;
+            } catch (err) {
+                console.warn("Upload via Supabase Storage falhou. Usando simulação:", err);
+                return `https://storage.phsublime.com.br/simulado/${file.name}`;
             }
-        ];
-
-        // --- 4. FUNÇÕES DE UTILIDADE ---
-        function escapeAttr(str) {
-            if (str === null || str === undefined) return '';
-            return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
 
-        function formatarUrlImagem(url) {
-            if (!url || typeof url !== 'string' || !url.trim()) return '';
-            const u = url.trim();
-            if (u.match(/^#?[0-9a-fA-F]{3,6}$/) || u.includes('sistograf.net')) return '';
-            if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:')) return u;
-            return u;
+        // --- 3. ÁREA DO CLIENTE & REGUA DE FIDELIDADE (ESTILO GRAFICONAUTA) ---
+        function carregarPerfilClienteLocal() {
+            const p = localStorage.getItem('phsublime_perfil_cliente');
+            if (p) {
+                try {
+                    clienteLogadoGlobal = JSON.parse(p);
+                    const txtUser = document.getElementById('txt-user-header-nome');
+                    const txtSub = document.getElementById('txt-user-header-sub');
+                    if (txtUser) txtUser.innerText = `Olá, ${(clienteLogadoGlobal.nome || 'Cliente').split(' ')[0]}`;
+                    if (txtSub) txtSub.innerText = "Área do Cliente";
+
+                    // Preenche campos do Modal de Perfil e Tela de Meus Dados
+                    if (document.getElementById('perfil-nome')) document.getElementById('perfil-nome').value = clienteLogadoGlobal.nome || '';
+                    if (document.getElementById('perfil-doc')) document.getElementById('perfil-doc').value = clienteLogadoGlobal.doc || '';
+                    if (document.getElementById('perfil-wpp')) document.getElementById('perfil-wpp').value = clienteLogadoGlobal.wpp || '';
+                    if (document.getElementById('perfil-email')) document.getElementById('perfil-email').value = clienteLogadoGlobal.email || '';
+
+                    povoarCamposMeusDados();
+                    povoarCamposCheckoutCliente();
+                } catch(e){}
+            }
         }
 
-        function mostrarToast(mensagem, tipo = 'sucesso') {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-message');
-            const toastIcon = document.getElementById('toast-icon');
-            if (!toast || !toastMsg) return;
-
-            toastMsg.innerText = mensagem;
-            if (tipo === 'erro') {
-                toastIcon.className = "fa-solid fa-circle-exclamation text-red-400 text-lg";
+        function abrirMinhaContaOuLogin() {
+            if (clienteLogadoGlobal && clienteLogadoGlobal.nome) {
+                alternarAba('minha-conta');
+                renderizarMinhaConta();
             } else {
-                toastIcon.className = "fa-solid fa-circle-check text-amber-400 text-lg";
+                toggleModalLogin();
             }
-
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        function copiarChavePix() {
-            navigator.clipboard.writeText('58658668000100');
-            mostrarToast("Chave PIX (58658668000100) copiada!");
-        }
-
-        function capturarComprovantePix(e) {
-            const file = e.target.files[0];
-            if (file) {
-                comprovantePixNome = file.name;
-                const txt = document.getElementById('txt-comprovante-pix-nome');
-                if (txt) txt.innerText = `Comprovante: ${file.name}`;
-                mostrarToast("Comprovante do PIX anexado!");
-            }
-        }
-
-        // --- 5. CARREGAMENTO DINÂMICO DO SUPABASE & ADMIN ---
-        async function carregarConfiguracoesCompletasAdmin() {
-            let configsNuvem = {};
-
-            try {
-                if (typeof supabaseClient !== 'undefined' && supabaseClient) {
-                    const { data, error } = await supabaseClient.from('configuracoes').select('*');
-                    if (!error && data && data.length > 0) {
-                        data.forEach(item => {
-                            if (item.chave && item.valor) {
-                                configsNuvem[item.chave] = item.valor;
-                                localStorage.setItem(item.chave, JSON.stringify(item.valor));
-                            }
-                        });
-                    }
-                }
-            } catch(e) {}
-
-            // CMS Visuais
-            const cms = configsNuvem['phsublime_admin_logos'] || JSON.parse(localStorage.getItem('phsublime_admin_logos') || '{}');
-            if (cms) {
-                if (cms.corCabecalho) document.documentElement.style.setProperty('--cor-cabecalho', cms.corCabecalho);
-                if (cms.corBotao) document.documentElement.style.setProperty('--cor-menu', cms.corBotao);
-                if (cms.corBotaoComprar) document.documentElement.style.setProperty('--cor-botao-comprar', cms.corBotaoComprar);
-                if (cms.corBotaoGabarito) document.documentElement.style.setProperty('--cor-botao-gabarito', cms.corBotaoGabarito);
-                
-                if (cms.logoSistema) {
-                    const logoTopo = document.getElementById('logo-loja-img');
-                    if (logoTopo) logoTopo.src = cms.logoSistema;
-                    const logoFooter = document.getElementById('footer-logo-barra-final');
-                    if (logoFooter) logoFooter.src = cms.logoSistema;
-                    const logoFb = document.getElementById('footer-fb-logo-mini');
-                    if (logoFb) logoFb.src = cms.logoSistema;
-                }
-                if (cms.favicon) {
-                    const fav = document.getElementById('site-favicon');
-                    if (fav) fav.href = cms.favicon;
-                }
-            }
-
-            // Dados da Loja
-            const dados = configsNuvem['phsublime_dados_loja'] || JSON.parse(localStorage.getItem('phsublime_dados_loja') || '{}');
-            if (dados) {
-                if (dados.titulo) {
-                    document.title = dados.titulo;
-                    const fbNome = document.getElementById('footer-fb-nome');
-                    if (fbNome) fbNome.innerText = (dados.titulo.split(' - ')[0] || 'PHSUBLIME') + ' GRÁFICA';
-                }
-
-                if (dados.tel1) {
-                    const numApenasDigitos = dados.tel1.replace(/\D/g, '');
-                    if (numApenasDigitos) {
-                        whatsappAtendimentoLoja = numApenasDigitos.startsWith('55') ? numApenasDigitos : `55${numApenasDigitos}`;
-                        
-                        const btnWppTopo = document.getElementById('btn-wpp-topo');
-                        if (btnWppTopo) btnWppTopo.href = `https://wa.me/${whatsappAtendimentoLoja}`;
-                        
-                        const txtWppTopo = document.getElementById('txt-wpp-topo');
-                        if (txtWppTopo) txtWppTopo.innerText = dados.tel1;
-
-                        const telFooter = document.getElementById('footer-tel-atendimento');
-                        if (telFooter) telFooter.innerText = dados.tel1;
-
-                        const linkWppFooter = document.getElementById('footer-wpp-link');
-                        if (linkWppFooter) linkWppFooter.href = `https://wa.me/${whatsappAtendimentoLoja}`;
-
-                        const linkFaleConosco = document.getElementById('link-fale-conosco-footer');
-                        if (linkFaleConosco) linkFaleConosco.href = `https://wa.me/${whatsappAtendimentoLoja}`;
-                    }
-                }
-
-                if (dados.tel2) {
-                    const telFooter2 = document.getElementById('footer-tel-atendimento-2');
-                    if (telFooter2) telFooter2.innerText = dados.tel2;
-                }
-
-                if (dados.email) {
-                    const emailFooter = document.getElementById('footer-email-atendimento');
-                    if (emailFooter) emailFooter.innerText = dados.email;
-                }
-
-                if (dados.endereco) {
-                    const endFooter = document.getElementById('footer-endereco-txt');
-                    if (endFooter) endFooter.innerText = dados.endereco;
-                }
-            }
-
-            // Banners
-            const bannersSalvos = configsNuvem['phsublime_admin_banners'] || JSON.parse(localStorage.getItem('phsublime_admin_banners') || '[]');
-            if (Array.isArray(bannersSalvos) && bannersSalvos.length > 0) {
-                const slider = bannersSalvos.filter(b => (!b.tipo || b.tipo === 'Animação' || b.tipo.includes('Slider')) && b.imagem);
-                const minis = bannersSalvos.filter(b => b.tipo === 'Mini Banner' && b.imagem);
-                
-                if (slider.length > 0) bannersCarrossel = slider.map(b => ({ img: b.imagem, link: b.link || '' }));
-                if (minis.length > 0) miniBannersParados = minis.map(b => ({ img: b.imagem, link: b.link || '' })).slice(0, 3);
-            }
-            renderizarBanners();
-            renderizarMiniBanners();
-        }
-
-        // --- 6. RENDERIZAÇÃO DA ÁRVORE DE CATEGORIAS RECURSIVA MULTINÍVEL ---
-        function gerarHtmlCategoriasTree(lista, nivel = 0) {
-            if (!Array.isArray(lista)) return '';
-            let html = '';
-            
-            lista.forEach((cat, idx) => {
-                const idUnico = `subcat-${nivel}-${idx}-${Math.random().toString(36).substr(2, 6)}`;
-                const indentacaoPx = nivel * 12 + 12;
-
-                if (typeof cat === 'string') {
-                    html += `
-                        <li class="item-cat-sidebar border-b border-slate-100/60">
-                            <a href="javascript:void(0)" 
-                               onclick="filtrarCategoria('${escapeAttr(cat)}')" 
-                               style="padding-left: ${indentacaoPx}px;" 
-                               class="py-2 pr-3 hover:bg-blue-50 flex items-center justify-between font-semibold text-slate-700 hover:text-blue-900 transition-all text-xs">
-                                <span class="truncate">${escapeAttr(cat)}</span>
-                                <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-                            </a>
-                        </li>
-                    `;
-                } else if (cat && cat.nome) {
-                    const temSubs = Array.isArray(cat.subs) && cat.subs.length > 0;
-                    html += `
-                        <li class="item-cat-sidebar border-b border-slate-100/60">
-                            <div style="padding-left: ${indentacaoPx}px;" 
-                                 class="flex items-center justify-between py-2 pr-3 hover:bg-blue-50 font-bold text-blue-900 cursor-pointer transition-all text-xs group">
-                                <span onclick="filtrarCategoria('${escapeAttr(cat.nome)}')" class="hover:underline flex-1 truncate pr-2">
-                                    ${escapeAttr(cat.nome)}
-                                </span>
-                                ${temSubs ? `
-                                    <button type="button" onclick="event.stopPropagation(); toggleSubMenuTree('${idUnico}')" class="p-1 hover:bg-blue-200/50 rounded text-amber-500 transition-all shrink-0">
-                                        <i id="icon-${idUnico}" class="fa-solid fa-chevron-right text-[10px] transition-transform duration-200"></i>
-                                    </button>
-                                ` : ''}
-                            </div>
-                            ${temSubs ? `
-                                <ul id="${idUnico}" class="hidden bg-slate-50/90 divide-y divide-slate-100/50 border-l-2 border-amber-400/80 my-0.5">
-                                    ${gerarHtmlCategoriasTree(cat.subs, nivel + 1)}
-                                </ul>
-                            ` : ''}
-                        </li>
-                    `;
-                }
-            });
-            return html;
-        }
-
-        function toggleSubMenuTree(id) {
-            const el = document.getElementById(id);
-            const icon = document.getElementById(`icon-${id}`);
-            if (el) {
-                el.classList.toggle('hidden');
-                if (icon) {
-                    icon.classList.toggle('rotate-90');
-                }
-            }
-        }
-
-        function renderizarMenusCategorias() {
-            const menuTopo = document.getElementById('container-menu-categorias-topo');
-            if (menuTopo) {
-                let htmlTopo = `<button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 transition-all uppercase">INÍCIO</button>`;
-                
-                ESTRUTURA_CATEGORIAS_GRAFICONAUTA.slice(0, 8).forEach(catObj => {
-                    const nomeCat = typeof catObj === 'string' ? catObj : catObj.nome;
-                    htmlTopo += `<button onclick="filtrarCategoria('${escapeAttr(nomeCat)}')" class="px-4 py-2.5 hover:bg-blue-800 hover:text-amber-300 transition-all uppercase">${escapeAttr(nomeCat)}</button>`;
-                });
-                menuTopo.innerHTML = htmlTopo;
-            }
-
-            const sbMaisVendidos = document.getElementById('lista-mais-vendidos-sidebar');
-            if (sbMaisVendidos) {
-                let htmlMV = '';
-                const salvosMv = localStorage.getItem('phsublime_admin_mais_vendidos');
-                const listaManual = salvosMv ? JSON.parse(salvosMv) : [];
-
-                if (Array.isArray(listaManual) && listaManual.length > 0) {
-                    listaManual.forEach(item => {
-                        htmlMV += `
-                            <li>
-                                <a href="javascript:void(0)" onclick="abrirModalDetalhes('${escapeAttr(item.id)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
-                                    <span class="truncate pr-2">${escapeAttr(item.nome)}</span> <span class="tag-promocao shrink-0">DESTAQUE</span>
-                                </a>
-                            </li>
-                        `;
-                    });
-                } else {
-                    ESTRUTURA_CATEGORIAS_GRAFICONAUTA.slice(0, 6).forEach(catObj => {
-                        const nomeCat = typeof catObj === 'string' ? catObj : catObj.nome;
-                        htmlMV += `
-                            <li>
-                                <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(nomeCat)}')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between">
-                                    <span>${escapeAttr(nomeCat)}</span> <span class="tag-promocao">PROMOÇÃO</span>
-                                </a>
-                            </li>
-                        `;
-                    });
-                }
-                sbMaisVendidos.innerHTML = htmlMV;
-            }
-
-            const sbTodas = document.getElementById('lista-todas-categorias-sidebar');
-            if (sbTodas) {
-                let htmlTodas = `
-                    <li class="item-cat-sidebar">
-                        <a href="javascript:void(0)" onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-50 flex items-center justify-between font-black text-blue-900 border-b border-slate-200">
-                            <span>VER TODO O CATÁLOGO</span> 
-                            <i class="fa-solid fa-border-all text-[10px]"></i>
-                        </a>
-                    </li>
-                `;
-                htmlTodas += gerarHtmlCategoriasTree(ESTRUTURA_CATEGORIAS_GRAFICONAUTA);
-                sbTodas.innerHTML = htmlTodas;
-            }
-        }
-
-        function filtrarCategoriasSidebar(termo) {
-            const busca = termo.toLowerCase().trim();
-            const itens = document.querySelectorAll('#lista-todas-categorias-sidebar .item-cat-sidebar');
-            
-            itens.forEach(item => {
-                if (!busca || item.innerText.toLowerCase().includes(busca)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        // --- 7. PERFIL E MENSAGENS DO CLIENTE ---
-        function carregarPerfilCliente() {
-            try {
-                const p = localStorage.getItem('phsublime_perfil_cliente');
-                if (p) {
-                    const dados = JSON.parse(p);
-                    if (dados.nome) {
-                        const txtUser = document.getElementById('txt-user-header-nome');
-                        if (txtUser) txtUser.innerText = `Olá, ${dados.nome.split(' ')[0]}`;
-
-                        document.getElementById('perfil-nome').value = dados.nome || '';
-                        document.getElementById('perfil-doc').value = dados.doc || '';
-                        document.getElementById('perfil-wpp').value = dados.wpp || '';
-                        document.getElementById('perfil-endereco').value = dados.endereco || '';
-
-                        document.getElementById('checkout-nome').value = dados.nome || '';
-                        document.getElementById('checkout-doc').value = dados.doc || '';
-                        document.getElementById('checkout-wpp').value = dados.wpp || '';
-                        document.getElementById('checkout-rua').value = dados.endereco || '';
-                    }
-                }
-            } catch(e){}
         }
 
         function toggleModalLogin() {
             document.getElementById('modal-login-cliente').classList.toggle('hidden');
         }
 
-        function salvarPerfilClienteLocal(e) {
+        async function efetuarLoginOuCadastroClienteSubmit(e) {
             e.preventDefault();
             const dados = {
+                id: clienteLogadoGlobal?.id || `cli-${Date.now()}`,
                 nome: document.getElementById('perfil-nome').value,
                 doc: document.getElementById('perfil-doc').value,
                 wpp: document.getElementById('perfil-wpp').value,
-                endereco: document.getElementById('perfil-endereco').value
+                email: document.getElementById('perfil-email').value
             };
 
-            localStorage.setItem('phsublime_perfil_cliente', JSON.stringify(dados));
-            carregarPerfilCliente();
+            clienteLogadoGlobal = { ...clienteLogadoGlobal, ...dados };
+            localStorage.setItem('phsublime_perfil_cliente', JSON.stringify(clienteLogadoGlobal));
+
+            try {
+                if (supabaseClient) {
+                    await supabaseClient.from('clientes').upsert([{
+                        id_cliente: clienteLogadoGlobal.id,
+                        nome: clienteLogadoGlobal.nome,
+                        documento: clienteLogadoGlobal.doc,
+                        whatsapp: clienteLogadoGlobal.wpp,
+                        email: clienteLogadoGlobal.email
+                    }], { onConflict: 'id_cliente' });
+                }
+            } catch(err){}
+
+            carregarPerfilClienteLocal();
             toggleModalLogin();
-            mostrarToast("Perfil atualizado com sucesso!");
+            mostrarToast("Bem-vindo à sua conta PHSUBLIME!");
+            alternarAba('minha-conta');
+            renderizarMinhaConta();
+        }
+
+        function renderizarMinhaConta() {
+            renderizarReguaFidelidade();
+            renderizarMeusPedidosCliente();
+        }
+
+        async function renderizarReguaFidelidade() {
+            let totalGastoMes = 0;
+            if (clienteLogadoGlobal && clienteLogadoGlobal.doc) {
+                try {
+                    if (supabaseClient) {
+                        const { data, error } = await supabaseClient
+                            .from('pedidos')
+                            .select('valor_total')
+                            .eq('cliente_doc', clienteLogadoGlobal.doc);
+                        if (!error && data) {
+                            totalGastoMes = data.reduce((s, p) => s + (parseFloat(p.valor_total) || 0), 0);
+                        }
+                    }
+                } catch(e){}
+            }
+
+            // Metas da Régua
+            const fBronze = 300, fPrata = 800, fOuro = 1500, fDiamante = 3000;
+            let nivel = "START", pctDesconto = 0, proximoNivel = "BRONZE (3% OFF)", valorFalta = fBronze - totalGastoMes, progressoPct = 0;
+
+            if (totalGastoMes >= fDiamante) {
+                nivel = "DIAMANTE"; pctDesconto = 15; proximoNivel = "MÁXIMO ALCANÇADO!"; valorFalta = 0; progressoPct = 100;
+            } else if (totalGastoMes >= fOuro) {
+                nivel = "OURO"; pctDesconto = 10; proximoNivel = "DIAMANTE (15% OFF)"; valorFalta = fDiamante - totalGastoMes; progressoPct = 75 + ((totalGastoMes - fOuro)/(fDiamante - fOuro))*25;
+            } else if (totalGastoMes >= fPrata) {
+                nivel = "PRATA"; pctDesconto = 6; proximoNivel = "OURO (10% OFF)"; valorFalta = fOuro - totalGastoMes; progressoPct = 50 + ((totalGastoMes - fPrata)/(fOuro - fPrata))*25;
+            } else if (totalGastoMes >= fBronze) {
+                nivel = "BRONZE"; pctDesconto = 3; proximoNivel = "PRATA (6% OFF)"; valorFalta = fPrata - totalGastoMes; progressoPct = 25 + ((totalGastoMes - fBronze)/(fPrata - fBronze))*25;
+            } else {
+                progressoPct = (totalGastoMes / fBronze) * 25;
+            }
+
+            document.getElementById('txt-regua-total-mes').innerText = `R$ ${totalGastoMes.toFixed(2)}`;
+            document.getElementById('txt-regua-nivel-atual').innerText = nivel;
+            document.getElementById('regua-barra-progresso').style.width = `${Math.min(100, Math.max(0, progressoPct))}%`;
+
+            if (valorFalta > 0) {
+                document.getElementById('txt-regua-msg-proximo').innerHTML = `Comprando mais <strong class="text-amber-400">R$ ${valorFalta.toFixed(2)}</strong> até o final do mês, você garante o nível <strong class="text-amber-300">${proximoNivel}</strong> para o mês seguinte!`;
+            } else {
+                document.getElementById('txt-regua-msg-proximo').innerText = "Parabéns! Você alcançou o nível máximo de desconto!";
+            }
+
+            if (clienteLogadoGlobal) clienteLogadoGlobal.pctDescontoFidelidade = pctDesconto;
+        }
+
+        function mudarSubAbaMinhaConta(aba) {
+            ['pedidos', 'dados'].forEach(a => {
+                document.getElementById(`subaba-conteudo-${a}`)?.classList.add('hidden');
+                document.getElementById(`btn-subaba-${a}`)?.classList.remove('bg-blue-900', 'text-amber-300', 'shadow');
+                document.getElementById(`btn-subaba-${a}`)?.classList.add('hover:bg-slate-100', 'text-slate-600');
+            });
+
+            document.getElementById(`subaba-conteudo-${aba}`)?.classList.remove('hidden');
+            const btn = document.getElementById(`btn-subaba-${aba}`);
+            if (btn) {
+                btn.classList.remove('hover:bg-slate-100', 'text-slate-600');
+                btn.classList.add('bg-blue-900', 'text-amber-300', 'shadow');
+            }
+
+            if (aba === 'dados') povoarCamposMeusDados();
+            if (aba === 'pedidos') renderizarMeusPedidosCliente();
+        }
+
+        async function renderizarMeusPedidosCliente() {
+            const tbody = document.getElementById('tabela-meus-pedidos-cliente-body');
+            const txtCount = document.getElementById('txt-contador-pedidos-cliente');
+            if (!tbody) return;
+
+            tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block"></i> Buscando seus pedidos no banco...</td></tr>';
+
+            let pedidosFound = [];
+            if (clienteLogadoGlobal && clienteLogadoGlobal.doc) {
+                try {
+                    if (supabaseClient) {
+                        const { data, error } = await supabaseClient
+                            .from('pedidos')
+                            .select('*')
+                            .eq('cliente_doc', clienteLogadoGlobal.doc)
+                            .order('id', { ascending: false });
+                        if (!error && data) pedidosFound = data;
+                    }
+                } catch(e){}
+            }
+
+            // Exemplo local para demonstração prévia
+            if (pedidosFound.length === 0) {
+                const salvosLocais = JSON.parse(localStorage.getItem('phsublime_meus_pedidos_locais') || '[]');
+                if (salvosLocais.length > 0) pedidosFound = salvosLocais;
+            }
+
+            pedidosClienteLista = pedidosFound;
+            filtrarPedidosClienteLocal();
+        }
+
+        function filtrarPedidosClienteLocal() {
+            const tbody = document.getElementById('tabela-meus-pedidos-cliente-body');
+            const txtCount = document.getElementById('txt-contador-pedidos-cliente');
+            const statusSel = document.getElementById('filtro-cliente-pedido-status')?.value || 'TODOS';
+            if (!tbody) return;
+
+            let filtrados = pedidosClienteLista.filter(p => {
+                if (statusSel === 'TODOS') return true;
+                return (p.status_producao || 'Aguardando Pagamento') === statusSel;
+            });
+
+            if (txtCount) txtCount.innerText = `${filtrados.length} pedido(s) encontrado(s)`;
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold">Nenhum pedido encontrado.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            filtrados.forEach(p => {
+                const cod = p.codigo_pedido || `#PH-${p.id}`;
+                const dataStr = p.created_at ? new Date(p.created_at).toLocaleDateString('pt-BR') : 'Hoje';
+                const valTotal = parseFloat(p.valor_total || 0).toFixed(2);
+                const stProd = p.status_producao || 'Aguardando Pagamento';
+
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-black text-blue-900">${escapeAttr(cod)}</td>
+                    <td class="py-3 px-4 font-medium text-slate-600">${dataStr}</td>
+                    <td class="py-3 px-4 text-center font-black text-emerald-700">R$ ${valTotal}</td>
+                    <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase">CONFIRMADO</span></td>
+                    <td class="py-3 px-4 text-center"><span class="bg-blue-100 text-blue-900 text-[10px] font-black px-2 py-0.5 rounded uppercase">${escapeAttr(stProd)}</span></td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="verDetalhesPedidoCliente('${escapeAttr(cod)}')" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-[10px] px-3 py-1 rounded-lg uppercase shadow">
+                            <i class="fa-solid fa-eye mr-1"></i> Ver Pedido
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function verDetalhesPedidoCliente(codigo) {
+            const p = pedidosClienteLista.find(x => (x.codigo_pedido || `#PH-${x.id}`) === codigo);
+            if (!p) return;
+
+            document.getElementById('detalhe-ped-codigo').innerText = `PEDIDO ${p.codigo_pedido || '#PH-'+p.id}`;
+            document.getElementById('detalhe-ped-data').innerText = `Data: ${p.created_at ? new Date(p.created_at).toLocaleDateString('pt-BR') : 'Hoje'}`;
+            document.getElementById('detalhe-ped-status-badge').innerText = p.status_producao || 'Aguardando Pagamento';
+
+            const end = p.endereco_json || {};
+            document.getElementById('detalhe-ped-endereco').innerText = end.rua ? `${end.rua}, nº ${end.numero} - ${end.bairro}, ${end.cidade}/${end.uf}` : 'Retirada no Balcão';
+            document.getElementById('detalhe-ped-frete-nome').innerText = `Modalidade: ${p.forma_envio || 'PH Entrega'}`;
+            document.getElementById('detalhe-ped-pagamento').innerText = `Forma: ${p.forma_pagamento || 'PIX'}`;
+            document.getElementById('detalhe-ped-total').innerText = `Total: R$ ${parseFloat(p.valor_total || 0).toFixed(2)}`;
+
+            // Renderiza Itens com Esteira Visual
+            const containerItens = document.getElementById('container-itens-detalhe-cliente');
+            containerItens.innerHTML = '';
+
+            const itens = p.itens_json || [
+                { nome: 'Produto do Pedido', qtd: 1, preco: p.valor_total, imagem: '' }
+            ];
+
+            const etapas = ['Pagamento', 'Análise de Arquivo', 'Em Fila de Impressão', 'Em Produção', 'Em Transporte', 'Concluído'];
+            const statusAtual = p.status_producao || 'Pagamento';
+            const indexStatusAtual = etapas.indexOf(statusAtual) >= 0 ? etapas.indexOf(statusAtual) : 0;
+
+            itens.forEach(i => {
+                const itemBox = document.createElement('div');
+                itemBox.className = "p-3 bg-white border border-slate-200 rounded-xl space-y-2";
+
+                let htmlPipeline = `<div class="grid grid-cols-6 gap-1 text-[9px] font-black uppercase text-center pt-2 border-t">`;
+                etapas.forEach((etapa, idx) => {
+                    const ativa = idx <= indexStatusAtual;
+                    htmlPipeline += `<div class="p-1 rounded ${ativa ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-400'} truncate">${etapa}</div>`;
+                });
+                htmlPipeline += `</div>`;
+
+                itemBox.innerHTML = `
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2">
+                            <img src="${i.imagem || 'https://placehold.co/50'}" class="w-10 h-10 object-contain rounded border bg-slate-50 p-0.5">
+                            <div>
+                                <strong class="font-bold text-slate-800 text-xs block">${escapeAttr(i.nome)}</strong>
+                                <span class="text-[10px] text-slate-500">${i.qtd}x | R$ ${parseFloat(i.preco || 0).toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <strong class="text-blue-900 font-black text-xs">R$ ${(i.qtd * i.preco).toFixed(2)}</strong>
+                    </div>
+                    ${htmlPipeline}
+                `;
+                containerItens.appendChild(itemBox);
+            });
+
+            document.getElementById('modal-cliente-detalhes-pedido').classList.remove('hidden');
+        }
+
+        function fecharModalClienteDetalhesPedido() {
+            document.getElementById('modal-cliente-detalhes-pedido').classList.add('hidden');
+        }
+
+        function povoarCamposMeusDados() {
+            if (!clienteLogadoGlobal) return;
+            if (document.getElementById('minha-conta-nome')) document.getElementById('minha-conta-nome').value = clienteLogadoGlobal.nome || '';
+            if (document.getElementById('minha-conta-doc')) document.getElementById('minha-conta-doc').value = clienteLogadoGlobal.doc || '';
+            if (document.getElementById('minha-conta-wpp')) document.getElementById('minha-conta-wpp').value = clienteLogadoGlobal.wpp || '';
+            if (document.getElementById('minha-conta-email')) document.getElementById('minha-conta-email').value = clienteLogadoGlobal.email || '';
+
+            const end = clienteLogadoGlobal.enderecoPrincipal || {};
+            if (document.getElementById('minha-conta-cep')) document.getElementById('minha-conta-cep').value = end.cep || '';
+            if (document.getElementById('minha-conta-rua')) document.getElementById('minha-conta-rua').value = end.rua || '';
+            if (document.getElementById('minha-conta-numero')) document.getElementById('minha-conta-numero').value = end.numero || '';
+            if (document.getElementById('minha-conta-complemento')) document.getElementById('minha-conta-complemento').value = end.complemento || '';
+            if (document.getElementById('minha-conta-bairro')) document.getElementById('minha-conta-bairro').value = end.bairro || '';
+            if (document.getElementById('minha-conta-cidade')) document.getElementById('minha-conta-cidade').value = end.cidade || '';
+            if (document.getElementById('minha-conta-uf')) document.getElementById('minha-conta-uf').value = end.uf || '';
+        }
+
+        function povoarCamposCheckoutCliente() {
+            if (!clienteLogadoGlobal) return;
+            const end = clienteLogadoGlobal.enderecoPrincipal || {};
+            if (end.rua) {
+                if (document.getElementById('checkout-cep')) document.getElementById('checkout-cep').value = end.cep || '';
+                if (document.getElementById('checkout-rua')) document.getElementById('checkout-rua').value = end.rua || '';
+                if (document.getElementById('checkout-numero')) document.getElementById('checkout-numero').value = end.numero || '';
+                if (document.getElementById('checkout-complemento')) document.getElementById('checkout-complemento').value = end.complemento || '';
+                if (document.getElementById('checkout-bairro')) document.getElementById('checkout-bairro').value = end.bairro || '';
+                if (document.getElementById('checkout-cidade')) document.getElementById('checkout-cidade').value = end.cidade || '';
+                if (document.getElementById('checkout-uf')) document.getElementById('checkout-uf').value = end.uf || '';
+            }
+
+            if (clienteLogadoGlobal.enderecoAlt?.rua) {
+                document.getElementById('box-seletor-endereco-checkout')?.classList.remove('hidden');
+            }
+        }
+
+        function alternarEnderecoCheckoutSelecao() {
+            const tipo = document.getElementById('sel-endereco-checkout-tipo')?.value;
+            if (!clienteLogadoGlobal) return;
+
+            const end = tipo === 'alternativo' ? clienteLogadoGlobal.enderecoAlt : clienteLogadoGlobal.enderecoPrincipal;
+            if (end) {
+                document.getElementById('checkout-cep').value = end.cep || '';
+                document.getElementById('checkout-rua').value = end.rua || '';
+                document.getElementById('checkout-numero').value = end.numero || '';
+                document.getElementById('checkout-complemento').value = end.complemento || '';
+                document.getElementById('checkout-bairro').value = end.bairro || '';
+                document.getElementById('checkout-cidade').value = end.cidade || '';
+                document.getElementById('checkout-uf').value = end.uf || '';
+                mostrarToast(`Endereço ${tipo} aplicado ao checkout!`);
+            }
+        }
+
+        function toggleEnderecoAltMinhaConta() {
+            const chk = document.getElementById('chk-usar-endereco-alt');
+            const box = document.getElementById('box-endereco-alt-campos');
+            if (chk && box) {
+                if (chk.checked) box.classList.remove('hidden');
+                else box.classList.add('hidden');
+            }
+        }
+
+        function salvarMeusDadosClienteSubmit(e) {
+            e.preventDefault();
+            if (!clienteLogadoGlobal) clienteLogadoGlobal = {};
+
+            clienteLogadoGlobal.nome = document.getElementById('minha-conta-nome').value;
+            clienteLogadoGlobal.doc = document.getElementById('minha-conta-doc').value;
+            clienteLogadoGlobal.wpp = document.getElementById('minha-conta-wpp').value;
+            clienteLogadoGlobal.email = document.getElementById('minha-conta-email').value;
+
+            clienteLogadoGlobal.enderecoPrincipal = {
+                cep: document.getElementById('minha-conta-cep').value,
+                rua: document.getElementById('minha-conta-rua').value,
+                numero: document.getElementById('minha-conta-numero').value,
+                complemento: document.getElementById('minha-conta-complemento').value,
+                bairro: document.getElementById('minha-conta-bairro').value,
+                cidade: document.getElementById('minha-conta-cidade').value,
+                uf: document.getElementById('minha-conta-uf').value
+            };
+
+            const chkAlt = document.getElementById('chk-usar-endereco-alt');
+            if (chkAlt && chkAlt.checked) {
+                clienteLogadoGlobal.enderecoAlt = {
+                    cep: document.getElementById('minha-conta-alt-cep').value,
+                    rua: document.getElementById('minha-conta-alt-rua').value,
+                    numero: document.getElementById('minha-conta-alt-numero').value,
+                    complemento: document.getElementById('minha-conta-alt-complemento').value,
+                    bairro: document.getElementById('minha-conta-alt-bairro').value
+                };
+            }
+
+            localStorage.setItem('phsublime_perfil_cliente', JSON.stringify(clienteLogadoGlobal));
+            carregarPerfilClienteLocal();
+            mostrarToast("Seus dados e endereços foram salvos com sucesso!");
         }
 
         function limparPerfilCliente() {
             localStorage.removeItem('phsublime_perfil_cliente');
+            clienteLogadoGlobal = null;
             document.getElementById('txt-user-header-nome').innerText = "Olá, Visitante";
-            document.getElementById('perfil-nome').value = '';
-            document.getElementById('perfil-doc').value = '';
-            document.getElementById('perfil-wpp').value = '';
-            document.getElementById('perfil-endereco').value = '';
-            toggleModalLogin();
-            mostrarToast("Você saiu da conta.");
-        }
-
-        // --- 8. GAVETA LATERAL DE CARRINHO RÁPIDO (DRAWER) ---
-        function alternarCarrinhoLateral(abrir) {
-            const drawer = document.getElementById('aba-lateral-carrinho');
-            if (!drawer) return;
-
-            if (abrir) {
-                renderizarCarrinhoLateral();
-                drawer.classList.remove('translate-x-full');
-            } else {
-                drawer.classList.add('translate-x-full');
-            }
-        }
-
-        function renderizarCarrinhoLateral() {
-            const container = document.getElementById('conteudo-carrinho-lateral');
-            const totalEl = document.getElementById('cart-drawer-total');
-            if (!container) return;
-
-            if (carrinho.length === 0) {
-                container.innerHTML = `<p class="text-center text-slate-400 py-8">Seu carrinho está vazio.</p>`;
-                if (totalEl) totalEl.innerText = "R$ 0,00";
-                return;
-            }
-
-            container.innerHTML = '';
-            let total = 0;
-
-            carrinho.forEach(item => {
-                const sub = item.preco * item.qtd;
-                total += sub;
-
-                const div = document.createElement('div');
-                div.className = "py-3 flex items-center justify-between gap-2";
-                div.innerHTML = `
-                    <div class="flex items-center gap-2 overflow-hidden">
-                        <img src="${item.imagem}" class="w-10 h-10 object-contain rounded border bg-white p-0.5 shrink-0" onerror="this.onerror=null; this.style.display='none';">
-                        <div class="overflow-hidden">
-                            <strong class="block truncate text-slate-200 text-[11px]">${escapeAttr(item.nome)}</strong>
-                            <span class="text-[10px] text-slate-400">${item.qtd}x R$ ${item.preco.toFixed(2)}</span>
-                        </div>
-                    </div>
-                    <div class="text-right shrink-0 space-y-1">
-                        <strong class="block text-emerald-400 text-xs">R$ ${sub.toFixed(2)}</strong>
-                        <button onclick="removerDoCarrinho('${item.id}'); renderizarCarrinhoLateral();" class="text-red-400 text-[10px] hover:underline">
-                            Remover
-                        </button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-
-            if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
-        }
-
-        function mostrarModalPaginaExtra(titulo) {
-            let conteudo = "<p>Conteúdo em atualização.</p>";
-            try {
-                const paginasExtrasSalvas = localStorage.getItem('phsublime_paginas_extras');
-                if (paginasExtrasSalvas) {
-                    const listaPags = JSON.parse(paginasExtrasSalvas);
-                    const enc = listaPags.find(p => p && p.titulo && p.titulo.toLowerCase().trim() === String(titulo).toLowerCase().trim());
-                    if (enc && enc.conteudo) conteudo = enc.conteudo;
-                }
-            } catch(e){}
-
-            document.getElementById('txt-modal-extra-titulo').innerText = titulo;
-            document.getElementById('txt-modal-extra-conteudo').innerHTML = conteudo;
-            document.getElementById('modal-pagina-extra-loja').classList.remove('hidden');
-        }
-
-        function fecharModalPaginaExtraLoja() {
-            document.getElementById('modal-pagina-extra-loja').classList.add('hidden');
-        }
-
-        function renderizarBanners() {
-            const container = document.getElementById('banner-slider-container');
-            const dots = document.getElementById('banner-dots');
-            if (!container) return;
-
-            container.innerHTML = '';
-            if (dots) dots.innerHTML = '';
-
-            bannersCarrossel.forEach((b, i) => {
-                const item = document.createElement('div');
-                item.className = "w-full min-w-full max-w-full shrink-0 cursor-pointer overflow-hidden flex items-center justify-center";
-                
-                const srcImg = formatarUrlImagem(b.img) || BANNER_FALLBACK_GRANDE;
-                
-                const htmlImg = `<img src="${srcImg}" alt="Banner ${i+1}" class="w-full h-[180px] sm:h-[280px] md:h-[350px] object-fill block" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_GRANDE}';">`;
-                
-                if (b.link) {
-                    item.innerHTML = `<a href="${escapeAttr(b.link)}" target="_blank" class="block w-full h-full">${htmlImg}</a>`;
-                } else {
-                    item.innerHTML = htmlImg;
-                }
-
-                container.appendChild(item);
-
-                if (dots) {
-                    const dot = document.createElement('button');
-                    dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? 'bg-amber-400 w-6' : 'bg-white/60'}`;
-                    dot.onclick = () => irParaBanner(i);
-                    dots.appendChild(dot);
-                }
-            });
-        }
-
-        function renderizarMiniBanners() {
-            const container = document.getElementById('container-mini-banners');
-            if (!container) return;
-            container.innerHTML = '';
-
-            miniBannersParados.forEach((m, idx) => {
-                const card = document.createElement('div');
-                card.className = "rounded-xl overflow-hidden shadow-md border border-slate-200 hover:shadow-lg transition-all group bg-blue-950";
-                const srcImg = formatarUrlImagem(m.img) || BANNER_FALLBACK_MINI;
-
-                const imgHtml = `<img src="${srcImg}" alt="Mini Banner ${idx+1}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 max-h-36" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_MINI}';">`;
-                
-                if (m.link) {
-                    card.innerHTML = `<a href="${escapeAttr(m.link)}" target="_blank">${imgHtml}</a>`;
-                } else {
-                    card.innerHTML = imgHtml;
-                }
-                container.appendChild(card);
-            });
-        }
-
-        function mudarBanner(direcao) {
-            bannerIndiceAtual = (bannerIndiceAtual + direcao + bannersCarrossel.length) % bannersCarrossel.length;
-            irParaBanner(bannerIndiceAtual);
-        }
-
-        function irParaBanner(indice) {
-            bannerIndiceAtual = indice;
-            const container = document.getElementById('banner-slider-container');
-            if (container) container.style.transform = `translateX(-${indice * 100}%)`;
-            
-            const dots = document.querySelectorAll('#banner-dots button');
-            dots.forEach((dot, idx) => {
-                dot.className = `w-2.5 h-2.5 rounded-full transition-all ${idx === indice ? 'bg-amber-400 w-6' : 'bg-white/60'}`;
-            });
-        }
-
-        setInterval(() => mudarBanner(1), 5000);
-
-        function carregarScriptsAdminHead() {
-            try {
-                const tagsSalvas = localStorage.getItem('phsublime_admin_codigos_html');
-                if (!tagsSalvas) return;
-
-                const lista = JSON.parse(tagsSalvas);
-                const container = document.getElementById('container-scripts-admin-head');
-                if (!container || !Array.isArray(lista)) return;
-
-                lista.forEach(item => {
-                    if (item && item.codigo) {
-                        const range = document.createRange();
-                        const node = range.createContextualFragment(item.codigo);
-                        container.appendChild(node);
-                    }
-                });
-            } catch(e) {}
-        }
-
-        // --- 9. CARREGAMENTO DE PRODUTOS DA GRÁFICA ---
-        async function carregarEstoqueSupabase() {
-            let produtosSupabase = [];
-
-            try {
-                if (typeof supabase !== 'undefined' && supabaseClient) {
-                    const { data, error } = await supabaseClient
-                        .from('produtos')
-                        .select('id, Nome, Categorias_Secundarias, Preco_Venda, Referencia, Url, Descricao, gabarito_url')
-                        .limit(200);
-
-                    if (!error && data && data.length > 0) {
-                        produtosSupabase = data.map(item => {
-                            let preco = item.Preco_Venda ?? item.preco_venda ?? item.Preco ?? 0;
-                            if (typeof preco === 'string') preco = parseFloat(preco.replace(',', '.'));
-
-                            return {
-                                id: `sb-${item.id}`,
-                                nome: item.Nome || item.nome || 'Produto Sem Nome',
-                                categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
-                                precoVenda: isNaN(preco) ? 0 : preco,
-                                ref: item.Referencia || item.referencia || 'ref-001',
-                                producao: '24 horas',
-                                imagem: formatarUrlImagem(item.Url || item.url || ''),
-                                descricao: item.Descricao || item.descricao || '<p>Produto de alta qualidade da PHSUBLIME GRÁFICA.</p>',
-                                gabaritoUrl: item.gabarito_url || ''
-                            };
-                        });
-                    }
-                }
-            } catch(err) {
-                console.warn("Supabase não carregou ou sem dados:", err);
-            }
-
-            catalogoEstoque = [...produtosSupabase, ...CATALOGO_GRAFICONALTA_PADRAO];
-
-            renderizarMenusCategorias();
-            renderizarProdutosDestaque();
-            renderizarCatalogo();
-        }
-
-        function renderizarProdutosDestaque() {
-            const container = document.getElementById('container-produtos-destaque-row');
-            if (!container) return;
-
-            container.innerHTML = '';
-            const itensDestaque = catalogoEstoque.slice(0, 4);
-
-            itensDestaque.forEach(item => {
-                const preco = parseFloat(item.precoVenda || 0);
-                const card = document.createElement('div');
-                card.className = "bg-white border border-slate-200 rounded-xl p-3 shadow-sm hover:shadow-md transition-all flex flex-col justify-between";
-                
-                const htmlImagem = item.imagem 
-                    ? `<img src="${escapeAttr(item.imagem)}" class="w-full h-full object-contain p-1" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid fa-box-open text-3xl text-blue-900/30\\'></i>';">`
-                    : `<i class="fa-solid fa-box-open text-3xl text-blue-900/30"></i>`;
-
-                card.innerHTML = `
-                    <div class="space-y-2">
-                        <div class="w-full h-32 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-center cursor-pointer overflow-hidden" onclick="abrirModalDetalhes('${item.id}')">
-                            ${htmlImagem}
-                        </div>
-                        <h4 class="text-[11px] font-black text-blue-900 leading-tight line-clamp-2 cursor-pointer text-center" onclick="abrirModalDetalhes('${item.id}')">${escapeAttr(item.nome)}</h4>
-                        <div class="flex items-center justify-between text-[9px] text-slate-500 border-t pt-1">
-                            <span><b>Ref.:</b> ${escapeAttr(item.ref)}</span>
-                            <span><b>Produção:</b> ${escapeAttr(item.producao || '24h')}</span>
-                        </div>
-                    </div>
-                    <div class="pt-2 border-t border-slate-100 text-center space-y-1">
-                        <span class="text-[9px] text-slate-400 block">a partir de:</span>
-                        <strong class="text-red-600 font-black text-sm block">R$ ${preco.toFixed(2)}</strong>
-                        <button onclick="adicionarAoCarrinho('${item.id}')" class="w-full btn-comprar-custom text-white font-black text-[10px] py-1.5 rounded-lg shadow uppercase flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-bag-shopping text-[10px]"></i> COMPRAR
-                        </button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function filtrarCategoria(cat) {
-            categoriaFiltro = String(cat).trim().toLowerCase();
-            paginaAtual = 1;
-            const inBusca = document.getElementById('input-busca-catalogo');
-            if (inBusca) inBusca.value = '';
-
-            const bread = document.getElementById('txt-breadcrumb-categoria');
-            const tituloCat = document.getElementById('txt-titulo-categoria-atual');
-
-            if (!categoriaFiltro) {
-                if (bread) bread.innerText = 'Todos os Produtos';
-                if (tituloCat) tituloCat.innerText = 'PRODUTOS MAIS VENDIDOS';
-            } else {
-                if (bread) bread.innerText = cat.toUpperCase();
-                if (tituloCat) tituloCat.innerText = cat.toUpperCase();
-            }
-
+            document.getElementById('txt-user-header-sub').innerText = "Minha Conta / Entrar";
             alternarAba('catalogo');
-            renderizarCatalogo();
+            mostrarToast("Você saiu da sua conta.");
         }
 
-        function buscarComDebounce() {
-            clearTimeout(timerDebounce);
-            timerDebounce = setTimeout(() => { paginaAtual = 1; renderizarCatalogo(); }, 300);
-        }
+        // --- 4. FINALIZAÇÃO DO PEDIDO COM UPLOAD E GRAVAÇÃO NO BANCO ---
+        async function confirmarPedidoEEnviarWhatsapp(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            if (carrinho.length === 0) return;
 
-        function renderizarCatalogo() {
-            const container = document.getElementById('container-catalogo-grid');
-            const paginacaoBox = document.getElementById('container-paginacao');
-            const txtContador = document.getElementById('txt-contador-produtos');
-            if (!container) return;
+            const btnFinalizar = document.getElementById('btn-finalizar-pedido-submit');
+            if (btnFinalizar) {
+                btnFinalizar.disabled = true;
+                btnFinalizar.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-xl"></i> ENVIANDO ARQUIVOS E SALVANDO PEDIDO...`;
+            }
 
-            container.innerHTML = '';
-            const query = (document.getElementById('input-busca-catalogo')?.value || '').toLowerCase().trim();
+            const nome = document.getElementById('checkout-nome')?.value || clienteLogadoGlobal?.nome || 'Cliente Visitante';
+            const doc = document.getElementById('checkout-doc')?.value || clienteLogadoGlobal?.doc || '---';
+            const wpp = document.getElementById('checkout-wpp')?.value || clienteLogadoGlobal?.wpp || '---';
 
-            let filtrados = catalogoEstoque.filter(item => {
-                const itemNome = (item.nome || '').toLowerCase();
-                const itemCat = (item.categoria || '').toLowerCase();
-                const itemRef = (item.ref || '').toLowerCase();
-                const itemDesc = (item.descricao || '').toLowerCase();
+            const cep = document.getElementById('checkout-cep')?.value || '';
+            const rua = document.getElementById('checkout-rua')?.value || '';
+            const numero = document.getElementById('checkout-numero')?.value || '';
+            const complemento = document.getElementById('checkout-complemento')?.value || '';
+            const bairro = document.getElementById('checkout-bairro')?.value || '';
+            const cidade = document.getElementById('checkout-cidade')?.value || '';
+            const uf = document.getElementById('checkout-uf')?.value || '';
 
-                // Busca Manual Digitada
-                if (query) {
-                    return itemNome.includes(query) || itemRef.includes(query) || itemCat.includes(query);
+            // 1. Upload do Comprovante do PIX
+            let comprovanteUrl = null;
+            const filePixInput = document.getElementById('input-comprovante-pix');
+            if (filePixInput && filePixInput.files[0]) {
+                comprovanteUrl = await fazerUploadSupabase(filePixInput.files[0], 'comprovantes');
+            }
+
+            // 2. Upload das artes dos itens no carrinho
+            let subtotalGeral = 0;
+            const itensFormatadosParaBanco = [];
+
+            for (let i = 0; i < carrinho.length; i++) {
+                const item = carrinho[i];
+                const sub = item.preco * item.qtd;
+                subtotalGeral += sub;
+
+                let urlFrente = null, urlVerso = null, urlMascara = null;
+                if (item.anexosObjetos) {
+                    if (item.anexosObjetos.frente) urlFrente = await fazerUploadSupabase(item.anexosObjetos.frente, 'artes');
+                    if (item.anexosObjetos.verso) urlVerso = await fazerUploadSupabase(item.anexosObjetos.verso, 'artes');
+                    if (item.anexosObjetos.mascara) urlMascara = await fazerUploadSupabase(item.anexosObjetos.mascara, 'artes');
                 }
 
-                // Filtro por Categoria Clicada
-                if (!categoriaFiltro) return true;
-
-                // Smart Matching: Bate por categoria exata, contida, ou se o nome/descrição/ref do produto incluir o termo do filtro
-                const bateuCategoria = itemCat === categoriaFiltro || itemCat.includes(categoriaFiltro) || categoriaFiltro.includes(itemCat);
-                const bateuNome = itemNome.includes(categoriaFiltro);
-                const bateuDesc = itemDesc.includes(categoriaFiltro);
-                const bateuRef = itemRef.includes(categoriaFiltro);
-
-                return bateuCategoria || bateuNome || bateuDesc || bateuRef;
-            });
-
-            if (txtContador) txtContador.innerText = `${filtrados.length} produtos disponíveis`;
-
-            if (filtrados.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full bg-white border border-slate-200 p-8 rounded-xl text-center space-y-3 shadow-sm">
-                        <i class="fa-solid fa-filter text-4xl text-blue-300 block"></i>
-                        <h4 class="text-sm font-bold text-slate-800">Nenhum produto encontrado para esta seleção.</h4>
-                        <button onclick="filtrarCategoria('')" class="px-4 py-2 bg-blue-900 text-white font-bold text-xs rounded-lg hover:bg-blue-800 transition-all">
-                            VER TODOS OS PRODUTOS
-                        </button>
-                    </div>
-                `;
-                if (paginacaoBox) paginacaoBox.innerHTML = '';
-                return;
-            }
-
-            const totalPaginas = Math.ceil(filtrados.length / ITENS_POR_PAGINA);
-            const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
-            const itensPagina = filtrados.slice(inicio, inicio + ITENS_POR_PAGINA);
-
-            let txtBtnComprar = "COMPRAR 🚀";
-            const cmsData = localStorage.getItem('phsublime_admin_logos');
-            if (cmsData) {
-                try {
-                    const cfg = JSON.parse(cmsData);
-                    if (cfg.textoBotaoCard) txtBtnComprar = cfg.textoBotaoCard;
-                } catch(e){}
-            }
-
-            itensPagina.forEach(item => {
-                const preco = parseFloat(item.precoVenda || 0);
-                const card = document.createElement('div');
-                card.className = "bg-white border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm hover:shadow-md transition-all flex flex-col justify-between";
-                
-                const htmlImagem = item.imagem 
-                    ? `<img src="${escapeAttr(item.imagem)}" alt="${escapeAttr(item.nome)}" class="w-full h-full object-contain p-2" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid fa-box-open text-4xl text-blue-900/30\\'></i>';">`
-                    : `<i class="fa-solid fa-box-open text-4xl text-blue-900/30"></i>`;
-
-                const htmlBtnGabarito = item.gabaritoUrl 
-                    ? `<a href="${escapeAttr(item.gabaritoUrl)}" target="_blank" download class="btn-gabarito text-[11px] py-2 rounded-lg font-bold flex items-center justify-center gap-1"><i class="fa-solid fa-download"></i> Gabarito</a>`
-                    : `<button disabled class="bg-slate-200 text-slate-400 text-[11px] py-2 rounded-lg font-bold cursor-not-allowed">Sem Gabarito</button>`;
-
-                card.innerHTML = `
-                    <div class="space-y-2">
-                        <div class="w-full h-44 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center text-slate-400 p-1 cursor-pointer overflow-hidden" onclick="abrirModalDetalhes('${item.id}')">
-                            ${htmlImagem}
-                        </div>
-                        <h4 class="text-xs font-black text-blue-900 font-heading leading-snug line-clamp-2 cursor-pointer hover:text-blue-700 text-center" onclick="abrirModalDetalhes('${item.id}')">${escapeAttr(item.nome)}</h4>
-                        <div class="flex items-center justify-between text-[10px] text-slate-500 border-t pt-1.5 px-1">
-                            <span><b>Ref.:</b> ${escapeAttr(item.ref)}</span>
-                            <span><b>Produção:</b> ${escapeAttr(item.producao || '24h')}</span>
-                        </div>
-                    </div>
-                    <div class="pt-2 border-t border-slate-100 space-y-2">
-                        <div class="text-center">
-                            <span class="text-[10px] text-slate-400 block leading-none">a partir de:</span>
-                            <strong class="text-red-600 font-black text-lg">R$ ${preco.toFixed(2)}</strong>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            ${htmlBtnGabarito}
-                            <button onclick="adicionarAoCarrinho('${item.id}')" class="btn-comprar-custom text-white font-black text-[11px] py-2 rounded-lg shadow uppercase flex items-center justify-center gap-1">
-                                <i class="fa-solid fa-bag-shopping text-[10px]"></i> ${escapeAttr(txtBtnComprar)}
-                            </button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-
-            if (paginacaoBox && totalPaginas > 1) {
-                let htmlPaginacao = '';
-                for (let i = 1; i <= totalPaginas && i <= 10; i++) {
-                    htmlPaginacao += `
-                        <button onclick="mudarPagina(${i})" class="px-3 py-1.5 rounded font-bold text-xs ${paginaAtual === i ? 'bg-blue-900 text-amber-400' : 'bg-white border text-slate-700 hover:bg-slate-100'}">
-                            ${i}
-                        </button>
-                    `;
-                }
-                paginacaoBox.innerHTML = htmlPaginacao;
-            } else if (paginacaoBox) {
-                paginacaoBox.innerHTML = '';
-            }
-        }
-
-        function mudarPagina(p) {
-            paginaAtual = p;
-            renderizarCatalogo();
-            window.scrollTo({ top: 300, behavior: 'smooth' });
-        }
-
-        function abrirModalDetalhes(id) {
-            const item = catalogoEstoque.find(p => String(p.id) === String(id));
-            if (!item) return;
-
-            document.getElementById('txt-modal-categoria').innerText = item.categoria || 'PRODUTO';
-            document.getElementById('txt-modal-titulo').innerText = item.nome;
-            document.getElementById('txt-modal-preco').innerText = `R$ ${parseFloat(item.precoVenda).toFixed(2)}`;
-            document.getElementById('txt-modal-ref').innerText = `Ref: ${item.ref || '---'}`;
-            document.getElementById('txt-modal-descricao-html').innerHTML = item.descricao || '<p>Produto de excelente qualidade gráfica PHSUBLIME.</p>';
-
-            const boxImg = document.getElementById('box-imagem-modal');
-            boxImg.innerHTML = item.imagem 
-                ? `<img src="${escapeAttr(item.imagem)}" class="w-full h-full object-contain p-2" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid fa-box-open text-4xl text-blue-900/30\\'></i>';">`
-                : `<i class="fa-solid fa-box-open text-4xl text-blue-900/30"></i>`;
-
-            const btnGab = document.getElementById('btn-modal-gabarito');
-            if (item.gabaritoUrl) {
-                btnGab.href = item.gabaritoUrl;
-                btnGab.style.display = 'inline-flex';
-            } else {
-                btnGab.style.display = 'none';
-            }
-
-            const btnAdd = document.getElementById('btn-modal-adicionar-carrinho');
-            btnAdd.onclick = () => {
-                adicionarAoCarrinho(item.id);
-                fecharModalDetalhes();
-            };
-
-            document.getElementById('modal-detalhes-produto').classList.remove('hidden');
-        }
-
-        function fecharModalDetalhes() {
-            document.getElementById('modal-detalhes-produto').classList.add('hidden');
-        }
-
-        function salvarCarrinho() {
-            localStorage.setItem('phsublime_carrinho', JSON.stringify(carrinho));
-            atualizarBadgeCarrinho();
-        }
-
-        function atualizarBadgeCarrinho() {
-            const badge = document.getElementById('badge-carrinho-qtd');
-            if (badge) {
-                const totalQtd = carrinho.reduce((s, i) => s + (i.qtd || 1), 0);
-                badge.innerText = totalQtd;
-            }
-        }
-
-        function adicionarAoCarrinho(id) {
-            const item = catalogoEstoque.find(p => String(p.id) === String(id));
-            if (!item) return;
-
-            const existente = carrinho.find(c => String(c.id) === String(id));
-            if (existente) {
-                existente.qtd += 1;
-            } else {
-                carrinho.push({
+                itensFormatadosParaBanco.push({
                     id: item.id,
                     nome: item.nome,
-                    preco: item.precoVenda,
-                    qtd: 1,
+                    qtd: item.qtd,
+                    preco: item.preco,
                     imagem: item.imagem,
-                    anexos: {},
-                    observacao: ''
+                    arteFrenteUrl: urlFrente || item.anexos?.frente || null,
+                    arteVersoUrl: urlVerso || item.anexos?.verso || null,
+                    arteMascaraUrl: urlMascara || item.anexos?.mascara || null,
+                    observacao: item.observacao || ''
                 });
             }
 
+            // Cálculo do Desconto Fidelidade e Cupom
+            let pctFidelidade = clienteLogadoGlobal?.pctDescontoFidelidade || 0;
+            let descontoFidelidadeVal = subtotalGeral * (pctFidelidade / 100);
+
+            let descontoCupomVal = 0;
+            if (cupomAplicado) {
+                descontoCupomVal = cupomAplicado.tipo === 'porcentagem' ? subtotalGeral * (parseFloat(cupomAplicado.valor)/100) : parseFloat(cupomAplicado.valor);
+            }
+
+            const valorFrete = opcaoFreteSelecionada ? parseFloat(opcaoFreteSelecionada.valor || 0) : 0;
+            const totalFinal = Math.max(0, subtotalGeral - descontoFidelidadeVal - descontoCupomVal + valorFrete);
+            const codigoPedido = `PH-${Math.floor(100000 + Math.random() * 900000)}`;
+
+            const pedidoObj = {
+                codigo_pedido: codigoPedido,
+                cliente_nome: nome,
+                cliente_doc: doc,
+                cliente_wpp: wpp,
+                valor_subtotal: subtotalGeral,
+                valor_frete: valorFrete,
+                valor_desconto: descontoFidelidadeVal + descontoCupomVal,
+                valor_total: totalFinal,
+                forma_pagamento: formaPagamentoSelecionadaLoja,
+                forma_envio: opcaoFreteSelecionada?.nome || 'PH Entrega',
+                comprovante_url: comprovanteUrl,
+                status_producao: 'Aguardando Pagamento',
+                endereco_json: { cep, rua, numero, complemento, bairro, cidade, uf },
+                itens_json: itensFormatadosParaBanco,
+                created_at: new Date().toISOString()
+            };
+
+            // Grava no Supabase Banco
+            try {
+                if (supabaseClient) {
+                    await supabaseClient.from('pedidos').insert([pedidoObj]);
+                }
+            } catch(err){ console.warn("Gravação no banco falhou:", err); }
+
+            // Salva Localmente para garantia
+            const salvosLocais = JSON.parse(localStorage.getItem('phsublime_meus_pedidos_locais') || '[]');
+            salvosLocais.unshift(pedidoObj);
+            localStorage.setItem('phsublime_meus_pedidos_locais', JSON.stringify(salvosLocais));
+
+            // Prepara Texto do WhatsApp
+            let texto = `*NOVO PEDIDO REGISTRADO - ${codigoPedido}*\n\n`;
+            texto += `👤 *DADOS DO CLIENTE:*\n• Nome: ${nome}\n• Documento: ${doc}\n• WhatsApp: ${wpp}\n\n`;
+
+            if (opcaoFreteSelecionada && opcaoFreteSelecionada.tipo === 'balcao') {
+                texto += `📍 *FORMA DE ENVIO:* Balcão de Retirada (Canecas Henrique Vieira)\n`;
+            } else {
+                texto += `📍 *ENDEREÇO DE ENTREGA:*\n• CEP: ${cep}\n• ${rua}, nº ${numero}${complemento ? ' ('+complemento+')' : ''} - ${bairro}, ${cidade}/${uf}\n`;
+            }
+
+            texto += `\n💳 *FORMA DE PAGAMENTO:* ${formaPagamentoSelecionadaLoja}\n`;
+            if (comprovanteUrl) texto += `• Comprovante do PIX: ${comprovanteUrl}\n`;
+
+            texto += `\n📦 *ITENS DO PEDIDO:*\n`;
+            itensFormatadosParaBanco.forEach((it, idx) => {
+                texto += `${idx + 1}. *${it.nome}* (${it.qtd}x) - R$ ${(it.qtd * it.preco).toFixed(2)}\n`;
+                if (it.arteFrenteUrl) texto += `   📎 Arte: ${it.arteFrenteUrl}\n`;
+            });
+
+            texto += `\n💰 *TOTAL DO PEDIDO: R$ ${totalFinal.toFixed(2)}*\n\n`;
+            texto += `O pedido já foi salvo no sistema PHSUBLIME e aguarda aprovação!`;
+
+            if (btnFinalizar) {
+                btnFinalizar.disabled = false;
+                btnFinalizar.innerHTML = `<i class="fa-brands fa-whatsapp text-xl"></i> FINALIZAR PEDIDO VIA WHATSAPP 🚀`;
+            }
+
+            // Limpa o carrinho
+            carrinho = [];
             salvarCarrinho();
-            mostrarToast(`${item.nome} adicionado ao carrinho!`);
-            alternarCarrinhoLateral(true);
+
+            const link = `https://wa.me/${whatsappAtendimentoLoja}?text=${encodeURIComponent(texto)}`;
+            window.open(link, '_blank');
         }
 
-        function removerDoCarrinho(id) {
-            carrinho = carrinho.filter(c => String(c.id) !== String(id));
-            salvarCarrinho();
-            renderizarCarrinho();
+        // --- 5. DEMAIS FUNÇÕES DO CATÁLOGO E NAVEGAÇÃO ---
+        function alternarAba(aba) {
+            ['catalogo', 'minha-conta', 'carrinho'].forEach(a => document.getElementById(`secao-${a}`)?.classList.add('hidden'));
+            document.getElementById(`secao-${aba}`)?.classList.remove('hidden');
+
+            if (aba === 'carrinho') renderizarCarrinho();
+            if (aba === 'minha-conta') renderizarMinhaConta();
+            window.scrollTo({ top: 100, behavior: 'smooth' });
         }
 
-        function duplicarItemCarrinho(id) {
-            const item = carrinho.find(c => String(c.id) === String(id));
-            if (item) {
-                carrinho.push({
-                    ...item,
-                    id: `${item.id}-dup-${Math.random().toString(36).substr(2, 4)}`,
-                    nome: `${item.nome} (Cópia)`
-                });
-                salvarCarrinho();
-                renderizarCarrinho();
-                mostrarToast("Item duplicado no carrinho!");
-            }
-        }
-
-        function aplicarCupomDesconto() {
-            const codigo = document.getElementById('input-cupom-carrinho')?.value.toUpperCase().trim();
-            const msgStatus = document.getElementById('msg-cupom-status');
-
-            if (!codigo) return;
-
-            const cuponsSalvos = localStorage.getItem('phsublime_admin_cupons');
-            if (cuponsSalvos) {
-                try {
-                    const cupons = JSON.parse(cuponsSalvos);
-                    const encontrado = cupons.find(c => c && c.codigo && c.codigo.toUpperCase() === codigo);
-
-                    if (encontrado) {
-                        cupomAplicado = encontrado;
-                        if (msgStatus) {
-                            msgStatus.innerText = `Cupom ${codigo} aplicado com sucesso!`;
-                            msgStatus.className = "text-[10px] font-bold block text-emerald-600";
-                        }
-                        renderizarCarrinho();
-                        mostrarToast(`Cupom ${codigo} ativado!`);
-                        return;
-                    }
-                } catch(e){}
-            }
-
-            if (msgStatus) {
-                msgStatus.innerText = "Cupom inválido ou expirado.";
-                msgStatus.className = "text-[10px] font-bold block text-red-600";
-            }
-        }
-
-        // --- 10. RENDERIZAÇÃO DA PÁGINA DO CARRINHO COMPLETA (SEM BOTÕES DE EDITAR QUANTIDADE) ---
         function renderizarCarrinho() {
             const tabela = document.getElementById('tabela-itens-carrinho');
             const msgVazio = document.getElementById('carrinho-vazio-msg');
@@ -1933,8 +1523,6 @@
             const subtotalEl = document.getElementById('cart-resumo-subtotal');
             const freteEl = document.getElementById('cart-resumo-frete');
             const totalEl = document.getElementById('cart-resumo-total');
-            const linhaDesc = document.getElementById('linha-desconto-cupom');
-            const descValEl = document.getElementById('cart-resumo-desconto');
 
             if (!tabela) return;
 
@@ -1986,199 +1574,54 @@
                         R$ ${subtotal.toFixed(2)}
                     </td>
                     <td class="py-3 px-4 text-center">
-                        <div class="flex items-center justify-center gap-2">
-                            <button onclick="duplicarItemCarrinho('${item.id}')" title="Duplicar Item" class="text-blue-600 hover:text-blue-800 text-xs">
-                                <i class="fa-regular fa-copy"></i>
-                            </button>
-                            <button onclick="removerDoCarrinho('${item.id}')" title="Remover Item" class="text-red-500 hover:text-red-700 text-xs">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
+                        <button onclick="removerDoCarrinho('${item.id}')" title="Remover Item" class="text-red-500 hover:text-red-700 text-xs">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </td>
                 `;
                 tabela.appendChild(tr);
             });
 
+            // Desconto Fidelidade
+            let pctFidelidade = clienteLogadoGlobal?.pctDescontoFidelidade || 0;
+            let descontoFidelidadeVal = subtotalGeral * (pctFidelidade / 100);
+
+            const linhaFid = document.getElementById('linha-desconto-fidelidade');
+            const descFidEl = document.getElementById('cart-resumo-desconto-fidelidade');
+
+            if (descontoFidelidadeVal > 0) {
+                if (linhaFid) linhaFid.classList.remove('hidden');
+                if (descFidEl) descFidEl.innerText = `- R$ ${descontoFidelidadeVal.toFixed(2)} (${pctFidelidade}%)`;
+            } else if (linhaFid) {
+                linhaFid.classList.add('hidden');
+            }
+
             // Desconto do Cupom
-            let descontoCalculado = 0;
+            let descontoCupomVal = 0;
             if (cupomAplicado) {
-                if (cupomAplicado.tipo === 'porcentagem') {
-                    descontoCalculado = subtotalGeral * (parseFloat(cupomAplicado.valor) / 100);
-                } else {
-                    descontoCalculado = parseFloat(cupomAplicado.valor);
-                }
+                descontoCupomVal = cupomAplicado.tipo === 'porcentagem' ? subtotalGeral * (parseFloat(cupomAplicado.valor) / 100) : parseFloat(cupomAplicado.valor);
             }
 
             const valorFrete = opcaoFreteSelecionada ? parseFloat(opcaoFreteSelecionada.valor || 0) : 0;
-            const totalFinal = Math.max(0, subtotalGeral - descontoCalculado + valorFrete);
+            const totalFinal = Math.max(0, subtotalGeral - descontoFidelidadeVal - descontoCupomVal + valorFrete);
 
             if (badge) badge.innerText = `${carrinho.length} item(ns)`;
             if (subtotalEl) subtotalEl.innerText = `R$ ${subtotalGeral.toFixed(2)}`;
             if (freteEl) freteEl.innerText = valorFrete > 0 ? `R$ ${valorFrete.toFixed(2)}` : 'GRÁTIS';
-
-            if (descontoCalculado > 0) {
-                if (linhaDesc) linhaDesc.classList.remove('hidden');
-                if (descValEl) descValEl.innerText = `- R$ ${descontoCalculado.toFixed(2)}`;
-            } else if (linhaDesc) {
-                linhaDesc.classList.add('hidden');
-            }
-
             if (totalEl) totalEl.innerText = `R$ ${totalFinal.toFixed(2)}`;
 
-            // Atualiza datas de previsão
             calcularDatasPrevisaoProducao();
-
-            // Renderiza Opções de Entrega e Balcão
             renderizarOpcoesFreteEntrega();
             renderizarOpcoesBalcoesRetirada();
         }
 
-        // --- 11. CÁLCULO DE DATAS ESTIMADAS DE PRODUÇÃO E ENTREGA ---
-        function calcularDatasPrevisaoProducao() {
-            const hoje = new Date();
-            
-            // Adiciona 2 dias úteis para produção
-            let dataProducao = new Date(hoje);
-            dataProducao.setDate(hoje.getDate() + 2);
-
-            const formatador = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-            
-            const txtProd = document.getElementById('txt-previsao-producao-data');
-            if (txtProd) txtProd.innerText = formatador.format(dataProducao);
-        }
-
-        // --- 12. ABAS INTERATIVAS FRETE vs BALCÃO (Apenas PH Entrega Expressa) ---
-        function alternarAbaFreteBalcao(tipo) {
-            const btnEntrega = document.getElementById('btn-aba-frete-entrega');
-            const btnBalcao = document.getElementById('btn-aba-frete-balcao');
-            const boxEntrega = document.getElementById('box-conteudo-aba-entrega');
-            const boxBalcao = document.getElementById('box-conteudo-aba-balcao');
-
-            if (tipo === 'balcao') {
-                btnEntrega?.classList.remove('active');
-                btnBalcao?.classList.add('active');
-                boxEntrega?.classList.add('hidden');
-                boxBalcao?.classList.remove('hidden');
-                renderizarOpcoesBalcoesRetirada();
-            } else {
-                btnBalcao?.classList.remove('active');
-                btnEntrega?.classList.add('active');
-                boxBalcao?.classList.add('hidden');
-                boxEntrega?.classList.remove('hidden');
-                renderizarOpcoesFreteEntrega();
-            }
-        }
-
-        function renderizarOpcoesFreteEntrega() {
-            const container = document.getElementById('lista-opcoes-frete-entrega');
-            if (!container) return;
-
-            // Mantém APENAS a PH Entrega Expressa
-            const opcoes = [
-                { id: 'expressa', nome: 'PH Entrega Expressa (Transportadora)', prazo: 4, valor: 7.90 }
-            ];
-
-            container.innerHTML = '';
-            opcoes.forEach((op) => {
-                opcaoFreteSelecionada = { tipo: 'entrega', nome: op.nome, valor: op.valor, prazo: op.prazo };
-
-                const div = document.createElement('div');
-                div.className = `p-3 rounded-xl border border-blue-600 bg-blue-50/50 flex items-center justify-between cursor-pointer`;
-
-                div.innerHTML = `
-                    <label class="flex items-center gap-3 cursor-pointer w-full">
-                        <input type="radio" name="opcao_frete_loja" checked class="accent-blue-900">
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">${escapeAttr(op.nome)}</strong>
-                            <span class="text-[10px] text-slate-500">Prazo: até 4 dias úteis (consultar com o vendedor)</span>
-                        </div>
-                    </label>
-                    <strong class="text-blue-900 font-black text-xs shrink-0">R$ ${op.valor.toFixed(2)}</strong>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function renderizarOpcoesBalcoesRetirada() {
-            const container = document.getElementById('lista-opcoes-balcoes-retirada');
-            if (!container) return;
-
-            // APENAS 1 BALCÃO FIXO Nº 24
-            const balcaoUnico = {
-                id: 1,
-                nome: "PHSUBLIME Canecas Henrique Vieira Gráfica",
-                endereco: "Rua Marcílio Dias, nº 24 - Campo Lindo",
-                cidade: "Seropédica",
-                uf: "RJ",
-                prazo: 1
-            };
-
-            container.innerHTML = '';
-            
-            opcaoFreteSelecionada = { 
-                tipo: 'balcao', 
-                nome: balcaoUnico.nome, 
-                valor: 0, 
-                prazo: balcaoUnico.prazo, 
-                endereco: `${balcaoUnico.endereco} - ${balcaoUnico.cidade}/${balcaoUnico.uf}` 
-            };
-
-            const div = document.createElement('div');
-            div.className = `p-3 rounded-xl border border-emerald-600 bg-emerald-50/50 flex items-center justify-between cursor-pointer`;
-
-            div.innerHTML = `
-                <label class="flex items-center gap-3 cursor-pointer w-full">
-                    <input type="radio" name="opcao_frete_loja" checked class="accent-emerald-600">
-                    <div>
-                        <strong class="font-bold text-slate-800 text-xs block">${escapeAttr(balcaoUnico.nome)}</strong>
-                        <span class="text-[10px] text-slate-500 block">${escapeAttr(balcaoUnico.endereco)} - ${escapeAttr(balcaoUnico.cidade)}/${escapeAttr(balcaoUnico.uf)}</span>
-                        <span class="text-[9px] text-emerald-700 font-bold">Disponível em ${balcaoUnico.prazo} dia(s)</span>
-                    </div>
-                </label>
-                <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2.5 py-1 rounded uppercase">GRÁTIS</span>
-            `;
-            container.appendChild(div);
-        }
-
-        function filtrarBalcoesModalLoja() {
-            mostrarToast("Balcão de retirada atualizado!");
-            renderizarOpcoesBalcoesRetirada();
-        }
-
-        function selecionarFormaPagamentoLoja(forma) {
-            formaPagamentoSelecionadaLoja = forma;
-            const boxPix = document.getElementById('box-detalhes-pix-pagamento');
-            const boxCartao = document.getElementById('box-detalhes-cartao-pagamento');
-
-            if (boxPix) {
-                if (forma === 'PIX') {
-                    boxPix.classList.remove('hidden');
-                } else {
-                    boxPix.classList.add('hidden');
-                }
-            }
-
-            if (boxCartao) {
-                if (forma === 'Cartão de Crédito') {
-                    boxCartao.classList.remove('hidden');
-                } else {
-                    boxCartao.classList.add('hidden');
-                }
-            }
-        }
-
-        // --- 13. MODAIS DE ANEXOS DE ARTE COM UPLOAD REAL E OBSERVAÇÕES POR ITEM ---
+        // --- 6. MODAL DE ANEXOS DA ARTE ---
         function abrirModalAnexarArquivos(itemId) {
             const item = carrinho.find(c => String(c.id) === String(itemId));
             if (!item) return;
 
             document.getElementById('anexo-item-id-corrente').value = itemId;
             document.getElementById('txt-modal-anexar-produto-nome').innerText = item.nome;
-            
-            document.getElementById('txt-anexo-frente-atual').innerText = item.anexos?.frente ? `Atual: ${item.anexos.frente}` : '';
-            document.getElementById('txt-anexo-verso-atual').innerText = item.anexos?.verso ? `Atual: ${item.anexos.verso}` : '';
-            document.getElementById('txt-anexo-mascara-atual').innerText = item.anexos?.mascara ? `Atual: ${item.anexos.mascara}` : '';
-
             document.getElementById('modal-anexar-arquivos-item').classList.remove('hidden');
         }
 
@@ -2192,20 +1635,21 @@
             const item = carrinho.find(c => String(c.id) === String(itemId));
 
             if (item) {
-                const fileFrente = document.getElementById('anexo-file-frente')?.files[0];
-                const fileVerso = document.getElementById('anexo-file-verso')?.files[0];
-                const fileMascara = document.getElementById('anexo-file-mascara')?.files[0];
+                const fFrente = document.getElementById('anexo-file-frente')?.files[0];
+                const fVerso = document.getElementById('anexo-file-verso')?.files[0];
+                const fMascara = document.getElementById('anexo-file-mascara')?.files[0];
 
                 if (!item.anexos) item.anexos = {};
+                if (!item.anexosObjetos) item.anexosObjetos = {};
 
-                if (fileFrente) item.anexos.frente = fileFrente.name;
-                if (fileVerso) item.anexos.verso = fileVerso.name;
-                if (fileMascara) item.anexos.mascara = fileMascara.name;
+                if (fFrente) { item.anexos.frente = fFrente.name; item.anexosObjetos.frente = fFrente; }
+                if (fVerso) { item.anexos.verso = fVerso.name; item.anexosObjetos.verso = fVerso; }
+                if (fMascara) { item.anexos.mascara = fMascara.name; item.anexosObjetos.mascara = fMascara; }
 
                 salvarCarrinho();
                 renderizarCarrinho();
                 fecharModalAnexarArquivos();
-                mostrarToast("Arquivos de arte salvos para o item!");
+                mostrarToast("Arquivos de arte anexados!");
             }
         }
 
@@ -2216,7 +1660,6 @@
             document.getElementById('obs-item-id-corrente').value = itemId;
             document.getElementById('txt-modal-obs-produto-nome').innerText = item.nome;
             document.getElementById('obs-input-texto').value = item.observacao || '';
-
             document.getElementById('modal-observacoes-item').classList.remove('hidden');
         }
 
@@ -2234,133 +1677,259 @@
                 salvarCarrinho();
                 renderizarCarrinho();
                 fecharModalObservacoes();
-                mostrarToast("Observações salvas!");
+                mostrarToast("Instruções salvas!");
             }
         }
 
-        async function buscarCepAuto(val) {
-            const cep = val.replace(/\D/g, '');
-            if (cep.length === 8) {
-                try {
-                    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-                    const data = await res.json();
-                    if (!data.erro) {
-                        document.getElementById('checkout-rua').value = data.logradouro || '';
-                        document.getElementById('checkout-bairro').value = data.bairro || '';
-                        document.getElementById('checkout-cidade').value = data.localidade || '';
-                        document.getElementById('checkout-uf').value = data.uf || '';
-                        document.getElementById('checkout-numero').focus();
+        // --- 7. CARREGAMENTO INICIAL DO ESTOQUE E LOJA ---
+        async function carregarEstoqueSupabase() {
+            let produtosSupabase = [];
+            try {
+                if (typeof supabase !== 'undefined' && supabaseClient) {
+                    const { data, error } = await supabaseClient
+                        .from('produtos')
+                        .select('*')
+                        .limit(200);
+
+                    if (!error && data && data.length > 0) {
+                        produtosSupabase = data.map(item => {
+                            let preco = item.Preco_Venda ?? item.preco_venda ?? item.Preco ?? 0;
+                            if (typeof preco === 'string') preco = parseFloat(preco.replace(',', '.'));
+
+                            return {
+                                id: `sb-${item.id}`,
+                                nome: item.Nome || item.nome || 'Produto',
+                                categoria: item.Categorias_Secundarias || item.categoria || 'Geral',
+                                precoVenda: isNaN(preco) ? 0 : preco,
+                                ref: item.Referencia || item.referencia || 'ref-001',
+                                producao: '24 horas',
+                                imagem: formatarUrlImagem(item.Url || item.url || ''),
+                                descricao: item.Descricao || item.descricao || '<p>Produto de alta qualidade da PHSUBLIME GRÁFICA.</p>'
+                            };
+                        });
                     }
-                } catch(e) {}
-            }
+                }
+            } catch(err){}
+
+            catalogoEstoque = [...produtosSupabase];
+            renderizarMenusCategorias();
+            renderizarProdutosDestaque();
+            renderizarCatalogo();
         }
 
-        // --- 14. FINALIZAÇÃO DO PEDIDO COMPLETO VIA WHATSAPP ---
-        function confirmarPedidoEEnviarWhatsapp(e) {
-            if (e && e.preventDefault) e.preventDefault();
-            if (carrinho.length === 0) return;
+        function formatarUrlImagem(url) {
+            if (!url || typeof url !== 'string' || !url.trim()) return '';
+            const u = url.trim();
+            if (u.startsWith('http://') || u.startsWith('https://')) return u;
+            return u;
+        }
 
-            const nome = document.getElementById('checkout-nome')?.value || document.getElementById('perfil-nome')?.value || 'Cliente Visitante';
-            const doc = document.getElementById('checkout-doc')?.value || document.getElementById('perfil-doc')?.value || '---';
-            const wpp = document.getElementById('checkout-wpp')?.value || document.getElementById('perfil-wpp')?.value || '---';
+        function escapeAttr(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
 
-            const cep = document.getElementById('checkout-cep')?.value || '';
-            const rua = document.getElementById('checkout-rua')?.value || '';
-            const numero = document.getElementById('checkout-numero')?.value || '';
-            const complemento = document.getElementById('checkout-complemento')?.value || '';
-            const bairro = document.getElementById('checkout-bairro')?.value || '';
-            const cidade = document.getElementById('checkout-cidade')?.value || '';
-            const uf = document.getElementById('checkout-uf')?.value || '';
+        function mostrarToast(mensagem) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            if (!toast || !toastMsg) return;
 
-            let texto = `*NOVO PEDIDO - PHSUBLIME GRÁFICA DIGITAL*\n\n`;
-            texto += `👤 *DADOS DO CLIENTE:*\n`;
-            texto += `• Nome/Razão: ${nome}\n`;
-            texto += `• Documento: ${doc}\n`;
-            texto += `• WhatsApp: ${wpp}\n\n`;
+            toastMsg.innerText = mensagem;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+        }
 
-            if (opcaoFreteSelecionada && opcaoFreteSelecionada.tipo === 'balcao') {
-                texto += `📍 *FORMA DE ENVIO:* Balcão de Retirada\n`;
-                texto += `• Unidade: PHSUBLIME Canecas Henrique Vieira Gráfica\n`;
-                texto += `• Endereço: Rua Marcílio Dias, nº 24 - Campo Lindo - Seropédica/RJ\n`;
-            } else {
-                texto += `📍 *ENDEREÇO DE ENTREGA:*\n`;
-                texto += `• CEP: ${cep}\n`;
-                texto += `• Logradouro: ${rua}, nº ${numero}${complemento ? ' (' + complemento + ')' : ''}\n`;
-                texto += `• Bairro: ${bairro} | Cidade: ${cidade}-${uf.toUpperCase()}\n`;
-                texto += `• Modalidade: PH Entrega Expressa (Prazo: até 4 dias úteis - consultar vendedor)\n`;
+        function salvarCarrinho() {
+            localStorage.setItem('phsublime_carrinho', JSON.stringify(carrinho));
+            atualizarBadgeCarrinho();
+        }
+
+        function atualizarBadgeCarrinho() {
+            const badge = document.getElementById('badge-carrinho-qtd');
+            if (badge) badge.innerText = carrinho.reduce((s, i) => s + (i.qtd || 1), 0);
+        }
+
+        function adicionarAoCarrinho(id) {
+            const item = catalogoEstoque.find(p => String(p.id) === String(id));
+            if (!item) return;
+
+            const existente = carrinho.find(c => String(c.id) === String(id));
+            if (existente) existente.qtd += 1;
+            else carrinho.push({ id: item.id, nome: item.nome, preco: item.precoVenda, qtd: 1, imagem: item.imagem, anexos: {}, observacao: '' });
+
+            salvarCarrinho();
+            mostrarToast(`${item.nome} adicionado ao carrinho!`);
+            alternarCarrinhoLateral(true);
+        }
+
+        function removerDoCarrinho(id) {
+            carrinho = carrinho.filter(c => String(c.id) !== String(id));
+            salvarCarrinho();
+            renderizarCarrinho();
+        }
+
+        function alternarCarrinhoLateral(abrir) {
+            const drawer = document.getElementById('aba-lateral-carrinho');
+            if (!drawer) return;
+            if (abrir) { renderizarCarrinhoLateral(); drawer.classList.remove('translate-x-full'); }
+            else drawer.classList.add('translate-x-full');
+        }
+
+        function renderizarCarrinhoLateral() {
+            const container = document.getElementById('conteudo-carrinho-lateral');
+            const totalEl = document.getElementById('cart-drawer-total');
+            if (!container) return;
+
+            if (carrinho.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-400 py-8">Seu carrinho está vazio.</p>`;
+                if (totalEl) totalEl.innerText = "R$ 0,00";
+                return;
             }
 
-            texto += `\n💳 *FORMA DE PAGAMENTO:* ${formaPagamentoSelecionadaLoja}\n`;
-            if (formaPagamentoSelecionadaLoja === 'PIX') {
-                texto += `• Chave PIX Utilizada: 58658668000100 (Daniel Henrique Vieira de Sousa)\n`;
-                if (comprovantePixNome) texto += `• Comprovante do PIX: ${comprovantePixNome}\n`;
-            } else if (formaPagamentoSelecionadaLoja === 'Cartão de Crédito') {
-                texto += `• Link de Pagamento Mercado Pago: https://link.mercadopago.com.br/graficaphsublime\n`;
-            }
-            texto += `\n`;
-
-            texto += `📦 *ITENS DO PEDIDO:*\n`;
-            let subtotalGeral = 0;
-
-            carrinho.forEach((item, index) => {
+            container.innerHTML = '';
+            let total = 0;
+            carrinho.forEach(item => {
                 const sub = item.preco * item.qtd;
-                subtotalGeral += sub;
-                texto += `${index + 1}. *${item.nome}*\n   Qtd: ${item.qtd}x | Subtotal: R$ ${sub.toFixed(2)}\n`;
-
-                if (item.anexos && (item.anexos.frente || item.anexos.verso || item.anexos.mascara)) {
-                    texto += `   📎 _Artes Anexadas:_\n`;
-                    if (item.anexos.frente) texto += `      - Frente/Principal: ${item.anexos.frente}\n`;
-                    if (item.anexos.verso) texto += `      - Verso: ${item.anexos.verso}\n`;
-                    if (item.anexos.mascara) texto += `      - Máscara: ${item.anexos.mascara}\n`;
-                }
-                if (item.observacao) {
-                    texto += `   💬 _Obs: ${item.observacao}_\n`;
-                }
+                total += sub;
+                container.innerHTML += `
+                    <div class="py-3 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <img src="${item.imagem}" class="w-10 h-10 object-contain rounded border bg-white p-0.5 shrink-0">
+                            <div class="overflow-hidden">
+                                <strong class="block truncate text-slate-200 text-[11px]">${escapeAttr(item.nome)}</strong>
+                                <span class="text-[10px] text-slate-400">${item.qtd}x R$ ${item.preco.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <strong class="block text-emerald-400 text-xs shrink-0">R$ ${sub.toFixed(2)}</strong>
+                    </div>`;
             });
-
-            let descontoVal = 0;
-            if (cupomAplicado) {
-                descontoVal = cupomAplicado.tipo === 'porcentagem' ? subtotalGeral * (parseFloat(cupomAplicado.valor)/100) : parseFloat(cupomAplicado.valor);
-                texto += `\n🎟️ *CUPOM APLICADO:* ${cupomAplicado.codigo} (- R$ ${descontoVal.toFixed(2)})\n`;
-            }
-
-            const valorFrete = opcaoFreteSelecionada ? parseFloat(opcaoFreteSelecionada.valor || 0) : 0;
-            const totalFinal = Math.max(0, subtotalGeral - descontoVal + valorFrete);
-
-            texto += `\n----------------------------------\n`;
-            texto += `💰 *TOTAL DO PEDIDO: R$ ${totalFinal.toFixed(2)}*\n\n`;
-            texto += `Aguardo instruções para aprovação da arte e liberação do pedido!`;
-
-            const link = `https://wa.me/${whatsappAtendimentoLoja}?text=${encodeURIComponent(texto)}`;
-            window.open(link, '_blank');
+            if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
         }
 
-        function alternarAba(aba) {
-            ['catalogo', 'carrinho'].forEach(a => document.getElementById(`secao-${a}`)?.classList.add('hidden'));
-            document.getElementById(`secao-${aba}`)?.classList.remove('hidden');
-
-            if (aba === 'carrinho') {
-                renderizarCarrinho();
-                window.scrollTo({ top: 100, behavior: 'smooth' });
+        function renderizarMenusCategorias() {
+            const menuTopo = document.getElementById('container-menu-categorias-topo');
+            if (menuTopo) {
+                menuTopo.innerHTML = `<button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 uppercase">INÍCIO</button>`;
             }
+        }
+
+        function renderizarProdutosDestaque() {
+            const container = document.getElementById('container-produtos-destaque-row');
+            if (!container) return;
+            container.innerHTML = '';
+            catalogoEstoque.slice(0, 4).forEach(item => {
+                container.innerHTML += `
+                    <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex flex-col justify-between">
+                        <div class="w-full h-32 bg-slate-50 rounded-lg border flex items-center justify-center overflow-hidden cursor-pointer" onclick="abrirModalDetalhes('${item.id}')">
+                            <img src="${escapeAttr(item.imagem)}" class="w-full h-full object-contain p-1">
+                        </div>
+                        <h4 class="text-[11px] font-black text-blue-900 leading-tight line-clamp-2 mt-2 cursor-pointer text-center" onclick="abrirModalDetalhes('${item.id}')">${escapeAttr(item.nome)}</h4>
+                        <div class="pt-2 border-t text-center space-y-1 mt-2">
+                            <strong class="text-red-600 font-black text-sm block">R$ ${parseFloat(item.precoVenda).toFixed(2)}</strong>
+                            <button onclick="adicionarAoCarrinho('${item.id}')" class="w-full btn-comprar-custom text-white font-black text-[10px] py-1.5 rounded-lg shadow uppercase">COMPRAR</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function renderizarCatalogo() {
+            const container = document.getElementById('container-catalogo-grid');
+            if (!container) return;
+            container.innerHTML = '';
+            catalogoEstoque.forEach(item => {
+                container.innerHTML += `
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm flex flex-col justify-between">
+                        <div class="w-full h-44 bg-slate-50 rounded-xl border flex items-center justify-center p-1 cursor-pointer overflow-hidden" onclick="abrirModalDetalhes('${item.id}')">
+                            <img src="${escapeAttr(item.imagem)}" class="w-full h-full object-contain p-2">
+                        </div>
+                        <h4 class="text-xs font-black text-blue-900 leading-snug line-clamp-2 cursor-pointer text-center" onclick="abrirModalDetalhes('${item.id}')">${escapeAttr(item.nome)}</h4>
+                        <div class="pt-2 border-t space-y-2">
+                            <strong class="text-red-600 font-black text-lg text-center block">R$ ${parseFloat(item.precoVenda).toFixed(2)}</strong>
+                            <button onclick="adicionarAoCarrinho('${item.id}')" class="w-full btn-comprar-custom text-white font-black text-[11px] py-2 rounded-lg shadow uppercase">COMPRAR 🚀</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function abrirModalDetalhes(id) {
+            const item = catalogoEstoque.find(p => String(p.id) === String(id));
+            if (!item) return;
+
+            document.getElementById('txt-modal-titulo').innerText = item.nome;
+            document.getElementById('txt-modal-preco').innerText = `R$ ${parseFloat(item.precoVenda).toFixed(2)}`;
+            document.getElementById('txt-modal-descricao-html').innerHTML = item.descricao;
+            document.getElementById('modal-detalhes-produto').classList.remove('hidden');
+        }
+
+        function fecharModalDetalhes() { document.getElementById('modal-detalhes-produto').classList.add('hidden'); }
+
+        function calcularDatasPrevisaoProducao() {
+            const hoje = new Date();
+            let dataProducao = new Date(hoje);
+            dataProducao.setDate(hoje.getDate() + 2);
+            const txtProd = document.getElementById('txt-previsao-producao-data');
+            if (txtProd) txtProd.innerText = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataProducao);
+        }
+
+        function alternarAbaFreteBalcao(tipo) {
+            const btnEntrega = document.getElementById('btn-aba-frete-entrega');
+            const btnBalcao = document.getElementById('btn-aba-frete-balcao');
+            const boxEntrega = document.getElementById('box-conteudo-aba-entrega');
+            const boxBalcao = document.getElementById('box-conteudo-aba-balcao');
+
+            if (tipo === 'balcao') {
+                btnEntrega?.classList.remove('active'); btnBalcao?.classList.add('active');
+                boxEntrega?.classList.add('hidden'); boxBalcao?.classList.remove('hidden');
+            } else {
+                btnBalcao?.classList.remove('active'); btnEntrega?.classList.add('active');
+                boxBalcao?.classList.add('hidden'); boxEntrega?.classList.remove('hidden');
+            }
+        }
+
+        function renderizarOpcoesFreteEntrega() {
+            const container = document.getElementById('lista-opcoes-frete-entrega');
+            if (!container) return;
+            container.innerHTML = `
+                <div class="p-3 rounded-xl border border-blue-600 bg-blue-50/50 flex items-center justify-between">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="radio" checked class="accent-blue-900">
+                        <div><strong class="font-bold text-slate-800 text-xs block">PH Entrega Expressa (Transportadora)</strong><span class="text-[10px] text-slate-500">Prazo: até 4 dias úteis</span></div>
+                    </label>
+                    <strong class="text-blue-900 font-black text-xs">R$ 7,90</strong>
+                </div>`;
+        }
+
+        function renderizarOpcoesBalcoesRetirada() {
+            const container = document.getElementById('lista-opcoes-balcoes-retirada');
+            if (!container) return;
+            container.innerHTML = `
+                <div class="p-3 rounded-xl border border-emerald-600 bg-emerald-50/50 flex items-center justify-between">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="radio" checked class="accent-emerald-600">
+                        <div><strong class="font-bold text-slate-800 text-xs block">PHSUBLIME Canecas Henrique Vieira Gráfica</strong><span class="text-[10px] text-slate-500">Rua Marcílio Dias, nº 24 - Campo Lindo - Seropédica/RJ</span></div>
+                    </label>
+                    <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2.5 py-1 rounded uppercase">GRÁFICA</span>
+                </div>`;
+        }
+
+        function selecionarFormaPagamentoLoja(forma) {
+            formaPagamentoSelecionadaLoja = forma;
+            const boxPix = document.getElementById('box-detalhes-pix-pagamento');
+            const boxCartao = document.getElementById('box-detalhes-cartao-pagamento');
+
+            if (boxPix) boxPix.classList.toggle('hidden', forma !== 'PIX');
+            if (boxCartao) boxCartao.classList.toggle('hidden', forma !== 'Cartão de Crédito');
+        }
+
+        function copiarChavePix() {
+            navigator.clipboard.writeText('58658668000100');
+            mostrarToast("Chave PIX (58658668000100) copiada!");
         }
 
         async function inicializarPortal() {
-            await carregarConfiguracoesCompletasAdmin();
-            carregarPerfilCliente();
-            carregarScriptsAdminHead();
+            carregarPerfilClienteLocal();
             await carregarEstoqueSupabase();
             atualizarBadgeCarrinho();
-
-            const inputBusca = document.getElementById('input-busca-catalogo');
-            if (inputBusca) {
-                inputBusca.addEventListener('keydown', function(event) {
-                    if (event.key === 'Enter') {
-                        event.preventDefault();
-                        buscarComDebounce();
-                    }
-                });
-            }
         }
 
         window.onload = inicializarPortal;
