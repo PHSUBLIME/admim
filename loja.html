@@ -429,25 +429,11 @@
                                 </div>
                             </div>
 
-                            <!-- CONTEÚDO DA ABA BALCÃO DE RETIRADA -->
+                            <!-- CONTEÚDO DA ABA BALCÃO DE RETIRADA (ÚNICO Nº 24) -->
                             <div id="box-conteudo-aba-balcao" class="hidden space-y-3">
-                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-3">
-                                    <span class="font-bold text-blue-900 block text-xs">Pesquisar Balcão de Retirada Credenciado:</span>
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                                        <input type="text" id="input-busca-balcao-cep" placeholder="Digite o CEP..." class="px-3 py-2 border rounded-lg font-mono">
-                                        <select id="select-busca-balcao-uf" class="px-3 py-2 border rounded-lg font-bold">
-                                            <option value="RJ">Rio de Janeiro (RJ)</option>
-                                            <option value="SP">São Paulo (SP)</option>
-                                            <option value="MG">Minas Gerais (MG)</option>
-                                        </select>
-                                        <button onclick="filtrarBalcoesModalLoja()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 rounded-lg uppercase shadow">
-                                            <i class="fa-solid fa-magnifying-glass"></i> Buscar Balcões
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div id="lista-opcoes-balcoes-retirada" class="space-y-2 max-h-60 overflow-y-auto pr-1">
-                                    <!-- Injetado dinamicamente via JS -->
+                                <span class="font-bold text-blue-900 block text-xs">Balcão de Retirada Disponível:</span>
+                                <div id="lista-opcoes-balcoes-retirada" class="space-y-2">
+                                    <!-- Injetado dinamicamente via JS (Apenas 1 Balcão nº 24) -->
                                 </div>
                             </div>
 
@@ -863,7 +849,11 @@
         let opcaoFreteSelecionada = { tipo: 'entrega', nome: 'PH Entrega Expressa (Transportadora)', valor: 7.90, prazo: 4 };
         let formaPagamentoSelecionadaLoja = 'PIX';
         let comprovantePixNome = '';
-        let balcoesRetiradaLista = [];
+        
+        // APENAS 1 BALCÃO DE RETIRADA PADRÃO (Nº 24)
+        let balcoesRetiradaLista = [
+            { id: 1, nome: "PHSUBLIME Canecas Henrique Vieira Gráfica", endereco: "Rua Marcílio Dias, nº 24 - Campo Lindo", cidade: "Seropédica", uf: "RJ", prazo: 1, taxa: 0 }
+        ];
 
         let bannersCarrossel = [
             { img: 'https://sistema.graficonauta.com.br/storage/banners/animacao/20260118_banner_promo_dtf.png', link: 'https://wa.me/5521986147221' },
@@ -1218,17 +1208,6 @@
                     const endFooter = document.getElementById('footer-endereco-txt');
                     if (endFooter) endFooter.innerText = dados.endereco;
                 }
-            }
-
-            // Balcões de Retirada do Admin
-            const balcoesSalvos = configsNuvem['phsublime_balcoes_retirada'] || JSON.parse(localStorage.getItem('phsublime_balcoes_retirada') || '[]');
-            if (Array.isArray(balcoesSalvos) && balcoesSalvos.length > 0) {
-                balcoesRetiradaLista = balcoesSalvos;
-            } else {
-                balcoesRetiradaLista = [
-                    { id: 1, nome: "Balcão Central Irajá", endereco: "Estrada da Água Grande, 221 - Irajá", cidade: "Rio de Janeiro", uf: "RJ", prazo: 1, taxa: 0 },
-                    { id: 2, nome: "Balcão Campo Lindo", endereco: "Rua Marcílio Dias - Seropédica", cidade: "Seropédica", uf: "RJ", prazo: 1, taxa: 0 }
-                ];
             }
 
             // Banners
@@ -1945,7 +1924,7 @@
             }
         }
 
-        // --- 10. RENDERIZAÇÃO DA PÁGINA DO CARRINHO COMPLETA (SEM BOTÕES - 1 +) ---
+        // --- 10. RENDERIZAÇÃO DA PÁGINA DO CARRINHO COMPLETA (SEM BOTÕES DE EDITAR QUANTIDADE) ---
         function renderizarCarrinho() {
             const tabela = document.getElementById('tabela-itens-carrinho');
             const msgVazio = document.getElementById('carrinho-vazio-msg');
@@ -2049,7 +2028,7 @@
             // Atualiza datas de previsão
             calcularDatasPrevisaoProducao();
 
-            // Renderiza Opções de Entrega e Balcões
+            // Renderiza Opções de Entrega e Balcão
             renderizarOpcoesFreteEntrega();
             renderizarOpcoesBalcoesRetirada();
         }
@@ -2080,11 +2059,13 @@
                 btnBalcao?.classList.add('active');
                 boxEntrega?.classList.add('hidden');
                 boxBalcao?.classList.remove('hidden');
+                renderizarOpcoesBalcoesRetirada();
             } else {
                 btnBalcao?.classList.remove('active');
                 btnEntrega?.classList.add('active');
                 boxBalcao?.classList.add('hidden');
                 boxEntrega?.classList.remove('hidden');
+                renderizarOpcoesFreteEntrega();
             }
         }
 
@@ -2099,7 +2080,6 @@
 
             container.innerHTML = '';
             opcoes.forEach((op) => {
-                const checado = true;
                 opcaoFreteSelecionada = { tipo: 'entrega', nome: op.nome, valor: op.valor, prazo: op.prazo };
 
                 const div = document.createElement('div');
@@ -2123,38 +2103,45 @@
             const container = document.getElementById('lista-opcoes-balcoes-retirada');
             if (!container) return;
 
-            if (balcoesRetiradaLista.length === 0) {
-                container.innerHTML = '<p class="text-center text-slate-400 py-3">Nenhum balcão encontrado.</p>';
-                return;
-            }
+            // APENAS 1 BALCÃO FIXO Nº 24
+            const balcaoUnico = {
+                id: 1,
+                nome: "PHSUBLIME Canecas Henrique Vieira Gráfica",
+                endereco: "Rua Marcílio Dias, nº 24 - Campo Lindo",
+                cidade: "Seropédica",
+                uf: "RJ",
+                prazo: 1
+            };
 
             container.innerHTML = '';
-            balcoesRetiradaLista.forEach(b => {
-                const checado = opcaoFreteSelecionada && opcaoFreteSelecionada.nome === b.nome;
-                const div = document.createElement('div');
-                div.className = `p-3 rounded-xl border ${checado ? 'border-emerald-600 bg-emerald-50/50' : 'border-slate-200'} flex items-center justify-between cursor-pointer hover:border-emerald-400 transition-all`;
-                div.onclick = () => {
-                    opcaoFreteSelecionada = { tipo: 'balcao', nome: b.nome, valor: 0, prazo: b.prazo || 1, endereco: b.endereco };
-                    renderizarCarrinho();
-                };
+            
+            opcaoFreteSelecionada = { 
+                tipo: 'balcao', 
+                nome: balcaoUnico.nome, 
+                valor: 0, 
+                prazo: balcaoUnico.prazo, 
+                endereco: `${balcaoUnico.endereco} - ${balcaoUnico.cidade}/${balcaoUnico.uf}` 
+            };
 
-                div.innerHTML = `
-                    <label class="flex items-center gap-3 cursor-pointer w-full">
-                        <input type="radio" name="opcao_frete_loja" ${checado ? 'checked' : ''} class="accent-emerald-600">
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">${escapeAttr(b.nome)}</strong>
-                            <span class="text-[10px] text-slate-500 block">${escapeAttr(b.endereco)} - ${escapeAttr(b.cidade)}/${escapeAttr(b.uf)}</span>
-                            <span class="text-[9px] text-emerald-700 font-bold">Disponível em ${b.prazo || 1} dia(s)</span>
-                        </div>
-                    </label>
-                    <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2 py-0.5 rounded uppercase">GRÁTIS</span>
-                `;
-                container.appendChild(div);
-            });
+            const div = document.createElement('div');
+            div.className = `p-3 rounded-xl border border-emerald-600 bg-emerald-50/50 flex items-center justify-between cursor-pointer`;
+
+            div.innerHTML = `
+                <label class="flex items-center gap-3 cursor-pointer w-full">
+                    <input type="radio" name="opcao_frete_loja" checked class="accent-emerald-600">
+                    <div>
+                        <strong class="font-bold text-slate-800 text-xs block">${escapeAttr(balcaoUnico.nome)}</strong>
+                        <span class="text-[10px] text-slate-500 block">${escapeAttr(balcaoUnico.endereco)} - ${escapeAttr(balcaoUnico.cidade)}/${escapeAttr(balcaoUnico.uf)}</span>
+                        <span class="text-[9px] text-emerald-700 font-bold">Disponível em ${balcaoUnico.prazo} dia(s)</span>
+                    </div>
+                </label>
+                <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2.5 py-1 rounded uppercase">GRÁTIS</span>
+            `;
+            container.appendChild(div);
         }
 
         function filtrarBalcoesModalLoja() {
-            mostrarToast("Balcões credenciados atualizados!");
+            mostrarToast("Balcão de retirada atualizado!");
             renderizarOpcoesBalcoesRetirada();
         }
 
@@ -2293,14 +2280,14 @@
 
             if (opcaoFreteSelecionada && opcaoFreteSelecionada.tipo === 'balcao') {
                 texto += `📍 *FORMA DE ENVIO:* Balcão de Retirada\n`;
-                texto += `• Unidade: ${opcaoFreteSelecionada.nome}\n`;
-                if (opcaoFreteSelecionada.endereco) texto += `• Endereço: ${opcaoFreteSelecionada.endereco}\n`;
+                texto += `• Unidade: PHSUBLIME Canecas Henrique Vieira Gráfica\n`;
+                texto += `• Endereço: Rua Marcílio Dias, nº 24 - Campo Lindo - Seropédica/RJ\n`;
             } else {
                 texto += `📍 *ENDEREÇO DE ENTREGA:*\n`;
                 texto += `• CEP: ${cep}\n`;
                 texto += `• Logradouro: ${rua}, nº ${numero}${complemento ? ' (' + complemento + ')' : ''}\n`;
                 texto += `• Bairro: ${bairro} | Cidade: ${cidade}-${uf.toUpperCase()}\n`;
-                texto += `• Modalidade: ${opcaoFreteSelecionada?.nome || 'PH Entrega Expressa'}\n`;
+                texto += `• Modalidade: PH Entrega Expressa (Prazo: até 4 dias úteis - consultar vendedor)\n`;
             }
 
             texto += `\n💳 *FORMA DE PAGAMENTO:* ${formaPagamentoSelecionadaLoja}\n`;
