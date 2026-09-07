@@ -424,7 +424,7 @@
                             <div id="box-conteudo-aba-entrega" class="space-y-3">
                                 <span class="font-bold text-slate-700 block">Selecione o serviço de entrega preferido:</span>
                                 <div id="lista-opcoes-frete-entrega" class="space-y-2">
-                                    <!-- Injetado dinamicamente via JS (Transportadora, Correios, Dropshipping) -->
+                                    <!-- Injetado dinamicamente via JS -->
                                 </div>
                             </div>
 
@@ -446,7 +446,7 @@
                                 </div>
 
                                 <div id="lista-opcoes-balcoes-retirada" class="space-y-2 max-h-60 overflow-y-auto pr-1">
-                                    <!-- Injetado dinamicamente via JS das configurações do Admin -->
+                                    <!-- Injetado dinamicamente via JS -->
                                 </div>
                             </div>
 
@@ -464,56 +464,52 @@
                             <i class="fa-solid fa-credit-card text-amber-500"></i> Forma de Pagamento
                         </h3>
 
-                        <!-- OPCÃO 1: PIX COM BADGE DE LIBERAÇÃO IMEDIATA -->
+                        <!-- OPCÃO 1: PIX COM QR CODE, CHAVE CNPJ E ANEXO DE COMPROVANTE -->
                         <div class="border rounded-xl p-3 hover:border-emerald-500 transition-all cursor-pointer bg-emerald-50/40 border-emerald-300" onclick="selecionarFormaPagamentoLoja('PIX')">
                             <label class="flex items-start gap-3 cursor-pointer">
                                 <input type="radio" name="radio_pagamento_loja" value="PIX" checked class="mt-1 accent-emerald-600">
-                                <div>
+                                <div class="w-full">
                                     <div class="flex items-center gap-2">
                                         <strong class="font-black text-slate-800 text-xs uppercase">PIX Direct</strong>
                                         <span class="bg-emerald-600 text-white font-black text-[9px] px-2 py-0.5 rounded uppercase tracking-wider">LIBERAÇÃO IMEDIATA</span>
                                     </div>
-                                    <p class="text-[10px] text-slate-500 mt-0.5">Aprovação instantânea do pedido e envio imediato para produção.</p>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Aprovação instantânea do pedido.</p>
+
+                                    <!-- CAIXA DE DETALHES DO PIX -->
+                                    <div id="box-detalhes-pix-pagamento" class="space-y-2.5 mt-3 pt-3 border-t border-emerald-200 text-[11px]">
+                                        <div class="bg-white p-2.5 rounded-lg border border-emerald-300 text-center space-y-1">
+                                            <span class="text-[10px] text-slate-500 font-bold block">Chave PIX (CNPJ):</span>
+                                            <strong class="font-mono text-emerald-800 font-black text-sm block tracking-widest select-all">58658668000100</strong>
+                                            <span class="text-[10px] text-slate-600 block">Titular: <b>DANIEL HENRIQUE VIEIRA DE SOUSA</b></span>
+                                            <button type="button" onclick="copiarChavePix()" class="mt-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-[10px] px-3 py-1 rounded-md transition-all uppercase">
+                                                <i class="fa-regular fa-copy"></i> Copiar Chave PIX
+                                            </button>
+                                        </div>
+
+                                        <div>
+                                            <label class="font-bold text-slate-700 block mb-1">Anexar Comprovante do PIX (Foto ou PDF):</label>
+                                            <input type="file" id="input-comprovante-pix" accept="image/*,application/pdf" onchange="capturarComprovantePix(event)" class="w-full text-[10px] p-1 border rounded-lg bg-white">
+                                            <span id="txt-comprovante-pix-nome" class="text-[10px] text-emerald-700 font-bold block mt-0.5"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </label>
                         </div>
 
-                        <!-- OPCÃO 2: CARTÃO DE CRÉDITO -->
+                        <!-- OPCÃO 2: CARTÃO DE CRÉDITO VIA MERCADO PAGO -->
                         <div class="border rounded-xl p-3 hover:border-blue-500 transition-all cursor-pointer border-slate-200" onclick="selecionarFormaPagamentoLoja('Cartão de Crédito')">
                             <label class="flex items-start gap-3 cursor-pointer">
                                 <input type="radio" name="radio_pagamento_loja" value="Cartão de Crédito" class="mt-1 accent-blue-900">
                                 <div class="w-full">
-                                    <strong class="font-black text-slate-800 text-xs uppercase block">Cartão de Crédito</strong>
-                                    <span class="text-[10px] text-slate-500">Parcele em até 12x no cartão.</span>
+                                    <strong class="font-black text-slate-800 text-xs uppercase block">Cartão de Crédito (Mercado Pago)</strong>
+                                    <span class="text-[10px] text-slate-500">Pague pelo link direto com segurança no seu banco.</span>
 
-                                    <!-- CAMPOS DO CARTÃO DE CRÉDITO -->
-                                    <div id="box-campos-cartao-credito" class="hidden space-y-2.5 mt-3 pt-3 border-t border-slate-200 text-[11px]">
-                                        <div>
-                                            <label class="font-bold text-slate-700 block mb-0.5">Número do Cartão *</label>
-                                            <input type="text" placeholder="•••• •••• •••• ••••" class="w-full px-2.5 py-1.5 border rounded-lg font-mono">
-                                        </div>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <div>
-                                                <label class="font-bold text-slate-700 block mb-0.5">Validade *</label>
-                                                <input type="text" placeholder="MM/AA" class="w-full px-2.5 py-1.5 border rounded-lg text-center font-mono">
-                                            </div>
-                                            <div>
-                                                <label class="font-bold text-slate-700 block mb-0.5">CVV *</label>
-                                                <input type="text" placeholder="123" maxlength="4" class="w-full px-2.5 py-1.5 border rounded-lg text-center font-mono">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label class="font-bold text-slate-700 block mb-0.5">Nome do Titular *</label>
-                                            <input type="text" placeholder="Como impresso no cartão" class="w-full px-2.5 py-1.5 border rounded-lg font-bold">
-                                        </div>
-                                        <div>
-                                            <label class="font-bold text-slate-700 block mb-0.5">Parcelas *</label>
-                                            <select class="w-full px-2.5 py-1.5 border rounded-lg font-bold">
-                                                <option value="1">1x sem juros</option>
-                                                <option value="2">2x sem juros</option>
-                                                <option value="3">3x com acréscimo</option>
-                                            </select>
-                                        </div>
+                                    <!-- BOTÃO LINK DO MERCADO PAGO -->
+                                    <div id="box-detalhes-cartao-pagamento" class="hidden space-y-2 mt-3 pt-3 border-t border-slate-200 text-[11px]">
+                                        <a href="https://link.mercadopago.com.br/graficaphsublime" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 rounded-xl shadow transition-all uppercase text-xs">
+                                            <i class="fa-regular fa-credit-card mr-1"></i> Pagar via Mercado Pago 💳
+                                        </a>
+                                        <p class="text-[9px] text-slate-500 text-center">O link de pagamento abrirá em uma nova aba para conclusão no Mercado Pago.</p>
                                     </div>
                                 </div>
                             </label>
@@ -524,8 +520,8 @@
                             <label class="flex items-start gap-3 cursor-pointer">
                                 <input type="radio" name="radio_pagamento_loja" value="Pagamento na Retirada" class="mt-1 accent-amber-500">
                                 <div>
-                                    <strong class="font-black text-slate-800 text-xs uppercase block">Pagamento na Retirada / Crédito</strong>
-                                    <span class="text-[10px] text-slate-500">Pague direto no balcão presencial ou utilize saldo em conta.</span>
+                                    <strong class="font-black text-slate-800 text-xs uppercase block">Pagamento na Retirada / Balcão</strong>
+                                    <span class="text-[10px] text-slate-500">Pague direto no balcão presencial ou dinheiro/débito.</span>
                                 </div>
                             </label>
                         </div>
@@ -685,7 +681,7 @@
         </div>
     </footer>
 
-    <!-- MODAL DE ANEXAR ARQUIVOS DE ARTE DE IMPRESSÃO (FRENTE, VERSO, MÁSCARA, ARQUIVO) -->
+    <!-- MODAL DE ANEXAR ARQUIVOS DE ARTE COM UPLOAD REAL (PDF, JPG, PNG, CDR, ZIP) -->
     <div id="modal-anexar-arquivos-item" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[1001] hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalAnexarArquivos()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -701,18 +697,21 @@
                 <input type="hidden" id="anexo-item-id-corrente" value="">
 
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Arte Frente / Arquivo Principal (Link Drive/WeTransfer ou nome do arquivo):</label>
-                    <input type="text" id="anexo-input-frente" placeholder="Ex: https://drive.google.com/file/... ou arte_frente.pdf" class="w-full px-3 py-2 border rounded-lg font-mono">
+                    <label class="font-bold text-slate-700 block mb-1">Arte Frente / Arquivo Principal (PDF, JPG, PNG, CDR, ZIP):</label>
+                    <input type="file" id="anexo-file-frente" accept=".pdf,.jpg,.jpeg,.png,.cdr,.zip,.rar" class="w-full text-xs p-2 border rounded-lg bg-slate-50">
+                    <span id="txt-anexo-frente-atual" class="text-[10px] text-emerald-700 font-bold block mt-0.5"></span>
                 </div>
 
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Arte Verso (Opcional):</label>
-                    <input type="text" id="anexo-input-verso" placeholder="Ex: arte_verso.pdf" class="w-full px-3 py-2 border rounded-lg font-mono">
+                    <input type="file" id="anexo-file-verso" accept=".pdf,.jpg,.jpeg,.png,.cdr,.zip,.rar" class="w-full text-xs p-2 border rounded-lg bg-slate-50">
+                    <span id="txt-anexo-verso-atual" class="text-[10px] text-emerald-700 font-bold block mt-0.5"></span>
                 </div>
 
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Máscara / Acabamento Especial (Opcional):</label>
-                    <input type="text" id="anexo-input-mascara" placeholder="Ex: mascara_verniz.pdf" class="w-full px-3 py-2 border rounded-lg font-mono">
+                    <input type="file" id="anexo-file-mascara" accept=".pdf,.jpg,.jpeg,.png,.cdr,.zip,.rar" class="w-full text-xs p-2 border rounded-lg bg-slate-50">
+                    <span id="txt-anexo-mascara-atual" class="text-[10px] text-emerald-700 font-bold block mt-0.5"></span>
                 </div>
 
                 <div class="pt-2 border-t flex justify-end gap-2">
@@ -853,9 +852,10 @@
         let timerDebounce = null;
         let bannerIndiceAtual = 0;
 
-        // Estado do Frete e Pagamento da Loja
+        // Estado do Frete, Pagamento e Comprovante do PIX
         let opcaoFreteSelecionada = { tipo: 'entrega', nome: 'PH Entrega Expressa', valor: 7.90 };
         let formaPagamentoSelecionadaLoja = 'PIX';
+        let comprovantePixNome = '';
         let balcoesRetiradaLista = [];
 
         let bannersCarrossel = [
@@ -1109,6 +1109,21 @@
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, 3000);
+        }
+
+        function copiarChavePix() {
+            navigator.clipboard.writeText('58658668000100');
+            mostrarToast("Chave PIX (58658668000100) copiada!");
+        }
+
+        function capturarComprovantePix(e) {
+            const file = e.target.files[0];
+            if (file) {
+                comprovantePixNome = file.name;
+                const txt = document.getElementById('txt-comprovante-pix-nome');
+                if (txt) txt.innerText = `Comprovante: ${file.name}`;
+                mostrarToast("Comprovante do PIX anexado!");
+            }
         }
 
         // --- 5. CARREGAMENTO DINÂMICO DO SUPABASE & ADMIN ---
@@ -2146,7 +2161,7 @@
                             <span class="text-[9px] text-emerald-700 font-bold">Disponível em ${b.prazo || 1} dia(s)</span>
                         </div>
                     </label>
-                    <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2 py-0.5 rounded uppercase">GRÁTIS</span>
+                    <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2 py-0.5 rounded uppercase">GRÁFICA</span>
                 `;
                 container.appendChild(div);
             });
@@ -2160,7 +2175,17 @@
 
         function selecionarFormaPagamentoLoja(forma) {
             formaPagamentoSelecionadaLoja = forma;
-            const boxCartao = document.getElementById('box-campos-cartao-credito');
+            const boxPix = document.getElementById('box-detalhes-pix-pagamento');
+            const boxCartao = document.getElementById('box-detalhes-cartao-pagamento');
+
+            if (boxPix) {
+                if (forma === 'PIX') {
+                    boxPix.classList.remove('hidden');
+                } else {
+                    boxPix.classList.add('hidden');
+                }
+            }
+
             if (boxCartao) {
                 if (forma === 'Cartão de Crédito') {
                     boxCartao.classList.remove('hidden');
@@ -2170,16 +2195,17 @@
             }
         }
 
-        // --- 13. MODAIS DE ANEXOS DE ARTE E OBSERVAÇÕES POR ITEM ---
+        // --- 13. MODAIS DE ANEXOS DE ARTE COM UPLOAD REAL E OBSERVAÇÕES POR ITEM ---
         function abrirModalAnexarArquivos(itemId) {
             const item = carrinho.find(c => String(c.id) === String(itemId));
             if (!item) return;
 
             document.getElementById('anexo-item-id-corrente').value = itemId;
             document.getElementById('txt-modal-anexar-produto-nome').innerText = item.nome;
-            document.getElementById('anexo-input-frente').value = item.anexos?.frente || '';
-            document.getElementById('anexo-input-verso').value = item.anexos?.verso || '';
-            document.getElementById('anexo-input-mascara').value = item.anexos?.mascara || '';
+            
+            document.getElementById('txt-anexo-frente-atual').innerText = item.anexos?.frente ? `Atual: ${item.anexos.frente}` : '';
+            document.getElementById('txt-anexo-verso-atual').innerText = item.anexos?.verso ? `Atual: ${item.anexos.verso}` : '';
+            document.getElementById('txt-anexo-mascara-atual').innerText = item.anexos?.mascara ? `Atual: ${item.anexos.mascara}` : '';
 
             document.getElementById('modal-anexar-arquivos-item').classList.remove('hidden');
         }
@@ -2194,11 +2220,16 @@
             const item = carrinho.find(c => String(c.id) === String(itemId));
 
             if (item) {
-                item.anexos = {
-                    frente: document.getElementById('anexo-input-frente').value,
-                    verso: document.getElementById('anexo-input-verso').value,
-                    mascara: document.getElementById('anexo-input-mascara').value
-                };
+                const fileFrente = document.getElementById('anexo-file-frente')?.files[0];
+                const fileVerso = document.getElementById('anexo-file-verso')?.files[0];
+                const fileMascara = document.getElementById('anexo-file-mascara')?.files[0];
+
+                if (!item.anexos) item.anexos = {};
+
+                if (fileFrente) item.anexos.frente = fileFrente.name;
+                if (fileVerso) item.anexos.verso = fileVerso.name;
+                if (fileMascara) item.anexos.mascara = fileMascara.name;
+
                 salvarCarrinho();
                 renderizarCarrinho();
                 fecharModalAnexarArquivos();
@@ -2287,7 +2318,14 @@
                 texto += `• Modalidade: ${opcaoFreteSelecionada?.nome || 'Entrega Expressa'}\n`;
             }
 
-            texto += `\n💳 *FORMA DE PAGAMENTO:* ${formaPagamentoSelecionadaLoja}\n\n`;
+            texto += `\n💳 *FORMA DE PAGAMENTO:* ${formaPagamentoSelecionadaLoja}\n`;
+            if (formaPagamentoSelecionadaLoja === 'PIX') {
+                texto += `• Chave PIX Utilizada: 58658668000100 (Daniel Henrique Vieira de Sousa)\n`;
+                if (comprovantePixNome) texto += `• Comprovante do PIX: ${comprovantePixNome}\n`;
+            } else if (formaPagamentoSelecionadaLoja === 'Cartão de Crédito') {
+                texto += `• Link de Pagamento Mercado Pago: https://link.mercadopago.com.br/graficaphsublime\n`;
+            }
+            texto += `\n`;
 
             texto += `📦 *ITENS DO PEDIDO:*\n`;
             let subtotalGeral = 0;
@@ -2297,10 +2335,11 @@
                 subtotalGeral += sub;
                 texto += `${index + 1}. *${item.nome}*\n   Qtd: ${item.qtd}x | Subtotal: R$ ${sub.toFixed(2)}\n`;
 
-                if (item.anexos && (item.anexos.frente || item.anexos.verso)) {
+                if (item.anexos && (item.anexos.frente || item.anexos.verso || item.anexos.mascara)) {
                     texto += `   📎 _Artes Anexadas:_\n`;
-                    if (item.anexos.frente) texto += `      - Frente: ${item.anexos.frente}\n`;
+                    if (item.anexos.frente) texto += `      - Frente/Principal: ${item.anexos.frente}\n`;
                     if (item.anexos.verso) texto += `      - Verso: ${item.anexos.verso}\n`;
+                    if (item.anexos.mascara) texto += `      - Máscara: ${item.anexos.mascara}\n`;
                 }
                 if (item.observacao) {
                     texto += `   💬 _Obs: ${item.observacao}_\n`;
@@ -2318,7 +2357,7 @@
 
             texto += `\n----------------------------------\n`;
             texto += `💰 *TOTAL DO PEDIDO: R$ ${totalFinal.toFixed(2)}*\n\n`;
-            texto += `Aguardo instruções para pagamento e aprovação do arquivo!`;
+            texto += `Aguardo instruções para aprovação da arte e liberação do pedido!`;
 
             const link = `https://wa.me/${whatsappAtendimentoLoja}?text=${encodeURIComponent(texto)}`;
             window.open(link, '_blank');
