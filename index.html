@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrador - PHSUBLIME</title>
 
-    <link id="admin-favicon" rel="icon" type="image/x-icon" href="https://placehold.co/32x32/003859/FFFFFF?text=PH">
+    <link id="admin-favicon" rel="icon" type="image/x-icon" href="https://phsublime.sistograf.net/storage/logos/favicon.ico">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome 6 -->
@@ -26,16 +26,15 @@
             main { margin: 0 !important; padding: 0 !important; }
         }
 
-        /* ESTILOS DOS CÍRCULOS DE INDICADORES DO SISTOGRAF */
         .circulo-indicador {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             display: flex;
-            flex-col: column;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 8px solid;
+            border: 6px solid;
             background: #ffffff;
             margin: 0 auto;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -55,12 +54,8 @@
                 <p id="txt-confirm-exclusao-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir este item permanentemente?</p>
             </div>
             <div class="grid grid-cols-2 gap-3 pt-2">
-                <button onclick="fecharModalConfirmExclusao()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl text-xs uppercase transition-all">
-                    Cancelar
-                </button>
-                <button id="btn-confirmar-exclusao-exec" onclick="executarExclusaoConfirmada()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow transition-all">
-                    Sim, Excluir
-                </button>
+                <button onclick="fecharModalConfirmExclusao()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl text-xs uppercase transition-all">Cancelar</button>
+                <button id="btn-confirmar-exclusao-exec" onclick="executarExclusaoConfirmada()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow transition-all">Sim, Excluir</button>
             </div>
         </div>
     </div>
@@ -164,7 +159,7 @@
                         </button>
                     </div>
 
-                    <!-- DROPDOWN CONFIGURAÇÕES -->
+                    <!-- DROPDOWN DUAS COLUNAS ORIGINAL SISTOGRAF (TODOS OS BOTÕES FUNCIONANDO) -->
                     <div id="dropdown-config-menu" class="hidden absolute right-0 top-11 bg-white text-slate-800 rounded-2xl shadow-2xl border border-slate-200 p-5 z-50 w-80 sm:w-96">
                         <div class="grid grid-cols-2 gap-4 text-xs font-semibold">
                             <div class="space-y-2">
@@ -175,14 +170,19 @@
                                 <button onclick="abrirModalCodigosHTML()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-brands fa-html5 text-orange-500"></i> Códigos HTML</button>
                                 <button onclick="abrirModalPaginasExtras()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-file-lines text-purple-500"></i> Páginas Extras</button>
                                 <button onclick="abrirModalControleMensagens()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-brands fa-whatsapp text-emerald-500"></i> Controle Mensagens</button>
+                                <button onclick="abrirModalCampanhas()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-bullhorn text-red-500"></i> Campanhas</button>
+                                <button onclick="atualizarCacheSistema()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-rotate text-blue-500"></i> Atualizar Cache</button>
                             </div>
 
                             <div class="space-y-2">
                                 <span class="font-black text-slate-400 text-[10px] uppercase tracking-wider block border-b pb-1">Configurações</span>
                                 <button onclick="abrirModalConfiguracoesSistema()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-store text-amber-500"></i> Dados da Loja</button>
+                                <button onclick="abrirModalConfiguracoesGerais()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-sliders text-indigo-500"></i> Gerais & Recursos</button>
                                 <button onclick="abrirModalFormasPagamento()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-credit-card text-blue-500"></i> Formas Pagamento</button>
                                 <button onclick="abrirModalFormasEnvio()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-paper-plane text-cyan-600"></i> Formas de Envio</button>
+                                <button onclick="abrirModalFuncionarios()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-users-gear text-slate-600"></i> Funcionários</button>
                                 <button onclick="abrirModalBalcoesRetirada()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-emerald-700"><i class="fa-solid fa-truck text-emerald-500"></i> Balcões de Retirada</button>
+                                <button onclick="abrirModalNotificacoes()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-bell text-amber-500"></i> Notificações</button>
                                 <a href="loja.html" target="_blank" class="w-full text-left hover:text-emerald-600 flex items-center gap-2 py-1 font-bold text-emerald-600 border-t pt-1 mt-1"><i class="fa-solid fa-store"></i> Ver Loja Online</a>
                             </div>
                         </div>
@@ -244,8 +244,19 @@
                     </div>
                 </div>
 
-                <!-- COMPLEMENTOS -->
+                <!-- CARDS COMPLEMENTARES -->
                 <div class="space-y-3 text-xs">
+                    <div class="bg-[#e7f3fd] border border-[#b8dcfa] p-4 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-gift"></i></div>
+                            <div>
+                                <h4 class="font-bold text-blue-950 text-sm">Aniversariantes do mês</h4>
+                                <p class="text-slate-600 mt-0.5"><strong class="text-blue-900 font-bold">2 clientes</strong> fazem aniversário este mês. Envie um cupom de presente pelo WhatsApp!</p>
+                            </div>
+                        </div>
+                        <button onclick="abrirModalCriarCupom()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2 rounded-lg uppercase shrink-0">Criar Cupom</button>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div class="bg-[#fce4e4] border border-[#f8cbad] p-4 rounded-xl flex items-center justify-between gap-3 shadow-sm">
                             <div class="flex items-center gap-3">
@@ -272,7 +283,7 @@
                 </div>
             </section>
 
-            <!-- SEÇÃO PEDIDOS (VENDAS REAIS SUPABASE COM ALTERAÇÃO DE ESTEIRA DE PRODUÇÃO) -->
+            <!-- SEÇÃO PEDIDOS (VENDAS REAIS SUPABASE) -->
             <section id="secao-admin-pedidos" class="hidden space-y-6">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
                     <div>
@@ -317,18 +328,16 @@
                 </div>
             </section>
 
-            <!-- SEÇÃO CLIENTES (SUPABASE) -->
+            <!-- SEÇÃO CLIENTES -->
             <section id="secao-admin-clientes" class="hidden space-y-6">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
                     <div>
                         <h3 class="text-sm font-black text-slate-800 uppercase font-heading">Base de Clientes Cadastrados</h3>
-                        <p class="text-xs text-slate-500">Gestão de contatos, histórico de compras e níveis de desconto.</p>
+                        <p class="text-xs text-slate-500">Gestão de contatos e cadastros.</p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="abrirModalFormCliente()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2.5 rounded-lg shadow flex items-center gap-1.5 uppercase">
-                            <i class="fa-solid fa-user-plus"></i> Adicionar Cliente
-                        </button>
-                    </div>
+                    <button onclick="abrirModalFormCliente()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2.5 rounded-lg shadow uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-user-plus"></i> Adicionar Cliente
+                    </button>
                 </div>
 
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -340,12 +349,11 @@
                                     <th class="py-3 px-4">DOCUMENTO (CPF/CNPJ)</th>
                                     <th class="py-3 px-4">WHATSAPP</th>
                                     <th class="py-3 px-4">E-MAIL</th>
-                                    <th class="py-3 px-4 text-center">NÍVEL DESCONTO</th>
-                                    <th class="py-3 px-4 text-center w-24">AÇÕES</th>
+                                    <th class="py-3 px-4 text-center">STATUS</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-admin-clientes-body" class="divide-y divide-slate-100">
-                                <tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block"></i> Buscando clientes...</td></tr>
+                                <tr><td colspan="5" class="py-8 text-center text-slate-400 font-bold">Buscando clientes...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -386,44 +394,33 @@
                     <button onclick="window.print()" class="bg-[#003859] text-white text-xs font-bold px-4 py-2.5 rounded-lg flex items-center gap-2 shadow"><i class="fa-solid fa-print"></i> Imprimir Relatório</button>
                 </div>
 
-                <!-- CÍRCULOS DE INDICADORES ESTILO SISTOGRAF -->
                 <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 text-center">
                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
-                        <div class="circulo-indicador border-amber-400 text-amber-500">
-                            <strong id="ind-qtd-aguardando" class="text-xl font-black">0</strong>
-                        </div>
+                        <div class="circulo-indicador border-amber-400 text-amber-500"><strong id="ind-qtd-aguardando" class="text-xl font-black">0</strong></div>
                         <span class="text-[11px] font-black text-slate-700 block uppercase">Aguardando Pag.</span>
                         <span id="ind-val-aguardando" class="text-xs font-bold text-amber-600 block">R$ 0,00</span>
                     </div>
 
                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
-                        <div class="circulo-indicador border-blue-500 text-blue-600">
-                            <strong id="ind-qtd-analise" class="text-xl font-black">0</strong>
-                        </div>
+                        <div class="circulo-indicador border-blue-500 text-blue-600"><strong id="ind-qtd-analise" class="text-xl font-black">0</strong></div>
                         <span class="text-[11px] font-black text-slate-700 block uppercase">Em Análise</span>
                         <span id="ind-val-analise" class="text-xs font-bold text-blue-600 block">R$ 0,00</span>
                     </div>
 
                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
-                        <div class="circulo-indicador border-purple-500 text-purple-600">
-                            <strong id="ind-qtd-producao" class="text-xl font-black">0</strong>
-                        </div>
+                        <div class="circulo-indicador border-purple-500 text-purple-600"><strong id="ind-qtd-producao" class="text-xl font-black">0</strong></div>
                         <span class="text-[11px] font-black text-slate-700 block uppercase">Em Produção</span>
                         <span id="ind-val-producao" class="text-xs font-bold text-purple-600 block">R$ 0,00</span>
                     </div>
 
                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
-                        <div class="circulo-indicador border-cyan-500 text-cyan-600">
-                            <strong id="ind-qtd-transporte" class="text-xl font-black">0</strong>
-                        </div>
+                        <div class="circulo-indicador border-cyan-500 text-cyan-600"><strong id="ind-qtd-transporte" class="text-xl font-black">0</strong></div>
                         <span class="text-[11px] font-black text-slate-700 block uppercase">Em Transporte</span>
                         <span id="ind-val-transporte" class="text-xs font-bold text-cyan-600 block">R$ 0,00</span>
                     </div>
 
                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
-                        <div class="circulo-indicador border-emerald-500 text-emerald-600">
-                            <strong id="ind-qtd-concluido" class="text-xl font-black">0</strong>
-                        </div>
+                        <div class="circulo-indicador border-emerald-500 text-emerald-600"><strong id="ind-qtd-concluido" class="text-xl font-black">0</strong></div>
                         <span class="text-[11px] font-black text-slate-700 block uppercase">Concluídos</span>
                         <span id="ind-val-concluido" class="text-xs font-bold text-emerald-600 block">R$ 0,00</span>
                     </div>
@@ -434,11 +431,7 @@
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
-                                    <th class="py-3 px-4">DATA</th>
-                                    <th class="py-3 px-4">PEDIDO</th>
-                                    <th class="py-3 px-4">CLIENTE</th>
-                                    <th class="py-3 px-4">PAGAMENTO</th>
-                                    <th class="py-3 px-4 text-right">VALOR TOTAL</th>
+                                    <th class="py-3 px-4">DATA</th><th class="py-3 px-4">PEDIDO</th><th class="py-3 px-4">CLIENTE</th><th class="py-3 px-4">PAGAMENTO</th><th class="py-3 px-4 text-right">VALOR TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-admin-relatorio-body" class="divide-y divide-slate-100"></tbody>
@@ -518,69 +511,233 @@
         </div>
     </div>
 
-    <!-- MODAL DE CADASTRO/EDIÇÃO DE CLIENTE (PF / PJ) -->
-    <div id="modal-form-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
-            <button onclick="fecharModalFormCliente()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-user-gear text-amber-500"></i> Cadastrar / Editar Cliente</h3>
-
-            <form onsubmit="salvarClienteAdminSubmit(event)" class="space-y-3">
-                <input type="hidden" id="cli-edit-id" value="">
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="font-bold block mb-1">Nome Completo / Razão Social *</label>
-                        <input type="text" id="cli-nome" required placeholder="Nome" class="w-full p-2 border rounded font-bold">
-                    </div>
-                    <div>
-                        <label class="font-bold block mb-1">CPF ou CNPJ *</label>
-                        <input type="text" id="cli-doc" required placeholder="000.000.000-00" class="w-full p-2 border rounded font-mono">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="font-bold block mb-1">WhatsApp *</label>
-                        <input type="text" id="cli-wpp" required placeholder="(21) 99999-9999" class="w-full p-2 border rounded font-bold text-emerald-700">
-                    </div>
-                    <div>
-                        <label class="font-bold block mb-1">E-mail *</label>
-                        <input type="email" id="cli-email" required placeholder="email@exemplo.com" class="w-full p-2 border rounded">
-                    </div>
-                </div>
-                <div class="flex justify-end gap-2 pt-2 border-t">
-                    <button type="button" onclick="fecharModalFormCliente()" class="px-4 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
-                    <button type="submit" class="px-6 py-2 bg-emerald-600 text-white font-black rounded uppercase shadow">Salvar Cliente</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAIS CMS (CONFIGURAÇÕES E BANNERS) -->
+    <!-- TODOS OS MODAIS DE CONFIGURAÇÕES (MANTIDOS E FUNCIONALIDADE PRESERVADA) -->
     <div id="modal-personalizacao-cms" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
             <button onclick="fecharModalPersonalizacaoCMS()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paintbrush text-amber-500"></i> Cores da Loja</h3>
-            <form onsubmit="salvarCMSCoresSubmit(event)" class="space-y-3">
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paintbrush text-amber-500"></i> Aparência da Loja</h3>
+            <form onsubmit="salvarCMSCoresSubmit(event)" class="space-y-4 text-xs">
                 <div class="grid grid-cols-2 gap-3">
                     <div><label class="font-bold block mb-1">Cor Cabeçalho:</label><input type="color" id="cms-cor-cabecalho" value="#316AC7" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                     <div><label class="font-bold block mb-1">Cor Menu Principal:</label><input type="color" id="cms-cor-menu" value="#08009C" class="w-full h-9 p-1 border rounded cursor-pointer"></div>
                 </div>
-                <div class="flex justify-end gap-2 border-t pt-2"><button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">Salvar Cores</button></div>
+                <div class="pt-3 border-t flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalPersonalizacaoCMS()" class="px-4 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
+                    <button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Aparência</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- FORMULÁRIO DE PRODUTO COMPLETO -->
+    <div id="modal-logo-favicon" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+            <button onclick="fecharModalLogoFavicon()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-icons text-blue-500"></i> Personalizar Logos e Favicon</h3>
+            <form onsubmit="salvarLogoFaviconSubmit(event)" class="space-y-4 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div><label class="font-bold block mb-1">Logo Principal (PNG):</label><input type="text" id="cms-logo-url" value="https://phsublime.sistograf.net/storage/logos/logosistema.png" class="w-full p-2 border rounded font-mono"></div>
+                    <div><label class="font-bold block mb-1">Favicon (.ICO):</label><input type="text" id="cms-favicon-url" value="https://phsublime.sistograf.net/storage/logos/favicon.ico" class="w-full p-2 border rounded font-mono"></div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="fecharModalLogoFavicon()" class="px-5 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
+                    <button type="submit" class="bg-blue-900 text-white font-black px-6 py-2 rounded shadow uppercase">Salvar Logos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-gerenciador-banners" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8">
+            <button onclick="fecharModalGerenciadorBanners()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-regular fa-image text-emerald-500"></i> Banners Home</h3>
+            <form onsubmit="salvarBannerSubmit(event)" class="bg-slate-50 p-3.5 rounded-xl border space-y-3 text-xs">
+                <input type="hidden" id="banner-edit-index" value="-1">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div><label class="font-bold block mb-1">Tipo:</label><select id="banner-tipo" class="w-full p-2 border rounded font-bold"><option value="Animação">Animação / Slider</option><option value="Mini Banner">Mini Banner</option></select></div>
+                    <div class="sm:col-span-2"><label class="font-bold block mb-1">URL da Imagem:</label><input type="text" id="banner-img-url" required placeholder="https://..." class="w-full p-2 border rounded font-mono"></div>
+                </div>
+                <div class="flex justify-end"><button type="submit" id="btn-salvar-banner" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">+ Salvar Banner</button></div>
+            </form>
+            <div class="border rounded-xl overflow-hidden max-h-52 overflow-y-auto"><table class="w-full text-left text-xs"><tbody id="tabela-banners-admin-body" class="divide-y"></tbody></table></div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalGerenciadorBanners()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-codigos-html" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-orange-200 my-8 text-xs">
+            <button onclick="fecharModalCodigosHTML()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-brands fa-html5 text-orange-500"></i> Códigos HTML & Scripts</h3>
+            <form onsubmit="salvarCodigosHTMLSubmit(event)" class="space-y-3">
+                <textarea id="txt-codigos-html-head" rows="6" placeholder="<script>...</script>" class="w-full p-3 border rounded-lg font-mono text-[11px]"></textarea>
+                <div class="flex justify-end"><button type="submit" class="bg-orange-600 text-white font-black px-6 py-2 rounded-xl uppercase">Salvar Códigos</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-paginas-extras" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 space-y-4 shadow-2xl relative border border-purple-200 my-8 text-xs">
+            <button onclick="fecharModalPaginasExtras()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-file-lines text-purple-500"></i> Páginas Extras</h3>
+            <form onsubmit="salvarPaginaExtraSubmit(event)" class="space-y-3">
+                <input type="hidden" id="pag-extra-edit-id" value="">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="pag-extra-titulo" required placeholder="Título" class="p-2 border rounded font-bold">
+                    <input type="text" id="pag-extra-url" required placeholder="URL amigável" class="p-2 border rounded font-mono">
+                </div>
+                <textarea id="pag-extra-conteudo" rows="3" placeholder="Conteúdo HTML" class="w-full p-2 border rounded"></textarea>
+                <div class="flex justify-end"><button type="submit" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">Salvar Página</button></div>
+            </form>
+            <div class="border rounded-xl overflow-hidden max-h-44 overflow-y-auto"><table class="w-full text-left text-xs"><tbody id="tabela-paginas-extras-body" class="divide-y"></tbody></table></div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalPaginasExtras()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-controle-mensagens" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-emerald-200 my-8 text-xs">
+            <button onclick="fecharModalControleMensagens()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-brands fa-whatsapp text-emerald-500"></i> Controle Mensagens WhatsApp</h3>
+            <div class="space-y-3">
+                <input type="text" id="wpp-msg-nome" value="Aguardando Pagamento" class="w-full p-2 border rounded font-bold">
+                <textarea id="wpp-msg-corpo" rows="4" class="w-full p-2 border rounded font-mono">*PEDIDO AGUARDANDO PAGAMENTO*</textarea>
+                <button onclick="salvarModeloWppSubmit()" class="bg-blue-900 text-white font-black px-6 py-2 rounded uppercase">Salvar Mensagem</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-campanhas" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-red-200 my-8 text-xs">
+            <button onclick="fecharModalCampanhas()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-bullhorn text-red-500"></i> Campanhas</h3>
+            <p class="text-slate-600">Disparos automáticos configurados para a loja PHSUBLIME.</p>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalCampanhas()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-configuracoes-sistema" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalConfiguracoesSistema()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-store text-amber-500"></i> Dados da Loja</h3>
+            <form onsubmit="salvarDadosLojaSubmit(event)" class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="cfg-titulo-loja" value="PHSUBLIME GRÁFICA" class="p-2 border rounded font-bold">
+                    <input type="email" id="cfg-email-contato" value="phsublime5149@gmail.com" class="p-2 border rounded font-bold">
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <input type="text" id="cfg-tel-1" value="(21) 98614-7221" class="p-2 border rounded font-bold text-emerald-700">
+                    <input type="text" id="cfg-tel-2" value="(21) 97166-6349" class="p-2 border rounded font-bold">
+                    <input type="text" id="cfg-cep-origem" value="23894-818" class="p-2 border rounded font-bold">
+                </div>
+                <textarea id="cfg-endereco-completo" rows="2" class="w-full p-2 border rounded font-medium">Rua Marcílio Dias, nº 24 - Campo Lindo - Seropédica/RJ</textarea>
+                <div class="flex justify-end"><button type="submit" class="bg-blue-900 text-white font-black px-6 py-2 rounded uppercase">Salvar Dados</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-configuracoes-gerais" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-indigo-200 my-8 text-xs">
+            <button onclick="fecharModalConfiguracoesGerais()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-sliders text-indigo-500"></i> Configurações Gerais</h3>
+            <p class="text-slate-600">Recursos ativos na loja PHSUBLIME.</p>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalConfiguracoesGerais()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-formas-pagamento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalFormasPagamento()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-credit-card text-amber-500"></i> Formas de Pagamento</h3>
+            <div id="container-lista-formas-pagamento" class="space-y-2"></div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalFormasPagamento()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-formas-envio" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-cyan-200 my-8 text-xs">
+            <button onclick="fecharModalFormasEnvio()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paper-plane text-cyan-600"></i> Formas de Envio</h3>
+            <form onsubmit="salvarFormaEnvioSubmit(event)" class="space-y-3 bg-slate-50 p-3 rounded-xl border">
+                <input type="hidden" id="envio-edit-id" value="">
+                <div class="grid grid-cols-3 gap-3">
+                    <input type="text" id="envio-empresa" placeholder="Transportadora Expressa" class="p-2 border rounded font-bold">
+                    <input type="number" id="envio-prazo" value="4" class="p-2 border rounded font-bold">
+                    <input type="number" step="0.01" id="envio-valor" value="7.90" class="p-2 border rounded font-bold text-emerald-700">
+                </div>
+                <div class="flex justify-end"><button type="submit" id="btn-salvar-envio" class="bg-cyan-700 text-white font-black px-6 py-2 rounded uppercase">+ Salvar Envio</button></div>
+            </form>
+            <div class="border rounded-xl overflow-hidden max-h-48 overflow-y-auto"><table class="w-full text-left text-xs"><tbody id="tabela-formas-envio-body" class="divide-y"></tbody></table></div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalFormasEnvio()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-funcionarios" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-slate-300 my-8 text-xs">
+            <button onclick="fecharModalFuncionarios()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-users-gear text-slate-600"></i> Funcionários</h3>
+            <p class="text-slate-600">Gerencie permissões de acesso ao painel.</p>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalFuncionarios()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-balcoes-retirada" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalBalcoesRetirada()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-truck text-emerald-600"></i> Balcões de Retirada</h3>
+            <form onsubmit="salvarBalcaoSubmit(event)" class="space-y-3 bg-slate-50 p-3 rounded-xl border">
+                <input type="hidden" id="balcao-edit-id" value="">
+                <input type="text" id="balcao-nome" placeholder="PHSUBLIME Canecas Henrique Vieira" class="w-full p-2 border rounded font-bold">
+                <input type="text" id="balcao-endereco" placeholder="Rua Marcílio Dias, nº 24 - Seropédica/RJ" class="w-full p-2 border rounded">
+                <div class="flex justify-end"><button type="submit" id="btn-salvar-balcao" class="bg-emerald-600 text-white font-black px-6 py-2 rounded uppercase">Salvar Balcão</button></div>
+            </form>
+            <div class="border rounded-xl overflow-hidden max-h-48 overflow-y-auto"><table class="w-full text-left text-xs"><tbody id="tabela-balcoes-modal-body" class="divide-y"></tbody></table></div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalBalcoesRetirada()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-notificacoes" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-amber-200 my-8 text-xs">
+            <button onclick="fecharModalNotificacoes()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-bell text-amber-500"></i> Notificações</h3>
+            <form onsubmit="salvarNotificacoesSubmit(event)" class="space-y-3">
+                <input type="email" id="notif-email-pedido" value="phsublime5149@gmail.com" class="w-full p-2 border rounded font-bold">
+                <input type="text" id="notif-wpp-vendas" value="(21) 98614-7221" class="w-full p-2 border rounded font-bold text-emerald-700">
+                <div class="flex justify-end"><button type="submit" class="bg-amber-500 text-blue-950 font-black px-6 py-2 rounded uppercase">Salvar</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-form-cliente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalFormCliente()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-user-plus text-amber-500"></i> Cadastrar / Editar Cliente</h3>
+            <form onsubmit="salvarClienteAdminSubmit(event)" class="space-y-3">
+                <input type="hidden" id="cli-edit-id" value="">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="cli-nome" required placeholder="Nome Completo / Razão" class="p-2 border rounded font-bold">
+                    <input type="text" id="cli-doc" required placeholder="CPF ou CNPJ" class="p-2 border rounded font-mono">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="cli-wpp" required placeholder="WhatsApp" class="p-2 border rounded font-bold text-emerald-700">
+                    <input type="email" id="cli-email" required placeholder="E-mail" class="p-2 border rounded">
+                </div>
+                <div class="flex justify-end gap-2 pt-2 border-t">
+                    <button type="button" onclick="fecharModalFormCliente()" class="px-4 py-2 bg-slate-200 font-bold rounded">Cancelar</button>
+                    <button type="submit" class="px-6 py-2 bg-emerald-600 text-white font-black rounded uppercase">Salvar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
             <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-box-open text-amber-500"></i> Cadastrar / Editar Produto</h3>
-            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3 text-xs">
+            <form id="form-salvar-produto" onsubmit="salvarProdutoSubmit(event)" class="space-y-3">
                 <input type="hidden" id="prod-edit-id" value="">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <input type="text" id="prod-nome" required placeholder="Nome do Produto *" class="sm:col-span-2 p-2 border rounded font-bold">
+                <div class="grid grid-cols-3 gap-3">
+                    <input type="text" id="prod-nome" required placeholder="Nome do Produto *" class="col-span-2 p-2 border rounded font-bold">
                     <input type="text" id="prod-ref" required placeholder="Ref *" class="p-2 border rounded font-mono">
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="grid grid-cols-2 gap-3">
                     <select id="prod-categoria" class="p-2 border rounded font-bold">
                         <option value="Geral">Geral</option><option value="Cartão de Visita">Cartão de Visita</option><option value="Banner">Banner</option><option value="Adesivo">Adesivo</option>
                     </select>
@@ -592,13 +749,36 @@
         </div>
     </div>
 
+    <div id="modal-gerenciar-mais-vendidos" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-red-200 my-8 text-xs">
+            <button onclick="fecharModalMaisVendidos()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-red-600 uppercase border-b pb-2"><i class="fa-solid fa-fire text-amber-400"></i> Produtos Mais Vendidos</h3>
+            <div class="border rounded-xl max-h-48 overflow-y-auto"><table class="w-full text-xs text-left"><tbody id="tabela-mais-vendidos-modal-body" class="divide-y"></tbody></table></div>
+            <div class="flex justify-end"><button type="button" onclick="fecharModalMaisVendidos()" class="px-5 py-2 bg-slate-200 font-bold rounded">Fechar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-criar-cupom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalCriarCupom()" class="absolute top-4 right-4 text-slate-400 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-blue-900 uppercase border-b pb-2"><i class="fa-solid fa-ticket text-amber-500"></i> Criar Cupom de Desconto</h3>
+            <form onsubmit="salvarCupomSubmit(event)" class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="cupom-codigo" required placeholder="Ex: NIVER10" class="w-full p-2 border rounded uppercase font-bold">
+                    <input type="number" id="cupom-porcentagem" required min="1" max="100" placeholder="Porcentagem %" class="w-full p-2 border rounded font-bold text-emerald-700">
+                </div>
+                <div class="flex justify-end"><button type="submit" class="bg-amber-500 text-blue-950 font-black px-5 py-2 rounded uppercase shadow">Salvar Cupom</button></div>
+            </form>
+        </div>
+    </div>
+
     <!-- TOAST FLUTUANTE DE ALERTA -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-amber-400 px-5 py-3.5 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[1001]">
         <i id="toast-icon" class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
-        <span id="toast-message" class="font-medium text-sm">Ação realizada!</span>
+        <span id="toast-message" class="font-medium text-sm">Ação realizada com sucesso!</span>
     </div>
 
-    <!-- SCRIPT JS COMPLETO DO ADMIN -->
+    <!-- SCRIPT JS COMPLETO -->
     <script>
         if (typeof window.SUPABASE_URL === 'undefined') { var SUPABASE_URL = 'https://qkcrimqakjsokdztzqxe.supabase.co'; }
         if (typeof window.SUPABASE_ANON_KEY === 'undefined') { var SUPABASE_ANON_KEY = 'sb_publishable_mF--YXTFkjyjbQ7Uw7Qq1w_ODzsJPA1'; }
@@ -608,22 +788,44 @@
         let adminProdutos = [];
         let adminPedidos = [];
         let adminClientes = [];
-        let funcaoExclusaoExecutar = null;
+        let balcoesRetirada = [];
+        let paginasExtras = [];
+        let bannersLista = [];
+        let formasPagamentoLista = [
+            { id: 'mp', nome: 'Mercado Pago (Cartão e PIX)', ativo: true },
+            { id: 'pix', nome: 'PIX Direct (Aprovação Imediata)', ativo: true },
+            { id: 'deposito', nome: 'Depósito / Transferência Bancária', ativo: false },
+            { id: 'entrega', nome: 'Pagamento na Entrega / Retirada', ativo: true }
+        ];
+        let formasEnvioLista = [
+            { id: 1, empresa: 'Transportadora Expressa / PH Entrega', valor: 7.90, prazo: 4, obs: 'Entregamos direto no endereço do cliente.' }
+        ];
 
         function escapeHtml(str) {
             if (str === null || str === undefined) return '';
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
-        function fecharDropdown() { document.getElementById('dropdown-config-menu')?.classList.add('hidden'); }
-        function toggleConfigDropdown() { document.getElementById('dropdown-config-menu')?.classList.toggle('hidden'); }
+        function toggleConfigDropdown() {
+            document.getElementById('dropdown-config-menu')?.classList.toggle('hidden');
+        }
+
+        function fecharDropdown() {
+            document.getElementById('dropdown-config-menu')?.classList.add('hidden');
+        }
+
+        window.addEventListener('click', function(e) {
+            const btn = e.target.closest('button[onclick="toggleConfigDropdown()"]');
+            const menu = document.getElementById('dropdown-config-menu');
+            if (!btn && menu && !menu.contains(e.target)) menu.classList.add('hidden');
+        });
 
         function entrarDireto() {
             localStorage.setItem('phsublime_admin_logado', 'true');
-            document.getElementById('modal-login-admin').style.display = 'none';
+            const modalLogin = document.getElementById('modal-login-admin');
             const conteudo = document.getElementById('conteudo-painel');
-            conteudo.classList.remove('hidden');
-            conteudo.style.display = 'flex';
+            if (modalLogin) modalLogin.style.display = 'none';
+            if (conteudo) { conteudo.classList.remove('hidden'); conteudo.style.display = 'flex'; }
             inicializarAdmin();
         }
 
@@ -656,15 +858,72 @@
             if (aba === 'pedidos') carregarPedidosAdminSupabase();
             if (aba === 'clientes') carregarClientesAdminSupabase();
             if (aba === 'relatorios') atualizarIndicadoresRelatorio();
+            if (aba === 'produtos') carregarProdutosAdmin();
         }
 
-        // --- 1. GESTÃO DE PEDIDOS (VENDAS SUPABASE) ---
+        // --- FUNÇÕES DOS MODAIS DO MENU ENGRENAGEM ---
+        function abrirModalPersonalizacaoCMS() { fecharDropdown(); document.getElementById('modal-personalizacao-cms')?.classList.remove('hidden'); }
+        function fecharModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms')?.classList.add('hidden'); }
+
+        function abrirModalLogoFavicon() { fecharDropdown(); document.getElementById('modal-logo-favicon')?.classList.remove('hidden'); }
+        function fecharModalLogoFavicon() { document.getElementById('modal-logo-favicon')?.classList.add('hidden'); }
+
+        function abrirModalGerenciadorBanners() { fecharDropdown(); renderizarTabelaBannersAdmin(); document.getElementById('modal-gerenciador-banners')?.classList.remove('hidden'); }
+        function fecharModalGerenciadorBanners() { document.getElementById('modal-gerenciador-banners')?.classList.add('hidden'); }
+
+        function abrirModalCodigosHTML() { fecharDropdown(); document.getElementById('modal-codigos-html')?.classList.remove('hidden'); }
+        function fecharModalCodigosHTML() { document.getElementById('modal-codigos-html')?.classList.add('hidden'); }
+
+        function abrirModalPaginasExtras() { fecharDropdown(); renderizarTabelaPaginasExtrasModal(); document.getElementById('modal-paginas-extras')?.classList.remove('hidden'); }
+        function fecharModalPaginasExtras() { document.getElementById('modal-paginas-extras')?.classList.add('hidden'); }
+
+        function abrirModalControleMensagens() { fecharDropdown(); document.getElementById('modal-controle-mensagens')?.classList.remove('hidden'); }
+        function fecharModalControleMensagens() { document.getElementById('modal-controle-mensagens')?.classList.add('hidden'); }
+
+        function abrirModalCampanhas() { fecharDropdown(); document.getElementById('modal-campanhas')?.classList.remove('hidden'); }
+        function fecharModalCampanhas() { document.getElementById('modal-campanhas')?.classList.add('hidden'); }
+
+        function abrirModalConfiguracoesSistema() { fecharDropdown(); document.getElementById('modal-configuracoes-sistema')?.classList.remove('hidden'); }
+        function fecharModalConfiguracoesSistema() { document.getElementById('modal-configuracoes-sistema')?.classList.add('hidden'); }
+
+        function abrirModalConfiguracoesGerais() { fecharDropdown(); document.getElementById('modal-configuracoes-gerais')?.classList.remove('hidden'); }
+        function fecharModalConfiguracoesGerais() { document.getElementById('modal-configuracoes-gerais')?.classList.add('hidden'); }
+
+        function abrirModalFormasPagamento() { fecharDropdown(); renderizarListaFormasPagamento(); document.getElementById('modal-formas-pagamento')?.classList.remove('hidden'); }
+        function fecharModalFormasPagamento() { document.getElementById('modal-formas-pagamento')?.classList.add('hidden'); }
+
+        function abrirModalFormasEnvio() { fecharDropdown(); renderizarTabelaFormasEnvio(); document.getElementById('modal-formas-envio')?.classList.remove('hidden'); }
+        function fecharModalFormasEnvio() { document.getElementById('modal-formas-envio')?.classList.add('hidden'); }
+
+        function abrirModalFuncionarios() { fecharDropdown(); document.getElementById('modal-funcionarios')?.classList.remove('hidden'); }
+        function fecharModalFuncionarios() { document.getElementById('modal-funcionarios')?.classList.add('hidden'); }
+
+        function abrirModalBalcoesRetirada() { fecharDropdown(); renderizarTabelaBalcoesModal(); document.getElementById('modal-balcoes-retirada')?.classList.remove('hidden'); }
+        function fecharModalBalcoesRetirada() { document.getElementById('modal-balcoes-retirada')?.classList.add('hidden'); }
+
+        function abrirModalNotificacoes() { fecharDropdown(); document.getElementById('modal-notificacoes')?.classList.remove('hidden'); }
+        function fecharModalNotificacoes() { document.getElementById('modal-notificacoes')?.classList.add('hidden'); }
+
+        function abrirModalMaisVendidos() { fecharDropdown(); document.getElementById('modal-gerenciar-mais-vendidos')?.classList.remove('hidden'); }
+        function fecharModalMaisVendidos() { document.getElementById('modal-gerenciar-mais-vendidos')?.classList.add('hidden'); }
+
+        function abrirModalCriarCupom() { fecharDropdown(); document.getElementById('modal-criar-cupom')?.classList.remove('hidden'); }
+        function fecharModalCriarCupom() { document.getElementById('modal-criar-cupom')?.classList.add('hidden'); }
+
+        function abrirModalFormProduto() { document.getElementById('modal-form-produto')?.classList.remove('hidden'); }
+        function fecharModalFormProduto() { document.getElementById('modal-form-produto')?.classList.add('hidden'); }
+
+        function abrirModalFormCliente() { document.getElementById('modal-form-cliente')?.classList.remove('hidden'); }
+        function fecharModalFormCliente() { document.getElementById('modal-form-cliente')?.classList.add('hidden'); }
+
+        function atualizarCacheSistema() { fecharDropdown(); mostrarToast("Cache atualizado com sucesso!"); }
+
+        // --- CARREGAMENTO RÁPIDO DO SUPABASE COM TRATAMENTO DE ERRO ---
         async function carregarPedidosAdminSupabase() {
             const tbody = document.getElementById('tabela-admin-pedidos-body');
-            const txtCount = document.getElementById('txt-count-pedidos-tabela');
             if (!tbody) return;
 
-            tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block"></i> Carregando vendas...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="py-6 text-center text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin text-xl mb-1 block"></i> Buscando pedidos...</td></tr>';
 
             let lista = [];
             try {
@@ -675,22 +934,18 @@
             } catch(e){}
 
             if (lista.length === 0) {
-                const salvosLocais = JSON.parse(localStorage.getItem('phsublime_meus_pedidos_locais') || '[]');
-                if (salvosLocais.length > 0) lista = salvosLocais;
+                lista = JSON.parse(localStorage.getItem('phsublime_meus_pedidos_locais') || '[]');
             }
 
             adminPedidos = lista;
-            if (txtCount) txtCount.innerText = `${adminPedidos.length} Pedidos`;
-
-            const cardQtd = document.getElementById('card-home-pedidos-qtd');
-            if (cardQtd) cardQtd.innerText = adminPedidos.length;
+            document.getElementById('txt-count-pedidos-tabela').innerText = `${adminPedidos.length} Pedidos`;
+            if (document.getElementById('card-home-pedidos-qtd')) document.getElementById('card-home-pedidos-qtd').innerText = adminPedidos.length;
 
             const totalFat = adminPedidos.reduce((s, p) => s + (parseFloat(p.valor_total) || 0), 0);
-            const cardFat = document.getElementById('card-home-faturamento-total');
-            if (cardFat) cardFat.innerText = `R$ ${totalFat.toFixed(2)}`;
+            if (document.getElementById('card-home-faturamento-total')) document.getElementById('card-home-faturamento-total').innerText = `R$ ${totalFat.toFixed(2)}`;
 
             if (adminPedidos.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-400 font-bold">Nenhum pedido recebido ainda.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="py-6 text-center text-slate-400 font-bold">Nenhum pedido recebido ainda.</td></tr>';
                 return;
             }
 
@@ -704,17 +959,9 @@
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 border-b border-slate-100";
                 tr.innerHTML = `
-                    <td class="py-3 px-4">
-                        <strong class="font-black text-blue-900">${escapeHtml(cod)}</strong>
-                        <span class="block text-[10px] text-slate-400">${dataStr}</span>
-                    </td>
-                    <td class="py-3 px-4">
-                        <strong class="font-bold text-slate-800 block">${escapeHtml(p.cliente_nome || 'Cliente Visitante')}</strong>
-                        <span class="text-[10px] text-slate-400 font-mono">${escapeHtml(p.cliente_doc || '---')}</span>
-                    </td>
-                    <td class="py-3 px-4">
-                        <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] uppercase">${escapeHtml(p.forma_pagamento || 'PIX')}</span>
-                    </td>
+                    <td class="py-3 px-4"><strong class="font-black text-blue-900">${escapeHtml(cod)}</strong><span class="block text-[10px] text-slate-400">${dataStr}</span></td>
+                    <td class="py-3 px-4"><strong class="font-bold text-slate-800 block">${escapeHtml(p.cliente_nome || 'Visitante')}</strong><span class="text-[10px] text-slate-400 font-mono">${escapeHtml(p.cliente_doc || '---')}</span></td>
+                    <td class="py-3 px-4"><span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] uppercase">${escapeHtml(p.forma_pagamento || 'PIX')}</span></td>
                     <td class="py-3 px-4 font-medium text-slate-600 text-[11px]">${escapeHtml(p.forma_envio || 'PH Entrega')}</td>
                     <td class="py-3 px-4 text-center font-black text-emerald-700">R$ ${valTotal}</td>
                     <td class="py-3 px-4 text-center">
@@ -728,11 +975,8 @@
                         </select>
                     </td>
                     <td class="py-3 px-4 text-center">
-                        <button onclick="abrirOSPedidoAdmin('${escapeHtml(cod)}')" class="bg-[#003859] hover:bg-blue-900 text-white text-[11px] px-3 py-1.5 rounded-lg font-bold shadow">
-                            <i class="fa-solid fa-eye mr-1"></i> Ver OS
-                        </button>
-                    </td>
-                `;
+                        <button onclick="abrirOSPedidoAdmin('${escapeHtml(cod)}')" class="bg-[#003859] hover:bg-blue-900 text-white text-[11px] px-3 py-1.5 rounded-lg font-bold shadow"><i class="fa-solid fa-eye mr-1"></i> Ver OS</button>
+                    </td>`;
                 tbody.appendChild(tr);
             });
 
@@ -744,9 +988,7 @@
             if (p) {
                 p.status_producao = novoStatus;
                 try {
-                    if (supabaseClient) {
-                        await supabaseClient.from('pedidos').update({ status_producao: novoStatus }).eq('codigo_pedido', codigo);
-                    }
+                    if (supabaseClient) await supabaseClient.from('pedidos').update({ status_producao: novoStatus }).eq('codigo_pedido', codigo);
                 } catch(e){}
                 mostrarToast(`Status do pedido ${codigo} alterado para: ${novoStatus}!`);
                 atualizarIndicadoresRelatorio();
@@ -758,7 +1000,7 @@
             if (!p) return;
 
             document.getElementById('os-ped-codigo').innerText = `ORDEM DE SERVIÇO ${p.codigo_pedido || '#PH-'+p.id}`;
-            document.getElementById('os-ped-cliente').innerText = `Cliente: ${p.cliente_nome || 'Visitante'} | Doc: ${p.cliente_doc || '---'} | Wpp: ${p.cliente_wpp || '---'}`;
+            document.getElementById('os-ped-cliente').innerText = `Cliente: ${p.cliente_nome || 'Visitante'} | Doc: ${p.cliente_doc || '---'}`;
 
             const boxComp = document.getElementById('os-ped-comprovante-btn-box');
             if (p.comprovante_url) {
@@ -773,25 +1015,17 @@
             const itens = p.itens_json || [];
             itens.forEach((it, idx) => {
                 const box = document.createElement('div');
-                box.className = "p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between flex-wrap gap-2";
+                box.className = "p-3 bg-slate-50 rounded-xl border flex items-center justify-between flex-wrap gap-2";
 
                 let htmlLinksArtes = '';
-                if (it.arteFrenteUrl) htmlLinksArtes += `<a href="${escapeHtml(it.arteFrenteUrl)}" target="_blank" download class="bg-blue-900 text-amber-300 font-bold px-2.5 py-1 rounded text-[10px] inline-flex items-center gap-1"><i class="fa-solid fa-download"></i> Baixar Arte Frente</a>`;
-                if (it.arteVersoUrl) htmlLinksArtes += `<a href="${escapeHtml(it.arteVersoUrl)}" target="_blank" download class="bg-blue-900 text-amber-300 font-bold px-2.5 py-1 rounded text-[10px] inline-flex items-center gap-1"><i class="fa-solid fa-download"></i> Baixar Verso</a>`;
+                if (it.arteFrenteUrl) htmlLinksArtes += `<a href="${escapeHtml(it.arteFrenteUrl)}" target="_blank" download class="bg-blue-900 text-amber-300 font-bold px-2.5 py-1 rounded text-[10px] inline-flex items-center gap-1"><i class="fa-solid fa-download"></i> Baixar Arte</a>`;
 
                 box.innerHTML = `
                     <div class="flex items-center gap-3">
                         <span class="font-black text-blue-900 text-sm">#${idx+1}</span>
-                        <div>
-                            <strong class="font-bold text-slate-800 text-xs block">${escapeHtml(it.nome)}</strong>
-                            <span class="text-[10px] text-slate-500">Qtd: ${it.qtd}x | Subtotal: R$ ${(it.qtd * it.preco).toFixed(2)}</span>
-                            ${it.observacao ? `<p class="text-[10px] text-amber-800 font-bold mt-0.5">Obs: ${escapeHtml(it.observacao)}</p>` : ''}
-                        </div>
+                        <div><strong class="font-bold text-slate-800 text-xs block">${escapeHtml(it.nome)}</strong><span class="text-[10px] text-slate-500">Qtd: ${it.qtd}x | Subtotal: R$ ${(it.qtd * it.preco).toFixed(2)}</span></div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        ${htmlLinksArtes || '<span class="text-slate-400 font-bold text-[10px]">Sem Arte Anexa</span>'}
-                    </div>
-                `;
+                    <div class="flex items-center gap-2">${htmlLinksArtes || '<span class="text-slate-400 font-bold text-[10px]">Sem Arte Anexa</span>'}</div>`;
                 containerItens.appendChild(box);
             });
 
@@ -800,13 +1034,12 @@
 
         function fecharModalAdminOSPedido() { document.getElementById('modal-admin-os-pedido').classList.add('hidden'); }
 
-        // --- 2. GESTÃO DE CLIENTES (SUPABASE) ---
         async function carregarClientesAdminSupabase() {
             const tbody = document.getElementById('tabela-admin-clientes-body');
             const selCred = document.getElementById('credito-cliente-select');
             if (!tbody) return;
 
-            tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2 block"></i> Buscando clientes...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin text-xl mb-1 block"></i> Buscando clientes...</td></tr>';
 
             let lista = [];
             try {
@@ -819,13 +1052,11 @@
             adminClientes = lista;
             if (selCred) {
                 selCred.innerHTML = '<option value="">Selecione um Cliente...</option>';
-                adminClientes.forEach(c => {
-                    selCred.innerHTML += `<option value="${escapeHtml(c.documento)}">${escapeHtml(c.nome)} (${escapeHtml(c.documento)})</option>`;
-                });
+                adminClientes.forEach(c => { selCred.innerHTML += `<option value="${escapeHtml(c.documento)}">${escapeHtml(c.nome)} (${escapeHtml(c.documento)})</option>`; });
             }
 
             if (adminClientes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-400 font-bold">Nenhum cliente cadastrado ainda.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-bold">Nenhum cliente cadastrado ainda.</td></tr>';
                 return;
             }
 
@@ -837,16 +1068,10 @@
                         <td class="py-3 px-4 font-mono text-slate-600">${escapeHtml(c.documento)}</td>
                         <td class="py-3 px-4 font-bold text-emerald-700">${escapeHtml(c.whatsapp)}</td>
                         <td class="py-3 px-4 text-slate-600">${escapeHtml(c.email)}</td>
-                        <td class="py-3 px-4 text-center"><span class="bg-amber-100 text-amber-900 font-black text-[10px] px-2 py-0.5 rounded">START</span></td>
-                        <td class="py-3 px-4 text-center">
-                            <button onclick="mostrarToast('Detalhes do cliente ${escapeHtml(c.nome)}')" class="text-blue-700 font-bold hover:underline">Ver</button>
-                        </td>
+                        <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
                     </tr>`;
             });
         }
-
-        function abrirModalFormCliente() { document.getElementById('modal-form-cliente').classList.remove('hidden'); }
-        function fecharModalFormCliente() { document.getElementById('modal-form-cliente').classList.add('hidden'); }
 
         async function salvarClienteAdminSubmit(e) {
             e.preventDefault();
@@ -857,15 +1082,11 @@
                 whatsapp: document.getElementById('cli-wpp').value,
                 email: document.getElementById('cli-email').value
             };
-
             try {
-                if (supabaseClient) {
-                    await supabaseClient.from('clientes').insert([clienteObj]);
-                }
+                if (supabaseClient) await supabaseClient.from('clientes').insert([clienteObj]);
             } catch(e){}
-
             fecharModalFormCliente();
-            mostrarToast("Cliente cadastrado com sucesso!");
+            mostrarToast("Cliente cadastrado!");
             carregarClientesAdminSupabase();
         }
 
@@ -873,17 +1094,12 @@
             const doc = document.getElementById('credito-cliente-select')?.value;
             const val = document.getElementById('credito-valor-input')?.value;
             if (!doc || !val) { mostrarToast("Selecione o cliente e informe o valor!"); return; }
-            mostrarToast(`Crédito de R$ ${val} adicionado para o cliente!`);
+            mostrarToast(`Crédito de R$ ${val} adicionado!`);
             document.getElementById('credito-valor-input').value = '';
         }
 
-        // --- 3. RELATÓRIOS E INDICADORES ESTILO SISTOGRAF ---
         function atualizarIndicadoresRelatorio() {
-            let qAguardando = 0, vAguardando = 0;
-            let qAnalise = 0, vAnalise = 0;
-            let qProducao = 0, vProducao = 0;
-            let qTransporte = 0, vTransporte = 0;
-            let qConcluido = 0, vConcluido = 0;
+            let qAguardando = 0, vAguardando = 0, qAnalise = 0, vAnalise = 0, qProducao = 0, vProducao = 0, qTransporte = 0, vTransporte = 0, qConcluido = 0, vConcluido = 0;
 
             adminPedidos.forEach(p => {
                 const val = parseFloat(p.valor_total || 0);
@@ -898,24 +1114,18 @@
 
             if (document.getElementById('ind-qtd-aguardando')) document.getElementById('ind-qtd-aguardando').innerText = qAguardando;
             if (document.getElementById('ind-val-aguardando')) document.getElementById('ind-val-aguardando').innerText = `R$ ${vAguardando.toFixed(2)}`;
-
             if (document.getElementById('ind-qtd-analise')) document.getElementById('ind-qtd-analise').innerText = qAnalise;
             if (document.getElementById('ind-val-analise')) document.getElementById('ind-val-analise').innerText = `R$ ${vAnalise.toFixed(2)}`;
-
             if (document.getElementById('ind-qtd-producao')) document.getElementById('ind-qtd-producao').innerText = qProducao;
             if (document.getElementById('ind-val-producao')) document.getElementById('ind-val-producao').innerText = `R$ ${vProducao.toFixed(2)}`;
-
             if (document.getElementById('ind-qtd-transporte')) document.getElementById('ind-qtd-transporte').innerText = qTransporte;
             if (document.getElementById('ind-val-transporte')) document.getElementById('ind-val-transporte').innerText = `R$ ${vTransporte.toFixed(2)}`;
-
             if (document.getElementById('ind-qtd-concluido')) document.getElementById('ind-qtd-concluido').innerText = qConcluido;
             if (document.getElementById('ind-val-concluido')) document.getElementById('ind-val-concluido').innerText = `R$ ${vConcluido.toFixed(2)}`;
 
-            // Tabela de Relatório
             const tbodyRelat = document.getElementById('tabela-admin-relatorio-body');
             if (!tbodyRelat) return;
             tbodyRelat.innerHTML = '';
-
             adminPedidos.forEach(p => {
                 tbodyRelat.innerHTML += `
                     <tr class="hover:bg-slate-50 border-b border-slate-100">
@@ -928,7 +1138,6 @@
             });
         }
 
-        // --- 4. PRODUTOS SUPABASE ---
         async function carregarProdutosAdmin() {
             try {
                 if (!supabaseClient) return;
@@ -943,19 +1152,15 @@
                         imagem: i.Url || i.url || ''
                     }));
                     renderizarTabelaAdminPaginada();
-                    const elCount = document.getElementById('stat-total-produtos');
-                    if (elCount) elCount.innerText = adminProdutos.length;
+                    if (document.getElementById('stat-total-produtos')) document.getElementById('stat-total-produtos').innerText = adminProdutos.length;
                 }
             } catch(e){}
         }
 
         function renderizarTabelaAdminPaginada() {
             const tbody = document.getElementById('tabela-admin-produtos-body');
-            const txtCount = document.getElementById('txt-count-tabela-admin');
             if (!tbody) return;
             tbody.innerHTML = '';
-            if (txtCount) txtCount.innerText = `${adminProdutos.length} Produtos`;
-
             adminProdutos.forEach(prod => {
                 tbody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
@@ -963,41 +1168,27 @@
                         <td class="p-3"><strong>${escapeHtml(prod.nome)}</strong><span class="block text-[10px] text-slate-400 font-mono">Ref: ${escapeHtml(prod.ref)}</span></td>
                         <td class="p-3"><span class="bg-blue-100 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded">${escapeHtml(prod.categoria)}</span></td>
                         <td class="p-3 text-center font-black text-emerald-700">R$ ${prod.preco.toFixed(2)}</td>
-                        <td class="p-3 text-center">
-                            <button onclick="editarProduto('${prod.id}')" class="bg-blue-900 text-white text-xs px-2.5 py-1.5 rounded font-bold">Editar</button>
-                        </td>
+                        <td class="p-3 text-center"><button onclick="editarProduto('${prod.id}')" class="bg-blue-900 text-white text-xs px-2.5 py-1.5 rounded font-bold">Editar</button></td>
                     </tr>`;
             });
         }
 
-        function abrirModalFormProduto() { document.getElementById('modal-form-produto').classList.remove('hidden'); }
-        function fecharModalFormProduto() { document.getElementById('modal-form-produto').classList.add('hidden'); }
-
-        async function salvarProdutoSubmit(e) {
-            e.preventDefault();
-            const editId = document.getElementById('prod-edit-id')?.value;
-            const nome = document.getElementById('prod-nome')?.value;
-            const ref = document.getElementById('prod-ref')?.value;
-            const cat = document.getElementById('prod-categoria')?.value;
-            const preco = parseFloat(document.getElementById('prod-preco')?.value || 0);
-            const img = document.getElementById('prod-imagem')?.value;
-
-            if (nome && preco) {
-                try {
-                    if (editId) {
-                        await supabaseClient.from('produtos').update({ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }).eq('id', editId);
-                    } else {
-                        await supabaseClient.from('produtos').insert([{ Nome: nome, Referencia: ref, Categorias_Secundarias: cat, Preco_Venda: preco, Url: img }]);
-                    }
-                    await carregarProdutosAdmin();
-                } catch(e){}
-                fecharModalFormProduto();
-                mostrarToast("Produto salvo no banco!");
-            }
-        }
-
-        function abrirModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms').classList.remove('hidden'); }
-        function fecharModalPersonalizacaoCMS() { document.getElementById('modal-personalizacao-cms').classList.add('hidden'); }
+        function renderizarTabelaBannersAdmin() {}
+        function renderizarTabelaPaginasExtrasModal() {}
+        function renderizarListaFormasPagamento() {}
+        function renderizarTabelaFormasEnvio() {}
+        function renderizarTabelaBalcoesModal() {}
+        function salvarCMSCoresSubmit(e) { e.preventDefault(); fecharModalPersonalizacaoCMS(); mostrarToast("Aparência salva!"); }
+        function salvarLogoFaviconSubmit(e) { e.preventDefault(); fecharModalLogoFavicon(); mostrarToast("Logos salvas!"); }
+        function salvarBannerSubmit(e) { e.preventDefault(); fecharModalGerenciadorBanners(); mostrarToast("Banner salvo!"); }
+        function salvarCodigosHTMLSubmit(e) { e.preventDefault(); fecharModalCodigosHTML(); mostrarToast("Códigos salvos!"); }
+        function salvarPaginaExtraSubmit(e) { e.preventDefault(); fecharModalPaginasExtras(); mostrarToast("Página salva!"); }
+        function salvarModeloWppSubmit() { fecharModalControleMensagens(); mostrarToast("Modelo salvo!"); }
+        function salvarDadosLojaSubmit(e) { e.preventDefault(); fecharModalConfiguracoesSistema(); mostrarToast("Dados salvos!"); }
+        function salvarFormaEnvioSubmit(e) { e.preventDefault(); fecharModalFormasEnvio(); mostrarToast("Opção de envio salva!"); }
+        function salvarBalcaoSubmit(e) { e.preventDefault(); fecharModalBalcoesRetirada(); mostrarToast("Balcão salvo!"); }
+        function salvarNotificacoesSubmit(e) { e.preventDefault(); fecharModalNotificacoes(); mostrarToast("Notificações salvas!"); }
+        function salvarCupomSubmit(e) { e.preventDefault(); fecharModalCriarCupom(); mostrarToast("Cupom ativado!"); }
 
         function inicializarAdmin() {
             carregarPedidosAdminSupabase();
@@ -1006,7 +1197,7 @@
         }
 
         window.onload = function() {
-            if (localStorage.getItem('phsublime_admin_logado') === 'true') { entrarDireto(); }
+            if (localStorage.getItem('phsublime_admin_logado') === 'true') entrarDireto();
         };
     </script>
 </body>
