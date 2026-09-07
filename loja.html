@@ -180,7 +180,7 @@
             <div class="flex flex-col lg:flex-row gap-6 pt-2">
                 
                 <!-- SIDEBAR ESQUERDA -->
-                <aside class="w-full lg:w-64 shrink-0 space-y-4">
+                <aside class="w-full lg:w-72 shrink-0 space-y-4">
                     
                     <!-- 1. PESQUISA RÁPIDA DE CATEGORIAS DA SIDEBAR -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -203,13 +203,13 @@
                         </ul>
                     </div>
 
-                    <!-- 3. BLOCO TODOS OS PRODUTOS (COM SUB-BOTÕES EXPANSÍVEIS) -->
+                    <!-- 3. BLOCO TODOS OS PRODUTOS (ESTRUTURA SANFONADA MULTINÍVEL) -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
                             <span>TODOS OS PRODUTOS</span>
                             <i class="fa-solid fa-layer-group text-amber-300"></i>
                         </div>
-                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[600px] overflow-y-auto">
+                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[650px] overflow-y-auto">
                         </ul>
                     </div>
                 </aside>
@@ -774,7 +774,13 @@
                 subs: [
                     { nome: "Baldes", subs: ["Balde de Acrílico 5L", "Balde de Alumínio 6L", "Balde de Alumínio 9L", "Balde de Pipoca"] },
                     { nome: "Caldereta", subs: ["Caldereta 320ml", "Caldereta 380ml", "Caldereta 520ml"] },
-                    { nome: "Canecas", subs: [{ nome: "Caneca de Alumínio", subs: ["Caneca de Alumínio 350ml", "Caneca de Alumínio 500ml", "Caneca de Alumínio 800ml"] }, "Caneca de Cerâmica 325ml", "Caneca de Chopp 500ml", "Caneca de Polímero"] },
+                    { 
+                        nome: "Canecas", 
+                        subs: [
+                            { nome: "Caneca de Alumínio", subs: ["Caneca de Alumínio 350ml", "Caneca de Alumínio 500ml", "Caneca de Alumínio 800ml"] }, 
+                            "Caneca de Cerâmica 325ml", "Caneca de Chopp 500ml", "Caneca de Polímero"
+                        ] 
+                    },
                     "Copo Duplo", "Copo Shot", "Copo de Café", "Copo de Whisky Personalizado", "Copão", "Coqueteleira", "Garrafa Slim Fit",
                     { nome: "Long Drink", subs: ["Long Drink Borda Metalizada", "Long Drink Degradê", "Long Drink Degradê Borda Metalizada", "Long Drink Sólido"] },
                     { nome: "Taça de Gin", subs: ["Taça de Gin Degradê", "Taça de Gin Premium"] },
@@ -1118,17 +1124,23 @@
             }, 3000);
         }
 
-        // --- 5. RENDERIZAÇÃO DA ÁRVORE DE CATEGORIAS E SUB-BOTÕES ---
+        // --- 5. RENDERIZAÇÃO DA ÁRVORE DE CATEGORIAS E SUB-BOTÕES (RECURSIVA MULTINÍVEL) ---
         function gerarHtmlCategoriasTree(lista, nivel = 0) {
+            if (!Array.isArray(lista)) return '';
             let html = '';
+            
             lista.forEach((cat, idx) => {
-                const idUnico = `subcat-${nivel}-${idx}-${Math.random().toString(36).substr(2, 5)}`;
-                
+                const idUnico = `subcat-${nivel}-${idx}-${Math.random().toString(36).substr(2, 6)}`;
+                const indentacaoPx = nivel * 12 + 12; // Recuo dinâmico por nível
+
                 if (typeof cat === 'string') {
                     html += `
-                        <li class="item-cat-sidebar border-b border-slate-100">
-                            <a href="javascript:void(0)" onclick="filtrarCategoria('${escapeAttr(cat)}')" class="px-4 py-2 hover:bg-blue-50 flex items-center justify-between font-semibold text-slate-700 hover:text-blue-900 transition-all text-xs">
-                                <span>${escapeAttr(cat)}</span>
+                        <li class="item-cat-sidebar border-b border-slate-100/60">
+                            <a href="javascript:void(0)" 
+                               onclick="filtrarCategoria('${escapeAttr(cat)}')" 
+                               style="padding-left: ${indentacaoPx}px;" 
+                               class="py-2 pr-3 hover:bg-blue-50 flex items-center justify-between font-semibold text-slate-700 hover:text-blue-900 transition-all text-xs">
+                                <span class="truncate">${escapeAttr(cat)}</span>
                                 <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
                             </a>
                         </li>
@@ -1136,12 +1148,23 @@
                 } else if (cat && cat.nome) {
                     const temSubs = Array.isArray(cat.subs) && cat.subs.length > 0;
                     html += `
-                        <li class="item-cat-sidebar border-b border-slate-100">
-                            <div class="flex items-center justify-between px-4 py-2 hover:bg-blue-50 font-bold text-blue-900 cursor-pointer transition-all text-xs" onclick="toggleSubMenuTree('${idUnico}')">
-                                <span onclick="event.stopPropagation(); filtrarCategoria('${escapeAttr(cat.nome)}');" class="hover:underline">${escapeAttr(cat.nome)}</span>
-                                ${temSubs ? `<i id="icon-${idUnico}" class="fa-solid fa-chevron-right text-[10px] text-amber-500 transition-transform"></i>` : ''}
+                        <li class="item-cat-sidebar border-b border-slate-100/60">
+                            <div style="padding-left: ${indentacaoPx}px;" 
+                                 class="flex items-center justify-between py-2 pr-3 hover:bg-blue-50 font-bold text-blue-900 cursor-pointer transition-all text-xs group">
+                                <span onclick="filtrarCategoria('${escapeAttr(cat.nome)}')" class="hover:underline flex-1 truncate pr-2">
+                                    ${escapeAttr(cat.nome)}
+                                </span>
+                                ${temSubs ? `
+                                    <button type="button" onclick="event.stopPropagation(); toggleSubMenuTree('${idUnico}')" class="p-1 hover:bg-blue-200/50 rounded text-amber-500 transition-all shrink-0">
+                                        <i id="icon-${idUnico}" class="fa-solid fa-chevron-right text-[10px] transition-transform duration-200"></i>
+                                    </button>
+                                ` : ''}
                             </div>
-                            ${temSubs ? `<ul id="${idUnico}" class="hidden bg-slate-50/80 divide-y divide-slate-100 pl-3 border-l-2 border-amber-400 my-1">${gerarHtmlCategoriasTree(cat.subs, nivel + 1)}</ul>` : ''}
+                            ${temSubs ? `
+                                <ul id="${idUnico}" class="hidden bg-slate-50/90 divide-y divide-slate-100/50 border-l-2 border-amber-400/80 my-0.5">
+                                    ${gerarHtmlCategoriasTree(cat.subs, nivel + 1)}
+                                </ul>
+                            ` : ''}
                         </li>
                     `;
                 }
@@ -1639,10 +1662,26 @@
             const query = (document.getElementById('input-busca-catalogo')?.value || '').toLowerCase().trim();
 
             let filtrados = catalogoEstoque.filter(item => {
-                const bateuBusca = !query || item.nome.toLowerCase().includes(query) || item.ref.toLowerCase().includes(query);
-                if (query) return bateuBusca;
-                const catItem = item.categoria.toLowerCase().trim();
-                return !categoriaFiltro || catItem === categoriaFiltro || catItem.includes(categoriaFiltro) || categoriaFiltro.includes(catItem);
+                const itemNome = (item.nome || '').toLowerCase();
+                const itemCat = (item.categoria || '').toLowerCase();
+                const itemRef = (item.ref || '').toLowerCase();
+                const itemDesc = (item.descricao || '').toLowerCase();
+
+                // Busca Manual Digitada
+                if (query) {
+                    return itemNome.includes(query) || itemRef.includes(query) || itemCat.includes(query);
+                }
+
+                // Filtro por Categoria Clicada
+                if (!categoriaFiltro) return true;
+
+                // Smart Matching: Bate por categoria exata, contida, ou se o nome/descrição/ref do produto incluir o termo do filtro
+                const bateuCategoria = itemCat === categoriaFiltro || itemCat.includes(categoriaFiltro) || categoriaFiltro.includes(itemCat);
+                const bateuNome = itemNome.includes(categoriaFiltro);
+                const bateuDesc = itemDesc.includes(categoriaFiltro);
+                const bateuRef = itemRef.includes(categoriaFiltro);
+
+                return bateuCategoria || bateuNome || bateuDesc || bateuRef;
             });
 
             if (txtContador) txtContador.innerText = `${filtrados.length} produtos disponíveis`;
@@ -1651,7 +1690,7 @@
                 container.innerHTML = `
                     <div class="col-span-full bg-white border border-slate-200 p-8 rounded-xl text-center space-y-3 shadow-sm">
                         <i class="fa-solid fa-filter text-4xl text-blue-300 block"></i>
-                        <h4 class="text-sm font-bold text-slate-800">Nenhum produto encontrado nesta busca.</h4>
+                        <h4 class="text-sm font-bold text-slate-800">Nenhum produto encontrado para esta seleção.</h4>
                         <button onclick="filtrarCategoria('')" class="px-4 py-2 bg-blue-900 text-white font-bold text-xs rounded-lg hover:bg-blue-800 transition-all">
                             VER TODOS OS PRODUTOS
                         </button>
