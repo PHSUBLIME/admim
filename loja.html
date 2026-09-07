@@ -1498,11 +1498,13 @@
 
     bannersCarrossel.forEach((b, i) => {
         const item = document.createElement('div');
-        item.className = "w-full min-w-full max-w-full shrink-0 cursor-pointer overflow-hidden";
+        // Trava a largura de cada slide estritamente em 100%
+        item.className = "w-full min-w-full max-w-full shrink-0 cursor-pointer overflow-hidden flex items-center justify-center";
         
         const srcImg = formatarUrlImagem(b.img) || BANNER_FALLBACK_GRANDE;
         
-        const htmlImg = `<img src="${srcImg}" alt="Banner ${i+1}" class="w-full h-[180px] sm:h-[280px] md:h-[350px] object-cover block" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_GRANDE}';">`;
+        // object-fill encaixa 100% da imagem (de ponta a ponta) sem cortar o texto nem as bordas!
+        const htmlImg = `<img src="${srcImg}" alt="Banner ${i+1}" class="w-full h-[180px] sm:h-[280px] md:h-[350px] object-fill block" onerror="this.onerror=null; this.src='${BANNER_FALLBACK_GRANDE}';">`;
         
         if (b.link) {
             item.innerHTML = `<a href="${escapeAttr(b.link)}" target="_blank" class="block w-full h-full">${htmlImg}</a>`;
@@ -1520,7 +1522,6 @@
         }
     });
 }
-
         function renderizarMiniBanners() {
             const container = document.getElementById('container-mini-banners');
             if (!container) return;
