@@ -357,7 +357,8 @@
                             </div>
                             <div>
                                 <span class="text-amber-900 font-bold block"><i class="fa-solid fa-truck-ramp-box text-amber-600"></i> Previsão de Entrega:</span>
-                                <strong id="txt-previsao-entrega-data" class="text-amber-950 font-black text-xs">Calculando...</strong>
+                                <strong class="text-amber-950 font-black text-xs block">Até 4 dias úteis</strong>
+                                <span class="text-[10px] text-slate-600 font-medium block">(consultar com o vendedor)</span>
                             </div>
                             <p class="col-span-full text-[10px] text-red-600 font-semibold">* Previsão de entrega para pagamentos confirmados até as 18:00h do dia útil.</p>
                         </div>
@@ -407,7 +408,7 @@
                         </div>
                     </div>
 
-                    <!-- 4. ABAS INTERATIVAS: "ENTREGA" vs "BALCÃO DE RETIRADA" (ESTILO GRAFICONAUTA) -->
+                    <!-- 4. ABAS INTERATIVAS: "ENTREGA" vs "BALCÃO DE RETIRADA" (Apenas PH Entrega Expressa) -->
                     <div class="space-y-0 text-xs">
                         <div class="flex items-center gap-1 border-b-2 border-[#316AC7]">
                             <button id="btn-aba-frete-entrega" onclick="alternarAbaFreteBalcao('entrega')" class="aba-frete-btn active">
@@ -424,7 +425,7 @@
                             <div id="box-conteudo-aba-entrega" class="space-y-3">
                                 <span class="font-bold text-slate-700 block">Selecione o serviço de entrega preferido:</span>
                                 <div id="lista-opcoes-frete-entrega" class="space-y-2">
-                                    <!-- Injetado dinamicamente via JS -->
+                                    <!-- Injetado dinamicamente via JS (Apenas PH Entrega Expressa) -->
                                 </div>
                             </div>
 
@@ -475,13 +476,19 @@
                                     </div>
                                     <p class="text-[10px] text-slate-500 mt-0.5">Aprovação instantânea do pedido.</p>
 
-                                    <!-- CAIXA DE DETALHES DO PIX -->
+                                    <!-- CAIXA DE DETALHES DO PIX COM QR CODE -->
                                     <div id="box-detalhes-pix-pagamento" class="space-y-2.5 mt-3 pt-3 border-t border-emerald-200 text-[11px]">
-                                        <div class="bg-white p-2.5 rounded-lg border border-emerald-300 text-center space-y-1">
+                                        <div class="bg-white p-3 rounded-xl border border-emerald-300 text-center space-y-2 shadow-sm">
+                                            
+                                            <!-- QR CODE DO PIX -->
+                                            <div class="w-32 h-32 mx-auto bg-white p-1 rounded-lg border border-slate-200 flex items-center justify-center shadow-inner">
+                                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126580014BR.GOV.BCB.PIX0114586586680001005204000053039865802BR5931DANIEL%20HENRIQUE%20VIEIRA%20DE%20SOUSA6009SEROPEDICA62070503***6304" alt="QR Code PIX" class="w-full h-full object-contain">
+                                            </div>
+
                                             <span class="text-[10px] text-slate-500 font-bold block">Chave PIX (CNPJ):</span>
                                             <strong class="font-mono text-emerald-800 font-black text-sm block tracking-widest select-all">58658668000100</strong>
                                             <span class="text-[10px] text-slate-600 block">Titular: <b>DANIEL HENRIQUE VIEIRA DE SOUSA</b></span>
-                                            <button type="button" onclick="copiarChavePix()" class="mt-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-[10px] px-3 py-1 rounded-md transition-all uppercase">
+                                            <button type="button" onclick="copiarChavePix()" class="mt-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-[10px] px-3 py-1.5 rounded-lg transition-all uppercase shadow-sm">
                                                 <i class="fa-regular fa-copy"></i> Copiar Chave PIX
                                             </button>
                                         </div>
@@ -853,7 +860,7 @@
         let bannerIndiceAtual = 0;
 
         // Estado do Frete, Pagamento e Comprovante do PIX
-        let opcaoFreteSelecionada = { tipo: 'entrega', nome: 'PH Entrega Expressa', valor: 7.90 };
+        let opcaoFreteSelecionada = { tipo: 'entrega', nome: 'PH Entrega Expressa (Transportadora)', valor: 7.90, prazo: 4 };
         let formaPagamentoSelecionadaLoja = 'PIX';
         let comprovantePixNome = '';
         let balcoesRetiradaLista = [];
@@ -994,7 +1001,7 @@
             "Abadá", "Acrílico", "Avental", "Bermuda & Short", "Bolsa em Tecido", "Brindes", "Calendários e Folhinha", "Cangas", "Capa de Carnê", "Capa de Corte", "Cardápio", "Cartaz e Poster", "Cartela Para Bijuteria", "Cartão Duplo", "Cartão Mini", "Cartão Postal", "Casa & Decoração", "Certificado e Diploma", "Coroa de Papel", "Credenciais", "Display", "Embalagens Presente", "Envelope", "Festas", "Folheto Cupom de Desconto", "Impressão Digital", "Jogo Americano", "Jogo de Tabuleiro", "Marcador de Página", "Mochila Pirulito", "Mochila de Cordão", "Moletons", "Mouse Pad Personalizado", "Máscara em Tecido", "Móbile", "PS | PVC com Impressão UV", "Papel Bandeja", "Papel Fotográfico", "Papel Sublimático", "Papel e Adesivo Para Impressão", "Pastas", "Photobook", "Porta Copo", "Quadro Decorativo Personalizado", "Quadro Magnético", "Quebra-Cabeça", "Raspadinha", "Revista de Colorir", "Sublimação", "Suprimentos", "Tatuagem Temporária", "Timbrado e Receituários", "Ventarola, Abanador e Leque", "Wind Banner", "Álbum de Figurinhas Fotográfico", "Ímã de Geladeira"
         ];
 
-        // --- 3. CATÁLOGO COMPLETO DE EXEMPLE DA GRAFICONAUTA ---
+        // --- 3. CATÁLOGO COMPLETO DE EXEMPLO DA GRAFICONAUTA ---
         const CATALOGO_GRAFICONALTA_PADRAO = [
             { 
                 id: 'gn-2561', 
@@ -1907,15 +1914,6 @@
             }
         }
 
-        function alterarQtdCarrinho(id, qtd) {
-            const item = carrinho.find(c => String(c.id) === String(id));
-            if (item) {
-                item.qtd = Math.max(1, qtd);
-                salvarCarrinho();
-                renderizarCarrinho();
-            }
-        }
-
         function aplicarCupomDesconto() {
             const codigo = document.getElementById('input-cupom-carrinho')?.value.toUpperCase().trim();
             const msgStatus = document.getElementById('msg-cupom-status');
@@ -1947,7 +1945,7 @@
             }
         }
 
-        // --- 10. RENDERIZAÇÃO DA PÁGINA DO CARRINHO COMPLETA (GRAFICONAUTA CHECKOUT) ---
+        // --- 10. RENDERIZAÇÃO DA PÁGINA DO CARRINHO COMPLETA (SEM BOTÕES - 1 +) ---
         function renderizarCarrinho() {
             const tabela = document.getElementById('tabela-itens-carrinho');
             const msgVazio = document.getElementById('carrinho-vazio-msg');
@@ -1992,11 +1990,8 @@
                         </div>
                     </td>
                     <td class="py-3 px-4 text-center">
-                        <div class="flex items-center justify-center gap-1">
-                            <button onclick="alterarQtdCarrinho('${item.id}', ${item.qtd - 1})" class="w-6 h-6 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded font-bold transition-all">-</button>
-                            <span class="w-7 text-center font-black">${item.qtd}</span>
-                            <button onclick="alterarQtdCarrinho('${item.id}', ${item.qtd + 1})" class="w-6 h-6 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded font-bold transition-all">+</button>
-                        </div>
+                        <span class="font-black text-slate-800 text-sm block">${item.qtd}</span>
+                        <span class="text-[9px] text-slate-400 block">unidade(s)</span>
                     </td>
                     <td class="py-3 px-4 text-center">
                         <div class="flex flex-col gap-1.5 items-center">
@@ -2063,23 +2058,17 @@
         function calcularDatasPrevisaoProducao() {
             const hoje = new Date();
             
-            // Adiciona 1 a 2 dias úteis para produção
+            // Adiciona 2 dias úteis para produção
             let dataProducao = new Date(hoje);
             dataProducao.setDate(hoje.getDate() + 2);
-
-            let dataEntrega = new Date(dataProducao);
-            dataEntrega.setDate(dataProducao.getDate() + (opcaoFreteSelecionada?.prazo || 1));
 
             const formatador = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
             
             const txtProd = document.getElementById('txt-previsao-producao-data');
-            const txtEntr = document.getElementById('txt-previsao-entrega-data');
-
             if (txtProd) txtProd.innerText = formatador.format(dataProducao);
-            if (txtEntr) txtEntr.innerText = formatador.format(dataEntrega);
         }
 
-        // --- 12. ABAS INTERATIVAS FRETE vs BALCÃO ---
+        // --- 12. ABAS INTERATIVAS FRETE vs BALCÃO (Apenas PH Entrega Expressa) ---
         function alternarAbaFreteBalcao(tipo) {
             const btnEntrega = document.getElementById('btn-aba-frete-entrega');
             const btnBalcao = document.getElementById('btn-aba-frete-balcao');
@@ -2103,28 +2092,25 @@
             const container = document.getElementById('lista-opcoes-frete-entrega');
             if (!container) return;
 
+            // Mantém APENAS a PH Entrega Expressa
             const opcoes = [
-                { id: 'expressa', nome: 'PH Entrega Expressa (Transportadora)', prazo: 2, valor: 7.90 },
-                { id: 'sedex', nome: 'Correios SEDEX', prazo: 1, valor: 18.50 },
-                { id: 'pac', nome: 'Correios PAC', prazo: 4, valor: 11.20 }
+                { id: 'expressa', nome: 'PH Entrega Expressa (Transportadora)', prazo: 4, valor: 7.90 }
             ];
 
             container.innerHTML = '';
-            opcoes.forEach((op, idx) => {
-                const checado = opcaoFreteSelecionada && opcaoFreteSelecionada.nome === op.nome;
+            opcoes.forEach((op) => {
+                const checado = true;
+                opcaoFreteSelecionada = { tipo: 'entrega', nome: op.nome, valor: op.valor, prazo: op.prazo };
+
                 const div = document.createElement('div');
-                div.className = `p-3 rounded-xl border ${checado ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200'} flex items-center justify-between cursor-pointer hover:border-blue-400 transition-all`;
-                div.onclick = () => {
-                    opcaoFreteSelecionada = { tipo: 'entrega', nome: op.nome, valor: op.valor, prazo: op.prazo };
-                    renderizarCarrinho();
-                };
+                div.className = `p-3 rounded-xl border border-blue-600 bg-blue-50/50 flex items-center justify-between cursor-pointer`;
 
                 div.innerHTML = `
                     <label class="flex items-center gap-3 cursor-pointer w-full">
-                        <input type="radio" name="opcao_frete_loja" ${checado ? 'checked' : ''} class="accent-blue-900">
+                        <input type="radio" name="opcao_frete_loja" checked class="accent-blue-900">
                         <div>
                             <strong class="font-bold text-slate-800 text-xs block">${escapeAttr(op.nome)}</strong>
-                            <span class="text-[10px] text-slate-500">Chega em até ${op.prazo} dia(s) útil/úteis</span>
+                            <span class="text-[10px] text-slate-500">Prazo: até 4 dias úteis (consultar com o vendedor)</span>
                         </div>
                     </label>
                     <strong class="text-blue-900 font-black text-xs shrink-0">R$ ${op.valor.toFixed(2)}</strong>
@@ -2161,14 +2147,13 @@
                             <span class="text-[9px] text-emerald-700 font-bold">Disponível em ${b.prazo || 1} dia(s)</span>
                         </div>
                     </label>
-                    <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2 py-0.5 rounded uppercase">GRÁFICA</span>
+                    <span class="bg-emerald-100 text-emerald-950 font-black text-[10px] px-2 py-0.5 rounded uppercase">GRÁTIS</span>
                 `;
                 container.appendChild(div);
             });
         }
 
         function filtrarBalcoesModalLoja() {
-            const cep = document.getElementById('input-busca-balcao-cep')?.value.trim();
             mostrarToast("Balcões credenciados atualizados!");
             renderizarOpcoesBalcoesRetirada();
         }
@@ -2315,7 +2300,7 @@
                 texto += `• CEP: ${cep}\n`;
                 texto += `• Logradouro: ${rua}, nº ${numero}${complemento ? ' (' + complemento + ')' : ''}\n`;
                 texto += `• Bairro: ${bairro} | Cidade: ${cidade}-${uf.toUpperCase()}\n`;
-                texto += `• Modalidade: ${opcaoFreteSelecionada?.nome || 'Entrega Expressa'}\n`;
+                texto += `• Modalidade: ${opcaoFreteSelecionada?.nome || 'PH Entrega Expressa'}\n`;
             }
 
             texto += `\n💳 *FORMA DE PAGAMENTO:* ${formaPagamentoSelecionadaLoja}\n`;
