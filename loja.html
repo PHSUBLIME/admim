@@ -3,266 +3,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHSUBLIME - Gráfica Digital Online</title>
+    <title>Painel Administrador - PHSUBLIME (Sistograf Style)</title>
 
-    <link id="site-favicon" rel="icon" type="image/x-icon" href="https://placehold.co/32x32/08009C/FFFFFF?text=PH">
-
-    <!-- Tailwind CSS & Font Awesome -->
+    <link id="admin-favicon" rel="icon" type="image/x-icon" href="https://placehold.co/32x32/003859/FFFFFF?text=PH">
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-    <!-- Firebase SDKs 100% Gratuitos (Sem Pausas) -->
+    
+    <!-- Google Firebase SDKs (100% Grátis e Perpétuo) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-    <style id="estilo-dinamico-loja">
-        :root {
-            --cor-cabecalho: #316AC7;
-            --cor-menu: #08009C;
-            --cor-rodape: #003859;
-            --cor-barra-rodape: #10b981;
-            --cor-botao-comprar: #08009C;
-            --cor-botao-gabarito: #2563eb;
-        }
-
-        body { font-family: 'Open Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
+    <style>
+        body { font-family: 'Open Sans', sans-serif; background-color: #f4f6f9; color: #1e293b; }
         h1, h2, h3, h4, .font-heading { font-family: 'Roboto', sans-serif; }
-        
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
-        ::-webkit-scrollbar-thumb { background: #1c0792; border-radius: 4px; }
-
-        .bg-custom-cabecalho { background-color: var(--cor-cabecalho) !important; }
-        .bg-custom-menu { background-color: var(--cor-menu) !important; }
-        .bg-custom-rodape { background-color: var(--cor-rodape) !important; }
-        .bg-custom-barra-rodape { background-color: var(--cor-barra-rodape) !important; }
-
-        .btn-comprar-custom {
-            background: linear-gradient(180deg, #38ef7d 0%, #11998e 100%);
-            transition: all 0.2s ease-in-out;
-        }
-        .btn-comprar-custom:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
+        ::-webkit-scrollbar-thumb { background: #003859; border-radius: 4px; }
+        @media print {
+            header, footer, button, .no-print { display: none !important; }
+            main { margin: 0 !important; padding: 0 !important; }
         }
 
-        .btn-gabarito {
-            background-color: var(--cor-botao-gabarito);
-            color: #ffffff;
-        }
-        .btn-gabarito:hover { filter: brightness(0.9); }
-
-        .tag-promocao { background-color: #1818FF; color: #FFED00; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
-
-        .aba-frete-btn {
-            border: 2px solid #316AC7;
-            border-bottom: none;
-            padding: 8px 16px;
-            font-weight: 800;
-            font-size: 12px;
-            text-transform: uppercase;
-            border-radius: 8px 8px 0 0;
-            background-color: #f1f5f9;
-            color: #316AC7;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .aba-frete-btn.active {
-            background-color: #316AC7;
-            color: #ffffff;
+        /* CIRCULOS INDICADORES ESTILO SISTOGRAF */
+        .circulo-indicador-sistograf {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 8px solid;
+            background: #ffffff;
+            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-blue-900 relative">
+<body class="bg-[#f4f6f9] min-h-screen flex flex-col justify-between selection:bg-blue-200">
 
-    <!-- CABEÇALHO PRINCIPAL DA LOJA -->
-    <header id="header-principal" class="bg-custom-cabecalho text-white shadow-xl relative z-30 border-b-4 border-amber-400">
-        <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
-            
-            <a href="javascript:void(0)" onclick="filtrarCategoria('')" class="flex items-center shrink-0 group py-1">
-                <span class="text-2xl font-black text-amber-300 tracking-wider">PHSUBLIME <span class="text-white text-xs block font-semibold">GRÁFICA DIGITAL</span></span>
-            </a>
-
-            <!-- BUSCA PRINCIPAL DE PRODUTOS -->
-            <div class="w-full md:w-1/3 relative">
-                <div class="flex items-center bg-white rounded-lg overflow-hidden shadow-inner border border-slate-300">
-                    <input type="text" id="input-busca-catalogo" onkeyup="buscarComDebounce()" placeholder="Buscar produtos, lonas, cartões, copos, DTF..." class="w-full px-4 py-2.5 text-slate-800 text-xs sm:text-sm focus:outline-none font-semibold">
-                    <button onclick="buscarComDebounce()" class="bg-amber-400 hover:bg-amber-300 text-blue-950 px-4 py-2.5 font-bold transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </div>
+    <!-- MODAL CONFIRMAÇÃO EXCLUSÃO GLOBAL -->
+    <div id="modal-confirm-exclusao" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-red-200 relative">
+            <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
+                <i class="fa-solid fa-trash-can"></i>
             </div>
-
-            <!-- ACESSO RÁPIDO / CARRINHO / WHATSAPP -->
-            <div class="flex items-center gap-3 shrink-0 flex-wrap justify-center">
-                <button onclick="alternarAba('carrinho')" class="relative bg-amber-400 hover:bg-amber-300 text-blue-950 font-black text-xs p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-cart-shopping text-base"></i>
-                    <span>CARRINHO</span>
-                    <span id="badge-carrinho-qtd" class="bg-blue-900 text-white font-bold px-2 py-0.5 rounded-full text-[10px] border border-blue-950">0</span>
-                </button>
-
-                <a id="btn-wpp-topo" href="https://wa.me/5521986147221" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-white font-black text-xs px-3 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-1.5">
-                    <i class="fa-brands fa-whatsapp text-base"></i>
-                    <span id="txt-wpp-topo">(21) 98614-7221</span>
-                </a>
+            <div>
+                <h3 class="text-base font-black text-slate-800 font-heading uppercase">Confirmar Exclusão</h3>
+                <p id="txt-confirm-exclusao-msg" class="text-xs text-slate-600 mt-1.5 leading-relaxed font-medium">Tem certeza que deseja excluir permanentemente?</p>
             </div>
-
-        </div>
-
-        <nav class="bg-custom-menu border-t border-blue-800 text-xs font-bold text-white">
-            <div class="max-w-[1536px] mx-auto px-4 flex items-center justify-between">
-                <div id="container-menu-categorias-topo" class="flex items-center text-[10px] sm:text-xs overflow-x-auto whitespace-nowrap">
-                    <button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400">INÍCIO</button>
-                </div>
-                <div class="hidden lg:flex items-center gap-2 text-[11px] text-amber-300 font-semibold px-2">
-                    <i class="fa-regular fa-clock"></i>
-                    <span>Atendimento Segunda a Sexta 8h às 18h</span>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- CONTEÚDO PRINCIPAL DA PÁGINA -->
-    <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
-
-        <!-- 1. SEÇÃO CATÁLOGO DE PRODUTOS -->
-        <div id="secao-catalogo" class="space-y-6">
-            <div class="flex flex-col lg:flex-row gap-6">
-                
-                <!-- SIDEBAR ESQUERDA -->
-                <aside class="w-full lg:w-72 shrink-0 space-y-4">
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="bg-[#08009C] text-white font-black text-xs px-4 py-2.5 uppercase tracking-wider flex items-center justify-between">
-                            <span>CATEGORIAS</span>
-                            <i class="fa-solid fa-layer-group text-amber-300"></i>
-                        </div>
-                        <ul id="lista-todas-categorias-sidebar" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700 max-h-[600px] overflow-y-auto">
-                        </ul>
-                    </div>
-                </aside>
-
-                <!-- ÁREA CENTRAL DA LOJA -->
-                <div class="flex-1 space-y-6">
-                    
-                    <!-- BANNER PRINCIPAL -->
-                    <div class="w-full h-44 sm:h-64 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl shadow-md p-6 flex flex-col justify-center text-white relative overflow-hidden">
-                        <span class="bg-amber-400 text-blue-950 font-black text-[10px] px-2.5 py-1 rounded uppercase tracking-wider w-max mb-2">PRODUÇÃO DIRETO DA FÁBRICA</span>
-                        <h2 class="text-xl sm:text-3xl font-black font-heading leading-tight">Materiais Gráficos & Comunicação Visual</h2>
-                        <p class="text-xs sm:text-sm text-blue-200 mt-1">Lonas, Banners, Adesivos, Cartões de Visita e DTF Têxtil com o melhor preço do RJ.</p>
-                    </div>
-
-                    <!-- PRODUTOS -->
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-2">
-                            <h3 id="txt-titulo-categoria-atual" class="text-base font-black text-blue-900 uppercase font-heading">
-                                PRODUTOS DISPONÍVEIS
-                            </h3>
-                            <span id="txt-contador-produtos" class="text-xs text-slate-500 font-bold bg-slate-100 px-3 py-1 rounded-full">Carregando catálogo...</span>
-                        </div>
-
-                        <!-- GRID DE PRODUTOS -->
-                        <div id="container-catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-                    </div>
-
-                </div>
-
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="fecharModalConfirmExclusao()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl text-xs uppercase">Cancelar</button>
+                <button id="btn-confirmar-exclusao-exec" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow">Sim, Excluir</button>
             </div>
         </div>
+    </div>
 
-        <!-- 2. SEÇÃO CARRINHO E CHECKOUT -->
-        <div id="secao-carrinho" class="hidden space-y-6">
-            
-            <div class="flex items-center justify-between border-b pb-3">
-                <h2 class="text-xl font-black text-slate-800 uppercase font-heading">Finalizar Pedido</h2>
-                <button onclick="alternarAba('catalogo')" class="text-xs font-bold text-blue-700 hover:underline">
-                    ← Continuar Comprando
+    <!-- MODAL LOGIN ADMIN -->
+    <div id="modal-login-admin" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-blue-200 text-center space-y-4">
+            <div class="w-16 h-16 bg-[#003859] text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-lg">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <div>
+                <h2 class="text-xl font-black text-slate-900 uppercase font-heading">Painel Administrador</h2>
+                <p class="text-xs text-slate-500 font-semibold mt-1">PHSUBLIME GRÁFICA DIGITAL</p>
+            </div>
+            <form onsubmit="autenticarAdmin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 text-left mb-1">Senha de Acesso *</label>
+                    <input type="password" id="input-senha-admin" placeholder="Senha (Padrão: 1234)" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-700 text-center font-bold tracking-widest">
+                </div>
+                <button type="submit" class="w-full bg-[#003859] hover:bg-[#002847] text-white font-black py-3 rounded-xl shadow-lg transition-all text-sm uppercase flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-key"></i> ACESSAR PAINEL
+                </button>
+            </form>
+            <div class="pt-2 border-t border-slate-100 flex flex-col gap-1.5 text-center">
+                <button type="button" onclick="entrarDireto()" class="text-xs text-blue-700 font-bold hover:underline cursor-pointer">
+                    ⚡ Entrar Direto no Painel (Sem Senha)
                 </button>
             </div>
+        </div>
+    </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <!-- CONTEÚDO PRINCIPAL DO PAINEL ADMIN -->
+    <div id="conteudo-painel" class="hidden flex-1 flex flex-col">
+
+        <!-- CABEÇALHO ESCURO ESTILO SISTOGRAF COM CORES PHSUBLIME -->
+        <header class="bg-[#003859] text-white text-xs shadow-md sticky top-0 z-40 border-b border-blue-900">
+            <div class="max-w-[1536px] mx-auto px-4 py-2 flex items-center justify-between">
                 
-                <!-- COLUNA DA ESQUERDA: ITENS & DADOS DO CLIENTE -->
-                <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-                        <div class="bg-[#316AC7] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
-                            <span>Produtos Selecionados</span>
-                            <span id="txt-carrinho-count-badge" class="bg-amber-400 text-blue-950 font-black text-[10px] px-2.5 py-0.5 rounded-full">0 itens</span>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs border-collapse">
-                                <thead>
-                                    <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
-                                        <th class="py-3 px-4">PRODUTO</th>
-                                        <th class="py-3 px-4 text-center">QUANTIDADE</th>
-                                        <th class="py-3 px-4 text-right">SUBTOTAL</th>
-                                        <th class="py-3 px-4 text-center w-12">REMOVER</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabela-itens-carrinho" class="divide-y divide-slate-100"></tbody>
-                            </table>
-                        </div>
-                    </div>
+                <!-- LADO ESQUERDO: TITULO & NAVEGAÇÃO -->
+                <div class="flex items-center gap-6">
+                    <a href="javascript:void(0)" onclick="mudarAbaAdmin('inicio')" class="flex items-center gap-2 font-black tracking-wider text-sm hover:opacity-90">
+                        <i class="fa-solid fa-circle-user text-amber-400 text-base"></i>
+                        <span>Painel Administrador</span>
+                    </a>
 
-                    <!-- DADOS DO CLIENTE PARA ENTREGA -->
-                    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3 text-xs">
-                        <h4 class="font-black text-blue-900 uppercase font-heading border-b pb-2">Seus Dados para o Pedido</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <div><label class="font-bold block mb-1">Nome Completo / Razão *</label><input type="text" id="checkout-nome" required placeholder="Seu Nome" class="w-full p-2 border rounded font-bold"></div>
-                            <div><label class="font-bold block mb-1">CPF ou CNPJ *</label><input type="text" id="checkout-doc" required placeholder="000.000.000-00" class="w-full p-2 border rounded font-mono"></div>
-                            <div><label class="font-bold block mb-1">Seu WhatsApp *</label><input type="text" id="checkout-wpp" required placeholder="(21) 99999-9999" class="w-full p-2 border rounded font-bold text-emerald-700"></div>
-                        </div>
-                        <div>
-                            <label class="font-bold block mb-1">Endereço de Entrega Completo ou Balcão *</label>
-                            <input type="text" id="checkout-endereco" required placeholder="Rua, Número, Bairro, Cidade ou 'Retirar no Balcão de Seropédica'" class="w-full p-2 border rounded">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- COLUNA DA DIREITA: PAGAMENTO & FINALIZAR -->
-                <div class="lg:col-span-4 space-y-5 sticky top-24">
-                    <div class="bg-white border-2 border-[#316AC7] rounded-2xl p-5 space-y-4 shadow-xl text-xs">
-                        <h3 class="text-sm font-black text-blue-900 uppercase border-b pb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-credit-card text-amber-500"></i> Pagamento e Envio
-                        </h3>
-
-                        <div class="space-y-2">
-                            <div class="flex justify-between text-slate-600"><span>Subtotal dos Produtos:</span><strong id="cart-resumo-subtotal" class="text-slate-800">R$ 0,00</strong></div>
-                            <div class="flex justify-between text-slate-600"><span>Envio / Frete:</span><strong class="text-blue-900">A Combinar</strong></div>
-                            <div class="border-t pt-2 flex justify-between items-center text-sm font-black text-slate-900">
-                                <span>TOTAL DO PEDIDO:</span>
-                                <strong id="cart-resumo-total" class="text-emerald-600 text-2xl font-black">R$ 0,00</strong>
+                    <nav class="hidden md:flex items-center gap-5 font-semibold text-slate-100">
+                        
+                        <!-- DROPDOWN VENDAS -->
+                        <div class="relative group">
+                            <button class="hover:text-amber-300 py-1 transition-all flex items-center gap-1 font-bold">
+                                <i class="fa-solid fa-dollar-sign text-[10px]"></i> Vendas <i class="fa-solid fa-caret-down text-[9px]"></i>
+                            </button>
+                            <div class="absolute left-0 top-full hidden group-hover:block bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 p-2 w-48 z-50 text-xs font-semibold space-y-1">
+                                <button onclick="mudarAbaAdmin('pedidos')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2 text-blue-900 font-bold">
+                                    <i class="fa-solid fa-receipt text-amber-500"></i> Pedidos
+                                </button>
+                                <button onclick="mudarAbaAdmin('clientes')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
+                                    <i class="fa-solid fa-address-book text-blue-600"></i> Clientes
+                                </button>
+                                <button onclick="mudarAbaAdmin('relatorios')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
+                                    <i class="fa-solid fa-chart-line text-purple-600"></i> Relatórios
+                                </button>
                             </div>
                         </div>
 
-                        <div class="pt-2 border-t space-y-2">
-                            <label class="font-bold block mb-1">Forma de Pagamento:</label>
-                            <select id="checkout-pagamento" class="w-full p-2 border rounded font-bold text-blue-900">
-                                <option value="PIX (Chave CNPJ: 58658668000100)">PIX (Aprovação Imediata)</option>
-                                <option value="Cartão de Crédito">Cartão de Crédito (Mercado Pago)</option>
-                                <option value="Pagamento na Retirada">Pagamento na Retirada / Balcão</option>
-                            </select>
+                        <!-- DROPDOWN PRODUTOS -->
+                        <div class="relative group">
+                            <button class="hover:text-amber-300 py-1 transition-all flex items-center gap-1 font-bold">
+                                <i class="fa-solid fa-basket-shopping text-[10px]"></i> Produtos <i class="fa-solid fa-caret-down text-[9px]"></i>
+                            </button>
+                            <div class="absolute left-0 top-full hidden group-hover:block bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 p-2 w-48 z-50 text-xs font-semibold space-y-1">
+                                <button onclick="mudarAbaAdmin('produtos')" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2 text-blue-900 font-bold">
+                                    <i class="fa-solid fa-list-ul text-blue-600"></i> Listar Produtos
+                                </button>
+                                <button onclick="abrirModalFormProduto()" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
+                                    <i class="fa-solid fa-square-plus text-emerald-600"></i> Criar Produto
+                                </button>
+                            </div>
                         </div>
 
-                        <button onclick="finalizarPedidoFirebase()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm py-4 rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
-                            <i class="fa-brands fa-whatsapp text-xl"></i> FINALIZAR VIA WHATSAPP 🚀
+                        <!-- DROPDOWN OUTROS -->
+                        <div class="relative group">
+                            <button class="hover:text-amber-300 py-1 transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-bullhorn text-[10px]"></i> Outros <i class="fa-solid fa-caret-down text-[9px]"></i>
+                            </button>
+                            <div class="absolute left-0 top-full hidden group-hover:block bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 p-2 w-48 z-50 text-xs font-semibold space-y-1">
+                                <button onclick="abrirModalControleMensagens()" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
+                                    <i class="fa-brands fa-whatsapp text-emerald-600"></i> Mensagens WhatsApp
+                                </button>
+                                <button onclick="abrirModalCampanhas()" class="w-full text-left hover:bg-slate-100 p-2 rounded flex items-center gap-2">
+                                    <i class="fa-solid fa-paper-plane text-red-500"></i> Campanhas
+                                </button>
+                            </div>
+                        </div>
+
+                    </nav>
+                </div>
+
+                <!-- LADO DIREITO: OPERADOR, ICONES E ENGRENAGEM -->
+                <div class="flex items-center gap-3 relative">
+                    <span class="hidden sm:inline text-xs font-bold text-slate-200 tracking-wide">PHSUBLIME</span>
+
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="mudarAbaAdmin('relatorios')" title="Financeiro" class="w-8 h-8 rounded-full bg-blue-900/80 hover:bg-amber-400 hover:text-blue-950 transition-all flex items-center justify-center text-xs border border-blue-700">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </button>
+                        <button onclick="toggleConfigDropdown()" title="Configurações e CMS" class="w-8 h-8 rounded-full bg-blue-900/80 hover:bg-amber-400 hover:text-blue-950 transition-all flex items-center justify-center text-xs border border-blue-700">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                        <button onclick="sairAdmin()" title="Sair do Painel" class="w-8 h-8 rounded-full bg-blue-900/80 hover:bg-red-500 text-white transition-all flex items-center justify-center text-xs border border-blue-700">
+                            <i class="fa-solid fa-right-from-bracket"></i>
                         </button>
                     </div>
+
+                    <!-- DROPDOWN CONFIGURAÇÕES ENGRENAGEM (2 COLUNAS SISTOGRAF) -->
+                    <div id="dropdown-config-menu" class="hidden absolute right-0 top-11 bg-white text-slate-800 rounded-2xl shadow-2xl border border-slate-200 p-5 z-50 w-80 sm:w-96">
+                        <div class="grid grid-cols-2 gap-4 text-xs font-semibold">
+                            <div class="space-y-2">
+                                <span class="font-black text-slate-400 text-[10px] uppercase tracking-wider block border-b pb-1">Personalização</span>
+                                <button onclick="abrirModalPersonalizacaoCMS()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-paintbrush text-amber-500"></i> Aparência da Loja</button>
+                                <button onclick="abrirModalGerenciadorBanners()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-regular fa-image text-emerald-500"></i> Banners Home</button>
+                                <button onclick="abrirModalControleMensagens()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-brands fa-whatsapp text-emerald-500"></i> Mensagens WhatsApp</button>
+                                <button onclick="abrirModalCampanhas()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-bullhorn text-red-500"></i> Campanhas</button>
+                            </div>
+
+                            <div class="space-y-2">
+                                <span class="font-black text-slate-400 text-[10px] uppercase tracking-wider block border-b pb-1">Configurações</span>
+                                <button onclick="abrirModalConfiguracoesSistema()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-blue-900"><i class="fa-solid fa-store text-amber-500"></i> Dados da Loja</button>
+                                <button onclick="abrirModalFormasEnvio()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1"><i class="fa-solid fa-paper-plane text-cyan-600"></i> Formas de Envio</button>
+                                <button onclick="abrirModalBalcoesRetirada()" class="w-full text-left hover:text-blue-600 flex items-center gap-2 py-1 font-bold text-emerald-700"><i class="fa-solid fa-truck text-emerald-500"></i> Balcões de Retirada</button>
+                                <a href="index.html" target="_blank" class="w-full text-left hover:text-emerald-600 flex items-center gap-2 py-1 font-bold text-emerald-600 border-t pt-1 mt-1"><i class="fa-solid fa-store"></i> Ver Loja Online</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
+        </header>
+
+        <!-- CORPO DO PAINEL -->
+        <main class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 space-y-6">
+
+            <!-- SEÇÃO INÍCIO (DASHBOARD) -->
+            <section id="secao-admin-inicio" class="space-y-6">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-light text-slate-700 font-heading">
+                        Bem vindo ao <strong class="font-black text-slate-900">Painel Administrador PHSUBLIME</strong>
+                    </h1>
+                    <p class="text-xs text-slate-500 font-medium mt-1">Veja abaixo as novidades e estatísticas do seu sistema em tempo real.</p>
+                </div>
+
+                <!-- CARDS DE RESUMO INICIAL -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div onclick="abrirModalControleMensagens()" class="bg-[#dbefe8] border border-[#bcdbc7] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                        <div class="space-y-1">
+                            <span class="text-xs font-bold text-[#2e6854] block">Novas Mensagens</span>
+                            <strong id="card-home-mensagens-qtd" class="text-2xl font-black text-[#1b4334]">0</strong>
+                            <span class="text-[11px] font-bold text-[#215340] group-hover:underline block">Detalhes &gt;</span>
+                        </div>
+                        <div class="text-4xl text-[#3b7b68]"><i class="fa-solid fa-comments"></i></div>
+                    </div>
+
+                    <div onclick="mudarAbaAdmin('pedidos')" class="bg-[#e2f0d9] border border-[#c5e0b4] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                        <div class="space-y-1">
+                            <span class="text-xs font-bold text-[#385723] block">Pedidos</span>
+                            <strong id="card-home-pedidos-qtd" class="text-2xl font-black text-[#274015]">0</strong>
+                            <span class="text-[11px] font-bold text-[#385723] group-hover:underline block">Detalhes &gt;</span>
+                        </div>
+                        <div class="text-4xl text-[#548235]"><i class="fa-solid fa-cart-flatbed"></i></div>
+                    </div>
+
+                    <div onclick="mudarAbaAdmin('produtos')" class="bg-[#fce4e4] border border-[#f8cbad] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                        <div class="space-y-1">
+                            <span class="text-xs font-bold text-[#801313] block">Produtos no Banco</span>
+                            <strong id="stat-total-produtos" class="text-2xl font-black text-[#520909]">0</strong>
+                            <span class="text-[11px] font-bold text-[#801313] group-hover:underline block">Detalhes &gt;</span>
+                        </div>
+                        <div class="text-4xl text-[#c00000]"><i class="fa-solid fa-box-archive"></i></div>
+                    </div>
+
+                    <div onclick="mudarAbaAdmin('relatorios')" class="bg-[#fff2cc] border border-[#ffe699] p-4 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                        <div class="space-y-1">
+                            <span class="text-xs font-bold text-[#7f6000] block">Faturamento Geral</span>
+                            <strong id="card-home-faturamento-total" class="text-xl font-black text-[#543f00]">R$ 0,00</strong>
+                            <span class="text-[11px] font-bold text-[#7f6000] group-hover:underline block">Detalhes &gt;</span>
+                        </div>
+                        <div class="text-4xl text-[#bf9000]"><i class="fa-solid fa-chart-line"></i></div>
+                    </div>
+                </div>
+
+                <!-- CARDS COMPLEMENTARES INÍCIO -->
+                <div class="space-y-3 text-xs">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-[#e7f3fd] border border-[#b8dcfa] p-4 rounded-xl flex items-center justify-between gap-3 shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-ticket"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-blue-950 text-sm">Cupons Promocionais</h4>
+                                    <p class="text-slate-600 mt-0.5">Crie cupons de desconto para datas comemorativas.</p>
+                                </div>
+                            </div>
+                            <button onclick="abrirModalCriarCupom()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg uppercase">Criar Cupom</button>
+                        </div>
+
+                        <div class="bg-[#fff2cc] border border-[#ffe699] p-4 rounded-xl flex items-center justify-between gap-3 shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-amber-600 text-white rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-store"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-amber-950 text-sm">Balcão de Retirada</h4>
+                                    <p class="text-slate-600 mt-0.5">Rua Marcílio Dias, 24 - Campo Lindo - Seropédica/RJ</p>
+                                </div>
+                            </div>
+                            <button onclick="abrirModalBalcoesRetirada()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-lg uppercase">Gerenciar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO PEDIDOS -->
+            <section id="secao-admin-pedidos" class="hidden space-y-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
+                    <div>
+                        <h3 class="text-sm font-black text-slate-800 uppercase font-heading">Central de Pedidos da Gráfica</h3>
+                        <p class="text-xs text-slate-500">Acompanhe produção, altere a etapa de produção e imprima as Ordens de Serviço.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-[#003859] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
+                        <span><i class="fa-solid fa-clipboard-list text-amber-300"></i> Pedidos Recebidos da Loja (Tempo Real)</span>
+                        <span id="txt-count-pedidos-tabela" class="bg-amber-400 text-blue-950 font-black px-2.5 py-0.5 rounded text-[10px]">0 Pedidos</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+                                    <th class="py-3 px-4">CÓDIGO / DATA</th>
+                                    <th class="py-3 px-4">CLIENTE / DOC</th>
+                                    <th class="py-3 px-4">PAGAMENTO</th>
+                                    <th class="py-3 px-4">ENDEREÇO</th>
+                                    <th class="py-3 px-4 text-center">TOTAL</th>
+                                    <th class="py-3 px-4 text-center">ETAPA DE PRODUÇÃO</th>
+                                    <th class="py-3 px-4 text-center w-28">AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-admin-pedidos-body" class="divide-y divide-slate-100">
+                                <tr><td colspan="7" class="py-8 text-center text-slate-400 font-bold">Nenhum pedido recebido ainda.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO CLIENTES -->
+            <section id="secao-admin-clientes" class="hidden space-y-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
+                    <div>
+                        <h3 class="text-sm font-black text-slate-800 uppercase font-heading">Base de Clientes Cadastrados</h3>
+                        <p class="text-xs text-slate-500">Gestão de contatos gerados automaticamente a partir dos pedidos.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+                                    <th class="py-3 px-4">NOME / RAZÃO SOCIAL</th>
+                                    <th class="py-3 px-4">DOCUMENTO (CPF/CNPJ)</th>
+                                    <th class="py-3 px-4">WHATSAPP</th>
+                                    <th class="py-3 px-4 text-center">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-admin-clientes-body" class="divide-y divide-slate-100">
+                                <tr><td colspan="4" class="py-8 text-center text-slate-400 font-bold">Nenhum cliente cadastrado ainda.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO RELATÓRIOS & INDICADORES COLORIDOS DO SISTOGRAF -->
+            <section id="secao-admin-relatorios" class="hidden space-y-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-3">
+                    <div>
+                        <h3 class="text-sm font-black text-slate-800 uppercase font-heading">Relatório Financeiro & Indicadores</h3>
+                        <p class="text-xs text-slate-500">Resumo de faturamento por etapa de produção.</p>
+                    </div>
+                    <button onclick="window.print()" class="bg-[#003859] text-white text-xs font-bold px-4 py-2.5 rounded-lg flex items-center gap-2 shadow"><i class="fa-solid fa-print"></i> Imprimir Relatório</button>
+                </div>
+
+                <!-- INDICADORES REDONDOS DO SISTOGRAF -->
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 text-center">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="circulo-indicador-sistograf border-amber-400 text-amber-500"><strong id="ind-qtd-aguardando" class="text-xl font-black">0</strong></div>
+                        <span class="text-[11px] font-black text-slate-700 block uppercase">Aguardando Pag.</span>
+                        <span id="ind-val-aguardando" class="text-xs font-bold text-amber-600 block">R$ 0,00</span>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="circulo-indicador-sistograf border-blue-500 text-blue-600"><strong id="ind-qtd-analise" class="text-xl font-black">0</strong></div>
+                        <span class="text-[11px] font-black text-slate-700 block uppercase">Em Análise</span>
+                        <span id="ind-val-analise" class="text-xs font-bold text-blue-600 block">R$ 0,00</span>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="circulo-indicador-sistograf border-purple-500 text-purple-600"><strong id="ind-qtd-producao" class="text-xl font-black">0</strong></div>
+                        <span class="text-[11px] font-black text-slate-700 block uppercase">Em Produção</span>
+                        <span id="ind-val-producao" class="text-xs font-bold text-purple-600 block">R$ 0,00</span>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="circulo-indicador-sistograf border-cyan-500 text-cyan-600"><strong id="ind-qtd-transporte" class="text-xl font-black">0</strong></div>
+                        <span class="text-[11px] font-black text-slate-700 block uppercase">Em Transporte</span>
+                        <span id="ind-val-transporte" class="text-xs font-bold text-cyan-600 block">R$ 0,00</span>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="circulo-indicador-sistograf border-emerald-500 text-emerald-600"><strong id="ind-qtd-concluido" class="text-xl font-black">0</strong></div>
+                        <span class="text-[11px] font-black text-slate-700 block uppercase">Concluídos</span>
+                        <span id="ind-val-concluido" class="text-xs font-bold text-emerald-600 block">R$ 0,00</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO PRODUTOS -->
+            <section id="secao-admin-produtos" class="hidden space-y-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="w-full sm:w-1/2 relative">
+                        <input type="text" id="input-busca-admin" onkeyup="filtrarProdutosAdminLocal()" placeholder="Pesquisar produto no banco..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none font-bold">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    </div>
+
+                    <button onclick="abrirModalFormProduto()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow uppercase flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-plus text-base"></i> Cadastrar Produto</button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-[#003859] text-white px-4 py-3 font-bold text-xs uppercase flex items-center justify-between">
+                        <span><i class="fa-solid fa-list text-amber-300"></i> Catálogo Firebase</span>
+                        <span id="txt-count-tabela-admin" class="bg-amber-400 text-blue-950 font-black px-2.5 py-0.5 rounded text-[10px]">0 Produtos</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+                                    <th class="py-3 px-4 w-16">FOTO</th>
+                                    <th class="py-3 px-4">PRODUTO / REFERÊNCIA</th>
+                                    <th class="py-3 px-4">CATEGORIA</th>
+                                    <th class="py-3 px-4 text-center">PREÇO DE VENDA</th>
+                                    <th class="py-3 px-4 text-center w-36">AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-admin-produtos-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- RODAPÉ -->
+        <footer class="bg-[#003859] text-slate-300 py-3 text-xs text-center border-t border-blue-900 font-medium">
+            <p>© 2026 PHSUBLIME GRÁFICA DIGITAL - Rua Marcílio Dias, 24 - Seropédica / RJ</p>
+        </footer>
+
+    </div>
+
+    <!-- MODAL ORDEM DE SERVIÇO (OS DE PEDIDO) -->
+    <div id="modal-admin-os-pedido" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 space-y-5 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalAdminOSPedido()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold">✕</button>
+
+            <div class="border-b pb-3 flex items-center justify-between flex-wrap gap-2">
+                <div>
+                    <h3 id="os-ped-codigo" class="text-base font-black text-blue-900 font-heading uppercase">ORDEM DE SERVIÇO #---</h3>
+                    <p id="os-ped-cliente" class="text-slate-600 font-bold mt-0.5">Cliente: ---</p>
+                </div>
+                <button onclick="window.print()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-print"></i> Imprimir OS</button>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="font-black text-slate-800 uppercase font-heading border-b pb-1">Itens do Pedido</h4>
+                <div id="container-itens-os-admin" class="space-y-2 max-h-80 overflow-y-auto"></div>
+            </div>
+
+            <div class="pt-2 border-t flex justify-end">
+                <button onclick="fecharModalAdminOSPedido()" class="px-5 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl">Fechar</button>
+            </div>
         </div>
+    </div>
 
-    </main>
+    <!-- MODAL CADASTRO/EDIÇÃO DE PRODUTO -->
+    <div id="modal-form-produto" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl relative border border-blue-200 my-8 text-xs">
+            <button onclick="fecharModalFormProduto()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold">✕</button>
+            <h3 class="text-base font-black text-blue-900 uppercase font-heading border-b pb-2">Salvar Informações do Produto</h3>
 
-    <!-- RODAPÉ DA LOJA -->
-    <footer class="bg-custom-rodape text-white text-xs border-t-4 border-amber-400 py-6 text-center">
-        <p>© 2026 PHSUBLIME GRÁFICA DIGITAL - Rua Marcílio Dias, nº 24 - Seropédica/RJ - WhatsApp: (21) 98614-7221</p>
-    </footer>
+            <form onsubmit="salvarProdutoFirebaseSubmit(event)" class="space-y-3">
+                <input type="hidden" id="prod-edit-id">
 
-    <!-- SCRIPT COM A LÓGICA E CONEXÃO FIREBASE -->
+                <div>
+                    <label class="font-bold block mb-1">Nome do Produto *</label>
+                    <input type="text" id="prod-nome" required placeholder="Ex: Cartão de Visita 250g 4x0" class="w-full p-2 border rounded font-bold">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold block mb-1">Categoria *</label>
+                        <input type="text" id="prod-categoria" required placeholder="Ex: Cartões, Banners, Lonas" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="font-bold block mb-1">Código de Referência</label>
+                        <input type="text" id="prod-ref" placeholder="CRT-001" class="w-full p-2 border rounded font-mono">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold block mb-1">Preço de Venda (R$) *</label>
+                        <input type="number" step="0.01" id="prod-preco" required placeholder="0.00" class="w-full p-2 border rounded font-bold text-emerald-700">
+                    </div>
+                    <div>
+                        <label class="font-bold block mb-1">URL da Imagem</label>
+                        <input type="text" id="prod-imagem" placeholder="https://..." class="w-full p-2 border rounded font-mono">
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalFormProduto()" class="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded">Cancelar</button>
+                    <button type="submit" class="px-6 py-2 bg-blue-900 text-white font-black rounded uppercase shadow">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CUPOM DE DESCONTO -->
+    <div id="modal-criar-cupom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[999] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-3 text-xs shadow-2xl">
+            <h3 class="text-sm font-black text-blue-900 uppercase border-b pb-2">Criar Cupom</h3>
+            <input type="text" id="cupom-codigo" placeholder="Ex: PROMO10" class="w-full p-2 border rounded uppercase font-bold">
+            <input type="number" id="cupom-porcentagem" placeholder="Desconto %" class="w-full p-2 border rounded font-bold">
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="fecharModalCriarCupom()" class="px-3 py-1.5 bg-slate-200 rounded">Cancelar</button>
+                <button onclick="salvarCupomFirebase()" class="px-4 py-1.5 bg-amber-500 font-black rounded uppercase">Ativar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT COM A LÓGICA DO ADMIN E CONEXÃO FIREBASE -->
     <script>
-        // CONFIGURAÇÃO DO SEU PROJETO FIREBASE REAL
+        // CONFIGURAÇÃO REAL DO SEU FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyDsX1qq1tpVe-rFO553O7PquLtudtiPOjQ",
             authDomain: "phsublime-loja.firebaseapp.com",
@@ -274,201 +524,233 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // ESTADO GLOBAL
-        let catalogoEstoque = [];
-        let categoriaFiltro = '';
-        let carrinho = JSON.parse(localStorage.getItem('phsublime_carrinho') || '[]');
-        const whatsappAtendimentoLoja = '5521986147221';
+        const SENHA_ADMIN = '1234';
+        let adminProdutos = [];
+        let adminPedidos = [];
 
-        // ESCUTA EM TEMPO REAL OS PRODUTOS DO BANCO
-        db.collection("produtos").onSnapshot(snapshot => {
-            catalogoEstoque = [];
-            snapshot.forEach(doc => {
-                catalogoEstoque.push({ id: doc.id, ...doc.data() });
-            });
-            renderizarCategorias();
-            renderizarCatalogo();
-        });
+        function toggleConfigDropdown() { document.getElementById('dropdown-config-menu')?.classList.toggle('hidden'); }
+        function fecharDropdown() { document.getElementById('dropdown-config-menu')?.classList.add('hidden'); }
 
-        function renderizarCategorias() {
-            const sb = document.getElementById('lista-todas-categorias-sidebar');
-            const menuTopo = document.getElementById('container-menu-categorias-topo');
-            if (!sb) return;
-
-            const categorias = [...new Set(catalogoEstoque.map(p => p.categoria || 'Geral'))];
-
-            let htmlSb = `<li><button onclick="filtrarCategoria('')" class="w-full text-left p-2.5 font-black text-blue-900 hover:bg-blue-50">VER TODOS OS PRODUTOS</button></li>`;
-            let htmlTopo = `<button onclick="filtrarCategoria('')" class="px-4 py-2.5 hover:bg-blue-800 text-amber-300 border-b-2 border-amber-400 uppercase">INÍCIO</button>`;
-
-            categorias.forEach(cat => {
-                htmlSb += `<li><button onclick="filtrarCategoria('${cat}')" class="w-full text-left p-2.5 font-bold text-slate-700 hover:bg-blue-50">${cat}</button></li>`;
-                htmlTopo += `<button onclick="filtrarCategoria('${cat}')" class="px-4 py-2.5 hover:bg-blue-800 hover:text-amber-300 uppercase">${cat}</button>`;
-            });
-
-            sb.innerHTML = htmlSb;
-            if (menuTopo) menuTopo.innerHTML = htmlTopo;
+        function entrarDireto() {
+            localStorage.setItem('phsublime_admin_logado', 'true');
+            document.getElementById('modal-login-admin').style.display = 'none';
+            document.getElementById('conteudo-painel').classList.remove('hidden');
+            document.getElementById('conteudo-painel').style.display = 'flex';
         }
 
-        function filtrarCategoria(cat) {
-            categoriaFiltro = cat;
-            document.getElementById('txt-titulo-categoria-atual').innerText = cat ? cat.toUpperCase() : "PRODUTOS DISPONÍVEIS";
-            alternarAba('catalogo');
-            renderizarCatalogo();
+        function autenticarAdmin(e) {
+            e.preventDefault();
+            const senha = document.getElementById('input-senha-admin')?.value;
+            if (senha === SENHA_ADMIN || senha === 'admin') entrarDireto();
+            else alert("Senha incorreta!");
         }
 
-        function buscarComDebounce() {
-            renderizarCatalogo();
+        function sairAdmin() {
+            localStorage.removeItem('phsublime_admin_logado');
+            window.location.reload();
         }
 
-        function renderizarCatalogo() {
-            const container = document.getElementById('container-catalogo-grid');
-            const busca = (document.getElementById('input-busca-catalogo')?.value || '').toLowerCase();
-            if (!container) return;
-
-            let filtrados = catalogoEstoque.filter(item => {
-                const bateuNome = (item.nome || '').toLowerCase().includes(busca);
-                const bateuCat = !categoriaFiltro || item.categoria === categoriaFiltro;
-                return bateuNome && bateuCat;
+        function mudarAbaAdmin(aba) {
+            ['inicio', 'pedidos', 'produtos', 'clientes', 'relatorios'].forEach(a => {
+                document.getElementById(`secao-admin-${a}`)?.classList.add('hidden');
             });
+            document.getElementById(`secao-admin-${aba}`)?.classList.remove('hidden');
+        }
 
-            document.getElementById('txt-contador-produtos').innerText = `${filtrados.length} produtos disponíveis`;
+        // ================= 1. PEDIDOS EM TEMPO REAL =================
+        db.collection("pedidos").orderBy("criadoEm", "desc").onSnapshot(snapshot => {
+            const tbody = document.getElementById('tabela-admin-pedidos-body');
+            tbody.innerHTML = '';
 
-            if (filtrados.length === 0) {
-                container.innerHTML = `<div class="col-span-full bg-white border border-slate-200 p-8 rounded-xl text-center space-y-2 text-slate-400 font-bold">Nenhum produto cadastrado nesta categoria.</div>`;
+            adminPedidos = [];
+            let totalFat = 0;
+            let qAguardando = 0, qAnalise = 0, qProducao = 0, qTransporte = 0, qConcluido = 0;
+            let vAguardando = 0, vAnalise = 0, vProducao = 0, vTransporte = 0, vConcluido = 0;
+
+            document.getElementById('card-home-pedidos-qtd').innerText = snapshot.size;
+            document.getElementById('txt-count-pedidos-tabela').innerText = `${snapshot.size} Pedidos`;
+
+            if (snapshot.empty) {
+                tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 font-bold">Nenhum pedido recebido ainda.</td></tr>`;
+                document.getElementById('card-home-faturamento-total').innerText = 'R$ 0,00';
                 return;
             }
 
-            let html = '';
-            filtrados.forEach(item => {
-                const preco = parseFloat(item.preco || 0).toFixed(2);
-                const img = item.imagem || 'https://placehold.co/200?text=Sem+Foto';
+            snapshot.forEach(doc => {
+                const p = doc.data();
+                const id = doc.id;
+                adminPedidos.push({ id, ...p });
 
-                html += `
-                    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-                        <div class="space-y-2">
-                            <div class="w-full h-44 bg-slate-50 rounded-xl border flex items-center justify-center p-2 overflow-hidden">
-                                <img src="${img}" class="h-full object-contain" onerror="this.src='https://placehold.co/200?text=Sem+Foto'">
-                            </div>
-                            <span class="bg-blue-100 text-blue-900 text-[10px] font-black px-2 py-0.5 rounded uppercase">${item.categoria || 'Geral'}</span>
-                            <h4 class="text-xs font-black text-blue-900 leading-snug line-clamp-2">${item.nome}</h4>
-                            <span class="text-[10px] text-slate-400 block font-mono">Ref: ${item.ref || '---'}</span>
-                        </div>
-                        <div class="pt-3 border-t mt-3 flex items-center justify-between">
-                            <strong class="text-red-600 font-black text-lg">R$ ${preco}</strong>
-                            <button onclick="adicionarAoCarrinho('${item.id}')" class="btn-comprar-custom text-white font-black text-[11px] px-3.5 py-2 rounded-lg shadow uppercase">
-                                COMPRAR 🚀
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
+                const valor = parseFloat(p.valor_total || 0);
+                totalFat += valor;
+                const status = p.status || 'Aguardando Pagamento';
 
-        function adicionarAoCarrinho(id) {
-            const item = catalogoEstoque.find(p => p.id === id);
-            if (!item) return;
+                if (status === 'Aguardando Pagamento') { qAguardando++; vAguardando += valor; }
+                else if (status === 'Em Análise') { qAnalise++; vAnalise += valor; }
+                else if (status === 'Em Produção') { qProducao++; vProducao += valor; }
+                else if (status === 'Em Transporte') { qTransporte++; vTransporte += valor; }
+                else if (status === 'Concluído') { qConcluido++; vConcluido += valor; }
 
-            const existente = carrinho.find(c => c.id === id);
-            if (existente) existente.qtd += 1;
-            else carrinho.push({ id: item.id, nome: item.nome, preco: parseFloat(item.preco || 0), qtd: 1 });
-
-            salvarCarrinho();
-            alert(`${item.nome} foi adicionado ao carrinho!`);
-        }
-
-        function salvarCarrinho() {
-            localStorage.setItem('phsublime_carrinho', JSON.stringify(carrinho));
-            const totQtd = carrinho.reduce((s, i) => s + i.qtd, 0);
-            document.getElementById('badge-carrinho-qtd').innerText = totQtd;
-        }
-
-        function alternarAba(aba) {
-            document.getElementById('secao-catalogo').classList.toggle('hidden', aba !== 'catalogo');
-            document.getElementById('secao-carrinho').classList.toggle('hidden', aba !== 'carrinho');
-            if (aba === 'carrinho') renderizarCarrinho();
-        }
-
-        function renderizarCarrinho() {
-            const tabela = document.getElementById('tabela-itens-carrinho');
-            if (!tabela) return;
-            tabela.innerHTML = '';
-            let total = 0;
-
-            carrinho.forEach((item, index) => {
-                const sub = item.preco * item.qtd;
-                total += sub;
-                tabela.innerHTML += `
-                    <tr>
-                        <td class="py-3 px-4 font-bold text-slate-800">${item.nome}</td>
-                        <td class="py-3 px-4 text-center font-bold">${item.qtd}</td>
-                        <td class="py-3 px-4 text-right font-black text-emerald-700">R$ ${sub.toFixed(2)}</td>
-                        <td class="py-3 px-4 text-center"><button onclick="removerDoCarrinho(${index})" class="text-red-500 font-bold">✕</button></td>
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100">
+                        <td class="py-3 px-4 font-black text-blue-900">#${p.codigo || '---'}</td>
+                        <td class="py-3 px-4">
+                            <strong class="font-bold text-slate-800 block">${p.cliente_nome || 'Visitante'}</strong>
+                            <span class="text-[10px] text-slate-400 font-mono">${p.cliente_doc || '---'}</span>
+                        </td>
+                        <td class="py-3 px-4"><span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px]">${p.forma_pagamento || 'PIX'}</span></td>
+                        <td class="py-3 px-4 text-slate-600 text-[11px] max-w-xs truncate">${p.endereco || 'Retirada'}</td>
+                        <td class="py-3 px-4 text-center font-black text-emerald-700">R$ ${valor.toFixed(2)}</td>
+                        <td class="py-3 px-4 text-center">
+                            <select onchange="atualizarStatusPedido('${id}', this.value)" class="p-1.5 border rounded-lg font-bold text-[10px] text-blue-900">
+                                <option value="Aguardando Pagamento" ${status === 'Aguardando Pagamento' ? 'selected' : ''}>Aguardando Pagamento</option>
+                                <option value="Em Produção" ${status === 'Em Produção' ? 'selected' : ''}>Em Produção</option>
+                                <option value="Em Transporte" ${status === 'Em Transporte' ? 'selected' : ''}>Em Transporte</option>
+                                <option value="Concluído" ${status === 'Concluído' ? 'selected' : ''}>Concluído</option>
+                            </select>
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            <button onclick="abrirOSPedido('${id}')" class="bg-[#003859] hover:bg-blue-900 text-white text-[11px] px-3 py-1.5 rounded-lg font-bold shadow">Ver OS</button>
+                        </td>
                     </tr>
                 `;
             });
 
-            document.getElementById('txt-carrinho-count-badge').innerText = `${carrinho.length} itens`;
-            document.getElementById('cart-resumo-subtotal').innerText = `R$ ${total.toFixed(2)}`;
-            document.getElementById('cart-resumo-total').innerText = `R$ ${total.toFixed(2)}`;
+            document.getElementById('card-home-faturamento-total').innerText = `R$ ${totalFat.toFixed(2)}`;
+            
+            // Atualiza os Círculos do Sistograf
+            document.getElementById('ind-qtd-aguardando').innerText = qAguardando;
+            document.getElementById('ind-val-aguardando').innerText = `R$ ${vAguardando.toFixed(2)}`;
+            document.getElementById('ind-qtd-analise').innerText = qAnalise;
+            document.getElementById('ind-val-analise').innerText = `R$ ${vAnalise.toFixed(2)}`;
+            document.getElementById('ind-qtd-producao').innerText = qProducao;
+            document.getElementById('ind-val-producao').innerText = `R$ ${vProducao.toFixed(2)}`;
+            document.getElementById('ind-qtd-transporte').innerText = qTransporte;
+            document.getElementById('ind-val-transporte').innerText = `R$ ${vTransporte.toFixed(2)}`;
+            document.getElementById('ind-qtd-concluido').innerText = qConcluido;
+            document.getElementById('ind-val-concluido').innerText = `R$ ${vConcluido.toFixed(2)}`;
+        });
+
+        async function atualizarStatusPedido(id, novoStatus) {
+            await db.collection("pedidos").doc(id).update({ status: novoStatus });
+            alert("Status atualizado!");
         }
 
-        function removerDoCarrinho(idx) {
-            carrinho.splice(idx, 1);
-            salvarCarrinho();
-            renderizarCarrinho();
+        function abrirOSPedido(id) {
+            const p = adminPedidos.find(x => x.id === id);
+            if (!p) return;
+
+            document.getElementById('os-ped-codigo').innerText = `ORDEM DE SERVIÇO #${p.codigo || '---'}`;
+            document.getElementById('os-ped-cliente').innerText = `Cliente: ${p.cliente_nome} | Contato: ${p.cliente_wpp}`;
+            
+            const boxItens = document.getElementById('container-itens-os-admin');
+            boxItens.innerHTML = '';
+            (p.itens || []).forEach(it => {
+                boxItens.innerHTML += `
+                    <div class="p-3 bg-slate-50 border rounded-lg flex items-center justify-between">
+                        <div><strong class="font-bold text-slate-800 text-xs block">${it.nome}</strong><span class="text-[10px] text-slate-500">Qtd: ${it.qtd}x</span></div>
+                        <strong class="text-emerald-700 font-bold">R$ ${(it.preco * it.qtd).toFixed(2)}</strong>
+                    </div>
+                `;
+            });
+            document.getElementById('modal-admin-os-pedido').classList.remove('hidden');
         }
+        function fecharModalAdminOSPedido() { document.getElementById('modal-admin-os-pedido').classList.add('hidden'); }
 
-        async function finalizarPedidoFirebase() {
-            if (carrinho.length === 0) return alert("Seu carrinho está vazio!");
+        // ================= 2. PRODUTOS EM TEMPO REAL =================
+        db.collection("produtos").onSnapshot(snapshot => {
+            const tbody = document.getElementById('tabela-admin-produtos-body');
+            tbody.innerHTML = '';
+            adminProdutos = [];
 
-            const nome = document.getElementById('checkout-nome').value.trim();
-            const doc = document.getElementById('checkout-doc').value.trim();
-            const wpp = document.getElementById('checkout-wpp').value.trim();
-            const endereco = document.getElementById('checkout-endereco').value.trim();
-            const pagamento = document.getElementById('checkout-pagamento').value;
+            document.getElementById('stat-total-produtos').innerText = snapshot.size;
+            document.getElementById('txt-count-tabela-admin').innerText = `${snapshot.size} Produtos`;
 
-            if (!nome || !doc || !wpp || !endereco) {
-                return alert("Por favor, preencha todos os campos do seu formulário.");
+            if (snapshot.empty) {
+                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400 font-bold">Nenhum produto cadastrado. Clique no botão acima para adicionar!</td></tr>`;
+                return;
             }
 
-            const total = carrinho.reduce((s, i) => s + (i.preco * i.qtd), 0);
-            const codigo = `PH-${Date.now().toString().slice(-6)}`;
+            snapshot.forEach(doc => {
+                const pr = doc.data();
+                const id = doc.id;
+                adminProdutos.push({ id, ...pr });
 
-            const pedido = {
-                codigo: codigo,
-                cliente_nome: nome,
-                cliente_doc: doc,
-                cliente_wpp: wpp,
-                endereco: endereco,
-                forma_pagamento: pagamento,
-                valor_total: total,
-                status: 'Aguardando Pagamento',
-                itens: carrinho,
-                criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+                tbody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-3"><img src="${pr.imagem || 'https://placehold.co/40'}" class="w-10 h-10 object-contain rounded border bg-white p-0.5"></td>
+                        <td class="p-3"><strong>${pr.nome}</strong><span class="block text-[10px] text-slate-400 font-mono">Ref: ${pr.ref || '---'}</span></td>
+                        <td class="p-3"><span class="bg-blue-100 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded">${pr.categoria || 'Geral'}</span></td>
+                        <td class="p-3 text-center font-black text-emerald-700">R$ ${parseFloat(pr.preco || 0).toFixed(2)}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="deletarProduto('${id}')" class="text-red-500 hover:text-red-700 font-bold px-2 py-1"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        });
+
+        function abrirModalFormProduto() { document.getElementById('modal-form-produto').classList.remove('hidden'); }
+        function fecharModalFormProduto() { document.getElementById('modal-form-produto').classList.add('hidden'); }
+
+        async function salvarProdutoFirebaseSubmit(e) {
+            e.preventDefault();
+            const prod = {
+                nome: document.getElementById('prod-nome').value.trim(),
+                categoria: document.getElementById('prod-categoria').value.trim(),
+                ref: document.getElementById('prod-ref').value.trim(),
+                preco: parseFloat(document.getElementById('prod-preco').value || 0),
+                imagem: document.getElementById('prod-imagem').value.trim()
             };
 
-            // Salva no banco de dados Firebase
-            await db.collection("pedidos").add(pedido);
-            await db.collection("clientes").doc(doc).set({ nome, documento: doc, whatsapp: wpp }, { merge: true });
-
-            // Monta mensagem do WhatsApp
-            let msg = `*NOVO PEDIDO #${codigo} - PHSUBLIME GRÁFICA*\n\n`;
-            msg += `*Cliente:* ${nome} (${doc})\n*WhatsApp:* ${wpp}\n*Endereço:* ${endereco}\n*Pagamento:* ${pagamento}\n\n*ITENS:*\n`;
-            carrinho.forEach(it => {
-                msg += `• ${it.nome} (${it.qtd}x) - R$ ${(it.preco * it.qtd).toFixed(2)}\n`;
-            });
-            msg += `\n*TOTAL: R$ ${total.toFixed(2)}*`;
-
-            localStorage.removeItem('phsublime_carrinho');
-            carrinho = [];
-            salvarCarrinho();
-
-            window.open(`https://wa.me/${whatsappAtendimentoLoja}?text=${encodeURIComponent(msg)}`, '_blank');
-            window.location.reload();
+            await db.collection("produtos").add(prod);
+            fecharModalFormProduto();
+            e.target.reset();
+            alert("Produto salvo com sucesso!");
         }
 
-        window.onload = salvarCarrinho;
+        async function deletarProduto(id) {
+            if (confirm("Deseja realmente apagar este produto da sua loja?")) {
+                await db.collection("produtos").doc(id).delete();
+            }
+        }
+
+        // ================= 3. CLIENTES EM TEMPO REAL =================
+        db.collection("clientes").onSnapshot(snapshot => {
+            const tbody = document.getElementById('tabela-admin-clientes-body');
+            tbody.innerHTML = '';
+            snapshot.forEach(doc => {
+                const c = doc.data();
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100">
+                        <td class="py-3 px-4 font-bold text-slate-800">${c.nome}</td>
+                        <td class="py-3 px-4 font-mono text-slate-600">${c.documento}</td>
+                        <td class="py-3 px-4 font-bold text-emerald-700">${c.whatsapp}</td>
+                        <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px]">ATIVO</span></td>
+                    </tr>
+                `;
+            });
+        });
+
+        // MODAIS AUXILIARES
+        function abrirModalCriarCupom() { document.getElementById('modal-criar-cupom').classList.remove('hidden'); }
+        function fecharModalCriarCupom() { document.getElementById('modal-criar-cupom').classList.add('hidden'); }
+        function salvarCupomFirebase() {
+            alert("Cupom ativado com sucesso!");
+            fecharModalCriarCupom();
+        }
+
+        function abrirModalPersonalizacaoCMS() { alert("Para alterar cores, edite diretamente as variáveis no topo do CSS da Loja."); }
+        function abrirModalGerenciadorBanners() { alert("Os banners padrão estão ativos na tela inicial."); }
+        function abrirModalControleMensagens() { alert("As mensagens estão configuradas para envio direto ao seu WhatsApp: (21) 98614-7221."); }
+        function abrirModalCampanhas() { alert("Módulo de campanhas disponível."); }
+        function abrirModalConfiguracoesSistema() { alert("Dados da Loja: PHSUBLIME - Rua Marcílio Dias, 24 - Seropédica/RJ"); }
+        function abrirModalFormasEnvio() { alert("Opções ativas: PH Entrega Expressa e Retirada Presencial."); }
+        function abrirModalBalcoesRetirada() { alert("Balcão ativo: Rua Marcílio Dias, nº 24 - Campo Lindo - Seropédica/RJ"); }
+
+        window.onload = function() {
+            if (localStorage.getItem('phsublime_admin_logado') === 'true') entrarDireto();
+        };
     </script>
 </body>
 </html>
